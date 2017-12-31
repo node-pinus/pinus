@@ -7,8 +7,7 @@ import * as pathUtil from '../util/pathUtil';
 import { createServer , Gateway, RpcServerOpts } from 'pinus-rpc';
 import { Application } from '../application';
 import { IComponent } from '../interfaces/Component';
-import { getLogger } from 'pinus-logger';
-import { Logger } from 'log4js';
+import { getLogger, Logger } from 'pinus-logger';
 
 export interface RemoteComponentOptions extends RpcServerOpts
 {
