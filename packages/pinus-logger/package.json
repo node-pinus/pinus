@@ -1,12 +1,12 @@
 {
     "name": "pinus-logger",
-    "version": "1.0.2",
+    "version": "1.2.1",
     "private": false,
     "main": "./dist/index",
     "types": "./dist/index.d.ts",
-	"files": [
-		"dist"
-	],
+    "files": [
+        "dist"
+    ],
     "scripts": {
         "build": "node_modules/.bin/tsc",
         "test": "node_modules/.bin/tsc"
@@ -16,8 +16,8 @@
         "log4js": "^2.4.1"
     },
     "devDependencies": {
-        "should": ">=0.0.1",
         "mocha": ">=0.0.1",
+        "should": ">=0.0.1",
         "typescript": "^2.6.2"
     }
 }

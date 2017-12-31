@@ -1,6 +1,6 @@
 {
   "name": "pinus",
-  "version": "1.1.7",
+  "version": "1.2.1",
   "homepage": "https://github.com/mybios/pinus",
   "repository": {
     "type": "git",
@@ -43,12 +43,12 @@
     "mqtt-connection": "^3.2.0",
     "node-bignumber": "^1.2.1",
     "pinus-admin": "1.1.0",
-    "pinus-loader": "1.0.2",
-    "pinus-logger": "1.0.2",
-    "pinus-protobuf": "1.0.3",
-    "pinus-protocol": "^1.0.4",
-    "pinus-rpc": "^1.0.7",
-    "pinus-scheduler": "1.0.8",
+    "pinus-loader": "^1.2.1",
+    "pinus-logger": "^1.2.1",
+    "pinus-protobuf": "^1.2.1",
+    "pinus-protocol": "^1.2.1",
+    "pinus-rpc": "^1.2.1",
+    "pinus-scheduler": "^1.2.1",
     "seq-queue": "0.0.5",
     "socket.io": "^2.0.4",
     "ws": "^3.3.3"
@@ -57,14 +57,15 @@
     "pinus": "./dist/bin/pinus.js"
   },
   "devDependencies": {
+    "@types/async": "^2.0.46",
     "@types/cliff": "^0.1.4",
     "@types/commander": "^2.12.2",
     "@types/crc": "^3.4.0",
     "@types/eyes": "^0.1.31",
     "@types/mkdirp": "^0.5.2",
+    "@types/mqtt-connection": "git+https://github.com/node-pinus/types-mqtt-connection.git",
     "@types/socket.io": "^1.4.31",
     "@types/ws": "^3.2.1",
-    "@types/mqtt-connection": "git+https://github.com/node-pinus/types-mqtt-connection.git",
     "blanket": "~1.1.6",
     "grunt": "^0.4.5",
     "grunt-contrib-clean": "^0.5.0",

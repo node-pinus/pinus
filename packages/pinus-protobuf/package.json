@@ -1,13 +1,13 @@
 {
   "name": "pinus-protobuf",
-  "version": "1.0.3",
+  "version": "1.2.1",
   "main": "./dist/protobuf",
   "types": "./dist/protobuf.d.ts",
   "dependencies": {
     "@types/node": "^8.5.2"
   },
   "files": [
-   "dist"
+    "dist"
   ],
   "scripts": {
     "build": "node_modules/.bin/tsc",
