@@ -1,0 +1,39 @@
+{
+  "name": "pinus-cli",
+  "version": "1.2.4",
+  "description": "pinus command line client for managing pinus",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "node_modules/.bin/tsc",
+    "test": "node_modules/.bin/tsc"
+  },
+  "repository": "",
+  "keywords": [
+    "pinus",
+    "command",
+    "line",
+    "maintening"
+  ],
+  "main": "./dist/index",
+  "types": "./dist/index.d.ts",
+  "bin": {
+    "pinus-cli": "./dist/bin/pinus-cli.js"
+  },
+  "dependencies": {
+    "@types/async": "^2.0.46",
+    "@types/cliff": "^0.1.4",
+    "@types/node": "^8.5.2",
+    "@types/optimist": "0.0.29",
+    "async": "^2.6.0",
+    "cliff": "^0.1.10",
+    "optimist": "^0.6.1",
+    "pinus-admin": "^1.2.4",
+    "pinus-logger": "^1.2.4"
+  },
+  "devDependencies": {
+    "typescript": "^2.6.2"
+  },
+  "license": "MIT"
+}
