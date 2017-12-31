@@ -1,5 +1,5 @@
 import * as uuid from 'uuid';
-import { Logger } from 'log4js';
+import { Logger } from 'pinus-logger';
 
 let getModule = function (module : string)
 {

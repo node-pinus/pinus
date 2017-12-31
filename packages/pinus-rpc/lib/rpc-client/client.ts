@@ -1,4 +1,4 @@
-import { getLogger } from 'pinus-logger'
+import { getLogger, Logger } from 'pinus-logger'
 let logger = getLogger('pinus-rpc', 'rpc-client');
 import { failureProcess } from './failureProcess';
 import { constants } from '../util/constants';
@@ -11,7 +11,6 @@ import * as router from './router';
 import * as async from 'async';
 import {RpcServerInfo, MailStation, MailStationErrorHandler, RpcFilter} from './mailstation'
 import { ErrorCallback } from 'async';
-import { Logger } from 'log4js';
 import { MailBoxFactory } from './mailbox';
 import { ConsistentHash } from '../util/consistentHash';
 
