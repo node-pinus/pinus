@@ -1,6 +1,6 @@
 {
   "name": "pinus",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "homepage": "https://github.com/mybios/pinus",
   "repository": {
     "type": "git",
@@ -43,12 +43,12 @@
     "mqtt-connection": "^3.2.0",
     "node-bignumber": "^1.2.1",
     "pinus-admin": "1.1.0",
-    "pinus-loader": "^1.2.1",
-    "pinus-logger": "^1.2.2",
-    "pinus-protobuf": "^1.2.1",
-    "pinus-protocol": "^1.2.1",
-    "pinus-rpc": "^1.2.2",
-    "pinus-scheduler": "^1.2.1",
+    "pinus-loader": "^1.2.3",
+    "pinus-logger": "^1.2.3",
+    "pinus-protobuf": "^1.2.3",
+    "pinus-protocol": "^1.2.3",
+    "pinus-rpc": "^1.2.3",
+    "pinus-scheduler": "^1.2.3",
     "seq-queue": "0.0.5",
     "socket.io": "^2.0.4",
     "ws": "^3.3.3"
