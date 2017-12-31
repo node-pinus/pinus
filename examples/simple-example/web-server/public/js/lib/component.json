@@ -1,0 +1,6 @@
+{
+  "name": "pinus-client",
+  "description": "pinus-client",
+  "local": [ "boot" ],
+  "paths": [ "local"]
+}
