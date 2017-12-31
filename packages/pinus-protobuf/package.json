@@ -9,9 +9,15 @@
   "files": [
     "dist"
   ],
+
   "scripts": {
-    "build": "node_modules/.bin/tsc",
-    "test": "node_modules/.bin/tsc"
+    "build": "node ../../node_modules/typescript/bin/tsc",
+    "start": "npm run build && node dist/index",
+    "lint": "node ../../node_modules/tslint/bin/tslint --format prose -c ../../tslint.json lib/**/*.ts test/**/*.ts",
+    "test": "npm run build",
+    "cov": "nyc mocha",
+    "ci": "npm run test",
+    "gen-api-ref": "node ../../node_modules/typedoc/bin/typedoc --mode file --hideGenerator --excludeExternals --ignoreCompilerErrors --out ../../run/site/public/api-reference/pinus-protobuf lib/"
   },
   "devDependencies": {
     "mocha": "^4.0.1",

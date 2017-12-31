@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/node-pinus/pinus.svg?branch=master)](https://travis-ci.org/node-pinus/pinus)
 
-示例工程请参见：https://github.com/node-pinus/pinus-example
+示例工程请参见：https://github.com/node-pinus/examples/simple-example
 
 手动安装：
 npm install pinus -g

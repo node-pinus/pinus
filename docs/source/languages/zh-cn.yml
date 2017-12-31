@@ -1,0 +1,16 @@
+index:
+  getstart: 快速入门
+  slogan: "让做游戏变得简单"
+  desc: "一个基于Node.js的分布式水平扩展游戏服务器轻量级强大框架"
+
+menu:
+  guide: 文档指南
+  api: API 接口
+  release: 发布日志
+
+guide_toc:
+  introduce: "Pinus 是什么？"
+  quickstart: "快速入门"
+  frameworkIntro: "Pinus架构概览"
+  api: API 接口
+  

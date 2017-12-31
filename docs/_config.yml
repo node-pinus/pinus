@@ -1,0 +1,25 @@
+title: Pinus
+subtitle: "一个基于Node.js的分布式水平扩展游戏服务器轻量级强大框架 powered by TypeScript."
+description: "一个基于Node.js的分布式水平扩展游戏服务器轻量级强大框架 powered by TypeScript."
+language:
+- zh-cn
+- en
+timezone: UTC
+url: http://pinus.io
+root: /
+archive_dir: news
+permalink: news/:year/:month/:day/:title/
+new_post_name: :year-:month-:day-:title.md # File name of new posts
+post_asset_folder: true
+highlight:
+  enable: true
+  line_number: false
+per_page: 0
+
+# Extensions
+## Plugins: https://hexo.io/plugins/
+## Themes: https://hexo.io/themes/
+theme: pinus
+
+less:
+  compress: true

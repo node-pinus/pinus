@@ -5,10 +5,11 @@
 		"lerna": "^2.5.1",
 		"lerna-relinker": "^1.4.0",
 		"nyc": "^11.2.1",
+		"pinus-site-tools": "^1.0.5",
 		"ts-node": "^3.2.0",
 		"tslint": "^4.1.1",
 		"typedoc": "^0.9.0",
-		"typescript": "^2.1.4"
+		"typescript": "^2.6.2"
 	},
 	"scripts": {
 		"test": "mocha",
@@ -27,7 +28,7 @@
 		"li": "lerna init",
 		"build": "lerna run build",
 		"gen-api-ref": "lerna run gen-api-ref",
-		"gen-site": "pt build && npm run gen-api-ref",
+		"gen-site": "pst build && npm run gen-api-ref",
 		"authors": "git log --format='%aN <%aE>' | sort -u > AUTHORS"
 	},
 	"keywords": [
