@@ -1,0 +1,21 @@
+{
+  "name": "pinus-protobuf",
+  "version": "1.0.3",
+  "main": "./dist/protobuf",
+  "types": "./dist/protobuf.d.ts",
+  "dependencies": {
+    "@types/node": "^8.5.2"
+  },
+  "files": [
+   "dist"
+  ],
+  "scripts": {
+    "build": "node_modules/.bin/tsc",
+    "test": "node_modules/.bin/tsc"
+  },
+  "devDependencies": {
+    "mocha": "^4.0.1",
+    "should": "^13.2.0",
+    "typescript": "^2.6.2"
+  }
+}

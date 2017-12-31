@@ -1,0 +1,23 @@
+{
+ "name": "pinus-protocol",
+ "version": "1.0.4",
+ "private": false,
+ "main": "./dist",
+ "types": "./dist/index.d.ts",
+ "files": [
+  "dist"
+ ],
+ "scripts": {
+  "build": "node_modules/.bin/tsc",
+  "test": "node_modules/.bin/tsc"
+ },
+ "dependencies": {
+  "@types/node": "^8.5.2"
+ },
+ "devDependencies": {
+  "jscoverage": "^0.6.0",
+  "mocha": "^4.0.1",
+  "should": "^13.2.0",
+  "typescript": "^2.6.2"
+ }
+}

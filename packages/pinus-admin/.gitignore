@@ -1,0 +1,13 @@
+.project
+*/node-log.log
+logs/*.log
+!.gitignore
+node_modules/*
+.project
+.settings/
+**/*.svn
+*.svn
+*.sublime-project
+*.sublime-workspace
+npm-debug.log
+dist/

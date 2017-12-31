@@ -1,0 +1,21 @@
+{
+	"name": "pinus-scheduler",
+	"version": "1.0.8",
+	"author": "mybios <mybios@qq.com>",
+	"main": "./dist/schedule",
+	"types": "./dist/schedule.d.ts",
+	"files": [
+		"dist"
+	],
+	"scripts": {
+		"build": "node_modules/.bin/tsc",
+		"test": "node_modules/.bin/tsc"
+	},
+	"dependencies": {
+		"@types/node": "^8.5.2",
+		"log4js": "^2.4.1"
+	},
+	"devDependencies": {
+		"typescript": "^2.6.2"
+	}
+}

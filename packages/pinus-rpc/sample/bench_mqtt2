@@ -1,0 +1,391 @@
+mqtt2
+0.4931640625k
+rpc client start ok.
+run 20000 num requests cost: 3470 ops/sec 5763.69
+run 20000 num requests cost: 2974 ops/sec 6724.95
+run 20000 num requests cost: 2803 ops/sec 7135.21
+run 20000 num requests cost: 2822 ops/sec 7087.17
+run 20000 num requests cost: 2872 ops/sec 6963.79
+run 20000 num requests cost: 2858 ops/sec 6997.90
+run 20000 num requests cost: 2966 ops/sec 6743.09
+run 20000 num requests cost: 2850 ops/sec 7017.54
+run 20000 num requests cost: 3088 ops/sec 6476.68
+run 20000 num requests cost: 3101 ops/sec 6449.53
+run 20000 num requests cost: 3076 ops/sec 6501.95
+run 20000 num requests cost: 2946 ops/sec 6788.87
+run 20000 num requests cost: 3151 ops/sec 6347.19
+run 20000 num requests cost: 2976 ops/sec 6720.43
+run 20000 num requests cost: 2942 ops/sec 6798.10
+run 20000 num requests cost: 3147 ops/sec 6355.26
+run 20000 num requests cost: 2909 ops/sec 6875.21
+run 20000 num requests cost: 2746 ops/sec 7283.32
+run 20000 num requests cost: 2699 ops/sec 7410.15
+run 20000 num requests cost: 2705 ops/sec 7393.72
+
+mqtt2
+0.9814453125k
+rpc client start ok.
+run 20000 num requests cost: 3567 ops/sec 5606.95
+run 20000 num requests cost: 3321 ops/sec 6022.28
+run 20000 num requests cost: 2976 ops/sec 6720.43
+run 20000 num requests cost: 3104 ops/sec 6443.30
+run 20000 num requests cost: 2924 ops/sec 6839.95
+run 20000 num requests cost: 2884 ops/sec 6934.81
+run 20000 num requests cost: 2939 ops/sec 6805.04
+run 20000 num requests cost: 2859 ops/sec 6995.45
+run 20000 num requests cost: 2865 ops/sec 6980.80
+run 20000 num requests cost: 2877 ops/sec 6951.69
+run 20000 num requests cost: 2918 ops/sec 6854.01
+run 20000 num requests cost: 2856 ops/sec 7002.80
+run 20000 num requests cost: 2843 ops/sec 7034.82
+run 20000 num requests cost: 2918 ops/sec 6854.01
+run 20000 num requests cost: 2854 ops/sec 7007.71
+run 20000 num requests cost: 2911 ops/sec 6870.49
+run 20000 num requests cost: 2890 ops/sec 6920.42
+run 20000 num requests cost: 2873 ops/sec 6961.36
+run 20000 num requests cost: 2783 ops/sec 7186.49
+run 20000 num requests cost: 2759 ops/sec 7249.00
+
+mqtt2
+1.4697265625k
+rpc client start ok.
+run 20000 num requests cost: 3559 ops/sec 5619.56
+run 20000 num requests cost: 3267 ops/sec 6121.82
+run 20000 num requests cost: 2993 ops/sec 6682.26
+run 20000 num requests cost: 3175 ops/sec 6299.21
+run 20000 num requests cost: 2913 ops/sec 6865.77
+run 20000 num requests cost: 3040 ops/sec 6578.95
+run 20000 num requests cost: 2939 ops/sec 6805.04
+run 20000 num requests cost: 2993 ops/sec 6682.26
+run 20000 num requests cost: 3052 ops/sec 6553.08
+run 20000 num requests cost: 3115 ops/sec 6420.55
+run 20000 num requests cost: 3077 ops/sec 6499.84
+run 20000 num requests cost: 2953 ops/sec 6772.77
+run 20000 num requests cost: 3080 ops/sec 6493.51
+run 20000 num requests cost: 3032 ops/sec 6596.31
+run 20000 num requests cost: 2977 ops/sec 6718.17
+run 20000 num requests cost: 3030 ops/sec 6600.66
+run 20000 num requests cost: 2833 ops/sec 7059.65
+run 20000 num requests cost: 3049 ops/sec 6559.53
+
+mqtt2
+1.9580078125k
+rpc client start ok.
+run 20000 num requests cost: 3686 ops/sec 5425.94
+run 20000 num requests cost: 2962 ops/sec 6752.19
+run 20000 num requests cost: 3057 ops/sec 6542.36
+run 20000 num requests cost: 3082 ops/sec 6489.29
+run 20000 num requests cost: 3032 ops/sec 6596.31
+run 20000 num requests cost: 3027 ops/sec 6607.20
+run 20000 num requests cost: 3039 ops/sec 6581.11
+run 20000 num requests cost: 3073 ops/sec 6508.30
+run 20000 num requests cost: 3094 ops/sec 6464.12
+run 20000 num requests cost: 3011 ops/sec 6642.31
+run 20000 num requests cost: 3140 ops/sec 6369.43
+run 20000 num requests cost: 3227 ops/sec 6197.71
+run 20000 num requests cost: 2970 ops/sec 6734.01
+run 20000 num requests cost: 2952 ops/sec 6775.07
+run 20000 num requests cost: 2941 ops/sec 6800.41
+run 20000 num requests cost: 2972 ops/sec 6729.48
+run 20000 num requests cost: 2879 ops/sec 6946.86
+run 20000 num requests cost: 2996 ops/sec 6675.57
+
+mqtt2
+3.9111328125k
+rpc client start ok.
+run 20000 num requests cost: 3944 ops/sec 5070.99
+run 20000 num requests cost: 3308 ops/sec 6045.95
+run 20000 num requests cost: 3111 ops/sec 6428.80
+run 20000 num requests cost: 3164 ops/sec 6321.11
+run 20000 num requests cost: 3387 ops/sec 5904.93
+run 20000 num requests cost: 3431 ops/sec 5829.20
+run 20000 num requests cost: 3308 ops/sec 6045.95
+run 20000 num requests cost: 3106 ops/sec 6439.15
+run 20000 num requests cost: 3096 ops/sec 6459.95
+run 20000 num requests cost: 3056 ops/sec 6544.50
+run 20000 num requests cost: 3180 ops/sec 6289.31
+run 20000 num requests cost: 3294 ops/sec 6071.65
+run 20000 num requests cost: 3275 ops/sec 6106.87
+run 20000 num requests cost: 3087 ops/sec 6478.78
+run 20000 num requests cost: 3311 ops/sec 6040.47
+run 20000 num requests cost: 3202 ops/sec 6246.10
+run 20000 num requests cost: 3180 ops/sec 6289.31
+run 20000 num requests cost: 3045 ops/sec 6568.14
+run 20000 num requests cost: 3336 ops/sec 5995.20
+run 20000 num requests cost: 3085 ops/sec 6482.98
+run 20000 num requests cost: 3076 ops/sec 6501.95
+run 20000 num requests cost: 3121 ops/sec 6408.20
+run 20000 num requests cost: 3091 ops/sec 6470.40
+run 20000 num requests cost: 3243 ops/sec 6167.13
+
+2015-10-24
+mqtt2 string namespace
+0.4931640625k
+rpc client start ok.
+run 20000 num requests cost: 3360 ops/sec 5952.38
+run 20000 num requests cost: 3403 ops/sec 5877.17
+run 20000 num requests cost: 2915 ops/sec 6861.06
+run 20000 num requests cost: 2866 ops/sec 6978.37
+run 20000 num requests cost: 2863 ops/sec 6985.68
+run 20000 num requests cost: 2758 ops/sec 7251.63
+run 20000 num requests cost: 2945 ops/sec 6791.17
+run 20000 num requests cost: 2800 ops/sec 7142.86
+run 20000 num requests cost: 2766 ops/sec 7230.66
+run 20000 num requests cost: 2805 ops/sec 7130.12
+run 20000 num requests cost: 2751 ops/sec 7270.08
+run 20000 num requests cost: 2754 ops/sec 7262.16
+run 20000 num requests cost: 2781 ops/sec 7191.66
+run 20000 num requests cost: 2868 ops/sec 6973.50
+run 20000 num requests cost: 2766 ops/sec 7230.66
+run 20000 num requests cost: 2704 ops/sec 7396.45
+run 20000 num requests cost: 2675 ops/sec 7476.64
+run 20000 num requests cost: 2710 ops/sec 7380.07
+run 20000 num requests cost: 2675 ops/sec 7476.64
+run 20000 num requests cost: 2694 ops/sec 7423.90
+run 20000 num requests cost: 2682 ops/sec 7457.12
+
+0.9814453125k
+rpc client start ok.
+run 20000 num requests cost: 3795 ops/sec 5270.09
+run 20000 num requests cost: 3625 ops/sec 5517.24
+run 20000 num requests cost: 3144 ops/sec 6361.32
+run 20000 num requests cost: 2841 ops/sec 7039.77
+run 20000 num requests cost: 2976 ops/sec 6720.43
+run 20000 num requests cost: 3211 ops/sec 6228.59
+run 20000 num requests cost: 3342 ops/sec 5984.44
+run 20000 num requests cost: 2797 ops/sec 7150.52
+run 20000 num requests cost: 2785 ops/sec 7181.33
+run 20000 num requests cost: 2988 ops/sec 6693.44
+run 20000 num requests cost: 2747 ops/sec 7280.67
+run 20000 num requests cost: 2729 ops/sec 7328.69
+run 20000 num requests cost: 2748 ops/sec 7278.02
+run 20000 num requests cost: 2754 ops/sec 7262.16
+run 20000 num requests cost: 2779 ops/sec 7196.83
+run 20000 num requests cost: 2719 ops/sec 7355.65
+run 20000 num requests cost: 2685 ops/sec 7448.79
+run 20000 num requests cost: 2782 ops/sec 7189.07
+run 20000 num requests cost: 2690 ops/sec 7434.94
+run 20000 num requests cost: 2674 ops/sec 7479.43
+run 20000 num requests cost: 2678 ops/sec 7468.26
+
+1.4697265625k
+rpc client start ok.
+run 20000 num requests cost: 3268 ops/sec 6119.95
+run 20000 num requests cost: 2836 ops/sec 7052.19
+run 20000 num requests cost: 2775 ops/sec 7207.21
+run 20000 num requests cost: 2850 ops/sec 7017.54
+run 20000 num requests cost: 2776 ops/sec 7204.61
+run 20000 num requests cost: 2993 ops/sec 6682.26
+run 20000 num requests cost: 2763 ops/sec 7238.51
+run 20000 num requests cost: 2794 ops/sec 7158.20
+run 20000 num requests cost: 2785 ops/sec 7181.33
+run 20000 num requests cost: 2780 ops/sec 7194.24
+run 20000 num requests cost: 2744 ops/sec 7288.63
+run 20000 num requests cost: 2825 ops/sec 7079.65
+run 20000 num requests cost: 2814 ops/sec 7107.32
+run 20000 num requests cost: 2810 ops/sec 7117.44
+run 20000 num requests cost: 2785 ops/sec 7181.33
+run 20000 num requests cost: 2744 ops/sec 7288.63
+run 20000 num requests cost: 2792 ops/sec 7163.32
+run 20000 num requests cost: 2740 ops/sec 7299.27
+run 20000 num requests cost: 2771 ops/sec 7217.61
+run 20000 num requests cost: 2726 ops/sec 7336.76
+run 20000 num requests cost: 2839 ops/sec 7044.73
+run 20000 num requests cost: 2717 ops/sec 7361.06
+run 20000 num requests cost: 2803 ops/sec 7135.21
+run 20000 num requests cost: 2731 ops/sec 7323.32
+run 20000 num requests cost: 2890 ops/sec 6920.42
+run 20000 num requests cost: 2780 ops/sec 7194.24
+
+1.9580078125k
+rpc client start ok.
+run 20000 num requests cost: 3217 ops/sec 6216.97
+run 20000 num requests cost: 2884 ops/sec 6934.81
+run 20000 num requests cost: 2854 ops/sec 7007.71
+run 20000 num requests cost: 2870 ops/sec 6968.64
+run 20000 num requests cost: 2944 ops/sec 6793.48
+run 20000 num requests cost: 2842 ops/sec 7037.30
+run 20000 num requests cost: 2795 ops/sec 7155.64
+run 20000 num requests cost: 2898 ops/sec 6901.31
+run 20000 num requests cost: 2863 ops/sec 6985.68
+run 20000 num requests cost: 2803 ops/sec 7135.21
+run 20000 num requests cost: 2847 ops/sec 7024.94
+run 20000 num requests cost: 2884 ops/sec 6934.81
+run 20000 num requests cost: 2778 ops/sec 7199.42
+run 20000 num requests cost: 2889 ops/sec 6922.81
+run 20000 num requests cost: 2797 ops/sec 7150.52
+run 20000 num requests cost: 2768 ops/sec 7225.43
+run 20000 num requests cost: 2788 ops/sec 7173.60
+run 20000 num requests cost: 2786 ops/sec 7178.75
+run 20000 num requests cost: 2789 ops/sec 7171.03
+run 20000 num requests cost: 2795 ops/sec 7155.64
+run 20000 num requests cost: 2768 ops/sec 7225.43
+run 20000 num requests cost: 2813 ops/sec 7109.85
+run 20000 num requests cost: 3081 ops/sec 6491.40
+
+3.9111328125k
+rpc client start ok.
+run 20000 num requests cost: 3313 ops/sec 6036.82
+run 20000 num requests cost: 3071 ops/sec 6512.54
+run 20000 num requests cost: 3179 ops/sec 6291.29
+run 20000 num requests cost: 3055 ops/sec 6546.64
+run 20000 num requests cost: 3090 ops/sec 6472.49
+run 20000 num requests cost: 3203 ops/sec 6244.15
+run 20000 num requests cost: 3129 ops/sec 6391.82
+run 20000 num requests cost: 3073 ops/sec 6508.30
+run 20000 num requests cost: 3043 ops/sec 6572.46
+run 20000 num requests cost: 3004 ops/sec 6657.79
+run 20000 num requests cost: 2950 ops/sec 6779.66
+run 20000 num requests cost: 3047 ops/sec 6563.83
+run 20000 num requests cost: 2955 ops/sec 6768.19
+run 20000 num requests cost: 3007 ops/sec 6651.15
+run 20000 num requests cost: 3034 ops/sec 6591.96
+run 20000 num requests cost: 3038 ops/sec 6583.28
+run 20000 num requests cost: 3014 ops/sec 6635.70
+run 20000 num requests cost: 3379 ops/sec 5918.91
+run 20000 num requests cost: 3123 ops/sec 6404.10
+run 20000 num requests cost: 3101 ops/sec 6449.53
+run 20000 num requests cost: 2921 ops/sec 6846.97
+
+mqtt2 int namespace
+0.4931640625k
+rpc client start ok.
+run 20000 num requests cost: 3244 ops/sec 6165.23
+run 20000 num requests cost: 2610 ops/sec 7662.84
+run 20000 num requests cost: 2578 ops/sec 7757.95
+run 20000 num requests cost: 2808 ops/sec 7122.51
+run 20000 num requests cost: 2593 ops/sec 7713.07
+run 20000 num requests cost: 2622 ops/sec 7627.77
+run 20000 num requests cost: 2632 ops/sec 7598.78
+run 20000 num requests cost: 2593 ops/sec 7713.07
+run 20000 num requests cost: 2591 ops/sec 7719.03
+run 20000 num requests cost: 2622 ops/sec 7627.77
+run 20000 num requests cost: 2605 ops/sec 7677.54
+run 20000 num requests cost: 2603 ops/sec 7683.44
+run 20000 num requests cost: 2673 ops/sec 7482.23
+run 20000 num requests cost: 2574 ops/sec 7770.01
+run 20000 num requests cost: 2579 ops/sec 7754.94
+run 20000 num requests cost: 2615 ops/sec 7648.18
+run 20000 num requests cost: 2568 ops/sec 7788.16
+run 20000 num requests cost: 2547 ops/sec 7852.38
+run 20000 num requests cost: 2556 ops/sec 7824.73
+run 20000 num requests cost: 2594 ops/sec 7710.10
+run 20000 num requests cost: 2554 ops/sec 7830.85
+
+0.9814453125k
+rpc client start ok.
+run 20000 num requests cost: 3218 ops/sec 6215.04
+run 20000 num requests cost: 3037 ops/sec 6585.45
+run 20000 num requests cost: 2693 ops/sec 7426.66
+run 20000 num requests cost: 2762 ops/sec 7241.13
+run 20000 num requests cost: 2925 ops/sec 6837.61
+run 20000 num requests cost: 2619 ops/sec 7636.50
+run 20000 num requests cost: 2592 ops/sec 7716.05
+run 20000 num requests cost: 2599 ops/sec 7695.27
+run 20000 num requests cost: 2613 ops/sec 7654.04
+run 20000 num requests cost: 2604 ops/sec 7680.49
+run 20000 num requests cost: 2618 ops/sec 7639.42
+run 20000 num requests cost: 2619 ops/sec 7636.50
+run 20000 num requests cost: 2603 ops/sec 7683.44
+run 20000 num requests cost: 2630 ops/sec 7604.56
+run 20000 num requests cost: 2603 ops/sec 7683.44
+run 20000 num requests cost: 2643 ops/sec 7567.16
+run 20000 num requests cost: 2575 ops/sec 7766.99
+run 20000 num requests cost: 2577 ops/sec 7760.96
+run 20000 num requests cost: 2576 ops/sec 7763.98
+run 20000 num requests cost: 2562 ops/sec 7806.40
+run 20000 num requests cost: 2605 ops/sec 7677.54
+run 20000 num requests cost: 2564 ops/sec 7800.31
+run 20000 num requests cost: 2693 ops/sec 7426.66
+run 20000 num requests cost: 2561 ops/sec 7809.45
+run 20000 num requests cost: 2576 ops/sec 7763.98
+run 20000 num requests cost: 2574 ops/sec 7770.01
+run 20000 num requests cost: 2571 ops/sec 7779.07
+run 20000 num requests cost: 2598 ops/sec 7698.23
+run 20000 num requests cost: 2584 ops/sec 7739.94
+run 20000 num requests cost: 2610 ops/sec 7662.84
+run 20000 num requests cost: 2576 ops/sec 7763.98
+
+1.4697265625k
+rpc client start ok.
+run 20000 num requests cost: 2990 ops/sec 6688.96
+run 20000 num requests cost: 2739 ops/sec 7301.94
+run 20000 num requests cost: 2674 ops/sec 7479.43
+run 20000 num requests cost: 2725 ops/sec 7339.45
+run 20000 num requests cost: 2661 ops/sec 7515.97
+run 20000 num requests cost: 2690 ops/sec 7434.94
+run 20000 num requests cost: 2658 ops/sec 7524.45
+run 20000 num requests cost: 2664 ops/sec 7507.51
+run 20000 num requests cost: 2756 ops/sec 7256.89
+run 20000 num requests cost: 2721 ops/sec 7350.24
+run 20000 num requests cost: 2664 ops/sec 7507.51
+run 20000 num requests cost: 2684 ops/sec 7451.56
+run 20000 num requests cost: 2663 ops/sec 7510.33
+run 20000 num requests cost: 2645 ops/sec 7561.44
+run 20000 num requests cost: 2696 ops/sec 7418.40
+run 20000 num requests cost: 2647 ops/sec 7555.72
+run 20000 num requests cost: 2665 ops/sec 7504.69
+run 20000 num requests cost: 2749 ops/sec 7275.37
+run 20000 num requests cost: 2679 ops/sec 7465.47
+run 20000 num requests cost: 2639 ops/sec 7578.63
+run 20000 num requests cost: 2672 ops/sec 7485.03
+run 20000 num requests cost: 2638 ops/sec 7581.50
+run 20000 num requests cost: 2668 ops/sec 7496.25
+run 20000 num requests cost: 2682 ops/sec 7457.12
+run 20000 num requests cost: 2652 ops/sec 7541.48
+run 20000 num requests cost: 2753 ops/sec 7264.80
+
+1.9580078125k
+rpc client start ok.
+run 20000 num requests cost: 3032 ops/sec 6596.31
+run 20000 num requests cost: 2761 ops/sec 7243.75
+run 20000 num requests cost: 2695 ops/sec 7421.15
+run 20000 num requests cost: 2713 ops/sec 7371.91
+run 20000 num requests cost: 2708 ops/sec 7385.52
+run 20000 num requests cost: 2861 ops/sec 6990.56
+run 20000 num requests cost: 2707 ops/sec 7388.25
+run 20000 num requests cost: 2707 ops/sec 7388.25
+run 20000 num requests cost: 2767 ops/sec 7228.04
+run 20000 num requests cost: 2718 ops/sec 7358.35
+run 20000 num requests cost: 2723 ops/sec 7344.84
+run 20000 num requests cost: 2702 ops/sec 7401.92
+run 20000 num requests cost: 2709 ops/sec 7382.80
+run 20000 num requests cost: 2810 ops/sec 7117.44
+run 20000 num requests cost: 2771 ops/sec 7217.61
+run 20000 num requests cost: 2686 ops/sec 7446.02
+run 20000 num requests cost: 2685 ops/sec 7448.79
+run 20000 num requests cost: 2668 ops/sec 7496.25
+run 20000 num requests cost: 2692 ops/sec 7429.42
+run 20000 num requests cost: 2708 ops/sec 7385.52
+run 20000 num requests cost: 2699 ops/sec 7410.15
+run 20000 num requests cost: 2687 ops/sec 7443.25
+run 20000 num requests cost: 2694 ops/sec 7423.90
+run 20000 num requests cost: 2677 ops/sec 7471.05
+run 20000 num requests cost: 2938 ops/sec 6807.35
+
+3.9111328125k
+rpc client start ok.
+run 20000 num requests cost: 3121 ops/sec 6408.20
+run 20000 num requests cost: 2975 ops/sec 6722.69
+run 20000 num requests cost: 2909 ops/sec 6875.21
+run 20000 num requests cost: 2979 ops/sec 6713.66
+run 20000 num requests cost: 2887 ops/sec 6927.61
+run 20000 num requests cost: 2856 ops/sec 7002.80
+run 20000 num requests cost: 2877 ops/sec 6951.69
+run 20000 num requests cost: 2939 ops/sec 6805.04
+run 20000 num requests cost: 2904 ops/sec 6887.05
+run 20000 num requests cost: 2901 ops/sec 6894.17
+run 20000 num requests cost: 2847 ops/sec 7024.94
+run 20000 num requests cost: 2828 ops/sec 7072.14
+run 20000 num requests cost: 2860 ops/sec 6993.01
+run 20000 num requests cost: 2940 ops/sec 6802.72
+run 20000 num requests cost: 2904 ops/sec 6887.05
+run 20000 num requests cost: 2849 ops/sec 7020.01
+run 20000 num requests cost: 2905 ops/sec 6884.68
+run 20000 num requests cost: 2850 ops/sec 7017.54
+run 20000 num requests cost: 2998 ops/sec 6671.11
+run 20000 num requests cost: 2973 ops/sec 6727.21
+run 20000 num requests cost: 2914 ops/sec 6863.42
+run 20000 num requests cost: 3348 ops/sec 5973.72
+run 20000 num requests cost: 3090 ops/sec 6472.49
+run 20000 num requests cost: 2879 ops/sec 6946.86

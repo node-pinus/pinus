@@ -1,0 +1,1312 @@
+{
+  "onMove": {
+    "entityId": {
+      "option": "required",
+      "type": "uInt32",
+      "tag": 1
+    },
+    "path": {
+      "option": "repeated",
+      "type": "Path",
+      "tag": 2
+    },
+    "speed": {
+      "option": "required",
+      "type": "uInt32",
+      "tag": 3
+    },
+    "__messages": {
+      "Path": {
+        "x": {
+          "option": "required",
+          "type": "uInt32",
+          "tag": 1
+        },
+        "y": {
+          "option": "required",
+          "type": "uInt32",
+          "tag": 2
+        },
+        "__messages": {},
+        "__tags": {
+          "1": "x",
+          "2": "y"
+        }
+      }
+    },
+    "__tags": {
+      "1": "entityId",
+      "2": "path",
+      "3": "speed"
+    }
+  },
+  "onAttack": {
+    "attacker": {
+      "option": "required",
+      "type": "uInt32",
+      "tag": 1
+    },
+    "target": {
+      "option": "required",
+      "type": "uInt32",
+      "tag": 2
+    },
+    "result": {
+      "option": "required",
+      "type": "AttackResult",
+      "tag": 3
+    },
+    "exp": {
+      "option": "optional",
+      "type": "uInt32",
+      "tag": 4
+    },
+    "reviveTime": {
+      "option": "optional",
+      "type": "uInt32",
+      "tag": 5
+    },
+    "skillId": {
+      "option": "required",
+      "type": "uInt32",
+      "tag": 6
+    },
+    "__messages": {
+      "AttackResult": {
+        "result": {
+          "option": "required",
+          "type": "uInt32",
+          "tag": 1
+        },
+        "damage": {
+          "option": "required",
+          "type": "uInt32",
+          "tag": 2
+        },
+        "items": {
+          "option": "repeated",
+          "type": "Item",
+          "tag": 4
+        },
+        "__messages": {
+          "Item": {
+            "kindId": {
+              "option": "required",
+              "type": "uInt32",
+              "tag": 1
+            },
+            "x": {
+              "option": "required",
+              "type": "uInt32",
+              "tag": 2
+            },
+            "y": {
+              "option": "required",
+              "type": "uInt32",
+              "tag": 3
+            },
+            "entityId": {
+              "option": "required",
+              "type": "uInt32",
+              "tag": 4
+            },
+            "playerId": {
+              "option": "required",
+              "type": "uInt32",
+              "tag": 5
+            },
+            "type": {
+              "option": "required",
+              "type": "string",
+              "tag": 6
+            },
+            "__messages": {},
+            "__tags": {
+              "1": "kindId",
+              "2": "x",
+              "3": "y",
+              "4": "entityId",
+              "5": "playerId",
+              "6": "type"
+            }
+          }
+        },
+        "__tags": {
+          "1": "result",
+          "2": "damage",
+          "4": "items"
+        }
+      }
+    },
+    "__tags": {
+      "1": "attacker",
+      "2": "target",
+      "3": "result",
+      "4": "exp",
+      "5": "reviveTime",
+      "6": "skillId"
+    }
+  },
+  "onUpgrade": {
+    "entityId": {
+      "option": "required",
+      "type": "uInt32",
+      "tag": 1
+    },
+    "kindId": {
+      "option": "required",
+      "type": "uInt32",
+      "tag": 2
+    },
+    "x": {
+      "option": "required",
+      "type": "uInt32",
+      "tag": 3
+    },
+    "y": {
+      "option": "required",
+      "type": "uInt32",
+      "tag": 4
+    },
+    "level": {
+      "option": "required",
+      "type": "uInt32",
+      "tag": 5
+    },
+    "walkSpeed": {
+      "option": "required",
+      "type": "uInt32",
+      "tag": 6
+    },
+    "hp": {
+      "option": "required",
+      "type": "uInt32",
+      "tag": 7
+    },
+    "maxHp": {
+      "option": "required",
+      "type": "uInt32",
+      "tag": 8
+    },
+    "mp": {
+      "option": "required",
+      "type": "uInt32",
+      "tag": 9
+    },
+    "maxMp": {
+      "option": "required",
+      "type": "uInt32",
+      "tag": 10
+    },
+    "id": {
+      "option": "required",
+      "type": "uInt32",
+      "tag": 11
+    },
+    "name": {
+      "option": "required",
+      "type": "string",
+      "tag": 12
+    },
+    "experience": {
+      "option": "required",
+      "type": "uInt32",
+      "tag": 13
+    },
+    "attackValue": {
+      "option": "required",
+      "type": "uInt32",
+      "tag": 14
+    },
+    "defenceValue": {
+      "option": "required",
+      "type": "uInt32",
+      "tag": 15
+    },
+    "attackSpeed": {
+      "option": "required",
+      "type": "double",
+      "tag": 16
+    },
+    "areaId": {
+      "option": "required",
+      "type": "uInt32",
+      "tag": 17
+    },
+    "hitRate": {
+      "option": "required",
+      "type": "uInt32",
+      "tag": 18
+    },
+    "dodgeRate": {
+      "option": "required",
+      "type": "uInt32",
+      "tag": 19
+    },
+    "nextLevelExp": {
+      "option": "required",
+      "type": "uInt32",
+      "tag": 20
+    },
+    "skillPoint": {
+      "option": "required",
+      "type": "uInt32",
+      "tag": 21
+    },
+    "kindName": {
+      "option": "required",
+      "type": "string",
+      "tag": 22
+    },
+    "type": {
+      "option": "required",
+      "type": "string",
+      "tag": 23
+    },
+    "__messages": {},
+    "__tags": {
+      "1": "entityId",
+      "2": "kindId",
+      "3": "x",
+      "4": "y",
+      "5": "level",
+      "6": "walkSpeed",
+      "7": "hp",
+      "8": "maxHp",
+      "9": "mp",
+      "10": "maxMp",
+      "11": "id",
+      "12": "name",
+      "13": "experience",
+      "14": "attackValue",
+      "15": "defenceValue",
+      "16": "attackSpeed",
+      "17": "areaId",
+      "18": "hitRate",
+      "19": "dodgeRate",
+      "20": "nextLevelExp",
+      "21": "skillPoint",
+      "22": "kindName",
+      "23": "type"
+    }
+  },
+  "onPickItem": {
+    "player": {
+      "option": "required",
+      "type": "uInt32",
+      "tag": 1
+    },
+    "item": {
+      "option": "required",
+      "type": "uInt32",
+      "tag": 2
+    },
+    "index": {
+      "option": "required",
+      "type": "uInt32",
+      "tag": 3
+    },
+    "__messages": {},
+    "__tags": {
+      "1": "player",
+      "2": "item",
+      "3": "index"
+    }
+  },
+  "onNPCTalk": {
+    "npc": {
+      "option": "required",
+      "type": "uInt32",
+      "tag": 1
+    },
+    "npcword": {
+      "option": "required",
+      "type": "string",
+      "tag": 2
+    },
+    "myword": {
+      "option": "required",
+      "type": "string",
+      "tag": 3
+    },
+    "__messages": {},
+    "__tags": {
+      "1": "npc",
+      "2": "npcword",
+      "3": "myword"
+    }
+  },
+  "onRevive": {
+    "entityId": {
+      "option": "required",
+      "type": "uInt32",
+      "tag": 1
+    },
+    "x": {
+      "option": "required",
+      "type": "uInt32",
+      "tag": 2
+    },
+    "y": {
+      "option": "required",
+      "type": "uInt32",
+      "tag": 3
+    },
+    "hp": {
+      "option": "required",
+      "type": "uInt32",
+      "tag": 4
+    },
+    "__messages": {},
+    "__tags": {
+      "1": "entityId",
+      "2": "x",
+      "3": "y",
+      "4": "hp"
+    }
+  },
+  "onAddEntities": {
+    "npc": {
+      "option": "repeated",
+      "type": "NPC",
+      "tag": 1
+    },
+    "mob": {
+      "option": "repeated",
+      "type": "Mob",
+      "tag": 2
+    },
+    "item": {
+      "option": "repeated",
+      "type": "Item",
+      "tag": 3
+    },
+    "euipment": {
+      "option": "repeated",
+      "type": "Equipment",
+      "tag": 4
+    },
+    "player": {
+      "option": "repeated",
+      "type": "Player",
+      "tag": 5
+    },
+    "__messages": {
+      "NPC": {
+        "entityId": {
+          "option": "required",
+          "type": "uInt32",
+          "tag": 1
+        },
+        "kindId": {
+          "option": "required",
+          "type": "uInt32",
+          "tag": 2
+        },
+        "x": {
+          "option": "required",
+          "type": "uInt32",
+          "tag": 3
+        },
+        "y": {
+          "option": "required",
+          "type": "uInt32",
+          "tag": 4
+        },
+        "__messages": {},
+        "__tags": {
+          "1": "entityId",
+          "2": "kindId",
+          "3": "x",
+          "4": "y"
+        }
+      },
+      "Mob": {
+        "entityId": {
+          "option": "required",
+          "type": "uInt32",
+          "tag": 1
+        },
+        "kindId": {
+          "option": "required",
+          "type": "uInt32",
+          "tag": 2
+        },
+        "x": {
+          "option": "required",
+          "type": "uInt32",
+          "tag": 3
+        },
+        "y": {
+          "option": "required",
+          "type": "uInt32",
+          "tag": 4
+        },
+        "level": {
+          "option": "required",
+          "type": "uInt32",
+          "tag": 5
+        },
+        "walkSpeed": {
+          "option": "required",
+          "type": "uInt32",
+          "tag": 6
+        },
+        "hp": {
+          "option": "required",
+          "type": "uInt32",
+          "tag": 7
+        },
+        "maxHp": {
+          "option": "required",
+          "type": "uInt32",
+          "tag": 8
+        },
+        "__messages": {},
+        "__tags": {
+          "1": "entityId",
+          "2": "kindId",
+          "3": "x",
+          "4": "y",
+          "5": "level",
+          "6": "walkSpeed",
+          "7": "hp",
+          "8": "maxHp"
+        }
+      },
+      "Item": {
+        "entityId": {
+          "option": "required",
+          "type": "uInt32",
+          "tag": 1
+        },
+        "kindId": {
+          "option": "required",
+          "type": "uInt32",
+          "tag": 2
+        },
+        "x": {
+          "option": "required",
+          "type": "uInt32",
+          "tag": 3
+        },
+        "y": {
+          "option": "required",
+          "type": "uInt32",
+          "tag": 4
+        },
+        "playerId": {
+          "option": "required",
+          "type": "uInt32",
+          "tag": 5
+        },
+        "__messages": {},
+        "__tags": {
+          "1": "entityId",
+          "2": "kindId",
+          "3": "x",
+          "4": "y",
+          "5": "playerId"
+        }
+      },
+      "Equipment": {
+        "entityId": {
+          "option": "required",
+          "type": "uInt32",
+          "tag": 1
+        },
+        "kindId": {
+          "option": "required",
+          "type": "uInt32",
+          "tag": 2
+        },
+        "x": {
+          "option": "required",
+          "type": "uInt32",
+          "tag": 3
+        },
+        "y": {
+          "option": "required",
+          "type": "uInt32",
+          "tag": 4
+        },
+        "playerId": {
+          "option": "required",
+          "type": "uInt32",
+          "tag": 5
+        },
+        "__messages": {},
+        "__tags": {
+          "1": "entityId",
+          "2": "kindId",
+          "3": "x",
+          "4": "y",
+          "5": "playerId"
+        }
+      },
+      "Player": {
+        "entityId": {
+          "option": "required",
+          "type": "uInt32",
+          "tag": 1
+        },
+        "kindId": {
+          "option": "required",
+          "type": "uInt32",
+          "tag": 2
+        },
+        "x": {
+          "option": "required",
+          "type": "uInt32",
+          "tag": 3
+        },
+        "y": {
+          "option": "required",
+          "type": "uInt32",
+          "tag": 4
+        },
+        "level": {
+          "option": "required",
+          "type": "uInt32",
+          "tag": 5
+        },
+        "walkSpeed": {
+          "option": "required",
+          "type": "uInt32",
+          "tag": 6
+        },
+        "hp": {
+          "option": "required",
+          "type": "uInt32",
+          "tag": 7
+        },
+        "maxHp": {
+          "option": "required",
+          "type": "uInt32",
+          "tag": 8
+        },
+        "mp": {
+          "option": "required",
+          "type": "uInt32",
+          "tag": 9
+        },
+        "maxMp": {
+          "option": "required",
+          "type": "uInt32",
+          "tag": 10
+        },
+        "id": {
+          "option": "required",
+          "type": "uInt32",
+          "tag": 11
+        },
+        "name": {
+          "option": "required",
+          "type": "string",
+          "tag": 12
+        },
+        "__messages": {},
+        "__tags": {
+          "1": "entityId",
+          "2": "kindId",
+          "3": "x",
+          "4": "y",
+          "5": "level",
+          "6": "walkSpeed",
+          "7": "hp",
+          "8": "maxHp",
+          "9": "mp",
+          "10": "maxMp",
+          "11": "id",
+          "12": "name"
+        }
+      }
+    },
+    "__tags": {
+      "1": "npc",
+      "2": "mob",
+      "3": "item",
+      "4": "euipment",
+      "5": "player"
+    }
+  },
+  "onRemoveEntities": {
+    "entities": {
+      "option": "repeated",
+      "type": "uInt32",
+      "tag": 1
+    },
+    "__messages": {},
+    "__tags": {
+      "1": "entities"
+    }
+  },
+  "onPathCheckOut": {
+    "entityId": {
+      "option": "required",
+      "type": "uInt32",
+      "tag": 1
+    },
+    "position": {
+      "option": "required",
+      "type": "Position",
+      "tag": 2
+    },
+    "__messages": {
+      "Position": {
+        "x": {
+          "option": "required",
+          "type": "uInt32",
+          "tag": 1
+        },
+        "y": {
+          "option": "required",
+          "type": "uInt32",
+          "tag": 2
+        },
+        "__messages": {},
+        "__tags": {
+          "1": "x",
+          "2": "y"
+        }
+      }
+    },
+    "__tags": {
+      "1": "entityId",
+      "2": "position"
+    }
+  },
+  "area.playerHandler.enterScene": {
+    "entities": {
+      "option": "optional",
+      "type": "Entities",
+      "tag": 1
+    },
+    "curPlayer": {
+      "option": "optional",
+      "type": "Player",
+      "tag": 2
+    },
+    "map": {
+      "option": "required",
+      "type": "Map",
+      "tag": 3
+    },
+    "__messages": {
+      "Entities": {
+        "npc": {
+          "option": "repeated",
+          "type": "NPC",
+          "tag": 1
+        },
+        "mob": {
+          "option": "repeated",
+          "type": "Mob",
+          "tag": 2
+        },
+        "item": {
+          "option": "repeated",
+          "type": "Item",
+          "tag": 3
+        },
+        "euipment": {
+          "option": "repeated",
+          "type": "Equipment",
+          "tag": 4
+        },
+        "player": {
+          "option": "repeated",
+          "type": "Player",
+          "tag": 5
+        },
+        "__messages": {
+          "NPC": {
+            "entityId": {
+              "option": "required",
+              "type": "uInt32",
+              "tag": 1
+            },
+            "kindId": {
+              "option": "required",
+              "type": "uInt32",
+              "tag": 2
+            },
+            "x": {
+              "option": "required",
+              "type": "uInt32",
+              "tag": 3
+            },
+            "y": {
+              "option": "required",
+              "type": "uInt32",
+              "tag": 4
+            },
+            "__messages": {},
+            "__tags": {
+              "1": "entityId",
+              "2": "kindId",
+              "3": "x",
+              "4": "y"
+            }
+          },
+          "Mob": {
+            "entityId": {
+              "option": "required",
+              "type": "uInt32",
+              "tag": 1
+            },
+            "kindId": {
+              "option": "required",
+              "type": "uInt32",
+              "tag": 2
+            },
+            "x": {
+              "option": "required",
+              "type": "uInt32",
+              "tag": 3
+            },
+            "y": {
+              "option": "required",
+              "type": "uInt32",
+              "tag": 4
+            },
+            "level": {
+              "option": "required",
+              "type": "uInt32",
+              "tag": 5
+            },
+            "walkSpeed": {
+              "option": "required",
+              "type": "uInt32",
+              "tag": 6
+            },
+            "hp": {
+              "option": "required",
+              "type": "uInt32",
+              "tag": 7
+            },
+            "maxHp": {
+              "option": "required",
+              "type": "uInt32",
+              "tag": 8
+            },
+            "__messages": {},
+            "__tags": {
+              "1": "entityId",
+              "2": "kindId",
+              "3": "x",
+              "4": "y",
+              "5": "level",
+              "6": "walkSpeed",
+              "7": "hp",
+              "8": "maxHp"
+            }
+          },
+          "Item": {
+            "entityId": {
+              "option": "required",
+              "type": "uInt32",
+              "tag": 1
+            },
+            "kindId": {
+              "option": "required",
+              "type": "uInt32",
+              "tag": 2
+            },
+            "x": {
+              "option": "required",
+              "type": "uInt32",
+              "tag": 3
+            },
+            "y": {
+              "option": "required",
+              "type": "uInt32",
+              "tag": 4
+            },
+            "playerId": {
+              "option": "required",
+              "type": "uInt32",
+              "tag": 5
+            },
+            "__messages": {},
+            "__tags": {
+              "1": "entityId",
+              "2": "kindId",
+              "3": "x",
+              "4": "y",
+              "5": "playerId"
+            }
+          },
+          "Equipment": {
+            "entityId": {
+              "option": "required",
+              "type": "uInt32",
+              "tag": 1
+            },
+            "kindId": {
+              "option": "required",
+              "type": "uInt32",
+              "tag": 2
+            },
+            "x": {
+              "option": "required",
+              "type": "uInt32",
+              "tag": 3
+            },
+            "y": {
+              "option": "required",
+              "type": "uInt32",
+              "tag": 4
+            },
+            "playerId": {
+              "option": "required",
+              "type": "uInt32",
+              "tag": 5
+            },
+            "__messages": {},
+            "__tags": {
+              "1": "entityId",
+              "2": "kindId",
+              "3": "x",
+              "4": "y",
+              "5": "playerId"
+            }
+          },
+          "Player": {
+            "entityId": {
+              "option": "required",
+              "type": "uInt32",
+              "tag": 1
+            },
+            "kindId": {
+              "option": "required",
+              "type": "uInt32",
+              "tag": 2
+            },
+            "x": {
+              "option": "required",
+              "type": "uInt32",
+              "tag": 3
+            },
+            "y": {
+              "option": "required",
+              "type": "uInt32",
+              "tag": 4
+            },
+            "level": {
+              "option": "required",
+              "type": "uInt32",
+              "tag": 5
+            },
+            "walkSpeed": {
+              "option": "required",
+              "type": "uInt32",
+              "tag": 6
+            },
+            "hp": {
+              "option": "required",
+              "type": "uInt32",
+              "tag": 7
+            },
+            "maxHp": {
+              "option": "required",
+              "type": "uInt32",
+              "tag": 8
+            },
+            "mp": {
+              "option": "required",
+              "type": "uInt32",
+              "tag": 9
+            },
+            "maxMp": {
+              "option": "required",
+              "type": "uInt32",
+              "tag": 10
+            },
+            "id": {
+              "option": "required",
+              "type": "uInt32",
+              "tag": 11
+            },
+            "name": {
+              "option": "required",
+              "type": "string",
+              "tag": 12
+            },
+            "__messages": {},
+            "__tags": {
+              "1": "entityId",
+              "2": "kindId",
+              "3": "x",
+              "4": "y",
+              "5": "level",
+              "6": "walkSpeed",
+              "7": "hp",
+              "8": "maxHp",
+              "9": "mp",
+              "10": "maxMp",
+              "11": "id",
+              "12": "name"
+            }
+          }
+        },
+        "__tags": {
+          "1": "npc",
+          "2": "mob",
+          "3": "item",
+          "4": "euipment",
+          "5": "player"
+        }
+      },
+      "Player": {
+        "entityId": {
+          "option": "required",
+          "type": "uInt32",
+          "tag": 1
+        },
+        "kindId": {
+          "option": "required",
+          "type": "uInt32",
+          "tag": 2
+        },
+        "x": {
+          "option": "required",
+          "type": "uInt32",
+          "tag": 3
+        },
+        "y": {
+          "option": "required",
+          "type": "uInt32",
+          "tag": 4
+        },
+        "level": {
+          "option": "required",
+          "type": "uInt32",
+          "tag": 5
+        },
+        "walkSpeed": {
+          "option": "required",
+          "type": "uInt32",
+          "tag": 6
+        },
+        "hp": {
+          "option": "required",
+          "type": "uInt32",
+          "tag": 7
+        },
+        "maxHp": {
+          "option": "required",
+          "type": "uInt32",
+          "tag": 8
+        },
+        "mp": {
+          "option": "required",
+          "type": "uInt32",
+          "tag": 9
+        },
+        "maxMp": {
+          "option": "required",
+          "type": "uInt32",
+          "tag": 10
+        },
+        "id": {
+          "option": "required",
+          "type": "uInt32",
+          "tag": 11
+        },
+        "name": {
+          "option": "required",
+          "type": "string",
+          "tag": 12
+        },
+        "experience": {
+          "option": "required",
+          "type": "uInt32",
+          "tag": 13
+        },
+        "attackValue": {
+          "option": "required",
+          "type": "uInt32",
+          "tag": 14
+        },
+        "defenceValue": {
+          "option": "required",
+          "type": "uInt32",
+          "tag": 15
+        },
+        "attackSpeed": {
+          "option": "required",
+          "type": "double",
+          "tag": 16
+        },
+        "areaId": {
+          "option": "required",
+          "type": "uInt32",
+          "tag": 17
+        },
+        "hitRate": {
+          "option": "required",
+          "type": "uInt32",
+          "tag": 18
+        },
+        "dodgeRate": {
+          "option": "required",
+          "type": "uInt32",
+          "tag": 19
+        },
+        "nextLevelExp": {
+          "option": "required",
+          "type": "uInt32",
+          "tag": 20
+        },
+        "skillPoint": {
+          "option": "required",
+          "type": "uInt32",
+          "tag": 21
+        },
+        "type": {
+          "option": "required",
+          "type": "string",
+          "tag": 22
+        },
+        "bag": {
+          "option": "required",
+          "type": "Bag",
+          "tag": 23
+        },
+        "equipments": {
+          "option": "required",
+          "type": "Equipments",
+          "tag": 24
+        },
+        "fightSkills": {
+          "option": "repeated",
+          "type": "FightSkill",
+          "tag": 25
+        },
+        "__messages": {
+          "Bag": {
+            "itemCount": {
+              "option": "required",
+              "type": "uInt32",
+              "tag": 1
+            },
+            "items": {
+              "option": "repeated",
+              "type": "Item",
+              "tag": 2
+            },
+            "__messages": {
+              "Item": {
+                "key": {
+                  "option": "required",
+                  "type": "uInt32",
+                  "tag": 1
+                },
+                "id": {
+                  "option": "required",
+                  "type": "uInt32",
+                  "tag": 2
+                },
+                "type": {
+                  "option": "required",
+                  "type": "string",
+                  "tag": 3
+                },
+                "__messages": {},
+                "__tags": {
+                  "1": "key",
+                  "2": "id",
+                  "3": "type"
+                }
+              }
+            },
+            "__tags": {
+              "1": "itemCount",
+              "2": "items"
+            }
+          },
+          "Equipments": {
+            "weapon": {
+              "option": "required",
+              "type": "uInt32",
+              "tag": 1
+            },
+            "armor": {
+              "option": "required",
+              "type": "uInt32",
+              "tag": 2
+            },
+            "helmet": {
+              "option": "required",
+              "type": "uInt32",
+              "tag": 3
+            },
+            "necklace": {
+              "option": "required",
+              "type": "uInt32",
+              "tag": 4
+            },
+            "ring": {
+              "option": "required",
+              "type": "uInt32",
+              "tag": 5
+            },
+            "belt": {
+              "option": "required",
+              "type": "uInt32",
+              "tag": 6
+            },
+            "shoes": {
+              "option": "required",
+              "type": "uInt32",
+              "tag": 7
+            },
+            "legguard": {
+              "option": "required",
+              "type": "uInt32",
+              "tag": 8
+            },
+            "amulet": {
+              "option": "required",
+              "type": "uInt32",
+              "tag": 9
+            },
+            "__messages": {},
+            "__tags": {
+              "1": "weapon",
+              "2": "armor",
+              "3": "helmet",
+              "4": "necklace",
+              "5": "ring",
+              "6": "belt",
+              "7": "shoes",
+              "8": "legguard",
+              "9": "amulet"
+            }
+          },
+          "FightSkill": {
+            "id": {
+              "option": "required",
+              "type": "uInt32",
+              "tag": 1
+            },
+            "level": {
+              "option": "required",
+              "type": "uInt32",
+              "tag": 2
+            },
+            "__messages": {},
+            "__tags": {
+              "1": "id",
+              "2": "level"
+            }
+          }
+        },
+        "__tags": {
+          "1": "entityId",
+          "2": "kindId",
+          "3": "x",
+          "4": "y",
+          "5": "level",
+          "6": "walkSpeed",
+          "7": "hp",
+          "8": "maxHp",
+          "9": "mp",
+          "10": "maxMp",
+          "11": "id",
+          "12": "name",
+          "13": "experience",
+          "14": "attackValue",
+          "15": "defenceValue",
+          "16": "attackSpeed",
+          "17": "areaId",
+          "18": "hitRate",
+          "19": "dodgeRate",
+          "20": "nextLevelExp",
+          "21": "skillPoint",
+          "22": "type",
+          "23": "bag",
+          "24": "equipments",
+          "25": "fightSkills"
+        }
+      },
+      "Map": {
+        "name": {
+          "option": "required",
+          "type": "string",
+          "tag": 1
+        },
+        "width": {
+          "option": "required",
+          "type": "uInt32",
+          "tag": 2
+        },
+        "height": {
+          "option": "required",
+          "type": "uInt32",
+          "tag": 3
+        },
+        "tileW": {
+          "option": "required",
+          "type": "uInt32",
+          "tag": 4
+        },
+        "tileH": {
+          "option": "required",
+          "type": "uInt32",
+          "tag": 5
+        },
+        "weightMap": {
+          "option": "repeated",
+          "type": "Collisions",
+          "tag": 6
+        },
+        "__messages": {
+          "Collisions": {
+            "collisions": {
+              "option": "repeated",
+              "type": "Collison",
+              "tag": 1
+            },
+            "__messages": {
+              "Collison": {
+                "start": {
+                  "option": "required",
+                  "type": "uInt32",
+                  "tag": 1
+                },
+                "length": {
+                  "option": "required",
+                  "type": "uInt32",
+                  "tag": 2
+                },
+                "__messages": {},
+                "__tags": {
+                  "1": "start",
+                  "2": "length"
+                }
+              }
+            },
+            "__tags": {
+              "1": "collisions"
+            }
+          }
+        },
+        "__tags": {
+          "1": "name",
+          "2": "width",
+          "3": "height",
+          "4": "tileW",
+          "5": "tileH",
+          "6": "weightMap"
+        }
+      }
+    },
+    "__tags": {
+      "1": "entities",
+      "2": "curPlayer",
+      "3": "map"
+    }
+  }
+}

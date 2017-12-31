@@ -1,0 +1,78 @@
+{
+  "name": "pinus",
+  "version": "1.1.7",
+  "homepage": "https://github.com/mybios/pinus",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mybios/pinus.git"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "node_modules/.bin/tsc",
+    "test": "node_modules/.bin/tsc"
+  },
+  "bugs": {
+    "url": "https://github.com/mybios/pinus/issues"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/mybios/pinus#license"
+    }
+  ],
+  "keywords": [
+    "pinus",
+    "pinus",
+    "framework",
+    "game",
+    "web",
+    "realtime",
+    "server"
+  ],
+  "main": "./dist/index",
+  "types": "./dist/index.d.ts",
+  "dependencies": {
+    "async": "^2.6.0",
+    "cliff": "^0.1.10",
+    "commander": "^2.12.2",
+    "crc": "^3.5.0",
+    "eyes": "^0.1.8",
+    "mkdirp": "^0.5.1",
+    "mqtt-connection": "^3.2.0",
+    "node-bignumber": "^1.2.1",
+    "pinus-admin": "1.1.0",
+    "pinus-loader": "1.0.2",
+    "pinus-logger": "1.0.2",
+    "pinus-protobuf": "1.0.3",
+    "pinus-protocol": "^1.0.4",
+    "pinus-rpc": "^1.0.7",
+    "pinus-scheduler": "1.0.8",
+    "seq-queue": "0.0.5",
+    "socket.io": "^2.0.4",
+    "ws": "^3.3.3"
+  },
+  "bin": {
+    "pinus": "./dist/bin/pinus.js"
+  },
+  "devDependencies": {
+    "@types/cliff": "^0.1.4",
+    "@types/commander": "^2.12.2",
+    "@types/crc": "^3.4.0",
+    "@types/eyes": "^0.1.31",
+    "@types/mkdirp": "^0.5.2",
+    "@types/socket.io": "^1.4.31",
+    "@types/ws": "^3.2.1",
+    "@types/mqtt-connection": "git+https://github.com/node-pinus/types-mqtt-connection.git",
+    "blanket": "~1.1.6",
+    "grunt": "^0.4.5",
+    "grunt-contrib-clean": "^0.5.0",
+    "grunt-contrib-jshint": "^0.8.0",
+    "grunt-mocha-test": "^0.8.2",
+    "mocha": "^4.1.0",
+    "muk": ">=0.0.1",
+    "should": "^3.3.2",
+    "typescript": "^2.6.2"
+  }
+}

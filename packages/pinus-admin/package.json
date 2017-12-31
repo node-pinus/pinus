@@ -1,0 +1,26 @@
+{
+    "name": "pinus-admin",
+    "version": "1.1.1",
+    "main": "./dist/index",
+    "types": "./dist/index.d.ts",
+    "files": [
+        "dist"
+    ],
+    "scripts": {
+        "build": "node_modules/.bin/tsc",
+        "test": "node_modules/.bin/tsc"
+    },
+    "dependencies": {
+        "@types/node": "^8.5.2",
+        "@types/mqtt-connection": "git+https://github.com/node-pinus/types-mqtt-connection.git",
+        "mqtt-connection": "^3.2.0",
+        "pinus-logger": "1.0.2",
+        "pinus-monitor": "1.0.3",
+        "pinus-scheduler": "1.0.8"
+    },
+    "devDependencies": {
+        "mocha": ">=0.0.1",
+        "should": ">=0.0.1",
+        "typescript": "^2.6.2"
+    }
+}

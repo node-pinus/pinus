@@ -1,0 +1,8 @@
+#!/usr/bin/env node
+/**
+ * Module dependencies
+ */
+
+let program = require('commander');
+let Monitor = require('../');
+

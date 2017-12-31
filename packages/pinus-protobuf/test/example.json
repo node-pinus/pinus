@@ -1,0 +1,257 @@
+{
+  "onMove" : {
+    "required uInt32 entityId" : 1,
+    "message Path": {
+      "required double x" : 1,
+      "required double y" : 2
+    },
+    "repeated Path path" : 2,
+    "required float speed" : 3
+  },
+  "onAttack" : {
+    "required uInt32 attacker" : 1,
+    "required uInt32 target" : 2,
+    "message AttackResult" : {
+      "required uInt32 result" :  1,
+      "required uInt32 damage" : 2,
+      "repeated Item items" : 4,
+      "message Item" : {
+        "required uInt32 kindId" : 1,
+        "required uInt32 x" : 2,
+        "required uInt32 y" : 3,
+        "required uInt32 entityId" : 4,
+        "required uInt32 playerId" : 5,
+        "required string type" : 6
+      }
+    },
+    "required AttackResult result" : 3,
+    "optional uInt32 exp" : 4,
+    "optional uInt32 reviveTime" : 5,
+    "required uInt32 skillId" : 6
+  },
+  "onUpgrade" : {
+    "required uInt32 entityId" : 1,
+    "required uInt32 kindId" : 2,
+    "required uInt32 x" : 3,
+    "required uInt32 y" : 4,
+    "required uInt32 level" : 5,
+    "required uInt32 walkSpeed" : 6,
+    "required uInt32 hp" : 7,
+    "required uInt32 maxHp" : 8,
+    "required uInt32 mp" : 9,
+    "required uInt32 maxMp" : 10,
+    "required uInt32 id" : 11,
+    "required string name" : 12,
+    "required uInt32 experience" : 13,
+    "required uInt32 attackValue" : 14,
+    "required uInt32 defenceValue" : 15,
+    "required double attackSpeed" : 16,
+    "required uInt32 areaId" : 17,
+    "required uInt32 hitRate" : 18,
+    "required uInt32 dodgeRate" : 19,
+    "required uInt32 nextLevelExp" : 20,
+    "required uInt32 skillPoint" : 21,
+    "required string kindName" : 22,
+    "required string type" : 23
+  },
+  "onPickItem" : {
+    "required uInt32 player" : 1,
+    "required uInt32 item" : 2,
+    "required uInt32 index" : 3
+  },
+  "onNPCTalk" : {
+    "required uInt32 npc" : 1,
+    "required string npcword" : 2,
+    "required string myword" : 3
+  },
+  "onRevive" : {
+    "required uInt32 entityId" : 1,
+    "required uInt32 x" : 2,
+    "required uInt32 y" : 3,
+    "required uInt32 hp" : 4
+  },
+  "onAddEntities" : {
+    "message NPC" : {
+      "required uInt32 entityId" : 1,
+      "required uInt32 kindId" : 2,
+      "required uInt32 x" : 3,
+      "required uInt32 y" : 4
+    },
+    "message Mob" : {
+      "required uInt32 entityId" : 1,
+      "required uInt32 kindId" : 2,
+      "required uInt32 x" : 3,
+      "required uInt32 y" : 4,
+      "required uInt32 level" : 5,
+      "required uInt32 walkSpeed" : 6,
+      "required uInt32 hp" : 7,
+      "required uInt32 maxHp" : 8
+    },
+    "message Item" : {
+      "required uInt32 entityId" : 1,
+      "required uInt32 kindId" : 2,
+      "required uInt32 x" : 3,
+      "required uInt32 y" : 4,
+      "required uInt32 playerId" : 5
+    },
+    "message Equipment" : {
+      "required uInt32 entityId" : 1,
+      "required uInt32 kindId" : 2,
+      "required uInt32 x" : 3,
+      "required uInt32 y" : 4,
+      "required uInt32 playerId" : 5
+    },
+    "message Player" : {
+      "required uInt32 entityId" : 1,
+      "required uInt32 kindId" : 2,
+      "required uInt32 x" : 3,
+      "required uInt32 y" : 4,
+      "required uInt32 level" : 5,
+      "required uInt32 walkSpeed" : 6,
+      "required uInt32 hp" : 7,
+      "required uInt32 maxHp" : 8,
+      "required uInt32 mp" : 9,
+      "required uInt32 maxMp" : 10,
+      "required uInt32 id" : 11,
+      "required string name" : 12
+    },
+    "repeated NPC npc" : 1,
+    "repeated Mob mob" : 2,
+    "repeated Item item" : 3,
+    "repeated Equipment euipment" : 4,
+    "repeated Player player" : 5
+  },
+  "onRemoveEntities" : {
+    "repeated uInt32 entities" : 1
+  },
+  "onPathCheckOut" : {
+    "required uInt32 entityId" : 1,
+    "message Position" : {
+      "required uInt32 x" : 1,
+      "required uInt32 y" : 2
+    },
+    "required Position position" : 2
+  },
+  "area.playerHandler.enterScene" : {
+    "message Entities" : {
+      "message NPC" : {
+        "required uInt32 entityId" : 1,
+        "required uInt32 kindId" : 2,
+        "required uInt32 x" : 3,
+        "required uInt32 y" : 4
+      },
+      "message Mob" : {
+        "required uInt32 entityId" : 1,
+        "required uInt32 kindId" : 2,
+        "required uInt32 x" : 3,
+        "required uInt32 y" : 4,
+        "required uInt32 level" : 5,
+        "required uInt32 walkSpeed" : 6,
+        "required uInt32 hp" : 7,
+        "required uInt32 maxHp" : 8
+      },
+      "message Item" : {
+        "required uInt32 entityId" : 1,
+        "required uInt32 kindId" : 2,
+        "required uInt32 x" : 3,
+        "required uInt32 y" : 4,
+        "required uInt32 playerId" : 5
+      },
+      "message Equipment" : {
+        "required uInt32 entityId" : 1,
+        "required uInt32 kindId" : 2,
+        "required uInt32 x" : 3,
+        "required uInt32 y" : 4,
+        "required uInt32 playerId" : 5
+      },
+      "message Player" : {
+        "required uInt32 entityId" : 1,
+        "required uInt32 kindId" : 2,
+        "required uInt32 x" : 3,
+        "required uInt32 y" : 4,
+        "required uInt32 level" : 5,
+        "required uInt32 walkSpeed" : 6,
+        "required uInt32 hp" : 7,
+        "required uInt32 maxHp" : 8,
+        "required uInt32 mp" : 9,
+        "required uInt32 maxMp" : 10,
+        "required uInt32 id" : 11,
+        "required string name" : 12
+      },
+      "repeated NPC npc" : 1,
+      "repeated Mob mob" : 2,
+      "repeated Item item" : 3,
+      "repeated Equipment euipment" : 4,
+      "repeated Player player" : 5
+    },
+    "message Player" : {
+      "message Bag" : {
+        "message Item" : {
+          "required uInt32 key" : 1,
+          "required uInt32 id" : 2,
+          "required string type" : 3
+        },
+        "required uInt32 itemCount" : 1,
+        "repeated Item items" : 2
+      },
+      "message Equipments" : {
+        "required uInt32 weapon" : 1,
+        "required uInt32 armor" : 2,
+        "required uInt32 helmet" : 3,
+        "required uInt32 necklace" : 4,
+        "required uInt32 ring" : 5,
+        "required uInt32 belt" : 6,
+        "required uInt32 shoes" : 7,
+        "required uInt32 legguard" : 8,
+        "required uInt32 amulet" : 9
+      },
+      "message FightSkill" : {
+        "required uInt32 id" : 1,
+        "required uInt32 level" : 2
+      },
+      "required uInt32 entityId" : 1,
+      "required uInt32 kindId" : 2,
+      "required uInt32 x" : 3,
+      "required uInt32 y" : 4,
+      "required uInt32 level" : 5,
+      "required uInt32 walkSpeed" : 6,
+      "required uInt32 hp" : 7,
+      "required uInt32 maxHp" : 8,
+      "required uInt32 mp" : 9,
+      "required uInt32 maxMp" : 10,
+      "required uInt32 id" : 11,
+      "required string name" : 12,
+      "required uInt32 experience" : 13,
+      "required uInt32 attackValue" : 14,
+      "required uInt32 defenceValue" : 15,
+      "required double attackSpeed" : 16,
+      "required uInt32 areaId" : 17,
+      "required uInt32 hitRate" : 18,
+      "required uInt32 dodgeRate" : 19,
+      "required uInt32 nextLevelExp" : 20,
+      "required uInt32 skillPoint" : 21,
+      "required string type" : 22,
+      "required Bag bag" : 23,
+      "required Equipments equipments" : 24,
+      "repeated FightSkill fightSkills" : 25
+    },
+    "optional Entities entities" : 1,
+    "optional Player curPlayer" : 2,
+    "message Map" : {
+      "message Collisions" : {
+        "message Collison" : {
+          "required uInt32 start" : 1,
+          "required uInt32 length" : 2
+        },
+        "repeated Collison collisions" : 1
+      },
+      "required string name" : 1,
+      "required uInt32 width" : 2,
+      "required uInt32 height" : 3,
+      "required uInt32 tileW" : 4,
+      "required uInt32 tileH" : 5,
+      "repeated Collisions weightMap" : 6
+    },
+    "required Map map" : 3
+  }
+}

@@ -1,0 +1,37 @@
+{
+	"name": "pinus-rpc",
+	"version": "1.0.7",
+	"main": "./dist/index",
+	"types": "./dist/index.d.ts",
+	"files": [
+		"dist"
+	],
+	"scripts": {
+		"build": "node_modules/.bin/tsc",
+		"test": "node_modules/.bin/tsc"
+	},
+	"dependencies": {
+		"@types/async": "^2.0.46",
+		"@types/crc": "^3.4.0",
+		"@types/node": "^8.5.2",
+		"@types/socket.io": "^1.4.31",
+		"@types/socket.io-client": "^1.4.32",
+		"@types/uuid": "^3.4.3",
+		"@types/ws": "^3.2.1",
+		"async": "^1.5.2",
+		"bearcat-buffer": "^0.1.x",
+		"crc": "^0.2.1",
+		"mqtt-connection": "^3.2.0",
+		"pinus-loader": "^1.0.2",
+		"pinus-logger": "^1.0.2",
+		"socket.io": "^2.0.4",
+		"stream-pkg": "0.0.5",
+		"uuid": "^3.1.0",
+		"ws": "^3.3.3"
+	},
+	"devDependencies": {
+		"mocha": "^4.1.0",
+		"should": "^13.2.0",
+		"typescript": "^2.6.2"
+	}
+}

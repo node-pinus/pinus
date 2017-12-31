@@ -1,0 +1,20 @@
+{
+ "name": "pinus-monitor",
+ "description": "monitor the operating-system and process information",
+ "version": "1.0.3",
+ "main": "./dist/index",
+ "types": "./dist/index.d.ts",
+ "files": [
+  "dist"
+ ],
+ "scripts": {
+  "build": "node_modules/.bin/tsc",
+  "test": "node_modules/.bin/tsc"
+ },
+ "dependencies": {
+  "@types/node": "^8.5.2"
+ },
+ "devDependencies": {
+  "typescript": "^2.6.2"
+ }
+}

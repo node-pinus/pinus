@@ -1,0 +1,247 @@
+{
+  "message Path": {
+    "x": {
+      "option": "required",
+      "type": "double",
+      "tag": 1
+    },
+    "y": {
+      "option": "required",
+      "type": "double",
+      "tag": 2
+    },
+    "__messages": {},
+    "__tags": {
+      "1": "x",
+      "2": "y"
+    }
+  },
+  "message Map": {
+    "name": {
+      "option": "required",
+      "type": "string",
+      "tag": 1
+    },
+    "width": {
+      "option": "required",
+      "type": "uInt32",
+      "tag": 2
+    },
+    "height": {
+      "option": "required",
+      "type": "uInt32",
+      "tag": 3
+    },
+    "tileW": {
+      "option": "required",
+      "type": "uInt32",
+      "tag": 4
+    },
+    "tileH": {
+      "option": "required",
+      "type": "uInt32",
+      "tag": 5
+    },
+    "weightMap": {
+      "option": "repeated",
+      "type": "Collisions",
+      "tag": 6
+    },
+    "__messages": {
+      "Collisions": {
+        "collisions": {
+          "option": "repeated",
+          "type": "Collison",
+          "tag": 1
+        },
+        "__messages": {
+          "Collison": {
+            "start": {
+              "option": "required",
+              "type": "uInt32",
+              "tag": 1
+            },
+            "length": {
+              "option": "required",
+              "type": "uInt32",
+              "tag": 2
+            },
+            "__messages": {},
+            "__tags": {
+              "1": "start",
+              "2": "length"
+            }
+          }
+        },
+        "__tags": {
+          "1": "collisions"
+        }
+      }
+    },
+    "__tags": {
+      "1": "name",
+      "2": "width",
+      "3": "height",
+      "4": "tileW",
+      "5": "tileH",
+      "6": "weightMap"
+    }
+  },
+  "message Item": {
+    "entityId": {
+      "option": "required",
+      "type": "uInt32",
+      "tag": 1
+    },
+    "kindId": {
+      "option": "required",
+      "type": "uInt32",
+      "tag": 2
+    },
+    "__messages": {},
+    "__tags": {
+      "1": "entityId",
+      "2": "kindId"
+    }
+  },
+  "message Equipment": {
+    "entityId": {
+      "option": "required",
+      "type": "uInt32",
+      "tag": 1
+    },
+    "kindId": {
+      "option": "required",
+      "type": "uInt32",
+      "tag": 2
+    },
+    "__messages": {},
+    "__tags": {
+      "1": "entityId",
+      "2": "kindId"
+    }
+  },
+  "message Entities": {
+    "item": {
+      "option": "repeated",
+      "type": "Item",
+      "tag": 1
+    },
+    "equipment": {
+      "option": "repeated",
+      "type": "Equipment",
+      "tag": 2
+    },
+    "__messages": {},
+    "__tags": {
+      "1": "item",
+      "2": "equipment"
+    }
+  },
+  "onMove": {
+    "entityId": {
+      "option": "required",
+      "type": "uInt32",
+      "tag": 1
+    },
+    "path": {
+      "option": "repeated",
+      "type": "Path",
+      "tag": 2
+    },
+    "speed": {
+      "option": "required",
+      "type": "float",
+      "tag": 3
+    },
+    "__messages": {},
+    "__tags": {
+      "1": "entityId",
+      "2": "path",
+      "3": "speed"
+    }
+  },
+  "area.playerHandler.enterScene": {
+    "entities": {
+      "option": "optional",
+      "type": "Entities",
+      "tag": 1
+    },
+    "curPlayer": {
+      "option": "optional",
+      "type": "Player",
+      "tag": 2
+    },
+    "map": {
+      "option": "required",
+      "type": "Map",
+      "tag": 3
+    },
+    "__messages": {
+      "Player": {
+        "entityId": {
+          "option": "required",
+          "type": "uInt32",
+          "tag": 1
+        },
+        "kindId": {
+          "option": "required",
+          "type": "uInt32",
+          "tag": 2
+        },
+        "bag": {
+          "option": "required",
+          "type": "Bag",
+          "tag": 3
+        },
+        "equipments": {
+          "option": "repeated",
+          "type": "Equipment",
+          "tag": 4
+        },
+        "__messages": {
+          "Bag": {
+            "items": {
+              "option": "repeated",
+              "type": "Item",
+              "tag": 1
+            },
+            "__messages": {
+              "Item": {
+                "id": {
+                  "option": "required",
+                  "type": "uInt32",
+                  "tag": 1
+                },
+                "type": {
+                  "option": "optional",
+                  "type": "string",
+                  "tag": 2
+                },
+                "__messages": {},
+                "__tags": {
+                  "1": "id",
+                  "2": "type"
+                }
+              }
+            },
+            "__tags": {
+              "1": "items"
+            }
+          }
+        },
+        "__tags": {
+          "1": "entityId",
+          "2": "kindId",
+          "3": "bag",
+          "4": "equipments"
+        }
+      }
+    },
+    "__tags": {
+      "1": "entities",
+      "2": "curPlayer",
+      "3": "map"
+    }
+  }
+}
