@@ -1,6 +1,6 @@
 {
  "name": "pinus-protocol",
- "version": "1.2.7-0",
+ "version": "1.2.7",
  "private": false,
  "main": "./dist",
  "types": "./dist/index.d.ts",
