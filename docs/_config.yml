@@ -5,7 +5,7 @@ language:
 - zh-cn
 - en
 timezone: UTC
-url: http://pinus.io
+url: https://pinus.io
 root: /
 archive_dir: news
 permalink: news/:year/:month/:day/:title/
