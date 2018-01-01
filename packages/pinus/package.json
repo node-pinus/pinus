@@ -1,6 +1,6 @@
 {
   "name": "pinus",
-  "version": "1.2.4",
+  "version": "1.2.6",
   "homepage": "https://github.com/mybios/pinus",
   "repository": {
     "type": "git",
@@ -47,13 +47,13 @@
     "mkdirp": "^0.5.1",
     "mqtt-connection": "^3.2.0",
     "node-bignumber": "^1.2.1",
-    "pinus-admin": "^1.2.4",
-    "pinus-loader": "^1.2.3",
-    "pinus-logger": "^1.2.4",
-    "pinus-protobuf": "^1.2.3",
-    "pinus-protocol": "^1.2.3",
-    "pinus-rpc": "^1.2.4",
-    "pinus-scheduler": "^1.2.3",
+    "pinus-admin": "^1.2.6",
+    "pinus-loader": "^1.2.6",
+    "pinus-logger": "^1.2.6",
+    "pinus-protobuf": "^1.2.6",
+    "pinus-protocol": "^1.2.6",
+    "pinus-rpc": "^1.2.6",
+    "pinus-scheduler": "^1.2.6",
     "seq-queue": "^0.0.5",
     "socket.io": "^2.0.4",
     "ws": "^3.3.3"
@@ -78,8 +78,8 @@
     "grunt-mocha-test": "^0.8.2",
     "mocha": "^4.1.0",
     "muk": ">=0.0.1",
+    "nyc": "^8.4.0",
     "should": "^3.3.2",
-    "typescript": "^2.6.2",
-    "nyc": "^8.4.0"
+    "typescript": "^2.6.2"
   }
 }

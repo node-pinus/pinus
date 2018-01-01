@@ -1,6 +1,6 @@
 {
     "name": "pinus-admin",
-    "version": "1.2.4",
+    "version": "1.2.6",
     "main": "./dist/index",
     "types": "./dist/index.d.ts",
     "files": [
@@ -14,14 +14,14 @@
         "cov": "nyc mocha",
         "ci": "npm run test",
         "gen-api-ref": "node ../../node_modules/typedoc/bin/typedoc --mode file --hideGenerator --excludeExternals --ignoreCompilerErrors --out ../../run/site/public/api-reference/pinus-admin lib/"
-      },
+    },
     "dependencies": {
         "@types/mqtt-connection": "git+https://github.com/node-pinus/types-mqtt-connection.git",
         "@types/node": "^8.5.2",
         "mqtt-connection": "^3.2.0",
-        "pinus-logger": "^1.2.4",
-        "pinus-monitor": "^1.2.3",
-        "pinus-scheduler": "^1.2.3"
+        "pinus-logger": "^1.2.6",
+        "pinus-monitor": "^1.2.6",
+        "pinus-scheduler": "^1.2.6"
     },
     "devDependencies": {
         "mocha": ">=0.0.1",

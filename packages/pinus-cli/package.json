@@ -1,11 +1,10 @@
 {
   "name": "pinus-cli",
-  "version": "1.2.5",
+  "version": "1.2.6",
   "description": "pinus command line client for managing pinus",
   "files": [
     "dist"
   ],
-
   "scripts": {
     "build": "node ../../node_modules/typescript/bin/tsc",
     "start": "npm run build && node dist/index",
@@ -35,8 +34,8 @@
     "async": "^2.6.0",
     "cliff": "^0.1.10",
     "optimist": "^0.6.1",
-    "pinus-admin": "^1.2.4",
-    "pinus-logger": "^1.2.4"
+    "pinus-admin": "^1.2.6",
+    "pinus-logger": "^1.2.6"
   },
   "devDependencies": {
     "typescript": "^2.6.2"

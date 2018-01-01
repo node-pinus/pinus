@@ -1,22 +1,21 @@
 {
  "name": "pinus-monitor",
  "description": "monitor the operating-system and process information",
- "version": "1.2.3",
+ "version": "1.2.6",
  "main": "./dist/index",
  "types": "./dist/index.d.ts",
  "files": [
   "dist"
  ],
-
  "scripts": {
-    "build": "node ../../node_modules/typescript/bin/tsc",
-    "start": "npm run build && node dist/index",
-    "lint": "node ../../node_modules/tslint/bin/tslint --format prose -c ../../tslint.json lib/**/*.ts test/**/*.ts",
-    "test": "npm run build",
-    "cov": "nyc mocha",
-    "ci": "npm run test",
-    "gen-api-ref": "node ../../node_modules/typedoc/bin/typedoc --mode file --hideGenerator --excludeExternals --ignoreCompilerErrors --out ../../run/site/public/api-reference/pinus-monitor lib/"
-  },
+  "build": "node ../../node_modules/typescript/bin/tsc",
+  "start": "npm run build && node dist/index",
+  "lint": "node ../../node_modules/tslint/bin/tslint --format prose -c ../../tslint.json lib/**/*.ts test/**/*.ts",
+  "test": "npm run build",
+  "cov": "nyc mocha",
+  "ci": "npm run test",
+  "gen-api-ref": "node ../../node_modules/typedoc/bin/typedoc --mode file --hideGenerator --excludeExternals --ignoreCompilerErrors --out ../../run/site/public/api-reference/pinus-monitor lib/"
+ },
  "dependencies": {
   "@types/node": "^8.5.2"
  },

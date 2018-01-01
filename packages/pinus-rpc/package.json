@@ -1,12 +1,11 @@
 {
 	"name": "pinus-rpc",
-	"version": "1.2.4",
+	"version": "1.2.6",
 	"main": "./dist/index",
 	"types": "./dist/index.d.ts",
 	"files": [
 		"dist"
 	],
-
 	"scripts": {
 		"build": "node ../../node_modules/typescript/bin/tsc",
 		"start": "npm run build && node dist/index",
@@ -15,7 +14,7 @@
 		"cov": "nyc mocha",
 		"ci": "npm run test",
 		"gen-api-ref": "node ../../node_modules/typedoc/bin/typedoc --mode file --hideGenerator --excludeExternals --ignoreCompilerErrors --out ../../run/site/public/api-reference/pinus-rpc lib/"
-	  },
+	},
 	"dependencies": {
 		"@types/async": "^2.0.46",
 		"@types/crc": "^3.4.0",
@@ -28,8 +27,8 @@
 		"bearcat-buffer": "^0.1.x",
 		"crc": "^0.2.1",
 		"mqtt-connection": "^3.2.0",
-		"pinus-loader": "^1.2.3",
-		"pinus-logger": "^1.2.4",
+		"pinus-loader": "^1.2.6",
+		"pinus-logger": "^1.2.6",
 		"socket.io": "^2.0.4",
 		"stream-pkg": "0.0.5",
 		"uuid": "^3.1.0",

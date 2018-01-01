@@ -1,6 +1,6 @@
 {
   "name": "pinus-protobuf",
-  "version": "1.2.3",
+  "version": "1.2.6",
   "main": "./dist/protobuf",
   "types": "./dist/protobuf.d.ts",
   "dependencies": {
@@ -9,7 +9,6 @@
   "files": [
     "dist"
   ],
-
   "scripts": {
     "build": "node ../../node_modules/typescript/bin/tsc",
     "start": "npm run build && node dist/index",
