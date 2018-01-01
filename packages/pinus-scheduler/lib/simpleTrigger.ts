@@ -5,6 +5,40 @@ import { Job } from "./job";
  */
 let SKIP_OLD_JOB = false;
 
+/**
+ *
+ //Fire 10000ms after now, and run 10 times with a 1000ms interval.
+var trigger1 = {
+  start : Date.now() + 10000, //Start time, use the time in date object
+  period : 1000,      //Fire interval, the precision is millisecond
+  count : 10          //Fire times, in this case the trigger will fire 10 times.   
+}
+
+//Fire right now, and run 10 times with 1000ms interval.
+var trigger2 = {
+  period : 1000,
+  count : 10
+}
+
+//Fire right now, and run for ever with 1000ms interval.
+var trigger3 = {
+  period : 1000
+}
+
+//Fire 3000ms after right now, run only once.
+var trigger4 = {
+  start : Date.now() + 3000;
+}
+
+//The job will fire right now, run only once.
+var trigger5 = {
+}
+
+//Illegal! The 'count' attribute cannot used alone without 'period'.  
+var trigger6 = {
+  count : 10;
+}
+ */
 export interface SimpleTriggerOpts
 {
     start?:number;

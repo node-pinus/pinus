@@ -297,7 +297,7 @@ var genRouteFun = function ()
     };
 };
 
-export type RouteCallback = (err : Error , serverId ?: string)=>void;
+export type RouteCallback = (err : Error , routeToServerId ?: string)=>void;
 
 var defaultRoute = function (session : Session, msg : any, app : Application, cb : RouteCallback)
 {
@@ -313,5 +313,5 @@ var defaultRoute = function (session : Session, msg : any, app : Application, cb
     utils.invokeCallback(cb, null, list[index].id);
 };
 
-export type RouteFunction = (session : Session, msg : any, app : Application, cb : RouteCallback)=>void;
+export type RouteFunction = (routeFrom : any, msg : any, app : Application, cb : RouteCallback)=>void;
 export type RouteMaps = {[key : string] : RouteFunction};
