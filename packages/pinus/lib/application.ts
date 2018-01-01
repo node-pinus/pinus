@@ -411,9 +411,9 @@ export class Application
         var cfg = require(val);
         if (cfg[env])
         {
-            val = cfg[env];
+            cfg = cfg[env];
         }
-        this.set(key, val);
+        this.set(key, cfg);
     };
 
     /**
