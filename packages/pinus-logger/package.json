@@ -1,6 +1,6 @@
 {
     "name": "pinus-logger",
-    "version": "1.2.9-2",
+    "version": "1.2.9-3",
     "private": false,
     "main": "./dist/index",
     "types": "./dist/index.d.ts",
