@@ -1,14 +1,16 @@
 import * as Loader from 'pinus-loader';
 import * as Gateway from './gateway';
+import { Services, Remoters } from './dispatcher';
 
- let loadRemoteServices = function (paths: Array<Gateway.RemoteServerCode>, context: object): object
+
+let loadRemoteServices = function (paths: Array<Gateway.RemoteServerCode>, context: object, res: Services): Services
 {
-    let res: {[key:string]: any} = {},
-        item, m: {[key:string]: any};
+    res = res || {};
+    let item : Gateway.RemoteServerCode, m: Remoters;
     for (let i = 0, l = paths.length; i < l; i++)
     {
         item = paths[i];
-        m = Loader.load(item.path, context);
+        m = Loader.load(item.path, context, false);
 
         if (m)
         {
@@ -23,7 +25,7 @@ import * as Gateway from './gateway';
     return res;
 };
 
-let createNamespace = function (namespace: string, proxies: {[key:string]: any})
+let createNamespace = function (namespace: string, proxies: Services)
 {
     proxies[namespace] = proxies[namespace] || {};
 };
@@ -45,7 +47,7 @@ export function createServer(opts: Gateway.RpcServerOpts)
     {
         throw new Error('opts.port or opts.paths invalid.');
     }
-    let services = loadRemoteServices(opts.paths, opts.context);
+    let services = loadRemoteServices(opts.paths, opts.context, opts.services);
     opts.services = services;
     let gateway = Gateway.createGateway(opts);
     return gateway;

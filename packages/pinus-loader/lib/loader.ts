@@ -21,7 +21,7 @@ import * as path from 'path';
  *                           module factory function.
  * @return {Object}          module that has loaded.
  */
-export function load(mpath: string, context : any)
+export function load(mpath: string, context : any, reload : boolean)
 {
 	if (!mpath)
 	{
@@ -41,12 +41,12 @@ export function load(mpath: string, context : any)
 		throw new Error('path should be directory.');
 	}
 
-	return loadPath(mpath, context);
+	return loadPath(mpath, context, reload);
 };
 
-var loadFile = function (fp: string, context : any)
+export function loadFile(fp: string, context : any, reload : boolean)
 {
-	var m = requireUncached(fp);
+	var m  = reload ? requireUncached(fp) : require(fp);
 
 	if (!m)
 	{
@@ -67,7 +67,7 @@ var loadFile = function (fp: string, context : any)
 	return m;
 };
 
-var loadPath = function (path : string, context : any)
+export function loadPath(path : string, context : any, reload : boolean)
 {
 	var files = fs.readdirSync(path);
 	if (files.length === 0)
@@ -93,7 +93,7 @@ var loadPath = function (path : string, context : any)
 			continue;
 		}
 
-		m = loadFile(fp, context);
+		m = loadFile(fp, context, reload);
 
 		if (!m)
 		{
@@ -113,7 +113,7 @@ var loadPath = function (path : string, context : any)
  * @param fn {String} file name
  * @param suffix {String} suffix string, such as .js, etc.
  */
-var checkFileType = function (fn : string, suffix : string)
+export function checkFileType(fn : string, suffix : string)
 {
 	if (suffix.charAt(0) !== '.')
 	{

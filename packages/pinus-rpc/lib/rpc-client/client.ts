@@ -13,6 +13,7 @@ import {RpcServerInfo, MailStation, MailStationErrorHandler, RpcFilter} from './
 import { ErrorCallback } from 'async';
 import { MailBoxFactory } from './mailbox';
 import { ConsistentHash } from '../util/consistentHash';
+import { RemoteServerCode } from '../../index';
 
 /**
  * Client states
@@ -142,7 +143,7 @@ export class RpcClient
      * @param {Object} record proxy description record, format:
      *                        {namespace, serverType, path}
      */
-    addProxy(record: {namespace: string, serverType: string, path: string})
+    addProxy(record: RemoteServerCode)
     {
         if (!record)
         {
@@ -161,7 +162,7 @@ export class RpcClient
      *
      * @param {Array} records list of proxy description record
      */
-    addProxies(records: {namespace: string, serverType: string, path: string}[])
+    addProxies(records: RemoteServerCode[])
     {
         if (!records || !records.length)
         {
@@ -322,14 +323,14 @@ let createStation = function (opts: RpcClientOpts)
  *
  * @api private
  */
-let generateProxy = function (client: RpcClient, record: {namespace: string, serverType:string, path: string}, context: object)
+let generateProxy = function (client: RpcClient, record: RemoteServerCode, context: object)
 {
     if (!record)
     {
         return;
     }
     let res: {[key:string]: any}, name;
-    let modules: {[key:string]: any} = Loader.load(record.path, context);
+    let modules: {[key:string]: any} = Loader.load(record.path, context, false);
     if (modules)
     {
         res = {};

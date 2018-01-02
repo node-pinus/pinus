@@ -1,6 +1,6 @@
 import {createAcceptor} from './acceptor';
 import { EventEmitter } from 'events';
-import { Dispatcher, MsgPkg } from './dispatcher';
+import { Dispatcher, MsgPkg, Services } from './dispatcher';
 import * as Loader from 'pinus-loader';
 import * as utils from '../util/utils';
 import {Tracer} from '../util/tracer'
@@ -12,12 +12,13 @@ export interface RpcServerOpts {
     port?: number|string,
     paths?: Array<RemoteServerCode>,
     context?: object,
-    services?: object
+    services?: Services
     acceptorFactory?: typeof createAcceptor
 }
 
 export interface RemoteServerCode {
     namespace: string,
+    serverType:string,
     path: string
 }
 
@@ -27,7 +28,7 @@ export class Gateway extends EventEmitter
     port: number;
     started = false;
     stoped = false;
-    services: any;
+    services: Services;
     acceptor: any;
     constructor(opts: RpcServerOpts)
     {
@@ -92,7 +93,7 @@ export class Gateway extends EventEmitter
                     {
                         let res: {[key: string]: any} = {};
                         let item = paths[index];
-                        let m: {[key:string]: any} = Loader.load(item.path, app);
+                        let m: {[key:string]: any} = Loader.load(item.path, app, true);
                         if (m)
                         {
                             createNamespace(item.namespace, res);

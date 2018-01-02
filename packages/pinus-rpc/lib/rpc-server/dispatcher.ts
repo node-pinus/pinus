@@ -10,16 +10,27 @@ export interface MsgPkg{
     service: string
 }
 
+export type RemoteMethod = (...args:any[])=>Promise<any>;
+export type Remoter = {[method:string]:RemoteMethod};
+export type Remoters = {[service:string]:Remoter};
+export type Services = {[namespace:string]:Remoters};
+
 export class Dispatcher extends EventEmitter
 {
-    services: { [key: string]: { [key: string]: { [key: string]: Function } } };
-    constructor(services: { [key: string]: { [key: string]: { [key: string]: Function } } })
+    services: Services;
+    constructor(services: Services)
     {
         super();
         var self = this;
         this.on('reload', function (services)
         {
-            self.services = services;
+            for(var namespace in services)
+            {
+                for(var service in services[namespace])
+                {
+                    self.services[namespace][service] = services[namespace][service];
+                }
+            }
         });
         this.services = services;
     };

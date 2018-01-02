@@ -10,7 +10,7 @@ export let consts = {
 
 	HELP_INFO_1: [
 		"\nFor information about Pinus products and services, visit:",
-		"   http://pinus.com/",
+		"   https://pinus.io/",
 		"\nList of all Pinus commands:\n"
 	],
 
