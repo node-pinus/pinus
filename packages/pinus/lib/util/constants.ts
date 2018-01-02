@@ -1,3 +1,5 @@
+import { RemoteServerCode } from "../../index";
+
 export enum KEYWORDS{
     BEFORE_FILTER= '__befores__',
     AFTER_FILTER= '__afters__',
@@ -142,4 +144,7 @@ export interface ServerInfo
     ["restart-force"] ?: boolean;
     ["auto-restart"] ?: boolean;
     ['clusterCount'] ?: number;
+
+    handlerPaths ?: string[];
+    remoterPaths ?: RemoteServerCode[];
 }

@@ -4,8 +4,8 @@ import * as util from 'util';
 import * as net from 'net';
 import * as WebSocket from 'ws';
 
-var ST_STARTED = 1;
-var ST_CLOSED = 2;
+let ST_STARTED = 1;
+let ST_CLOSED = 2;
 
 /**
  * websocket protocol processor
@@ -21,7 +21,7 @@ export class WSProcessor extends EventEmitter
         super();
         this.httpServer = new HttpServer();
 
-        var self = this;
+        let self = this;
         this.wsServer = new WebSocket.Server({ server: this.httpServer });
 
         this.wsServer.on('connection', function (socket)

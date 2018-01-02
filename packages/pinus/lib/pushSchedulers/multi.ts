@@ -3,7 +3,7 @@ import { Application } from "../application";
 import { isFunction } from "util";
 import { getLogger } from 'pinus-logger';
 import { SID } from "../util/constants";
-var logger = getLogger('pinus', __filename);
+let logger = getLogger('pinus', __filename);
 
 export type IPushSelector = (reqId : number, route : string, msg : any, recvs : number[], opts : any)=>number
 
@@ -24,7 +24,7 @@ export class MultiPushScheduler implements IPushScheduler
     constructor(app : Application, opts : MultiPushSchedulerOptions)
     {
         opts = opts || {};
-        var scheduler = opts.scheduler;
+        let scheduler = opts.scheduler;
         if (Array.isArray(scheduler))
         {
             this.scheduler = {};
@@ -64,9 +64,9 @@ export class MultiPushScheduler implements IPushScheduler
      */
     async start()
     {
-        for (var k in this.scheduler)
+        for (let k in this.scheduler)
         {
-            var sch = this.scheduler[k];
+            let sch = this.scheduler[k];
             if (typeof sch.start === 'function')
             {
                 await sch.start();
@@ -82,9 +82,9 @@ export class MultiPushScheduler implements IPushScheduler
      */
     async stop()
     {
-        for (var k in this.scheduler)
+        for (let k in this.scheduler)
         {
-            var sch = this.scheduler[k];
+            let sch = this.scheduler[k];
             if (typeof sch.stop === 'function')
             {
                 await sch.stop();
@@ -103,8 +103,8 @@ export class MultiPushScheduler implements IPushScheduler
      */
     schedule(reqId : number, route : string, msg : any, recvs : SID[], opts : ScheduleOptions, cb : (err?:Error)=>void)
     {
-        var self = this;
-        var id = self.selector(reqId, route, msg, recvs, opts);
+        let self = this;
+        let id = self.selector(reqId, route, msg, recvs, opts);
     
         if (self.scheduler[id])
         {

@@ -1,7 +1,7 @@
-import { getLogger } from 'pinus-logger'; var logger = getLogger('pinus', __filename);
+import { getLogger } from 'pinus-logger'; let logger = getLogger('pinus', __filename);
 import * as taskManager from '../common/manager/taskManager';
 import { pinus } from '../pinus';
-var rsa = require("node-bignumber");
+let rsa = require("node-bignumber");
 import { default as events } from '../util/events';
 import * as utils from '../util/utils';
 import { Application } from '../application';
@@ -146,7 +146,7 @@ export class ConnectorComponent implements IComponent
             return this.sendAsync(reqId, route, msg, recvs, opts, cb);
         }
 
-        var emsg = msg;
+        let emsg = msg;
         if (this.encode)
         {
             // use costumized encode
@@ -162,8 +162,8 @@ export class ConnectorComponent implements IComponent
 
     sendAsync(reqId: number, route: string, msg: any, recvs: SID[], opts: ScheduleOptions, cb: (err?: Error, resp ?: any) => void)
     {
-        var emsg = msg;
-        var self = this;
+        let emsg = msg;
+        let self = this;
 
         /*
         if (this.encode)
@@ -212,7 +212,7 @@ export class ConnectorComponent implements IComponent
 
     setPubKey(id : number, key : {rsa_n : string , rsa_e : string})
     {
-        var pubKey = new rsa.Key();
+        let pubKey = new rsa.Key();
         pubKey.n = new rsa.BigInteger(key.rsa_n, 16);
         pubKey.e = key.rsa_e;
         this.keys[id] = pubKey;
@@ -231,12 +231,12 @@ export class ConnectorComponent implements IComponent
             return cb(socket);
         }
 
-        var ip = socket.remoteAddress.ip;
-        var check = function (list : string[])
+        let ip = socket.remoteAddress.ip;
+        let check = function (list : string[])
         {
-            for (var address in list)
+            for (let address in list)
             {
-                var exp = new RegExp(list[address]);
+                let exp = new RegExp(list[address]);
                 if (exp.test(ip))
                 {
                     socket.disconnect();
@@ -253,7 +253,7 @@ export class ConnectorComponent implements IComponent
         // static check
         if (!!this.blacklistFun && typeof this.blacklistFun === 'function')
         {
-            var self = this;
+            let self = this;
             self.blacklistFun((err, list)=>
             {
                 if (!!err)
@@ -285,12 +285,12 @@ export class ConnectorComponent implements IComponent
 
     bindEvents(socket: ISocket)
     {
-        var curServer = this.app.getCurServer();
-        var maxConnections = curServer['max-connections'];
+        let curServer = this.app.getCurServer();
+        let maxConnections = curServer['max-connections'];
         if (this.connection && maxConnections)
         {
             this.connection.increaseConnectionCount();
-            var statisticInfo = this.connection.getStatisticsInfo();
+            let statisticInfo = this.connection.getStatisticsInfo();
             if (statisticInfo.totalConnCount > maxConnections)
             {
                 logger.warn('the server %s has reached the max connections %s', curServer.id, maxConnections);
@@ -300,8 +300,8 @@ export class ConnectorComponent implements IComponent
         }
 
         //create session for connection
-        var session = this.getSession(socket);
-        var closed = false;
+        let session = this.getSession(socket);
+        let closed = false;
 
         socket.on('disconnect',  ()=>
         {
@@ -332,7 +332,7 @@ export class ConnectorComponent implements IComponent
         // new message
         socket.on('message',  (msg)=>
         {
-            var dmsg = msg;
+            let dmsg = msg;
             if (this.useAsyncCoder)
             {
                 return this.handleMessageAsync(msg, session, socket);
@@ -354,7 +354,7 @@ export class ConnectorComponent implements IComponent
             // use rsa crypto
             if (this.useCrypto)
             {
-                var verified = this.verifyMessage(session, dmsg);
+                let verified = this.verifyMessage(session, dmsg);
                 if (!verified)
                 {
                     logger.error('fail to verify the data received from client.');
@@ -408,7 +408,7 @@ export class ConnectorComponent implements IComponent
         // use rsa crypto
         if (this.useCrypto)
         {
-            var verified = this.verifyMessage(session, dmsg);
+            let verified = this.verifyMessage(session, dmsg);
             if (!verified)
             {
                 logger.error('fail to verify the data received from client.');
@@ -424,9 +424,9 @@ export class ConnectorComponent implements IComponent
      */
     getSession(socket : ISocket)
     {
-        var app = this.app,
+        let app = this.app,
             sid = socket.id;
-        var session = this.session.get(sid);
+        let session = this.session.get(sid);
         if (session)
         {
             return session;
@@ -475,7 +475,7 @@ export class ConnectorComponent implements IComponent
     handleMessage(session : Session, msg : any)
     {
         //logger.debug('[%s] handleMessage session id: %s, msg: %j', this.app.serverId, session.id, msg);
-        var type = this.checkServerType(msg.route);
+        let type = this.checkServerType(msg.route);
         if (!type)
         {
             logger.error('invalid route string. route : %j', msg.route);
@@ -494,7 +494,7 @@ export class ConnectorComponent implements IComponent
             {
                 resp.code = 500;
             }
-            var opts : ScheduleOptions = {
+            let opts : ScheduleOptions = {
                 type: 'response'
             }
 
@@ -512,7 +512,7 @@ export class ConnectorComponent implements IComponent
         {
             return null;
         }
-        var idx = route.indexOf('.');
+        let idx = route.indexOf('.');
         if (idx < 0)
         {
             return null;
@@ -522,14 +522,14 @@ export class ConnectorComponent implements IComponent
 
     verifyMessage(session : Session, msg : any)
     {
-        var sig = msg.body.__crypto__;
+        let sig = msg.body.__crypto__;
         if (!sig)
         {
             logger.error('receive data from client has no signature [%s]', this.app.serverId);
             return false;
         }
 
-        var pubKey;
+        let pubKey;
 
         if (!session)
         {
@@ -562,7 +562,7 @@ export class ConnectorComponent implements IComponent
 
         delete msg.body.__crypto__;
 
-        var message = JSON.stringify(msg.body);
+        let message = JSON.stringify(msg.body);
         if (utils.hasChineseChar(message))
             message = utils.unicodeToUtf8(message);
 
@@ -570,9 +570,9 @@ export class ConnectorComponent implements IComponent
     };
 
 }
-var getConnector = function (app : Application, opts : any)
+let getConnector = function (app : Application, opts : any)
 {
-    var connector = opts.connector;
+    let connector = opts.connector;
     if (!connector)
     {
         return getDefaultConnector(app, opts);
@@ -583,12 +583,12 @@ var getConnector = function (app : Application, opts : any)
         return connector;
     }
 
-    var curServer = app.getCurServer();
+    let curServer = app.getCurServer();
     return new connector(curServer.clientPort, curServer.host, opts);
 };
 
-var getDefaultConnector = function (app : Application, opts : SIOConnectorOptions)
+let getDefaultConnector = function (app : Application, opts : SIOConnectorOptions)
 {
-    var curServer = app.getCurServer();
+    let curServer = app.getCurServer();
     return new SIOConnector(curServer.clientPort, curServer.host, opts);
 };

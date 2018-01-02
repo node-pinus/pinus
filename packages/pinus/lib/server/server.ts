@@ -2,7 +2,7 @@
  * Implementation of server component.
  * Init and start server instance.
  */
-import { getLogger } from 'pinus-logger'; var logger = getLogger('pinus', __filename);
+import { getLogger } from 'pinus-logger'; let logger = getLogger('pinus', __filename);
 import * as fs from 'fs';
 import * as path from 'path';
 import * as pathUtil from '../util/pathUtil';
@@ -18,9 +18,9 @@ import { EventEmitter } from 'events';
 import { RouteRecord } from '../util/constants';
 import { BackendSession, FrontendSession } from '../../index';
 
-var ST_INITED = 0;    // server inited
-var ST_STARTED = 1;   // server started
-var ST_STOPED = 2;    // server stoped
+let ST_INITED = 0;    // server inited
+let ST_STARTED = 1;   // server started
+let ST_STOPED = 2;    // server stoped
 
 export type ServerOptions = HandlerServiceOptions;
 
@@ -113,15 +113,15 @@ export class Server extends EventEmitter
             return;
         }
 
-        var routeRecord = parseRoute(msg.route);
+        let routeRecord = parseRoute(msg.route);
         if (!routeRecord)
         {
             utils.invokeCallback(cb, new Error(`meet unknown route message ${msg.route}`));
             return;
         }
 
-        var self = this;
-        var dispatch = function (err : Error, resp : any)
+        let self = this;
+        let dispatch = function (err : Error, resp : any)
         {
             if (err)
             {
@@ -160,7 +160,7 @@ export class Server extends EventEmitter
             return;
         }
 
-        var routeRecord = parseRoute(msg.route);
+        let routeRecord = parseRoute(msg.route);
         doHandle(this, msg, session, routeRecord, cb);
     };
 
@@ -172,9 +172,9 @@ export class Server extends EventEmitter
     addCrons(crons : Cron[])
     {
         this.cronHandlers = loadCronHandlers(this.app);
-        for (var i = 0, l = crons.length; i < l; i++)
+        for (let i = 0, l = crons.length; i < l; i++)
         {
-            var cron = crons[i];
+            let cron = crons[i];
             checkAndAdd(cron, this.crons, this);
         }
         scheduleCrons(this, crons);
@@ -187,10 +187,10 @@ export class Server extends EventEmitter
      */
     removeCrons(crons : Cron[])
     {
-        for (var i = 0, l = crons.length; i < l; i++)
+        for (let i = 0, l = crons.length; i < l; i++)
         {
-            var cron = crons[i];
-            var id = parseInt(cron.id);
+            let cron = crons[i];
+            let id = parseInt(cron.id);
             if (!!this.jobs[id])
             {
                 schedule.cancelJob(this.jobs[id]);
@@ -202,10 +202,10 @@ export class Server extends EventEmitter
     };
 }
 
-var initFilter = function (isGlobal : boolean, app : Application)
+let initFilter = function (isGlobal : boolean, app : Application)
 {
-    var service = new FilterService();
-    var befores, afters;
+    let service = new FilterService();
+    let befores, afters;
 
     if (isGlobal)
     {
@@ -217,7 +217,7 @@ var initFilter = function (isGlobal : boolean, app : Application)
         afters = app.get(Constants.KEYWORDS.AFTER_FILTER);
     }
 
-    var i, l;
+    let i, l;
     if (befores)
     {
         for (i = 0, l = befores.length; i < l; i++)
@@ -237,7 +237,7 @@ var initFilter = function (isGlobal : boolean, app : Application)
     return service;
 };
 
-var initHandler = function (app : Application, opts : HandlerServiceOptions)
+let initHandler = function (app : Application, opts : HandlerServiceOptions)
 {
     return new HandlerService(app, opts);
 };
@@ -245,22 +245,22 @@ var initHandler = function (app : Application, opts : HandlerServiceOptions)
 /**
  * Load cron handlers from current application
  */
-var loadCronHandlers = function (app : Application)
+let loadCronHandlers = function (app : Application)
 {
-    var p = pathUtil.getCronPath(app.getBase(), app.getServerType());
+    let p = pathUtil.getCronPath(app.getBase(), app.getServerType());
     if (p)
     {
-        return Loader.load(p, app);
+        return Loader.load(p, app, false);
     }
 };
 
 /**
  * Load crons from configure file
  */
-var loadCrons = function (server : Server, app : Application)
+let loadCrons = function (server : Server, app : Application)
 {
-    var env = app.get(Constants.RESERVED.ENV);
-    var p = path.join(app.getBase(), Constants.FILEPATH.CRON);
+    let env = app.get(Constants.RESERVED.ENV);
+    let p = path.join(app.getBase(), Constants.FILEPATH.CRON);
     if (!fs.existsSync(p))
     {
         p = path.join(app.getBase(), Constants.FILEPATH.CONFIG_DIR, env, path.basename(Constants.FILEPATH.CRON));
@@ -270,13 +270,13 @@ var loadCrons = function (server : Server, app : Application)
         }
     }
     app.loadConfigBaseApp(Constants.RESERVED.CRONS, Constants.FILEPATH.CRON);
-    var crons = app.get(Constants.RESERVED.CRONS);
-    for (var serverType in crons)
+    let crons = app.get(Constants.RESERVED.CRONS);
+    for (let serverType in crons)
     {
         if (app.serverType === serverType)
         {
-            var list = crons[serverType];
-            for (var i = 0; i < list.length; i++)
+            let list = crons[serverType];
+            for (let i = 0; i < list.length; i++)
             {
                 if (!list[i].serverId)
                 {
@@ -296,9 +296,9 @@ var loadCrons = function (server : Server, app : Application)
 /**
  * Fire before filter chain if any
  */
-var beforeFilter = function (isGlobal: boolean, server: Server, routeRecord: RouteRecord, msg: any, session: FrontendOrBackendSession, cb: HandlerCallback)
+let beforeFilter = function (isGlobal: boolean, server: Server, routeRecord: RouteRecord, msg: any, session: FrontendOrBackendSession, cb: HandlerCallback)
 {
-    var fm;
+    let fm;
     if (isGlobal)
     {
         fm = server.globalFilterService;
@@ -318,9 +318,9 @@ var beforeFilter = function (isGlobal: boolean, server: Server, routeRecord: Rou
 /**
  * Fire after filter chain if have
  */
-var afterFilter = function (isGlobal: boolean, server: Server, err: Error, routeRecord: RouteRecord, msg: any, session: FrontendOrBackendSession, resp: any, cb: HandlerCallback)
+let afterFilter = function (isGlobal: boolean, server: Server, err: Error, routeRecord: RouteRecord, msg: any, session: FrontendOrBackendSession, resp: any, cb: HandlerCallback)
 {
-    var fm;
+    let fm;
     if (isGlobal)
     {
         fm = server.globalFilterService;
@@ -349,9 +349,9 @@ var afterFilter = function (isGlobal: boolean, server: Server, err: Error, route
 /**
  * pass err to the global error handler if specified
  */
-var handleError = function (isGlobal: boolean, server: Server, err: Error, msg: any, session: FrontendOrBackendSession, resp: any, cb: HandlerCallback)
+let handleError = function (isGlobal: boolean, server: Server, err: Error, msg: any, session: FrontendOrBackendSession, resp: any, cb: HandlerCallback)
 {
-    var handler;
+    let handler;
     if (isGlobal)
     {
         handler = server.app.get(Constants.RESERVED.GLOBAL_ERROR_HANDLER);
@@ -379,7 +379,7 @@ var handleError = function (isGlobal: boolean, server: Server, err: Error, msg: 
  * Send response to client and fire after filter chain if any.
  */
 
-var response = function (isGlobal: boolean, server: Server, err: Error, routeRecord: RouteRecord, msg: any, session: FrontendOrBackendSession, resp: any, cb: HandlerCallback)
+let response = function (isGlobal: boolean, server: Server, err: Error, routeRecord: RouteRecord, msg: any, session: FrontendOrBackendSession, resp: any, cb: HandlerCallback)
 {
     if (isGlobal)
     {
@@ -398,13 +398,13 @@ var response = function (isGlobal: boolean, server: Server, err: Error, routeRec
  * @param  {String} route route string, such as: serverName.handlerName.methodName
  * @return {Object}       parse result object or null for illeagle route string
  */
-var parseRoute = function (route: string): RouteRecord
+let parseRoute = function (route: string): RouteRecord
 {
     if (!route)
     {
         return null;
     }
-    var ts = route.split('.');
+    let ts = route.split('.');
     if (ts.length !== 3)
     {
         return null;
@@ -418,9 +418,9 @@ var parseRoute = function (route: string): RouteRecord
     };
 };
 
-var doForward = function (app: Application, msg: any, session: FrontendOrBackendSession, routeRecord: RouteRecord, cb: HandlerCallback)
+let doForward = function (app: Application, msg: any, session: FrontendOrBackendSession, routeRecord: RouteRecord, cb: HandlerCallback)
 {
-    var finished = false;
+    let finished = false;
     //should route to other servers
     try
     {
@@ -454,13 +454,13 @@ var doForward = function (app: Application, msg: any, session: FrontendOrBackend
     }
 };
 
-var doHandle = function (server: Server, msg: any, session: FrontendOrBackendSession, routeRecord: RouteRecord, cb : HandlerCallback)
+let doHandle = function (server: Server, msg: any, session: FrontendOrBackendSession, routeRecord: RouteRecord, cb : HandlerCallback)
 {
     msg = msg.body || {};
 
-    var self = server;
+    let self = server;
 
-    var handle = function (err: Error, resp: any)
+    let handle = function (err: Error, resp: any)
     {
         if (err)
         {
@@ -494,15 +494,15 @@ var doHandle = function (server: Server, msg: any, session: FrontendOrBackendSes
 /**
  * Schedule crons
  */
-var scheduleCrons = function (server: Server, crons : Cron[])
+let scheduleCrons = function (server: Server, crons : Cron[])
 {
-    var handlers = server.cronHandlers;
-    for (var i = 0; i < crons.length; i++)
+    let handlers = server.cronHandlers;
+    for (let i = 0; i < crons.length; i++)
     {
-        var cronInfo = crons[i];
-        var time = cronInfo.time;
-        var action = cronInfo.action;
-        var jobId = cronInfo.id;
+        let cronInfo = crons[i];
+        let time = cronInfo.time;
+        let action = cronInfo.action;
+        let jobId = cronInfo.id;
 
         if (!time || !action || !jobId)
         {
@@ -516,9 +516,9 @@ var scheduleCrons = function (server: Server, crons : Cron[])
             continue;
         }
 
-        var cron = action.split('.')[0];
-        var job = action.split('.')[1];
-        var handler = handlers[cron];
+        let cron = action.split('.')[0];
+        let job = action.split('.')[1];
+        let handler = handlers[cron];
 
         if (!handler)
         {
@@ -532,7 +532,7 @@ var scheduleCrons = function (server: Server, crons : Cron[])
             continue;
         }
 
-        var id = schedule.scheduleJob(time, handler[job].bind(handler));
+        let id = schedule.scheduleJob(time, handler[job].bind(handler));
         server.jobs[jobId] = id;
     }
 };
@@ -540,7 +540,7 @@ var scheduleCrons = function (server: Server, crons : Cron[])
 /**
  * If cron is not in crons then put it in the array.
  */
-var checkAndAdd = function (cron : Cron, crons : Cron[], server : Server)
+let checkAndAdd = function (cron : Cron, crons : Cron[], server : Server)
 {
     if (!containCron(cron.id, crons))
     {
@@ -554,9 +554,9 @@ var checkAndAdd = function (cron : Cron, crons : Cron[], server : Server)
 /**
  * Check if cron is in crons.
  */
-var containCron = function (id : string, crons : Cron[])
+let containCron = function (id : string, crons : Cron[])
 {
-    for (var i = 0, l = crons.length; i < l; i++)
+    for (let i = 0, l = crons.length; i < l; i++)
     {
         if (id === crons[i].id)
         {

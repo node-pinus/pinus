@@ -20,7 +20,7 @@ import * as WebSocket from 'ws';
 import { TcpSocket } from './hybrid/tcpsocket';
 import { IHybridSocket } from './hybrid/IHybridSocket';
 
-var curId = 1;
+let curId = 1;
 
 export interface HybridConnectorOptions extends HybridSwitcherOptions
 {
@@ -75,12 +75,12 @@ export class HybridConnector extends EventEmitter implements IConnector
      */
     start(cb : ()=>void)
     {
-        var app = pinus.app;
-        var self = this;
+        let app = pinus.app;
+        let self = this;
 
-        var gensocket = function (socket : IHybridSocket)
+        let gensocket = function (socket : IHybridSocket)
         {
-            var hybridsocket = new HybridSocket(curId++, socket);
+            let hybridsocket = new HybridSocket(curId++, socket);
             hybridsocket.on('handshake', self.handshake.handle.bind(self.handshake, hybridsocket));
             hybridsocket.on('heartbeat', self.heartbeat.handle.bind(self.heartbeat, hybridsocket));
             hybridsocket.on('disconnect', self.heartbeat.clear.bind(self.heartbeat, hybridsocket.id));

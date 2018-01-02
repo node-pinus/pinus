@@ -1,7 +1,7 @@
 import * as os from 'os';
 import * as util from 'util';
 import { exec } from 'child_process';
-import { getLogger } from 'pinus-logger'; var logger = getLogger('pinus', __filename);
+import { getLogger } from 'pinus-logger'; let logger = getLogger('pinus', __filename);
 import * as Constants from './constants';
 import { pinus } from '../pinus';
 import { ServerInfo } from './constants';
@@ -15,7 +15,7 @@ export function invokeCallback(cb : Function , ...args:any[])
 {
     if (typeof cb === 'function')
     {
-        var len = arguments.length;
+        let len = arguments.length;
         if (len == 1)
         {
             return cb();
@@ -36,8 +36,8 @@ export function invokeCallback(cb : Function , ...args:any[])
             return cb(arguments[1], arguments[2], arguments[3]);
         }
 
-        var args = Array(len - 1);
-        for (var i = 1; i < len; i++)
+        let args = Array(len - 1);
+        for (let i = 1; i < len; i++)
             args[i - 1] = arguments[i];
         cb.apply(null, args);
         // cb.apply(null, Array.prototype.slice.call(arguments, 1));
@@ -49,8 +49,8 @@ export function invokeCallback(cb : Function , ...args:any[])
  */
 export function size(obj : any)
 {
-    var count = 0;
-    for (var i in obj)
+    let count = 0;
+    for (let i in obj)
     {
         if (obj.hasOwnProperty(i) && typeof obj[i] !== 'function')
         {
@@ -92,16 +92,16 @@ export function startsWith(str : string, prefix : string)
  */
 export function arrayDiff<T extends string>(array1 : Array<T>, array2 : Array<T>)
 {
-    var o : {[key:string] : boolean}= {};
-    for (var i = 0, len = array2.length; i < len; i++)
+    let o : {[key:string] : boolean}= {};
+    for (let i = 0, len = array2.length; i < len; i++)
     {
         o[array2[i]] = true;
     }
 
-    var result = [];
-    for (i = 0, len = array1.length; i < len; i++)
+    let result = [];
+    for (let i = 0, len = array1.length; i < len; i++)
     {
-        var v = array1[i];
+        let v = array1[i];
         if (o[v]) continue;
         result.push(v);
     }
@@ -114,7 +114,7 @@ export function arrayDiff<T extends string>(array1 : Array<T>, array2 : Array<T>
 export function format(date : Date, format ?: string)
 {
     format = format || 'MMddhhmm';
-    var o = {
+    let o = {
         "M+": date.getMonth() + 1, //month
         "d+": date.getDate(), //day
         "h+": date.getHours(), //hour
@@ -129,7 +129,7 @@ export function format(date : Date, format ?: string)
         format = format.replace(RegExp.$1, (date.getFullYear() + "").substr(4 - RegExp.$1.length));
     }
 
-    for (var k in o)
+    for (let k in o)
     {
         if (new RegExp("(" + k + ")").test(format))
         {
@@ -159,8 +159,8 @@ export function hasChineseChar(str : string)
  */
 export function unicodeToUtf8(str : string)
 {
-    var i, len, ch;
-    var utf8Str = "";
+    let i, len, ch;
+    let utf8Str = "";
     len = str.length;
     for (i = 0; i < len; i++)
     {
@@ -219,7 +219,7 @@ export function ping(host : string, cb : (ret : boolean)=>void)
 {
     if (!isLocal(host))
     {
-        var cmd = 'ping -w 15 ' + host;
+        let cmd = 'ping -w 15 ' + host;
         exec(cmd, function (err, stdout, stderr)
         {
             if (!!err)
@@ -246,11 +246,11 @@ export function checkPort(server : ServerInfo, cb : (result : string)=>void)
         invokeCallback(cb, 'leisure');
         return;
     }
-    var port = server.port || server.clientPort;
-    var host = server.host;
-    var generateCommand = function (host : string, port : number) {
-        var cmd;
-        var ssh_params = pinus.app.get(Constants.RESERVED.SSH_CONFIG_PARAMS);
+    let port = server.port || server.clientPort;
+    let host = server.host;
+    let generateCommand = function (host : string, port : number) {
+        let cmd;
+        let ssh_params = pinus.app.get(Constants.RESERVED.SSH_CONFIG_PARAMS);
         if (!!ssh_params && Array.isArray(ssh_params))
         {
             ssh_params = ssh_params.join(' ');
@@ -268,8 +268,8 @@ export function checkPort(server : ServerInfo, cb : (result : string)=>void)
         }
         return cmd;
     };
-    var cmd1 = generateCommand( host, port);
-    var child = exec(cmd1, function (err, stdout, stderr)
+    let cmd1 = generateCommand( host, port);
+    let child = exec(cmd1, function (err, stdout, stderr)
     {
         if (err)
         {
@@ -281,7 +281,7 @@ export function checkPort(server : ServerInfo, cb : (result : string)=>void)
         } else
         {
             port = server.clientPort;
-            var cmd2 = generateCommand( host, port);
+            let cmd2 = generateCommand( host, port);
             exec(cmd2, function (err, stdout, stderr)
             {
                 if (err)
@@ -302,7 +302,7 @@ export function checkPort(server : ServerInfo, cb : (result : string)=>void)
 
 export function isLocal(host : string)
 {
-    var app = pinus.app;
+    let app = pinus.app;
     if (!app)
     {
         return host === '127.0.0.1' || host === 'localhost' || host === '0.0.0.0' || inLocal(host);
@@ -318,10 +318,10 @@ export function isLocal(host : string)
  */
 export function loadCluster(app : Application, server : ServerInfo, serverMap : {[serverId:string] : ServerInfo})
 {
-    var increaseFields : {[key:string] : string} = {};
-    var host = server.host;
-    var count = Number(server[Constants.RESERVED.CLUSTER_COUNT]);
-    var seq = app.clusterSeq[server.serverType];
+    let increaseFields : {[key:string] : string} = {};
+    let host = server.host;
+    let count = Number(server[Constants.RESERVED.CLUSTER_COUNT]);
+    let seq = app.clusterSeq[server.serverType];
     if (!seq)
     {
         seq = 0;
@@ -331,32 +331,32 @@ export function loadCluster(app : Application, server : ServerInfo, serverMap : 
         app.clusterSeq[server.serverType] = seq + count;
     }
 
-    for (var key in server)
+    for (let key in server)
     {
-        var value = (server as any)[key].toString();
+        let value = (server as any)[key].toString();
         if (value.indexOf(Constants.RESERVED.CLUSTER_SIGNAL) > 0)
         {
-            var base = (server as any)[key].slice(0, -2);
+            let base = (server as any)[key].slice(0, -2);
             increaseFields[key] = base;
         }
     }
 
-    var clone = function (src : any)
+    let clone = function (src : any)
     {
-        var rs: any = {};
-        for (var key in src)
+        let rs: any = {};
+        for (let key in src)
         {
             rs[key] = src[key];
         }
         return rs;
     };
-    for (var i = 0, l = seq; i < count; i++ , l++)
+    for (let i = 0, l = seq; i < count; i++ , l++)
     {
-        var cserver = clone(server);
+        let cserver = clone(server);
         cserver.id = Constants.RESERVED.CLUSTER_PREFIX + server.serverType + '-' + l;
-        for (var k in increaseFields)
+        for (let k in increaseFields)
         {
-            var v = parseInt(increaseFields[k]);
+            let v = parseInt(increaseFields[k]);
             cserver[k] = v + i;
         }
         serverMap[cserver.id] = cserver;
@@ -367,8 +367,8 @@ export function loadCluster(app : Application, server : ServerInfo, serverMap : 
 //{
 //    if (!add || !this.isObject(add)) return origin;
 
-//    var keys = Object.keys(add);
-//    var i = keys.length;
+//    let keys = Object.keys(add);
+//    let i = keys.length;
 //    while (i--)
 //    {
 //        origin[keys[i]] = add[keys[i]];
@@ -378,8 +378,8 @@ export function loadCluster(app : Application, server : ServerInfo, serverMap : 
 
 export function headHandler(headBuffer : Buffer)
 {
-    var len = 0;
-    for (var i = 1; i < 4; i++)
+    let len = 0;
+    for (let i = 1; i < 4; i++)
     {
         if (i > 1)
         {
@@ -390,9 +390,9 @@ export function headHandler(headBuffer : Buffer)
     return len;
 };
 
-var inLocal = function (host : string)
+let inLocal = function (host : string)
 {
-    for (var index in localIps)
+    for (let index in localIps)
     {
         if (host === localIps[index])
         {
@@ -402,18 +402,18 @@ var inLocal = function (host : string)
     return false;
 };
 
-var localIps = function ()
+let localIps = function ()
 {
-    var ifaces = os.networkInterfaces();
-    var ips : string[] = [];
-    var func = function (details : os.NetworkInterfaceInfo)
+    let ifaces = os.networkInterfaces();
+    let ips : string[] = [];
+    let func = function (details : os.NetworkInterfaceInfo)
     {
         if (details.family === 'IPv4')
         {
             ips.push(details.address);
         }
     };
-    for (var dev in ifaces)
+    for (let dev in ifaces)
     {
         ifaces[dev].forEach(func);
     }
@@ -428,11 +428,11 @@ export function isObject(arg : any)
 export function extendsObject(origin : any, add : any) {
     if (!add || !isObject(add)) return origin;
   
-    var keys = Object.keys(add);
-    var i = keys.length;
+    let keys = Object.keys(add);
+    let i = keys.length;
     while (i--) {
       origin[keys[i]] = add[keys[i]];
     }
     return origin;
   };
-export var promisify = util.promisify;
+export let promisify = util.promisify;

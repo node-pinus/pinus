@@ -18,7 +18,7 @@ export class CountDownLatch
     {
         this.count = count;
         this.cb = cb;
-        var self = this;
+        let self = this;
         if (opts.timeout)
         {
             this.timerId = setTimeout(function ()

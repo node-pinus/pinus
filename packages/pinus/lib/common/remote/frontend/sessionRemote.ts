@@ -46,7 +46,7 @@ export class SessionRemote
      */
     async getBackendSessionBySid(sid : SID)
     {
-        var session = this.app.sessionService.get(sid);
+        let session = this.app.sessionService.get(sid);
         if (!session)
         {
             return;
@@ -62,14 +62,14 @@ export class SessionRemote
      */
     async getBackendSessionsByUid(uid : UID)
     {
-        var sessions = this.app.sessionService.getByUid(uid);
+        let sessions = this.app.sessionService.getByUid(uid);
         if (!sessions)
         {
             return;
         }
 
-        var res = [];
-        for (var i = 0, l = sessions.length; i < l; i++)
+        let res = [];
+        for (let i = 0, l = sessions.length; i < l; i++)
         {
             res.push(sessions[i].toFrontendSession().export());
         }

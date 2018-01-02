@@ -13,7 +13,7 @@ import { EventEmitter } from 'events';
 import { getLogger } from 'pinus-logger';
 import { SocketType } from 'dgram';
 import { IConnector } from '../interfaces/IConnector';
-var logger = getLogger('pinus', __filename);
+let logger = getLogger('pinus', __filename);
 
 
 export interface UDPConnectorOptions extends HandshakeCommandOptions , HeartbeatCommandOptions
@@ -24,7 +24,7 @@ export interface UDPConnectorOptions extends HandshakeCommandOptions , Heartbeat
 }
 
 
-var curId = 1;
+let curId = 1;
 
 export class UDPConnector extends EventEmitter implements IConnector
 {
@@ -57,14 +57,14 @@ export class UDPConnector extends EventEmitter implements IConnector
 
     start(cb : ()=>void)
     {
-        var self = this;
+        let self = this;
         this.tcpServer = net.createServer();
         this.socket = dgram.createSocket(this.type, function (msg, peer)
         {
-            var key = genKey(peer);
+            let key = genKey(peer);
             if (!self.clients[key])
             {
-                var udpsocket = new UdpSocket(curId++, self.socket, peer);
+                let udpsocket = new UdpSocket(curId++, self.socket, peer);
                 self.clients[key] = udpsocket;
 
                 udpsocket.on('handshake',
@@ -89,7 +89,7 @@ export class UDPConnector extends EventEmitter implements IConnector
 
         this.socket.on('message', function (data : Buffer, peer : dgram.RemoteInfo)
         {
-            var socket = self.clients[genKey(peer)];
+            let socket = self.clients[genKey(peer)];
             if (!!socket)
             {
                 socket.emit('package', data);
@@ -118,7 +118,7 @@ export class UDPConnector extends EventEmitter implements IConnector
     };
 }
 
-var genKey = function (peer : dgram.RemoteInfo)
+let genKey = function (peer : dgram.RemoteInfo)
 {
     return peer.address + ":" + peer.port;
 };

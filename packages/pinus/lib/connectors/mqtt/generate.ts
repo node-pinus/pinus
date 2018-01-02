@@ -9,13 +9,13 @@ import * as  crypto from 'crypto';
 export function publish(opts : any)
 {
     opts = opts || {};
-    var dup = opts.dup ? protocol.DUP_MASK : 0;
-    var qos = opts.qos || 0;
-    var retain = opts.retain ? protocol.RETAIN_MASK : 0;
-    var topic = opts.topic;
-    var payload = opts.payload || new Buffer(0);
-    var id = (typeof opts.messageId === 'undefined') ? randint() : opts.messageId;
-    var packet = { header: 0, payload: [] as any[] };
+    let dup = opts.dup ? protocol.DUP_MASK : 0;
+    let qos = opts.qos || 0;
+    let retain = opts.retain ? protocol.RETAIN_MASK : 0;
+    let topic = opts.topic;
+    let payload = opts.payload || new Buffer(0);
+    let id = (typeof opts.messageId === 'undefined') ? randint() : opts.messageId;
+    let packet = { header: 0, payload: [] as any[] };
 
     /* Check required fields */
     if (typeof topic !== 'string' || topic.length <= 0) return null;
@@ -39,7 +39,7 @@ export function publish(opts : any)
     if (qos > 0) packet.payload = packet.payload.concat(gen_number(id));
 
 
-    var buf = new Buffer([packet.header]
+    let buf = new Buffer([packet.header]
         .concat(gen_length(packet.payload.length + payload.length))
         .concat(packet.payload));
 
@@ -47,13 +47,13 @@ export function publish(opts : any)
 };
 
 /* Requires length be a number > 0 */
-var gen_length = function (length : number)
+let gen_length = function (length : number)
 {
     if (typeof length !== "number") return null;
     if (length < 0) return null;
 
-    var len = [];
-    var digit = 0;
+    let len = [];
+    let digit = 0;
 
     do
     {
@@ -69,17 +69,17 @@ var gen_length = function (length : number)
     return len;
 };
 
-var gen_string = function (str : string, without_length ?: boolean)
+let gen_string = function (str : string, without_length ?: boolean)
 { /* based on code in (from http://farhadi.ir/downloads/utf8.js) */
     if (arguments.length < 2) without_length = false;
     if (typeof str !== "string") return null;
     if (typeof without_length !== "boolean") return null;
 
-    var string = [];
-    var length = 0;
-    for (var i = 0; i < str.length; i++)
+    let string = [];
+    let length = 0;
+    for (let i = 0; i < str.length; i++)
     {
-        var code = str.charCodeAt(i);
+        let code = str.charCodeAt(i);
         if (code < 128)
         {
             string.push(code); ++length;
@@ -107,10 +107,10 @@ var gen_string = function (str : string, without_length ?: boolean)
     return without_length ? string : gen_number(length).concat(string);
 };
 
-var gen_number = function (num : number)
+let gen_number = function (num : number)
 {
-    var number = [num >> 8, num & 0x00FF];
+    let number = [num >> 8, num & 0x00FF];
     return number;
 };
 
-var randint = function () { return Math.floor(Math.random() * 0xFFFF); };
+let randint = function () { return Math.floor(Math.random() * 0xFFFF); };

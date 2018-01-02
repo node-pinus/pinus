@@ -8,12 +8,12 @@ import { ISocket } from '../interfaces/ISocket';
 import * as WebSocket from 'ws';
 import { TcpSocket } from './hybrid/tcpsocket';
 import { IHybridSocket } from './hybrid/IHybridSocket';
-var logger = getLogger('pinus', __filename);
+let logger = getLogger('pinus', __filename);
 
-var ST_INITED = 0;
-var ST_WAIT_ACK = 1;
-var ST_WORKING = 2;
-var ST_CLOSED = 3;
+let ST_INITED = 0;
+let ST_WAIT_ACK = 1;
+let ST_WORKING = 2;
+let ST_CLOSED = 3;
 
 /**
  * Socket class that wraps socket and websocket to provide unified interface for up level.
@@ -45,7 +45,7 @@ export class HybridSocket extends EventEmitter implements ISocket
             };
         }
 
-        var self = this;
+        let self = this;
 
         socket.once('close', this.emit.bind(this, 'disconnect'));
         socket.on('error', this.emit.bind(this, 'error'));
@@ -76,7 +76,7 @@ export class HybridSocket extends EventEmitter implements ISocket
         {
             return;
         }
-        var self = this;
+        let self = this;
 
         this.socket.send(msg, { binary: true },  (err)=>
         {
@@ -112,10 +112,10 @@ export class HybridSocket extends EventEmitter implements ISocket
      */
     sendBatch(msgs : any[])
     {
-        var rs = [];
-        for (var i = 0; i < msgs.length; i++)
+        let rs = [];
+        for (let i = 0; i < msgs.length; i++)
         {
-            var src = Package.encode(Package.TYPE_DATA, msgs[i]);
+            let src = Package.encode(Package.TYPE_DATA, msgs[i]);
             rs.push(src);
         }
         this.sendRaw(Buffer.concat(rs));

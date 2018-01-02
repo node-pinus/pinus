@@ -5,18 +5,19 @@ import * as path from 'path';
 import * as fs from 'fs';
 import * as Constants from './constants';
 import * as starter from '../master/starter';
+import * as Loader from 'pinus-loader';
 import { getLogger } from 'pinus-logger';import { Application } from '../application';
 import { pinus } from '../pinus';
-import { IComponent } from '../../index';
+import { IComponent, ILifeCycle } from '../../index';
 import { ServerInfo } from './constants';
- var logger = getLogger('pinus', __filename);
+ let logger = getLogger('pinus', __filename);
 
 /**
  * Initialize application configuration.
  */
 export function defaultConfiguration(app : Application)
 {
-    var args = parseArgs(process.argv);
+    let args = parseArgs(process.argv);
     setupEnv(app, args);
     loadMaster(app);
     loadServers(app);
@@ -103,7 +104,7 @@ export function stopComps(comps : IComponent[], index : number, force : boolean,
         utils.invokeCallback(cb);
         return;
     }
-    var comp = comps[index];
+    let comp = comps[index];
     if (typeof comp.stop === 'function')
     {
         comp.stop(force, function ()
@@ -128,7 +129,7 @@ export function stopComps(comps : IComponent[], index : number, force : boolean,
  */
 export function optComponents(comps : IComponent[], method : string, cb : (err?:Error)=>void)
 {
-    var i = 0;
+    let i = 0;
     async.forEachSeries(comps, function (comp, done)
     {
         i++;
@@ -155,15 +156,45 @@ export function optComponents(comps : IComponent[], method : string, cb : (err?:
     });
 };
 
+export function optLifecycles(comps : ILifeCycle[], method : string, app : Application, cb : (err?:Error)=>void, arg2 ?: any)
+{
+    let i = 0;
+    async.forEachSeries(comps, function (comp, done)
+    {
+        i++;
+        if (typeof (comp as any)[method] === 'function')
+        {
+            (comp as any)[method](app , done , arg2);
+        } else
+        {
+            done();
+        }
+    }, function (err : Error)
+    {
+        if (err)
+        {
+            if (typeof err === 'string')
+            {
+                logger.error('fail to operate lifecycle, method: %s, err: %j', method, err);
+            } else
+            {
+                logger.error('fail to operate lifecycle, method: %s, err: %j', method, err.stack);
+            }
+        }
+        utils.invokeCallback(cb, err);
+    });
+};
+
+
 /**
  * Load server info from config/servers.json.
  */
-var loadServers = function (app : Application)
+let loadServers = function (app : Application)
 {
     app.loadConfigBaseApp(Constants.RESERVED.SERVERS, Constants.FILEPATH.SERVER);
-    var servers = app.get(Constants.RESERVED.SERVERS);
-    var serverMap : {[serverId:string]: ServerInfo} = {}, slist, i, l, server;
-    for (var serverType in servers)
+    let servers = app.get(Constants.RESERVED.SERVERS);
+    let serverMap : {[serverId:string]: ServerInfo} = {}, slist, i, l, server;
+    for (let serverType in servers)
     {
         slist = servers[serverType];
         for (i = 0, l = slist.length; i < l; i++)
@@ -188,35 +219,32 @@ var loadServers = function (app : Application)
 /**
  * Load master info from config/master.json.
  */
-var loadMaster = function (app : Application)
+let loadMaster = function (app : Application)
 {
     app.loadConfigBaseApp(Constants.RESERVED.MASTER, Constants.FILEPATH.MASTER);
     app.master = app.get(Constants.RESERVED.MASTER);
 };
 
-export interface ServerStartArgs
+export interface ServerStartArgs extends ServerInfo
 {
-    serverType ?: string;
-    id?:string;
     mode?:Constants.RESERVED.CLUSTER | Constants.RESERVED.STAND_ALONE;
     masterha ?: 'true' | 'false';
     type ?: Constants.RESERVED.ALL;
     startId ?: string;
     main ?: string;
-    host?:string;
 }
 
 /**
  * Process server start command
  */
-var processArgs = function (app : Application, args : ServerStartArgs)
+let processArgs = function (app : Application, args : ServerStartArgs)
 {
-    var serverType = args.serverType || Constants.RESERVED.MASTER;
-    var serverId = args.id || app.getMaster().id;
-    var mode = args.mode || Constants.RESERVED.CLUSTER;
-    var masterha = args.masterha || 'false';
-    var type = args.type || Constants.RESERVED.ALL;
-    var startId = args.startId;
+    let serverType = args.serverType || Constants.RESERVED.MASTER;
+    let serverId = args.id || app.getMaster().id;
+    let mode = args.mode || Constants.RESERVED.CLUSTER;
+    let masterha = args.masterha || 'false';
+    let type = args.type || Constants.RESERVED.ALL;
+    let startId = args.startId;
 
     app.set(Constants.RESERVED.MAIN, args.main, true);
     app.set(Constants.RESERVED.SERVER_TYPE, serverType, true);
@@ -244,7 +272,7 @@ var processArgs = function (app : Application, args : ServerStartArgs)
 /**
  * Setup enviroment.
  */
-var setupEnv = function (app : Application, args : {env:string})
+let setupEnv = function (app : Application, args : {env:string})
 {
     app.set(Constants.RESERVED.ENV, args.env || process.env.NODE_ENV || Constants.RESERVED.ENV_DEV, true);
 };
@@ -252,13 +280,13 @@ var setupEnv = function (app : Application, args : {env:string})
 /**
  * Configure custom logger.
  */
-var configLogger = function (app : Application)
+let configLogger = function (app : Application)
 {
     if (process.env.POMELO_LOGGER !== 'off')
     {
-        var env = app.get(Constants.RESERVED.ENV);
-        var originPath = path.join(app.getBase(), Constants.FILEPATH.LOG);
-        var presentPath = path.join(app.getBase(), Constants.FILEPATH.CONFIG_DIR, env, path.basename(Constants.FILEPATH.LOG));
+        let env = app.get(Constants.RESERVED.ENV);
+        let originPath = path.join(app.getBase(), Constants.FILEPATH.LOG);
+        let presentPath = path.join(app.getBase(), Constants.FILEPATH.CONFIG_DIR, env, path.basename(Constants.FILEPATH.LOG));
         if (fs.existsSync(originPath))
         {
             log.configure(app, originPath);
@@ -279,10 +307,10 @@ var configLogger = function (app : Application)
  *
  * @return Object argsMap map of arguments
  */
-var parseArgs = function (args : string[])
+let parseArgs = function (args : string[])
 {
-    var argsMap: any = {};
-    var mainPos = 1;
+    let argsMap: any = {};
+    let mainPos = 1;
 
     while (args[mainPos].indexOf('--') > 0)
     {
@@ -290,12 +318,12 @@ var parseArgs = function (args : string[])
     }
     argsMap.main = args[mainPos];
 
-    for (var i = (mainPos + 1); i < args.length; i++)
+    for (let i = (mainPos + 1); i < args.length; i++)
     {
-        var arg = args[i];
-        var sep = arg.indexOf('=');
-        var key = arg.slice(0, sep);
-        var value = arg.slice(sep + 1);
+        let arg = args[i];
+        let sep = arg.indexOf('=');
+        let key = arg.slice(0, sep);
+        let value = arg.slice(sep + 1);
         if (!isNaN(Number(value)) && (value.indexOf('.') < 0))
         {
             value = Number(value) as any;
@@ -310,22 +338,21 @@ var parseArgs = function (args : string[])
  * Load lifecycle file.
  *
  */
-var loadLifecycle = function (app : Application)
+let loadLifecycle = function (app : Application)
 {
-    var filePath = path.join(app.getBase(), Constants.FILEPATH.SERVER_DIR, app.serverType, Constants.FILEPATH.LIFECYCLE);
+    let filePath = path.join(app.getBase(), Constants.FILEPATH.SERVER_DIR, app.serverType, Constants.FILEPATH.LIFECYCLE);
     if (!fs.existsSync(filePath))
     {
         return;
     }
-    var lifecycle = require(filePath);
-    for (var key in lifecycle)
+
+    let lifecycle = Loader.loadFile(filePath, app, false);
+    if (!filePath)
     {
-        if (typeof lifecycle[key] === 'function')
-        {
-            (app.lifecycleCbs as any)[key] = lifecycle[key];
-        } else
-        {
-            logger.warn('lifecycle.js in %s is error format.', filePath);
-        }
+        logger.error('lifecycle.js in %s is error format.', filePath);
+    }
+    else
+    {
+        app.usedPlugins.push(lifecycle);
     }
 };

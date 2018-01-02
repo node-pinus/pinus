@@ -1,4 +1,4 @@
-import { getLogger } from 'pinus-logger'; var logger = getLogger('pinus', __filename);
+import { getLogger } from 'pinus-logger'; let logger = getLogger('pinus', __filename);
 import * as utils from '../util/utils';
 import { default as events } from '../util/events';
 import * as Constants from '../util/constants';
@@ -37,7 +37,7 @@ export class MonitorWatcherModule implements IModule
         {
             return;
         }
-        var func = (monitorMethods as any)[msg.action];
+        let func = (monitorMethods as any)[msg.action];
         if (!func)
         {
             logger.info('monitorwatcher unknown action: %j', msg.action);
@@ -49,9 +49,9 @@ export class MonitorWatcherModule implements IModule
 
 // ----------------- monitor start method -------------------------
 
-var subscribeRequest = function (self : MonitorWatcherModule, agent : MonitorAgent, id : string, cb : MonitorCallback)
+let subscribeRequest = function (self : MonitorWatcherModule, agent : MonitorAgent, id : string, cb : MonitorCallback)
 {
-    var msg = { action: 'subscribe', id: id };
+    let msg = { action: 'subscribe', id: id };
     agent.request(Constants.KEYWORDS.MASTER_WATCHER, msg, function (err : Error, servers)
     {
         if (err)
@@ -59,8 +59,8 @@ var subscribeRequest = function (self : MonitorWatcherModule, agent : MonitorAge
             logger.error('subscribeRequest request to master with error: %j', err.stack);
             utils.invokeCallback(cb, err);
         }
-        var res = [];
-        for (var id in servers)
+        let res = [];
+        for (let id in servers)
         {
             res.push(servers[id]);
         }
@@ -71,7 +71,7 @@ var subscribeRequest = function (self : MonitorWatcherModule, agent : MonitorAge
 
 // ----------------- monitor request methods -------------------------
 
-var addServer = function (self : MonitorWatcherModule, agent : MonitorAgent, msg : any, cb : MonitorCallback)
+let addServer = function (self : MonitorWatcherModule, agent : MonitorAgent, msg : any, cb : MonitorCallback)
 {
     logger.debug('[%s] receive addServer signal: %j', self.app.serverId, msg);
     if (!msg || !msg.server)
@@ -84,7 +84,7 @@ var addServer = function (self : MonitorWatcherModule, agent : MonitorAgent, msg
     utils.invokeCallback(cb, Constants.SIGNAL.OK);
 };
 
-var removeServer = function  (self : MonitorWatcherModule, agent : MonitorAgent, msg : any, cb : MonitorCallback)
+let removeServer = function  (self : MonitorWatcherModule, agent : MonitorAgent, msg : any, cb : MonitorCallback)
 {
     logger.debug('%s receive removeServer signal: %j', self.app.serverId, msg);
     if (!msg || !msg.id)
@@ -97,7 +97,7 @@ var removeServer = function  (self : MonitorWatcherModule, agent : MonitorAgent,
     utils.invokeCallback(cb, Constants.SIGNAL.OK);
 };
 
-var replaceServer = function (self : MonitorWatcherModule, agent : MonitorAgent, msg : any, cb : MonitorCallback)
+let replaceServer = function (self : MonitorWatcherModule, agent : MonitorAgent, msg : any, cb : MonitorCallback)
 {
     logger.debug('%s receive replaceServer signal: %j', self.app.serverId, msg);
     if (!msg || !msg.servers)
@@ -110,12 +110,15 @@ var replaceServer = function (self : MonitorWatcherModule, agent : MonitorAgent,
     utils.invokeCallback(cb, Constants.SIGNAL.OK);
 };
 
-var startOver = function (self : MonitorWatcherModule, agent : MonitorAgent, msg : any, cb : MonitorCallback)
+let startOver = function (self : MonitorWatcherModule, agent : MonitorAgent, msg : any, cb : MonitorCallback)
 {
-    var fun = self.app.lifecycleCbs[Constants.LIFECYCLE.AFTER_STARTALL];
-    if (!!fun)
+    for(let lifecycle of self.app.usedPlugins)
     {
-        fun.call(null, self.app);
+        let fun = lifecycle[Constants.LIFECYCLE.AFTER_STARTALL];
+        if (!!fun)
+        {
+            fun.call(null, self.app);
+        }
     }
     self.app.event.emit(events.START_ALL);
     utils.invokeCallback(cb, Constants.SIGNAL.OK);
@@ -123,7 +126,7 @@ var startOver = function (self : MonitorWatcherModule, agent : MonitorAgent, msg
 
 // ----------------- common methods -------------------------
 
-var addServers = function (self : MonitorWatcherModule, servers : ServerInfo[])
+let addServers = function (self : MonitorWatcherModule, servers : ServerInfo[])
 {
     if (!servers || !servers.length)
     {
@@ -132,7 +135,7 @@ var addServers = function (self : MonitorWatcherModule, servers : ServerInfo[])
     self.app.addServers(servers);
 };
 
-var removeServers = function (self : MonitorWatcherModule, ids: string[])
+let removeServers = function (self : MonitorWatcherModule, ids: string[])
 {
     if (!ids || !ids.length)
     {
@@ -141,20 +144,20 @@ var removeServers = function (self : MonitorWatcherModule, ids: string[])
     self.app.removeServers(ids);
 };
 
-var replaceServers = function (self : MonitorWatcherModule, servers:  {[serverId:string]:ServerInfo})
+let replaceServers = function (self : MonitorWatcherModule, servers:  {[serverId:string]:ServerInfo})
 {
     self.app.replaceServers(servers);
 };
 
 // ----------------- bind methods -------------------------
 
-var finishStart = function (self : MonitorWatcherModule, id : string)
+let finishStart = function (self : MonitorWatcherModule, id : string)
 {
-    var msg = { action: 'record', id: id };
+    let msg = { action: 'record', id: id };
     self.service.agent.notify(Constants.KEYWORDS.MASTER_WATCHER, msg);
 };
 
-var monitorMethods = {
+let monitorMethods = {
     'addServer': addServer,
     'removeServer': removeServer,
     'replaceServer': replaceServer,

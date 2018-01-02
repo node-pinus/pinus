@@ -8,7 +8,7 @@ import { Application } from '../../../application';
 import { UID, SID } from '../../../util/constants';
 import { ScheduleOptions } from '../../../interfaces/IPushScheduler';
 import { Session } from '../../service/sessionService';
- var logger = getLogger('pinus', __filename);
+ let logger = getLogger('pinus', __filename);
 
 export default function(app : Application) {
   return new ChannelRemote(app);
@@ -43,11 +43,11 @@ export class ChannelRemote
                 return;
             }
 
-            var connector = this.app.components.__connector__;
+            let connector = this.app.components.__connector__;
 
-            var sessionService = this.app.get('sessionService');
-            var fails : UID[] = [], sids : SID[] = [], sessions : Session[], j : number, k : number;
-            for (var i = 0, l = uids.length; i < l; i++)
+            let sessionService = this.app.get('sessionService');
+            let fails : UID[] = [], sids : SID[] = [], sessions : Session[], j : number, k : number;
+            for (let i = 0, l = uids.length; i < l; i++)
             {
                 sessions = sessionService.getByUid(uids[i]);
                 if (!sessions)
@@ -88,7 +88,7 @@ export class ChannelRemote
     {
         return new Promise<any>((resolve, reject) =>
         {
-            var connector = this.app.components.__connector__;
+            let connector = this.app.components.__connector__;
 
             connector.send(null, route, msg, null, opts, function (err , resp)
             {

@@ -3,7 +3,7 @@ import { Application } from '../application';
 import { SID } from '../util/constants';
 import { ScheduleOptions, BroadcastOptions } from '../interfaces/IPushScheduler';
 import { Session } from '../../index';
-var DEFAULT_FLUSH_INTERVAL = 20;
+let DEFAULT_FLUSH_INTERVAL = 20;
 
 export interface BufferPushSchedulerOptions
 {
@@ -58,9 +58,9 @@ export class BufferPushScheduler
 
     flush()
     {
-        var sessionService = this.app.get('sessionService');
-        var queue, session;
-        for (var sid in this.sessions)
+        let sessionService = this.app.get('sessionService');
+        let queue, session;
+        for (let sid in this.sessions)
         {
             session = sessionService.get(Number(sid));
             if (!session)
@@ -82,8 +82,8 @@ export class BufferPushScheduler
 
     doBroadcast(msg: any, opts: BroadcastOptions)
     {
-        var channelService = this.app.get('channelService');
-        var sessionService = this.app.get('sessionService');
+        let channelService = this.app.get('channelService');
+        let sessionService = this.app.get('sessionService');
 
         if (opts.binded)
         {
@@ -113,9 +113,9 @@ export class BufferPushScheduler
     }
     doBatchPush(msg : any, recvs : SID[])
     {
-        var sessionService = this.app.get('sessionService');
-        var session;
-        for (var i = 0, l = recvs.length; i < l; i++)
+        let sessionService = this.app.get('sessionService');
+        let session;
+        for (let i = 0, l = recvs.length; i < l; i++)
         {
             session = sessionService.get(recvs[i]);
             if (session)
@@ -127,7 +127,7 @@ export class BufferPushScheduler
 
     enqueue(session : Session, msg : any)
     {
-        var queue = this.sessions[session.id];
+        let queue = this.sessions[session.id];
         if (!queue)
         {
             queue = this.sessions[session.id] = [];

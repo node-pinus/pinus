@@ -5,12 +5,12 @@ import * as EventEmitter from 'events';
 import { getLogger } from 'pinus-logger';
 import { ISocket } from '../interfaces/ISocket';
 import * as dgram from "dgram";
-var logger = getLogger('pinus', __filename);
+let logger = getLogger('pinus', __filename);
 
-var ST_INITED = 0;
-var ST_WAIT_ACK = 1;
-var ST_WORKING = 2;
-var ST_CLOSED = 3;
+let ST_INITED = 0;
+let ST_WAIT_ACK = 1;
+let ST_WORKING = 2;
+let ST_CLOSED = 3;
 
 export class UdpSocket extends EventEmitter implements ISocket
 {
@@ -35,7 +35,7 @@ export class UdpSocket extends EventEmitter implements ISocket
             port: this.port
         };
 
-        var self = this;
+        let self = this;
         this.on('package', function (pkg)
         {
             if (!!pkg)
@@ -107,10 +107,10 @@ export class UdpSocket extends EventEmitter implements ISocket
         {
             return;
         }
-        var rs = [];
-        for (var i = 0; i < msgs.length; i++)
+        let rs = [];
+        for (let i = 0; i < msgs.length; i++)
         {
-            var src = Package.encode(Package.TYPE_DATA, msgs[i]);
+            let src = Package.encode(Package.TYPE_DATA, msgs[i]);
             rs.push(src);
         }
         this.sendRaw(Buffer.concat(rs));

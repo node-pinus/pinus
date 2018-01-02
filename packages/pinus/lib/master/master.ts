@@ -1,7 +1,7 @@
 import * as starter from './starter';
-import { getLogger } from 'pinus-logger'; var logger = getLogger('pinus', __filename);
-var crashLogger = getLogger('crash-log', __filename);
-var adminLogger = getLogger('admin-log', __filename);
+import { getLogger } from 'pinus-logger'; let logger = getLogger('pinus', __filename);
+let crashLogger = getLogger('crash-log', __filename);
+let adminLogger = getLogger('admin-log', __filename);
 import * as admin from 'pinus-admin';
 import * as util from 'util';
 import * as utils from '../util/utils';
@@ -45,7 +45,7 @@ export class MasterServer
         moduleUtil.registerDefaultModules(true, this.app, this.closeWatcher);
         moduleUtil.loadModules(this, this.masterConsole);
 
-        var self = this;
+        let self = this;
         // start master console
         this.masterConsole.start(function (err)
         {
@@ -87,14 +87,14 @@ export class MasterServer
         this.masterConsole.on('disconnect', function (id, type, info, reason)
         {
             crashLogger.info(util.format('[%s],[%s],[%s],[%s]', type, id, Date.now(), reason || 'disconnect'));
-            var count = 0;
-            var time = 0;
-            var pingTimer : NodeJS.Timer = null;
-            var server = self.app.getServerById(id);
-            var stopFlags = self.app.get(Constants.RESERVED.STOP_SERVERS) || [];
+            let count = 0;
+            let time = 0;
+            let pingTimer : NodeJS.Timer = null;
+            let server = self.app.getServerById(id);
+            let stopFlags = self.app.get(Constants.RESERVED.STOP_SERVERS) || [];
             if (!!server && (server[Constants.RESERVED.AUTO_RESTART] === true || server[Constants.RESERVED.RESTART_FORCE] === true) && stopFlags.indexOf(id) < 0)
             {
-                var setTimer = function (time : number)
+                let setTimer = function (time : number)
                 {
                     pingTimer = setTimeout(function ()
                     {
@@ -119,7 +119,7 @@ export class MasterServer
                     }, time);
                 };
                 setTimer(time);
-                var handle = function ()
+                let handle = function ()
                 {
                     clearTimeout(pingTimer);
                     utils.checkPort(server, function (status)

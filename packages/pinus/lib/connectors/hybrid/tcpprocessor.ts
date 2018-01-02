@@ -4,11 +4,11 @@ import * as net from 'net';
 import * as utils from '../../util/utils';
 import { TcpSocket } from './tcpsocket';
 
-var ST_STARTED = 1;
-var ST_CLOSED = 2;
+let ST_STARTED = 1;
+let ST_CLOSED = 2;
 
 // private protocol, no need exports
-var HEAD_SIZE = 4;
+let HEAD_SIZE = 4;
 
 /**
  * websocket protocol processor
@@ -29,7 +29,7 @@ export class TCPProcessor extends EventEmitter
         {
             return;
         }
-        var tcpsocket = new TcpSocket(socket, {
+        let tcpsocket = new TcpSocket(socket, {
             headSize: HEAD_SIZE,
             headHandler: utils.headHandler,
             closeMethod: this.closeMethod

@@ -1,7 +1,7 @@
 import * as utils from '../../../util/utils';
 import { getLogger } from 'pinus-logger'; import { Application } from '../../../application';
 import { BackendSession } from '../../service/backendSessionService';
- var logger = getLogger('forward-log', __filename);
+ let logger = getLogger('forward-log', __filename);
 /**
  * Remote service for backend servers.
  * Receive and handle request message forwarded from frontend server.
@@ -30,8 +30,8 @@ export class MsgRemote
     {
         return new Promise<any>((resolve, reject) =>
         {
-            var server = this.app.components.__server__;
-            var sessionService = this.app.components.__backendSession__;
+            let server = this.app.components.__server__;
+            let sessionService = this.app.components.__backendSession__;
 
             if (!server)
             {
@@ -48,7 +48,7 @@ export class MsgRemote
             }
 
             // generate backend session for current request
-            var backendSession = sessionService.create(session);
+            let backendSession = sessionService.create(session);
 
             // handle the request
 
@@ -73,8 +73,8 @@ export class MsgRemote
     {
         return new Promise<any>((resolve, reject) =>
         {
-            var server = this.app.components.__server__;
-            var sessionService = this.app.components.__backendSession__;
+            let server = this.app.components.__server__;
+            let sessionService = this.app.components.__backendSession__;
 
             if (!server)
             {
@@ -91,23 +91,23 @@ export class MsgRemote
             }
 
             // generate backend session for current request
-            var backendSession = sessionService.create(session);
+            let backendSession = sessionService.create(session);
 
             // handle the request
 
             // logger.debug('backend server [%s] handle message: %j', this.app.serverId, msg);
 
-            var dmsg = {
+            let dmsg = {
                 route: route,
                 body: body,
                 compressGzip: compressGzip
             }
 
-            var socket = {
+            let socket = {
                 aesPassword: aesPassword
             }
 
-            var connector = this.app.components.__connector__.connector;
+            let connector = this.app.components.__connector__.connector;
             connector.runDecode(dmsg, socket, function (err : Error, msg : any)
             {
                 if (err)

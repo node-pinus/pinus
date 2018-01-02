@@ -9,7 +9,7 @@ import { ConsoleService, IModule, IModuleFactory } from 'pinus-admin';
 import { MasterWatcherModule } from '../modules/masterwatcher';
 import { MonitorWatcherModule } from '../modules/monitorwatcher';
 import { ConsoleModule } from '../modules/console';
-var logger = getLogger('pinus', __filename);
+let logger = getLogger('pinus', __filename);
 
 export interface ModuleRecord
 {
@@ -23,21 +23,21 @@ export interface ModuleRecord
 export function loadModules(self : {app : Application , modules : Array<IModule>}, consoleService : ConsoleService)
 {
     // load app register modules
-    var _modules = self.app.get(Constants.KEYWORDS.MODULE);
+    let _modules = self.app.get(Constants.KEYWORDS.MODULE);
 
     if (!_modules)
     {
         return;
     }
 
-    var modules = [];
-    for (var m in _modules)
+    let modules = [];
+    for (let m in _modules)
     {
         modules.push(_modules[m]);
     }
 
-    var record, moduleId, module;
-    for (var i = 0, l = modules.length; i < l; i++)
+    let record, moduleId, module;
+    for (let i = 0, l = modules.length; i < l; i++)
     {
         record = modules[i];
         if (typeof record.module === 'function')
@@ -105,7 +105,7 @@ export function registerDefaultModules(isMaster : boolean, app : Application, cl
     }
 };
 
-var startModule = function (err : Error, modules : IModule[], index : number, cb : (err?:Error)=>void)
+let startModule = function (err : Error, modules : IModule[], index : number, cb : (err?:Error)=>void)
 {
     if (err || index >= modules.length)
     {
@@ -113,7 +113,7 @@ var startModule = function (err : Error, modules : IModule[], index : number, cb
         return;
     }
 
-    var module = modules[index];
+    let module = modules[index];
     if (module && typeof module.start === 'function')
     {
         module.start((err)=>

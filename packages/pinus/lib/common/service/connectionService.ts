@@ -50,13 +50,13 @@ export class ConnectionService
      */
     updateUserInfo(uid : UID, info : UserLoginRecord)
     {
-        var user = this.logined[uid];
+        let user = this.logined[uid];
         if (!user)
         {
             return;
         }
 
-        for (var p in info)
+        for (let p in info)
         {
             if (info.hasOwnProperty(p) && typeof (info as any)[p] !== 'function')
             {
@@ -111,8 +111,8 @@ export class ConnectionService
      */
     getStatisticsInfo()
     {
-        var list = [];
-        for (var uid in this.logined)
+        let list = [];
+        for (let uid in this.logined)
         {
             list.push(this.logined[uid]);
         }

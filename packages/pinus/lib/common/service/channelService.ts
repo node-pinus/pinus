@@ -6,13 +6,13 @@ import { IComponent } from '../../interfaces/Component';
 import { IStore } from '../../interfaces/IStore';
 import { IHandlerFilter } from '../../interfaces/IHandlerFilter';
 import { FRONTENDID, UID, SID } from '../../util/constants';
- var logger = getLogger('pinus', __filename);
+ let logger = getLogger('pinus', __filename);
 
 /**
  * constant
  */
-var ST_INITED = 0;
-var ST_DESTROYED = 1;
+let ST_INITED = 0;
+let ST_DESTROYED = 1;
 
 export interface ChannelServiceOptions
 {
@@ -72,7 +72,7 @@ export class ChannelService implements IComponent
             return this.channels[name];
         }
 
-        var c = new Channel(name, this);
+        let c = new Channel(name, this);
         addToStore(this, genKey(this), genKey(this, name));
         this.channels[name] = c;
         return c;
@@ -88,7 +88,7 @@ export class ChannelService implements IComponent
      */
     getChannel(name : string, create ?: boolean)
     {
-        var channel = this.channels[name];
+        let channel = this.channels[name];
         if (!channel && !!create)
         {
             channel = this.channels[name] = new Channel(name, this);
@@ -144,8 +144,8 @@ export class ChannelService implements IComponent
             utils.invokeCallback(cb, new Error('uids should not be empty'));
             return;
         }
-        var groups = {}, record;
-        for (var i = 0, l = uids.length; i < l; i++)
+        let groups = {}, record;
+        for (let i = 0, l = uids.length; i < l; i++)
         {
             record = uids[i];
             add(record.uid, record.sid, groups);
@@ -169,11 +169,11 @@ export class ChannelService implements IComponent
     broadcast(stype: string, route: string, msg: any, cb ? : (err ?: Error , result ?: void)=>void):void
     broadcast(stype: string, route: string, msg: any, opts?: any, cb ? : (err ?: Error , result ?: void)=>void)
     {
-        var app = this.app;
-        var namespace = 'sys';
-        var service = 'channelRemote';
-        var method = 'broadcast';
-        var servers = app.getServersByType(stype);
+        let app = this.app;
+        let namespace = 'sys';
+        let service = 'channelRemote';
+        let method = 'broadcast';
+        let servers = app.getServersByType(stype);
 
         if (!servers || servers.length === 0)
         {
@@ -182,10 +182,10 @@ export class ChannelService implements IComponent
             return;
         }
 
-        var count = servers.length;
-        var successFlag = false;
+        let count = servers.length;
+        let successFlag = false;
 
-        var latch = countDownLatch.createCountDownLatch(count, function ()
+        let latch = countDownLatch.createCountDownLatch(count, function ()
         {
             if (!successFlag)
             {
@@ -195,7 +195,7 @@ export class ChannelService implements IComponent
             utils.invokeCallback(cb, null);
         });
 
-        var genCB = function (serverId ?: string)
+        let genCB = function (serverId ?: string)
         {
             return function (err : Error)
             {
@@ -210,8 +210,8 @@ export class ChannelService implements IComponent
             };
         };
 
-        var self = this;
-        var sendMessage = function (serverId : string)
+        let self = this;
+        let sendMessage = function (serverId : string)
         {
             return (function ()
             {
@@ -238,7 +238,7 @@ export class ChannelService implements IComponent
             opts.filterParam = opts.userOptions.filterParam;
         }
 
-        for (var i = 0, l = count; i < l; i++)
+        for (let i = 0, l = count; i < l; i++)
         {
             sendMessage(servers[i].id);
         }
@@ -286,7 +286,7 @@ export class Channel
             return false;
         } else
         {
-            var res = add(uid, sid, this.groups);
+            let res = add(uid, sid, this.groups);
             if (res)
             {
                 this.records[uid] = { sid: sid, uid: uid };
@@ -310,7 +310,7 @@ export class Channel
         {
             return false;
         }
-        var res = deleteFrom(uid, sid, this.groups[sid]);
+        let res = deleteFrom(uid, sid, this.groups[sid]);
         if (res)
         {
             delete this.records[uid];
@@ -344,9 +344,9 @@ export class Channel
      */
     getMembers()
     {
-        var res = [], groups = this.groups;
-        var group, i, l;
-        for (var sid in groups)
+        let res = [], groups = this.groups;
+        let group, i, l;
+        for (let sid in groups)
         {
             group = groups[sid];
             for (i = 0, l = group.length; i < l; i++)
@@ -419,7 +419,7 @@ export class Channel
  * @param sid server id
  * @param groups {Object} grouped uids, , key: sid, value: [uid]
  */
-var add = function (uid : UID, sid : FRONTENDID, groups : {[sid:string]:UID[]})
+let add = function (uid : UID, sid : FRONTENDID, groups : {[sid:string]:UID[]})
 {
     if (!sid)
     {
@@ -427,7 +427,7 @@ var add = function (uid : UID, sid : FRONTENDID, groups : {[sid:string]:UID[]})
         return false;
     }
 
-    var group = groups[sid];
+    let group = groups[sid];
     if (!group)
     {
         group = [];
@@ -441,14 +441,14 @@ var add = function (uid : UID, sid : FRONTENDID, groups : {[sid:string]:UID[]})
 /**
  * delete element from array
  */
-var deleteFrom = function (uid : UID, sid : FRONTENDID, group : UID[])
+let deleteFrom = function (uid : UID, sid : FRONTENDID, group : UID[])
 {
     if (!uid || !sid || !group)
     {
         return false;
     }
 
-    for (var i = 0, l = group.length; i < l; i++)
+    for (let i = 0, l = group.length; i < l; i++)
     {
         if (group[i] === uid)
         {
@@ -471,15 +471,15 @@ var deleteFrom = function (uid : UID, sid : FRONTENDID, group : UID[])
  *
  * @api private
  */
-var sendMessageByGroup = function (channelService : ChannelService, route : string, msg : any, groups : {[sid:string] : UID[]}, opts : any, cb : Function)
+let sendMessageByGroup = function (channelService : ChannelService, route : string, msg : any, groups : {[sid:string] : UID[]}, opts : any, cb : Function)
 {
-    var app = channelService.app;
-    var namespace = 'sys';
-    var service = 'channelRemote';
-    var method = 'pushMessage';
-    var count = utils.size(groups);
-    var successFlag = false;
-    var failIds : SID[] = [];
+    let app = channelService.app;
+    let namespace = 'sys';
+    let service = 'channelRemote';
+    let method = 'pushMessage';
+    let count = utils.size(groups);
+    let successFlag = false;
+    let failIds : SID[] = [];
 
     logger.debug('[%s] channelService sendMessageByGroup route: %s, msg: %j, groups: %j, opts: %j', app.serverId, route, msg, groups, opts);
     if (count === 0)
@@ -489,7 +489,7 @@ var sendMessageByGroup = function (channelService : ChannelService, route : stri
         return;
     }
 
-    var latch = countDownLatch.createCountDownLatch(count, function ()
+    let latch = countDownLatch.createCountDownLatch(count, function ()
     {
         if (!successFlag)
         {
@@ -499,7 +499,7 @@ var sendMessageByGroup = function (channelService : ChannelService, route : stri
         utils.invokeCallback(cb, null, failIds);
     });
 
-    var rpcCB = function (serverId : string)
+    let rpcCB = function (serverId : string)
     {
         return function (err : Error, fails : SID[])
         {
@@ -522,7 +522,7 @@ var sendMessageByGroup = function (channelService : ChannelService, route : stri
     // for compatiblity
     opts.isPush = true;
 
-    var sendMessage = function (sid : FRONTENDID)
+    let sendMessage = function (sid : FRONTENDID)
     {
         return (function ()
         {
@@ -539,8 +539,8 @@ var sendMessageByGroup = function (channelService : ChannelService, route : stri
         })();
     };
 
-    var group;
-    for (var sid in groups)
+    let group;
+    for (let sid in groups)
     {
         group = groups[sid];
         if (group && group.length > 0)
@@ -554,7 +554,7 @@ var sendMessageByGroup = function (channelService : ChannelService, route : stri
     }
 };
 
-var restoreChannel = function (self : ChannelService, cb : Function)
+let restoreChannel = function (self : ChannelService, cb : Function)
 {
     if (!self.store)
     {
@@ -575,19 +575,20 @@ var restoreChannel = function (self : ChannelService, cb : Function)
                     utils.invokeCallback(cb);
                     return;
                 }
-                var load = function (key : string)
+                let load = function (key : string , name : string)
                 {
                     return (function ()
                     {
+                        let channelName = name;
                         loadAllFromStore(self, key, function (err, items)
                         {
-                            for (var j = 0; j < items.length; j++)
+                            for (let j = 0; j < items.length; j++)
                             {
-                                var array = items[j].split(':');
-                                var sid = array[0];
-                                var uid = array[1];
-                                var channel = self.channels[name];
-                                var res = add(uid, sid, channel.groups);
+                                let array = items[j].split(':');
+                                let sid = array[0];
+                                let uid = array[1];
+                                let channel = self.channels[channelName];
+                                let res = add(uid, sid, channel.groups);
                                 if (res)
                                 {
                                     channel.records[uid] = { sid: sid, uid: uid };
@@ -597,11 +598,11 @@ var restoreChannel = function (self : ChannelService, cb : Function)
                     })();
                 };
 
-                for (var i = 0; i < list.length; i++)
+                for (let i = 0; i < list.length; i++)
                 {
-                    var name = list[i].slice(genKey(self).length + 1);
+                    let name = list[i].slice(genKey(self).length + 1);
                     self.channels[name] = new Channel(name, self);
-                    load(list[i]);
+                    load(list[i] , name);
                 }
                 utils.invokeCallback(cb);
             }
@@ -609,7 +610,7 @@ var restoreChannel = function (self : ChannelService, cb : Function)
     }
 };
 
-var addToStore = function (self : ChannelService, key : string,  value : string)
+let addToStore = function (self : ChannelService, key : string,  value : string)
 {
     if (!!self.store)
     {
@@ -623,7 +624,7 @@ var addToStore = function (self : ChannelService, key : string,  value : string)
     }
 };
 
-var removeFromStore = function (self : ChannelService, key : string,  value : string)
+let removeFromStore = function (self : ChannelService, key : string,  value : string)
 {
     if (!!self.store)
     {
@@ -637,7 +638,7 @@ var removeFromStore = function (self : ChannelService, key : string,  value : st
     }
 };
 
-var loadAllFromStore = function (self : ChannelService, key : string, cb : (err:Error , list:string[])=>void)
+let loadAllFromStore = function (self : ChannelService, key : string, cb : (err:Error , list:string[])=>void)
 {
     if (!!self.store)
     {
@@ -655,7 +656,7 @@ var loadAllFromStore = function (self : ChannelService, key : string, cb : (err:
     }
 };
 
-var removeAllFromStore = function (self : ChannelService, key : string)
+let removeAllFromStore = function (self : ChannelService, key : string)
 {
     if (!!self.store)
     {
@@ -669,7 +670,7 @@ var removeAllFromStore = function (self : ChannelService, key : string)
     }
 };
 
-var genKey = function (self : ChannelService, name ?: string)
+let genKey = function (self : ChannelService, name ?: string)
 {
     if (!!name)
     {
@@ -680,7 +681,7 @@ var genKey = function (self : ChannelService, name ?: string)
     }
 };
 
-var genValue = function (sid : FRONTENDID, uid : UID)
+let genValue = function (sid : FRONTENDID, uid : UID)
 {
     return sid + ':' + uid;
 };

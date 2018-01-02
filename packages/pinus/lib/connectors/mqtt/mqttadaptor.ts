@@ -35,20 +35,20 @@ export class MqttAdaptor
 
     onPublish(client : MQTTSocket, packet : PublishPacket)
     {
-        var route = this.publishRoute;
+        let route = this.publishRoute;
 
         if (!route)
         {
             throw new Error('unspecified publish route.');
         }
 
-        var payload = packet.payload;
+        let payload = packet.payload;
         if (payload instanceof Buffer)
         {
             payload = payload.toString('utf8');
         }
 
-        var req = {
+        let req = {
             id: packet.messageId,
             route: route,
             body: packet
@@ -64,14 +64,14 @@ export class MqttAdaptor
 
     onSubscribe(client : MQTTSocket, packet : SubscribePacket)
     {
-        var route = this.subscribeRoute;
+        let route = this.subscribeRoute;
 
         if (!route)
         {
             throw new Error('unspecified subscribe route.');
         }
 
-        var req = {
+        let req = {
             id: packet.messageId,
             route: route,
             body: {
@@ -86,7 +86,7 @@ export class MqttAdaptor
 
     onPubAck(client : MQTTSocket, packet : SubscribePacket)
     {
-        var req = {
+        let req = {
             id: packet.messageId,
             route: 'connector.mqttHandler.pubAck',
             body: {
@@ -113,8 +113,8 @@ export class MqttAdaptor
      */
     publish(client : MQTTSocket, packet : {id:number , body:any})
     {
-        var mid = packet.id;
-        var subreq = this.subReqs[mid];
+        let mid = packet.id;
+        let subreq = this.subReqs[mid];
         if (subreq)
         {
             // is suback

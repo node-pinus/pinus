@@ -1,16 +1,16 @@
 import * as util from 'util';
 import { EventEmitter } from 'events';
 import { createServer } from 'http';
-var httpServer = createServer();
+let httpServer = createServer();
 import { SioSocket } from './siosocket';
 import { IConnector } from '../interfaces/IConnector';
 import * as socket_io from 'socket.io';
 
-var PKG_ID_BYTES = 4;
-var PKG_ROUTE_LENGTH_BYTES = 1;
-var PKG_HEAD_BYTES = PKG_ID_BYTES + PKG_ROUTE_LENGTH_BYTES;
+let PKG_ID_BYTES = 4;
+let PKG_ROUTE_LENGTH_BYTES = 1;
+let PKG_HEAD_BYTES = PKG_ID_BYTES + PKG_ROUTE_LENGTH_BYTES;
 
-var curId = 1;
+let curId = 1;
 
 
 export interface SIOConnectorOptions
@@ -125,9 +125,9 @@ export class SIOConnector extends EventEmitter implements IConnector
      */
     start(cb: () => void)
     {
-        var self = this;
+        let self = this;
         // issue https://github.com/NetEase/pinus-cn/issues/174
-        var opts: SIOConnectorOptions;
+        let opts: SIOConnectorOptions;
         if (!!this.opts)
         {
             opts = this.opts;
@@ -142,9 +142,9 @@ export class SIOConnector extends EventEmitter implements IConnector
         }
 
         opts.path = '/socket.io';
-        var sio = socket_io(httpServer, opts);
+        let sio = socket_io(httpServer, opts);
 
-        var port = this.port;
+        let port = this.port;
         httpServer.listen(port, function ()
         {
             console.log('sio Server listening at port %d', port);
@@ -153,7 +153,7 @@ export class SIOConnector extends EventEmitter implements IConnector
         sio.on('connection', (socket) =>
         {
             // this.wsocket.sockets.on('connection', function (socket) {
-            var siosocket = new SioSocket(curId++, socket);
+            let siosocket = new SioSocket(curId++, socket);
             self.emit('connection', siosocket);
             siosocket.on('closing', function (reason)
             {
@@ -198,15 +198,15 @@ export class SIOConnector extends EventEmitter implements IConnector
      */
     decode(msg: any)
     {
-        var index = 0;
+        let index = 0;
 
-        var id = parseIntField(msg, index, PKG_ID_BYTES);
+        let id = parseIntField(msg, index, PKG_ID_BYTES);
         index += PKG_ID_BYTES;
 
-        var routeLen = parseIntField(msg, index, PKG_ROUTE_LENGTH_BYTES);
+        let routeLen = parseIntField(msg, index, PKG_ROUTE_LENGTH_BYTES);
 
-        var route = msg.substr(PKG_HEAD_BYTES, routeLen);
-        var body = msg.substr(PKG_HEAD_BYTES + routeLen);
+        let route = msg.substr(PKG_HEAD_BYTES, routeLen);
+        let body = msg.substr(PKG_HEAD_BYTES + routeLen);
 
         return {
             id: id,
@@ -217,7 +217,7 @@ export class SIOConnector extends EventEmitter implements IConnector
 
 }
 
-var composeResponse = function (msgId: number, route: string, msgBody: any)
+let composeResponse = function (msgId: number, route: string, msgBody: any)
 {
     return {
         id: msgId,
@@ -225,15 +225,15 @@ var composeResponse = function (msgId: number, route: string, msgBody: any)
     };
 };
 
-var composePush = function (route: string, msgBody: any)
+let composePush = function (route: string, msgBody: any)
 {
     return JSON.stringify({ route: route, body: msgBody });
 };
 
-var parseIntField = function (str: string, offset: number, len: number)
+let parseIntField = function (str: string, offset: number, len: number)
 {
-    var res = 0;
-    for (var i = 0; i < len; i++)
+    let res = 0;
+    for (let i = 0; i < len; i++)
     {
         if (i > 0)
         {

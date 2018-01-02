@@ -1,4 +1,4 @@
-var sequeue = require('seq-queue');
+let sequeue = require('seq-queue');
 
 export interface QueueTask
 {
@@ -12,9 +12,9 @@ export interface Queue
 
 
 
-var queues : {[key:number] : Queue} = {};
+let queues : {[key:number] : Queue} = {};
 
-export var timeout = 3000;
+export let timeout = 3000;
 
 /**
  * Add tasks into task group. Create the task group if it dose not exist.
@@ -26,7 +26,7 @@ export var timeout = 3000;
  */
 export function addTask(key : number, fn : (task : QueueTask)=>void, ontimeout : ()=>void, timeoutMs : number)
 {
-    var queue = queues[key];
+    let queue = queues[key];
     if (!queue)
     {
         queue = sequeue.createQueue(timeout);

@@ -8,7 +8,7 @@ import * as generate from './mqtt/generate';
 import { getLogger } from 'pinus-logger';
 import { IConnector } from '../interfaces/IConnector';
 import * as mqtt_connection from 'mqtt-connection';
-var logger = getLogger('pinus', __filename);
+let logger = getLogger('pinus', __filename);
 
 
 export interface MQTTConnectorOptions
@@ -17,7 +17,7 @@ export interface MQTTConnectorOptions
     subscribeRoute ?: string;
 }
 
-var curId = 1;
+let curId = 1;
 /**
  * Connector that manager low level connection and protocol bewteen server and client.
  * Develper can provide their own connector to switch the low level prototol, such as tcp or probuf.
@@ -45,7 +45,7 @@ export class MQTTConnector extends EventEmitter implements IConnector
      */
     start(cb : ()=>void)
     {
-        var self = this;
+        let self = this;
         this.server = new net.Server();
         this.server.listen(this.port);
         logger.info('[MQTTConnector] listen on %d', this.port);
@@ -89,7 +89,7 @@ export class MQTTConnector extends EventEmitter implements IConnector
 
             if (self.opts.disconnectOnTimeout)
             {
-                var timeout = self.opts.timeout * 1000 || constants.TIME.DEFAULT_MQTT_HEARTBEAT_TIMEOUT;
+                let timeout = self.opts.timeout * 1000 || constants.TIME.DEFAULT_MQTT_HEARTBEAT_TIMEOUT;
                 stream.setTimeout(timeout, function ()
                 {
                     client.destroy();
@@ -100,7 +100,7 @@ export class MQTTConnector extends EventEmitter implements IConnector
             client.on('connect', function (packet : any)
             {
                 client.connack({ returnCode: 0 });
-                var mqttsocket = new MQTTSocket(curId++, client, self.adaptor);
+                let mqttsocket = new MQTTSocket(curId++, client, self.adaptor);
                 self.emit('connection', mqttsocket);
             });
         });
@@ -132,7 +132,7 @@ export class MQTTConnector extends EventEmitter implements IConnector
         this.server.close();
     };
 }
-var composeResponse = function (msgId : number, route : string, msgBody : any)
+let composeResponse = function (msgId : number, route : string, msgBody : any)
 {
     return {
         id: msgId,
@@ -140,9 +140,9 @@ var composeResponse = function (msgId : number, route : string, msgBody : any)
     };
 };
 
-var composePush = function (route : string, msgBody :any)
+let composePush = function (route : string, msgBody :any)
 {
-    var msg = generate.publish(msgBody);
+    let msg = generate.publish(msgBody);
     if (!msg)
     {
         logger.error('invalid mqtt publish message: %j', msgBody);

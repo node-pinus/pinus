@@ -2,9 +2,9 @@ import { Message } from 'pinus-protocol';
 import * as  Constants from '../../util/constants';
 import { getLogger } from 'pinus-logger';
 import { IConnector } from '../../interfaces/IConnector';
-var logger = getLogger('pinus', __filename);
+let logger = getLogger('pinus', __filename);
 
-var encode = function (this : IConnector ,  reqId : number, route : string, msg : any)
+let encode = function (this : IConnector ,  reqId : number, route : string, msg : any)
 {
     if (!!reqId)
     {
@@ -15,17 +15,17 @@ var encode = function (this : IConnector ,  reqId : number, route : string, msg 
     }
 };
 
-var decode = function (this : any ,  msg : any)
+let decode = function (this : any ,  msg : any)
 {
     msg = Message.decode(msg.body);
-    var route = msg.route;
+    let route = msg.route;
 
     // decode use dictionary
     if (!!msg.compressRoute)
     {
         if (!!this.connector.useDict)
         {
-            var abbrs = this.dictionary.getAbbrs();
+            let abbrs = this.dictionary.getAbbrs();
             if (!abbrs[route])
             {
                 logger.error('dictionary error! no abbrs for route : %s', route);
@@ -60,7 +60,7 @@ var decode = function (this : any ,  msg : any)
     return msg;
 };
 
-var composeResponse = function (server : any, msgId : number, route : string, msgBody : any)
+let composeResponse = function (server : any, msgId : number, route : string, msgBody : any)
 {
     if (!msgId || !route || !msgBody)
     {
@@ -70,7 +70,7 @@ var composeResponse = function (server : any, msgId : number, route : string, ms
     return Message.encode(msgId, Message.TYPE_RESPONSE, false, null, msgBody);
 };
 
-var composePush = function (server : any, route : string, msgBody : any)
+let composePush = function (server : any, route : string, msgBody : any)
 {
     if (!route || !msgBody)
     {
@@ -78,10 +78,10 @@ var composePush = function (server : any, route : string, msgBody : any)
     }
     msgBody = encodeBody(server, route, msgBody);
     // encode use dictionary
-    var compressRoute = false;
+    let compressRoute = false;
     if (!!server.dictionary)
     {
-        var dict = server.dictionary.getDict();
+        let dict = server.dictionary.getDict();
         if (!!server.connector.useDict && !!dict[route])
         {
             route = dict[route];
@@ -91,7 +91,7 @@ var composePush = function (server : any, route : string, msgBody : any)
     return Message.encode(0, Message.TYPE_PUSH, compressRoute, route, msgBody);
 };
 
-var encodeBody = function (server : any, route : string, msgBody : any)
+let encodeBody = function (server : any, route : string, msgBody : any)
 {
     // encode use protobuf
     if (!!server.protobuf && !!server.protobuf.getProtos().server[route])

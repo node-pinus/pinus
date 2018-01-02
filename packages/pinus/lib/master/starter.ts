@@ -1,6 +1,6 @@
 import * as cp from 'child_process';
 import { getLogger } from 'pinus-logger';
- var logger = getLogger('pinus', __filename);
+ let logger = getLogger('pinus', __filename);
 import * as util from 'util';
 import * as utils from '../util/utils';
 import * as Constants from '../util/constants';
@@ -10,8 +10,8 @@ import { Application } from '../application';
 import { ServerInfo } from '../util/constants';
 
 
-var cpus : {[serverId : string] : number} = {};
-var env : string = Constants.RESERVED.ENV_DEV;
+let cpus : {[serverId : string] : number} = {};
+let env : string = Constants.RESERVED.ENV_DEV;
 /**
  * Run all servers
  *
@@ -20,15 +20,15 @@ var env : string = Constants.RESERVED.ENV_DEV;
  */
 export function runServers(app : Application)
 {
-    var server, servers;
-    var condition = app.startId || app.type;
+    let server, servers;
+    let condition = app.startId || app.type;
     switch (condition)
     {
         case Constants.RESERVED.MASTER:
             break;
         case Constants.RESERVED.ALL:
             servers = app.getServersFromConfig();
-            for (var serverId in servers)
+            for (let serverId in servers)
             {
                 run(app, servers[serverId]);
             }
@@ -41,7 +41,7 @@ export function runServers(app : Application)
             } else
             {
                 servers = app.get(Constants.RESERVED.SERVERS)[condition];
-                for (var i = 0; i < servers.length; i++)
+                for (let i = 0; i < servers.length; i++)
                 {
                     run(app, servers[i]);
                 }
@@ -59,10 +59,10 @@ export function runServers(app : Application)
 export function run(app : Application, server : ServerInfo, cb ?: (err?:string | number)=>void)
 {
     env = app.get(Constants.RESERVED.ENV);
-    var cmd, key;
+    let cmd, key;
     if (utils.isLocal(server.host))
     {
-        var options : string[] = [];
+        let options : string[] = [];
         if (!!server.args)
         {
             if (typeof server.args === 'string')
@@ -88,7 +88,7 @@ export function run(app : Application, server : ServerInfo, cb ?: (err?:string |
     } else
     {
         cmd = util.format('cd "%s" && "%s"', app.getBase(), process.execPath);
-        var arg = server.args;
+        let arg = server.args;
         if (arg !== undefined)
         {
             cmd += arg;
@@ -120,7 +120,7 @@ export function bindCpu(sid : string, pid : string, host : string)
     {
         if (utils.isLocal(host))
         {
-            var options : string[] = [];
+            let options : string[] = [];
             options.push('-pc');
             options.push(String(cpus[sid]));
             options.push(pid);
@@ -128,7 +128,7 @@ export function bindCpu(sid : string, pid : string, host : string)
         }
         else
         {
-            var cmd = util.format('taskset -pc "%s" "%s"', cpus[sid], pid);
+            let cmd = util.format('taskset -pc "%s" "%s"', cpus[sid], pid);
             sshrun(cmd, host, null);
         }
     }
@@ -142,13 +142,13 @@ export function bindCpu(sid : string, pid : string, host : string)
  */
 export function kill(pids : string[], servers : ServerInfo[])
 {
-    var cmd;
-    for (var i = 0; i < servers.length; i++)
+    let cmd;
+    for (let i = 0; i < servers.length; i++)
     {
-        var server = servers[i];
+        let server = servers[i];
         if (utils.isLocal(server.host))
         {
-            var options : string[] = [];
+            let options : string[] = [];
             if (os.platform() === Constants.PLATFORM.WIN)
             {
                 cmd = Constants.COMMAND.TASKKILL;
@@ -185,9 +185,9 @@ export function kill(pids : string[], servers : ServerInfo[])
  */
 export function sshrun(cmd : string, host : string, cb ?: (err?:string | number)=>void)
 {
-    var args = [];
+    let args = [];
     args.push(host);
-    var ssh_params = pinus.app.get(Constants.RESERVED.SSH_CONFIG_PARAMS);
+    let ssh_params = pinus.app.get(Constants.RESERVED.SSH_CONFIG_PARAMS);
     if (!!ssh_params && Array.isArray(ssh_params))
     {
         args = args.concat(ssh_params);
@@ -220,18 +220,18 @@ export function localrun(cmd : string, host : string, options : string[], callba
  * @param {Callback} callback
  *
  */
-var spawnProcess = function (command : string, host : string, options : string[], cb ?: (result : string | number)=>void)
+let spawnProcess = function (command : string, host : string, options : string[], cb ?: (result : string | number)=>void)
 {
-    var child = null;
+    let child = null;
 
     if (env === Constants.RESERVED.ENV_DEV)
     {
         child = cp.spawn(command, options);
-        var prefix = command === Constants.COMMAND.SSH ? '[' + host + '] ' : '';
+        let prefix = command === Constants.COMMAND.SSH ? '[' + host + '] ' : '';
 
         child.stderr.on('data', function (chunk)
         {
-            var msg = chunk.toString();
+            let msg = chunk.toString();
             process.stderr.write(msg);
             if (!!cb)
             {
@@ -241,7 +241,7 @@ var spawnProcess = function (command : string, host : string, options : string[]
 
         child.stdout.on('data', function (chunk)
         {
-            var msg = prefix + chunk.toString();
+            let msg = prefix + chunk.toString();
             process.stdout.write(msg);
         });
     } else

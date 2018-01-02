@@ -1,7 +1,7 @@
 import { Package } from 'pinus-protocol';
 import { getLogger } from 'pinus-logger';
 import { ISocket } from '../../interfaces/ISocket';
-var logger = getLogger('pinus', __filename);
+let logger = getLogger('pinus', __filename);
 
 export interface HeartbeatCommandOptions
 {
@@ -45,7 +45,7 @@ export class HeartbeatCommand
             return;
         }
 
-        var self = this;
+        let self = this;
 
         if (!this.clients[socket.id])
         {
@@ -75,7 +75,7 @@ export class HeartbeatCommand
 
     clear(id: number)
     {
-        var tid = this.timeouts[id];
+        let tid = this.timeouts[id];
         if (tid)
         {
             clearTimeout(tid);
@@ -85,7 +85,7 @@ export class HeartbeatCommand
     clearTimers(id: number)
     {
         delete this.clients[id];
-        var tid = this.timeouts[id];
+        let tid = this.timeouts[id];
         if (tid)
         {
             clearTimeout(tid);

@@ -4,10 +4,10 @@
  */
 import { getLogger } from 'pinus-logger';
 import {IRpcFilter} from 'pinus-rpc';
-var rpcLogger = getLogger('rpc-log', __filename);
-var toobusy : any = null;
+let rpcLogger = getLogger('rpc-log', __filename);
+let toobusy : any = null;
 
-var DEFAULT_MAXLAG = 70;
+let DEFAULT_MAXLAG = 70;
 
 
 export class RpcToobusyFilter implements IRpcFilter
@@ -37,7 +37,7 @@ export class RpcToobusyFilter implements IRpcFilter
         if (!!toobusy && toobusy())
         {
             rpcLogger.warn('Server too busy for rpc request, serverId:' + serverId + ' msg: ' + msg);
-            var err = new Error('Backend server ' + serverId + ' is too busy now!');
+            let err = new Error('Backend server ' + serverId + ' is too busy now!');
             (err as any).code = 500;
             next(err);
         } else

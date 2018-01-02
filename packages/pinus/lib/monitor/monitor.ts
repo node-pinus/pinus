@@ -2,7 +2,7 @@
  * Component for monitor.
  * Load and start monitor client.
  */
-import { getLogger } from 'pinus-logger'; var logger = getLogger('pinus', __filename);
+import { getLogger } from 'pinus-logger'; let logger = getLogger('pinus', __filename);
 import * as admin from 'pinus-admin';
 import * as moduleUtil from '../util/moduleUtil';
 import * as utils from '../util/utils';
@@ -10,6 +10,8 @@ import * as Constants from '../util/constants';
 import { Application } from '../application';
 import { ConsoleService } from 'pinus-admin';
 import { IModule, MasterInfo } from '../../index';
+import { ServerInfo } from '../util/constants';
+import { ServerStartArgs } from '../util/appUtil';
 export interface MonitorOptions
 {
     closeWatcher ?: boolean;
@@ -17,8 +19,8 @@ export interface MonitorOptions
 export class Monitor
 {
     app: Application;
-    serverInfo: any;
-    masterInfo: any;
+    serverInfo: ServerInfo;
+    masterInfo: ServerStartArgs;
     modules : IModule[] = [];
     closeWatcher: any;
     monitorConsole: ConsoleService;
@@ -52,7 +54,7 @@ export class Monitor
     {
         moduleUtil.loadModules(this, this.monitorConsole);
 
-        var self = this;
+        let self = this;
         this.monitorConsole.start(function (err)
         {
             if (err)
@@ -90,7 +92,7 @@ export class Monitor
     // monitor reconnect to master
     reconnect(masterInfo : MasterInfo)
     {
-        var self = this;
+        let self = this;
         this.stop(function ()
         {
             self.monitorConsole = admin.createMonitorConsole({

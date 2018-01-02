@@ -2,7 +2,7 @@ import { getLogger } from 'pinus-logger';import { RouteRecord } from '../../util
 import { HandlerCallback } from './handlerService';
 import { BeforeHandlerFilter, AfterHandlerFilter } from '../../interfaces/IHandlerFilter';
 import { FrontendOrBackendSession } from '../../server/server';
- var logger = getLogger('pinus', __filename);
+ let logger = getLogger('pinus', __filename);
 
 /**
  * Filter service.
@@ -50,8 +50,8 @@ export class FilterService
      */
     beforeFilter(routeRecord : RouteRecord ,msg : any, session : FrontendOrBackendSession, cb : HandlerCallback)
     {
-        var index = 0, self = this;
-        var next = function (err?: any, resp?: any)
+        let index = 0, self = this;
+        let next = function (err?: any, resp?: any)
         {
             if (err || index >= self.befores.length)
             {
@@ -59,7 +59,7 @@ export class FilterService
                 return;
             }
 
-            var handler = self.befores[index++];
+            let handler = self.befores[index++];
             if (typeof handler === 'function')
             {
                 handler(routeRecord , msg, session, next);
@@ -89,7 +89,7 @@ export class FilterService
      */
     afterFilter(err : Error, routeRecord : RouteRecord ,msg : any, session : FrontendOrBackendSession, resp : any, cb : HandlerCallback)
     {
-        var index = 0, self = this;
+        let index = 0, self = this;
         function next(err : Error)
         {
             //if done
@@ -99,7 +99,7 @@ export class FilterService
                 return;
             }
 
-            var handler = self.afters[index++];
+            let handler = self.afters[index++];
             if (typeof handler === 'function')
             {
                 handler(err, routeRecord , msg, session, resp, next);

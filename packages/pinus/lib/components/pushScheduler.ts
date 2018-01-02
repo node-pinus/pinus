@@ -9,7 +9,7 @@ import { IComponent } from '../interfaces/Component';
 import { IPushScheduler, ScheduleOptions } from '../interfaces/IPushScheduler';
 import { MultiPushScheduler, MultiPushSchedulerOptions } from '../pushSchedulers/multi';
 import { SID } from '../util/constants';
-var logger = getLogger('pinus', __filename);
+let logger = getLogger('pinus', __filename);
 
 
 export interface PushSchedulerComponentOptions
@@ -65,9 +65,9 @@ export class PushSchedulerComponent implements IComponent
         this.scheduler.schedule(reqId, route, msg, recvs, opts, cb);     
     };
 }
-var getScheduler = function (pushSchedulerComp : PushSchedulerComponent, app : Application, opts : PushSchedulerComponentOptions | MultiPushSchedulerOptions) : IPushScheduler
+let getScheduler = function (pushSchedulerComp : PushSchedulerComponent, app : Application, opts : PushSchedulerComponentOptions | MultiPushSchedulerOptions) : IPushScheduler
 {
-    var scheduler = opts.scheduler || DefaultScheduler;
+    let scheduler = opts.scheduler || DefaultScheduler;
     if (typeof scheduler === 'function')
     {
         return new scheduler(app, opts);

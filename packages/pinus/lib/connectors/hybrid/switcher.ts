@@ -9,16 +9,16 @@ import { TlsOptions } from 'tls';
 import * as WebSocket from 'ws';
 import { TcpSocket } from './tcpsocket';
 import { IHybridSocket } from './IHybridSocket';
-var logger = getLogger('pinus', __filename);
+let logger = getLogger('pinus', __filename);
 
-var HTTP_METHODS = [
+let HTTP_METHODS = [
     'GET', 'POST', 'DELETE', 'PUT', 'HEAD'
 ];
 
-var ST_STARTED = 1;
-var ST_CLOSED = 2;
+let ST_STARTED = 1;
+let ST_CLOSED = 2;
 
-var DEFAULT_TIMEOUT = 90;
+let DEFAULT_TIMEOUT = 90;
 
 export interface HybridSwitcherOptions
 {
@@ -91,7 +91,7 @@ export class HybridSwitcher extends EventEmitter implements IHybridSwitcher
             socket.destroy();
         });
 
-        var self = this;
+        let self = this;
 
         socket.once('data',  (data)=>
         {
@@ -133,11 +133,11 @@ export class HybridSwitcher extends EventEmitter implements IHybridSwitcher
     }
 
 }
-var isHttp = function (data : Buffer)
+let isHttp = function (data : Buffer)
 {
-    var head = data.toString('utf8', 0, 4);
+    let head = data.toString('utf8', 0, 4);
 
-    for (var i = 0, l = HTTP_METHODS.length; i < l; i++)
+    for (let i = 0, l = HTTP_METHODS.length; i < l; i++)
     {
         if (head.indexOf(HTTP_METHODS[i]) === 0)
         {

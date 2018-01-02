@@ -4,8 +4,8 @@ import { ISocket } from '../interfaces/ISocket';
 import * as mqtt_connection from 'mqtt-connection';
 import { MqttAdaptor } from './mqtt/mqttadaptor';
 
-var ST_INITED = 1;
-var ST_CLOSED = 2;
+let ST_INITED = 1;
+let ST_CLOSED = 2;
 
 /**
  * Socket class that wraps socket and websocket to provide unified interface for up level.
@@ -30,7 +30,7 @@ export class MQTTSocket extends EventEmitter implements ISocket
         };
         this.adaptor = adaptor;
 
-        var self = this;
+        let self = this;
 
         socket.on('close', this.emit.bind(this, 'disconnect'));
         socket.on('error', this.emit.bind(this, 'disconnect'));
@@ -71,7 +71,7 @@ export class MQTTSocket extends EventEmitter implements ISocket
     
     sendBatch(msgs : any[])
     {
-        for (var i = 0, l = msgs.length; i < l; i++)
+        for (let i = 0, l = msgs.length; i < l; i++)
         {
             this.send(msgs[i]);
         }

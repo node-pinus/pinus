@@ -39,7 +39,7 @@ import { ToobusyFilter } from './filters/handler/toobusy';
 import { TimeFilter } from './filters/handler/time';
 import { SerialFilter } from './filters/handler/serial';
 import { TimeoutFilter } from './filters/handler/timeout';
-var Package = require('../../package');
+let Package = require('../../package');
 
 import {default as events} from './util/events';
 import { BackendSessionComponent } from './components/backendSession';
@@ -138,7 +138,7 @@ export class Pomelo
      */
     createApp(opts ?: ApplicationOptions)
     {
-        var app = new Application();
+        let app = new Application();
         app.init(opts);
         this._app = app;
         return app;
@@ -153,4 +153,4 @@ export class Pomelo
     }
 }
 
-export var pinus = new Pomelo();
+export let pinus = new Pomelo();

@@ -1,4 +1,4 @@
-import { getLogger } from 'pinus-logger'; var logger = getLogger('pinus', __filename);
+import { getLogger } from 'pinus-logger'; let logger = getLogger('pinus', __filename);
 import * as utils from '../util/utils';
 import * as Constants from '../util/constants';
 import { Watchdog} from '../master/watchdog';
@@ -80,7 +80,7 @@ export class MasterWatcherModule implements IModule
             logger.warn('masterwatcher receive empty message.');
             return;
         }
-        var func = (masterMethods as any)[msg.action];
+        let func = (masterMethods as any)[msg.action];
         if (!func)
         {
             logger.info('masterwatcher unknown action: %j', msg.action);
@@ -92,7 +92,7 @@ export class MasterWatcherModule implements IModule
 
 // ----------------- monitor request methods -------------------------
 
-var subscribe = function (module : MasterWatcherModule, agent : MasterAgent, msg : any, cb : MasterCallback)
+let subscribe = function (module : MasterWatcherModule, agent : MasterAgent, msg : any, cb : MasterCallback)
 {
     if (!msg)
     {
@@ -104,7 +104,7 @@ var subscribe = function (module : MasterWatcherModule, agent : MasterAgent, msg
     utils.invokeCallback(cb, null, module.watchdog.query());
 };
 
-var unsubscribe = function (module : MasterWatcherModule, agent : MasterAgent, msg : any, cb : MasterCallback)
+let unsubscribe = function (module : MasterWatcherModule, agent : MasterAgent, msg : any, cb : MasterCallback)
 {
     if (!msg)
     {
@@ -115,12 +115,12 @@ var unsubscribe = function (module : MasterWatcherModule, agent : MasterAgent, m
     utils.invokeCallback(cb);
 };
 
-var query = function (module : MasterWatcherModule, agent : MasterAgent, msg : any, cb : MasterCallback)
+let query = function (module : MasterWatcherModule, agent : MasterAgent, msg : any, cb : MasterCallback)
 {
     utils.invokeCallback(cb, null, module.watchdog.query());
 };
 
-var record = function (module : MasterWatcherModule, agent : MasterAgent, msg : any, cb : MasterCallback)
+let record = function (module : MasterWatcherModule, agent : MasterAgent, msg : any, cb : MasterCallback)
 {
     if (!msg)
     {
@@ -130,7 +130,7 @@ var record = function (module : MasterWatcherModule, agent : MasterAgent, msg : 
     module.watchdog.record(msg.id);
 };
 
-var masterMethods = {
+let masterMethods = {
     'subscribe': subscribe,
     'unsubscribe': unsubscribe,
     'query': query,

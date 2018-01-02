@@ -10,9 +10,9 @@
 import * as utils from './util/utils';
 import { getLogger } from 'pinus-logger';
 import * as Logger from 'pinus-logger';
- var logger = getLogger('pinus', __filename);
+ let logger = getLogger('pinus', __filename);
 import { EventEmitter } from 'events';
-import { default as events } from './util/events';
+import { default as events, AppEvents } from './util/events';
 import * as appUtil from './util/appUtil';
 import * as Constants from './util/constants';
 import * as appManager from './common/manager/appManager';
@@ -39,7 +39,7 @@ import { isFunction } from 'util';
 import { IModule, IModuleFactory } from 'pinus-admin';
 import { ChannelComponent } from './components/channel';
 import { BackendSessionComponent } from './components/backendSession';
-import { Session, MasterInfo } from '../index';
+import { Session, MasterInfo, ApplicationEventContructor } from '../index';
 import { ServerInfo, FRONTENDID } from './util/constants';
 import { BeforeHandlerFilter, AfterHandlerFilter, IHandlerFilter } from './interfaces/IHandlerFilter';
 import { TransactionCondictionFunction, TransactionHandlerFunction } from './common/manager/appManager';
@@ -49,6 +49,7 @@ import { ModuleRecord } from './util/moduleUtil';
 import { IPlugin } from './interfaces/IPlugin';
 import { Cron } from './server/server';
 import { ServerStartArgs } from './util/appUtil';
+import { listEs6ClassMethods } from '../../pinus-rpc/dist/lib/util/utils';
 
 
 export type ConfigureCallback =  ()=>void;
@@ -66,10 +67,10 @@ export type BeforeStopHookFunction = (app:Application , shutDown : ()=>void, can
 /**
  * Application states
  */
-var STATE_INITED = 1;  // app has inited
-var STATE_START = 2;  // app start
-var STATE_STARTED = 3;  // app has started
-var STATE_STOPED = 4;  // app has stoped
+let STATE_INITED = 1;  // app has inited
+let STATE_START = 2;  // app start
+let STATE_STARTED = 3;  // app has started
+let STATE_STOPED = 4;  // app has stoped
 
 export class Application
 {
@@ -110,7 +111,7 @@ export class Application
     servers : {[id:string] : ServerInfo} = {};          // current global server info maps, id -> info
     serverTypeMaps : {[type:string] : ServerInfo[]}  = {};   // current global type maps, type -> [info]
     serverTypes : string[] = [];      // current global server type list
-    lifecycleCbs : ILifeCycle = {};     // current server custom lifecycle callbacks
+    usedPlugins : IPlugin[] = [];     // current server custom lifecycle callbacks
     clusterSeq : {[serverType:string] : number} = {};       // cluster id seqence
     state: number;
     base : string;
@@ -127,7 +128,7 @@ export class Application
     init(opts ?: ApplicationOptions)
     {
         opts = opts || {};
-        var base = opts.base || path.dirname(require.main.filename);
+        let base = opts.base || path.dirname(require.main.filename);
         this.set(Constants.RESERVED.BASE, base);
         this.base = base;
         
@@ -176,10 +177,10 @@ export class Application
     {
         if (process.env.POMELO_LOGGER !== 'off')
         {
-            var base = this.getBase();
-            var env = this.get(Constants.RESERVED.ENV);
-            var originPath = path.join(base, Constants.FILEPATH.LOG);
-            var presentPath = path.join(base, Constants.FILEPATH.CONFIG_DIR, env, path.basename(Constants.FILEPATH.LOG));
+            let base = this.getBase();
+            let env = this.get(Constants.RESERVED.ENV);
+            let originPath = path.join(base, Constants.FILEPATH.LOG);
+            let presentPath = path.join(base, Constants.FILEPATH.CONFIG_DIR, env, path.basename(Constants.FILEPATH.LOG));
             if (fs.existsSync(originPath))
             {
                 logger.configure(originPath, { serverId: this.serverId, base: base });
@@ -360,15 +361,15 @@ export class Application
      */
     loadConfigBaseApp(key : string, val : string, reload = false)
     {
-        var self = this;
-        var env = this.get(Constants.RESERVED.ENV);
-        var originPath = path.join(this.getBase(), val);
-        var presentPath = path.join(this.getBase(), Constants.FILEPATH.CONFIG_DIR, env, path.basename(val));
-        var realPath : string;
+        let self = this;
+        let env = this.get(Constants.RESERVED.ENV);
+        let originPath = path.join(this.getBase(), val);
+        let presentPath = path.join(this.getBase(), Constants.FILEPATH.CONFIG_DIR, env, path.basename(val));
+        let realPath : string;
         if (fs.existsSync(originPath))
         {
             realPath = originPath;
-            var file = require(originPath);
+            let file = require(originPath);
             if (file[env])
             {
                 file = file[env];
@@ -377,7 +378,7 @@ export class Application
         } else if (fs.existsSync(presentPath))
         {
             realPath = presentPath;
-            var pfile = require(presentPath);
+            let pfile = require(presentPath);
             this.set(key, pfile);
         } else
         {
@@ -407,8 +408,8 @@ export class Application
      */
     loadConfig(key : string, val : string)
     {
-        var env = this.get(Constants.RESERVED.ENV);
-        var cfg = require(val);
+        let env = this.get(Constants.RESERVED.ENV);
+        let cfg = require(val);
         if (cfg[env])
         {
             cfg = cfg[env];
@@ -423,9 +424,9 @@ export class Application
      *
      *  app.route('area', routeFunc);
      *
-     *  var routeFunc = function(session, msg, app, cb) {
+     *  let routeFunc = function(session, msg, app, cb) {
      *    // all request to area would be route to the first area server
-     *    var areas = app.getServersByType('area');
+     *    let areas = app.getServersByType('area');
      *    cb(null, areas[0].id);
      *  };
      *
@@ -436,7 +437,7 @@ export class Application
      */
     route(serverType : string, routeFunc : RouteFunction)
     {
-        var routes = this.get(Constants.KEYWORDS.ROUTE);
+        let routes = this.get(Constants.KEYWORDS.ROUTE);
         if (!routes)
         {
             routes = {};
@@ -477,11 +478,11 @@ export class Application
             return;
         }
 
-        var self = this;
+        let self = this;
         appUtil.startByType(self, function ()
         {
             appUtil.loadDefaultComponents(self);
-            var startUp = function ()
+            let startUp = function ()
             {
                 appUtil.optComponents(self.loaded, Constants.RESERVED.START, function (err)
                 {
@@ -496,14 +497,17 @@ export class Application
                     }
                 });
             };
-            var beforeFun = self.lifecycleCbs[Constants.LIFECYCLE.BEFORE_STARTUP];
-            if (!!beforeFun)
+
+            appUtil.optLifecycles(self.usedPlugins, Constants.LIFECYCLE.BEFORE_STARTUP, self, function (err)
             {
-                beforeFun.call(null, self, startUp);
-            } else
-            {
-                startUp();
-            }
+                if (err)
+                {
+                    utils.invokeCallback(cb, err);
+                } else
+                {
+                    startUp();
+                }
+            });
         });
     };
 
@@ -513,7 +517,7 @@ export class Application
      * @param  {Function} cb callback function
      * @return {Void}
      */
-    afterStart(cb ?: Function)
+    afterStart(cb ?: (err?:Error)=>void)
     {
         if (this.state !== STATE_START)
         {
@@ -521,27 +525,17 @@ export class Application
             return;
         }
 
-        var afterFun = this.lifecycleCbs[Constants.LIFECYCLE.AFTER_STARTUP];
-        var self = this;
+        let self = this;
         appUtil.optComponents(this.loaded, Constants.RESERVED.AFTER_START, function (err)
         {
             self.state = STATE_STARTED;
-            var id = self.getServerId();
+            let id = self.getServerId();
             if (!err)
             {
                 logger.info('%j finish start', id);
             }
-            if (!!afterFun)
-            {
-                afterFun.call(null, self, function ()
-                {
-                    utils.invokeCallback(cb, err);
-                });
-            } else
-            {
-                utils.invokeCallback(cb, err);
-            }
-            var usedTime = Date.now() - self.startTime;
+            appUtil.optLifecycles(self.usedPlugins, Constants.RESERVED.AFTER_START, self, cb);
+            let usedTime = Date.now() - self.startTime;
             logger.info('%j startup in %s ms', id, usedTime);
             self.event.emit(events.START_SERVER, id);
         });
@@ -560,21 +554,21 @@ export class Application
             return;
         }
         this.state = STATE_STOPED;
-        var self = this;
+        let self = this;
 
         this.stopTimer = setTimeout(function ()
         {
             process.exit(0);
         }, Constants.TIME.TIME_WAIT_STOP);
 
-        var cancelShutDownTimer = function ()
+        let cancelShutDownTimer = function ()
         {
             if (!!self.stopTimer)
             {
                 clearTimeout(self.stopTimer);
             }
         };
-        var shutDown = function ()
+        let shutDown = function ()
         {
             appUtil.stopComps(self.loaded, 0, force, function ()
             {
@@ -585,18 +579,24 @@ export class Application
                 }
             });
         };
-        var fun = this.get(Constants.KEYWORDS.BEFORE_STOP_HOOK);
-        var stopFun = this.lifecycleCbs[Constants.LIFECYCLE.BEFORE_SHUTDOWN];
-        if (!!stopFun)
+        let fun = this.get(Constants.KEYWORDS.BEFORE_STOP_HOOK);
+
+        appUtil.optLifecycles(self.usedPlugins, Constants.LIFECYCLE.BEFORE_SHUTDOWN, self, function (err)
         {
-            stopFun.call(null, this, shutDown, cancelShutDownTimer);
-        } else if (!!fun)
-        {
-            utils.invokeCallback(fun, self, shutDown, cancelShutDownTimer);
-        } else
-        {
-            shutDown();
-        }
+            if (err)
+            {
+                console.error(`throw err when beforeShutdown ` , err.stack);
+            } else
+            {
+                if (!!fun)
+                {
+                    utils.invokeCallback(fun, self, shutDown, cancelShutDownTimer);
+                } else
+                {
+                    shutDown();
+                }
+            }
+        }, cancelShutDownTimer);
     };
 
     /**
@@ -754,7 +754,7 @@ export class Application
     configure(env : string, type : string, fn : ConfigureCallback):Application
     configure(env : string | ConfigureCallback, type ?: string | ConfigureCallback, fn ?: ConfigureCallback):Application
     {
-        var args = [].slice.call(arguments);
+        let args = [].slice.call(arguments);
         fn = args.pop();
         env = type = Constants.RESERVED.ALL;
 
@@ -794,7 +794,7 @@ export class Application
 
     registerAdmin(moduleId : string | IModule | IModuleFactory, module ?: IModule | IModuleFactory, opts ?: any)
     {
-        var modules = this.get(Constants.KEYWORDS.MODULE);
+        let modules = this.get(Constants.KEYWORDS.MODULE);
         if (!modules)
         {
             modules = {};
@@ -834,68 +834,24 @@ export class Application
      */
     use(plugin : IPlugin, opts : any)
     {
-        if (!plugin.components)
-        {
-            logger.error('invalid components, no components exist');
-            return;
-        }
-
-        var self = this;
         opts = opts || {};
-        var dir = path.dirname(plugin.components);
 
-        if (!fs.existsSync(plugin.components))
+        if(plugin.components)
         {
-            logger.error('fail to find components, find path: %s', plugin.components);
-            return;
+            for(let componentCtor of plugin.components)
+            {
+                this.load(componentCtor, opts);
+            }
+        }
+        if(plugin.events)
+        {
+            for(let eventCtor of plugin.events)
+            {
+                this.loadEvent(eventCtor, opts);
+            }
         }
 
-        fs.readdirSync(plugin.components).forEach(function (filename)
-        {
-            if (!/\.js$/.test(filename))
-            {
-                return;
-            }
-            var name = path.basename(filename, '.js');
-            var param = opts[name] || {};
-            var absolutePath = path.join(dir, Constants.DIR.COMPONENT, filename);
-            if (!fs.existsSync(absolutePath))
-            {
-                logger.error('component %s not exist at %s', name, absolutePath);
-            } else
-            {
-                self.load(require(absolutePath), param);
-            }
-        });
-
-        // load events
-        if (!plugin.events)
-        {
-            return;
-        } else
-        {
-            if (!fs.existsSync(plugin.events))
-            {
-                logger.error('fail to find events, find path: %s', plugin.events);
-                return;
-            }
-
-            fs.readdirSync(plugin.events).forEach(function (filename)
-            {
-                if (!/\.js$/.test(filename))
-                {
-                    return;
-                }
-                var absolutePath = path.join(dir, Constants.DIR.EVENT, filename);
-                if (!fs.existsSync(absolutePath))
-                {
-                    logger.error('events %s not exist at %s', filename, absolutePath);
-                } else
-                {
-                    bindEvents(require(absolutePath), self);
-                }
-            });
-        }
+        console.warn(`used Plugin : ${plugin.name}`);
     };
 
     /**
@@ -945,6 +901,15 @@ export class Application
     {
         return this.serverId;
     };
+
+    /**
+     * Get current server
+     * @returns ServerInfo
+     */
+    getCurrentServer()
+    {
+        return this.curServer;
+    }
 
     /**
      * Get current server type.
@@ -1080,8 +1045,8 @@ export class Application
             return;
         }
 
-        var item : ServerInfo, slist : ServerInfo[];
-        for (var i = 0, l = servers.length; i < l; i++)
+        let item : ServerInfo, slist : ServerInfo[];
+        for (let i = 0, l = servers.length; i < l; i++)
         {
             item = servers[i];
             // update global server map
@@ -1117,8 +1082,8 @@ export class Application
             return;
         }
 
-        var id, item, slist;
-        for (var i = 0, l = ids.length; i < l; i++)
+        let id, item, slist;
+        for (let i = 0, l = ids.length; i < l; i++)
         {
             id = ids[i];
             item = this.servers[id];
@@ -1153,12 +1118,12 @@ export class Application
         this.servers = servers;
         this.serverTypeMaps = {};
         this.serverTypes = [];
-        var serverArray = [];
-        for (var id in servers)
+        let serverArray = [];
+        for (let id in servers)
         {
-            var server = servers[id];
-            var serverType = server[Constants.RESERVED.SERVER_TYPE];
-            var slist = this.serverTypeMaps[serverType];
+            let server = servers[id];
+            let serverType = server[Constants.RESERVED.SERVER_TYPE];
+            let slist = this.serverTypeMaps[serverType];
             if (!slist)
             {
                 this.serverTypeMaps[serverType] = slist = [];
@@ -1220,10 +1185,32 @@ export class Application
      * @param {Function} cb      callback function
      */
     rpcInvoke ?: (serverId : FRONTENDID, msg : any, cb : Function)=>void;
+
+    
+    /**
+     * 加载一个事件侦听
+     * @param Event 
+     * @param opts 
+     */
+    loadEvent(Event : ApplicationEventContructor, opts : any)
+    {
+        let eventInstance = new Event(opts);
+
+        for(let evt in AppEvents)
+        {
+            let name = AppEvents[evt];
+            let method = (eventInstance as any)[name];
+            if(method)
+            {
+                this.event.on(name, method.bind(eventInstance));
+            }
+        }
+    }
+
 }
-var replaceServer = function (slist : ServerInfo[], serverInfo : ServerInfo)
+let replaceServer = function (slist : ServerInfo[], serverInfo : ServerInfo)
 {
-    for (var i = 0, l = slist.length; i < l; i++)
+    for (let i = 0, l = slist.length; i < l; i++)
     {
         if (slist[i].id === serverInfo.id)
         {
@@ -1234,14 +1221,14 @@ var replaceServer = function (slist : ServerInfo[], serverInfo : ServerInfo)
     slist.push(serverInfo);
 };
 
-var removeServer = function (slist : ServerInfo[], id : string)
+let removeServer = function (slist : ServerInfo[], id : string)
 {
     if (!slist || !slist.length)
     {
         return;
     }
 
-    for (var i = 0, l = slist.length; i < l; i++)
+    for (let i = 0, l = slist.length; i < l; i++)
     {
         if (slist[i].id === id)
         {
@@ -1251,15 +1238,15 @@ var removeServer = function (slist : ServerInfo[], id : string)
     }
 };
 
-var contains = function (str : string, settings : string)
+let contains = function (str : string, settings : string)
 {
     if (!settings)
     {
         return false;
     }
 
-    var ts = settings.split("|");
-    for (var i = 0, l = ts.length; i < l; i++)
+    let ts = settings.split("|");
+    for (let i = 0, l = ts.length; i < l; i++)
     {
         if (str === ts[i])
         {
@@ -1269,21 +1256,9 @@ var contains = function (str : string, settings : string)
     return false;
 };
 
-var bindEvents = function (Event : any, app : Application)
+let addFilter = function<T>(app : Application, type : string, filter : T)
 {
-    var emethods = new Event(app);
-    for (var m in emethods)
-    {
-        if (typeof emethods[m] === 'function')
-        {
-            app.event.on(m, emethods[m].bind(emethods));
-        }
-    }
-};
-
-var addFilter = function<T>(app : Application, type : string, filter : T)
-{
-    var filters = app.get(type);
+    let filters = app.get(type);
     if (!filters)
     {
         filters = [];

@@ -7,6 +7,7 @@ import * as crypto from 'crypto';
 import { Application } from '../application';
 import { IComponent } from '../interfaces/Component';
 import { listEs6ClassMethods } from 'pinus-rpc';
+import { RESERVED, ServerInfo } from '../util/constants';
 
 export interface DictionaryComponentOptions
 {
@@ -27,7 +28,7 @@ export class DictionaryComponent implements IComponent
         this.app = app;
 
         //Set user dictionary
-        var p = path.join(app.getBase(), '/config/dictionary.json');
+        let p = path.join(app.getBase(), '/config/dictionary.json');
         if (!!opts && !!opts.dict)
         {
             p = opts.dict;
@@ -38,38 +39,54 @@ export class DictionaryComponent implements IComponent
         }
     };
 
-    start(cb : (err?:Error)=>void)
+    afterStart(cb : (err?:Error)=>void)
     {
-        var servers = this.app.get('servers');
-        var routes = [];
+        let servers = this.app.serverTypeMaps
+        let routes = [];
+
+        let handlerPathss : {[serverType:string] : string[]} = {};
+        
+        //Load all the handler files
+        for (let serverType in servers)
+        {
+            let slist = servers[serverType];
+            let server : ServerInfo;
+            handlerPathss[serverType] = [];
+            for(server of slist)
+            {
+                handlerPathss[serverType] = handlerPathss[serverType].concat(server.handlerPaths);
+            }
+        }
 
         //Load all the handler files
-        for (var serverType in servers)
+        for (let serverType in handlerPathss)
         {
-            var p = pathUtil.getHandlerPath(this.app.getBase(), serverType);
-            if (!p)
+            let paths = handlerPathss[serverType];
+            if (!paths)
             {
                 continue;
             }
-
-            var handlers = Loader.load(p, this.app);
-
-            for (var name in handlers)
+            for (let p of paths)
             {
-                var handler = handlers[name];
-                
-                var proto = listEs6ClassMethods(handler);
-                for (var key of proto)
+                let handlers = Loader.load(p, this.app, false);
+
+                for (let name in handlers)
                 {
-                    routes.push(serverType + '.' + name + '.' + key);
+                    let handler = handlers[name];
+
+                    let proto = listEs6ClassMethods(handler);
+                    for (let key of proto)
+                    {
+                        routes.push(serverType + '.' + name + '.' + key);
+                    }
                 }
             }
         }
 
         //Sort the route to make sure all the routers abbr are the same in all the servers
         routes.sort();
-        var abbr;
-        var i;
+        let abbr;
+        let i;
         for (i = 0; i < routes.length; i++)
         {
             abbr = i + 1;
@@ -80,12 +97,12 @@ export class DictionaryComponent implements IComponent
         //Load user dictionary
         if (!!this.userDicPath)
         {
-            var userDic = require(this.userDicPath);
+            let userDic = require(this.userDicPath);
 
             abbr = routes.length + 1;
             for (i = 0; i < userDic.length; i++)
             {
-                var route = userDic[i];
+                let route = userDic[i];
 
                 this.abbrs[abbr] = route;
                 this.dict[route] = abbr;

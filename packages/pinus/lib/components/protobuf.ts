@@ -5,7 +5,7 @@ import * as Constants from '../util/constants';
 import * as crypto from 'crypto';
 import { getLogger } from 'pinus-logger'; import { Application } from '../application';
 import { IComponent } from '../interfaces/Component';
-var logger = getLogger('pinus', __filename);
+let logger = getLogger('pinus', __filename);
 
 export interface ProtobufComponentOptions
 {
@@ -37,11 +37,11 @@ export class ProtobufComponent implements IComponent
         this.app = app;
         opts = opts || {};
 
-        var env = app.get(Constants.RESERVED.ENV);
-        var originServerPath = path.join(app.getBase(), Constants.FILEPATH.SERVER_PROTOS);
-        var presentServerPath = path.join(Constants.FILEPATH.CONFIG_DIR, env, path.basename(Constants.FILEPATH.SERVER_PROTOS));
-        var originClientPath = path.join(app.getBase(), Constants.FILEPATH.CLIENT_PROTOS);
-        var presentClientPath = path.join(Constants.FILEPATH.CONFIG_DIR, env, path.basename(Constants.FILEPATH.CLIENT_PROTOS));
+        let env = app.get(Constants.RESERVED.ENV);
+        let originServerPath = path.join(app.getBase(), Constants.FILEPATH.SERVER_PROTOS);
+        let presentServerPath = path.join(Constants.FILEPATH.CONFIG_DIR, env, path.basename(Constants.FILEPATH.SERVER_PROTOS));
+        let originClientPath = path.join(app.getBase(), Constants.FILEPATH.CLIENT_PROTOS);
+        let presentClientPath = path.join(Constants.FILEPATH.CONFIG_DIR, env, path.basename(Constants.FILEPATH.CLIENT_PROTOS));
 
         this.serverProtosPath = opts.serverProtos || (fs.existsSync(originServerPath) ? Constants.FILEPATH.SERVER_PROTOS : presentServerPath);
         this.clientProtosPath = opts.clientProtos || (fs.existsSync(originClientPath) ? Constants.FILEPATH.CLIENT_PROTOS : presentClientPath);
@@ -99,11 +99,11 @@ export class ProtobufComponent implements IComponent
             this.clientProtos = Protobuf.parse(require(path));
         }
 
-        var protoStr = JSON.stringify(this.clientProtos) + JSON.stringify(this.serverProtos);
+        let protoStr = JSON.stringify(this.clientProtos) + JSON.stringify(this.serverProtos);
         this.version = crypto.createHash('md5').update(protoStr).digest('base64');
 
         //Watch file
-        var watcher = fs.watch(path, this.onUpdate.bind(this, type, path));
+        let watcher = fs.watch(path, this.onUpdate.bind(this, type, path));
         if (this.watchers[type])
         {
             this.watchers[type].close();
@@ -118,12 +118,12 @@ export class ProtobufComponent implements IComponent
             return;
         }
 
-        var self = this;
+        let self = this;
         fs.readFile(path, 'utf8',  (err, data)=>
         {
             try
             {
-                var protos = Protobuf.parse(JSON.parse(data));
+                let protos = Protobuf.parse(JSON.parse(data));
                 if (type === Constants.RESERVED.SERVER)
                 {
                     this.protobuf.setEncoderProtos(protos);
@@ -134,7 +134,7 @@ export class ProtobufComponent implements IComponent
                     self.clientProtos = protos;
                 }
 
-                var protoStr = JSON.stringify(self.clientProtos) + JSON.stringify(self.serverProtos);
+                let protoStr = JSON.stringify(self.clientProtos) + JSON.stringify(self.serverProtos);
                 self.version = crypto.createHash('md5').update(protoStr).digest('base64');
                 logger.info('change proto file , type : %j, path : %j, version : %j', type, path, self.version);
             } catch (e)
@@ -147,7 +147,7 @@ export class ProtobufComponent implements IComponent
 
     stop(force: boolean, cb : ()=>void)
     {
-        for (var type in this.watchers)
+        for (let type in this.watchers)
         {
             this.watchers[type].close();
         }

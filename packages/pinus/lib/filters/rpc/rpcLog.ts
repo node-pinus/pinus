@@ -3,7 +3,7 @@
  * Record used time for remote process call.
  */
 import { getLogger } from 'pinus-logger';
-var rpcLogger = getLogger('rpc-log', __filename);
+let rpcLogger = getLogger('rpc-log', __filename);
 
 import * as utils from '../../util/utils';
 import {IRpcFilter} from 'pinus-rpc';
@@ -29,10 +29,10 @@ export class RpcLogFilter implements IRpcFilter
     {
         if (!!opts && !!opts.__start_time__)
         {
-            var start = opts.__start_time__;
-            var end = Date.now();
-            var timeUsed = end - start;
-            var log = {
+            let start = opts.__start_time__;
+            let end = Date.now();
+            let timeUsed = end - start;
+            let log = {
                 route: msg.service,
                 args: msg.args,
                 time: utils.format(new Date(start)),

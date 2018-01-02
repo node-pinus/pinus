@@ -4,7 +4,7 @@
  * MIT Licensed
  */
 import { getLogger } from 'pinus-logger';
- var logger = getLogger('pinus', __filename);
+ let logger = getLogger('pinus', __filename);
 import * as countDownLatch from '../util/countDownLatch';
 import * as utils from '../util/utils';
 import * as Constants from '../util/constants';
@@ -35,7 +35,7 @@ export class ConsoleModule implements IModule
 
     monitorHandler(agent: MonitorAgent, msg: any, cb: MonitorCallback)
     {
-        var serverId = agent.id;
+        let serverId = agent.id;
         switch (msg.signal)
         {
             case 'stop':
@@ -46,12 +46,12 @@ export class ConsoleModule implements IModule
                 this.app.stop(true);
                 break;
             case 'list':
-                var serverType = agent.type;
-                var pid = process.pid;
-                var heapUsed = (process.memoryUsage().heapUsed / (1024 * 1024)).toFixed(2);
-                var rss = (process.memoryUsage().rss / (1024 * 1024)).toFixed(2);
-                var heapTotal = (process.memoryUsage().heapTotal / (1024 * 1024)).toFixed(2);
-                var uptime = (process.uptime() / 60).toFixed(2);
+                let serverType = agent.type;
+                let pid = process.pid;
+                let heapUsed = (process.memoryUsage().heapUsed / (1024 * 1024)).toFixed(2);
+                let rss = (process.memoryUsage().rss / (1024 * 1024)).toFixed(2);
+                let heapTotal = (process.memoryUsage().heapTotal / (1024 * 1024)).toFixed(2);
+                let uptime = (process.uptime() / 60).toFixed(2);
                 utils.invokeCallback(cb, {
                     serverId: serverId,
                     body: { serverId: serverId, serverType: serverType, pid: pid, rss: rss, heapTotal: heapTotal, heapUsed: heapUsed, uptime: uptime }
@@ -76,7 +76,7 @@ export class ConsoleModule implements IModule
             case 'blacklist':
                 if (this.app.isFrontend())
                 {
-                    var connector = this.app.components.__connector__;
+                    let connector = this.app.components.__connector__;
                     connector.blacklist = connector.blacklist.concat(msg.blacklist);
                 }
                 break;
@@ -85,8 +85,8 @@ export class ConsoleModule implements IModule
                 {
                     return;
                 }
-                var self = this;
-                var server = this.app.get(Constants.RESERVED.CURRENT_SERVER);
+                let self = this;
+                let server = this.app.get(Constants.RESERVED.CURRENT_SERVER);
                 utils.invokeCallback(cb, server);
                 process.nextTick(function ()
                 {
@@ -101,7 +101,7 @@ export class ConsoleModule implements IModule
 
     clientHandler(agent: MasterAgent, msg: any, cb: MasterCallback)
     {
-        var app = this.app;
+        let app = this.app;
         switch (msg.signal)
         {
             case 'kill':
@@ -134,12 +134,12 @@ export class ConsoleModule implements IModule
         }
     };
 }
-var kill = function (app : Application, agent : MasterAgent, msg : any, cb : MasterCallback)
+let kill = function (app : Application, agent : MasterAgent, msg : any, cb : MasterCallback)
 {
-    var sid, record;
-    var serverIds : string[] = [];
-    var count = utils.size(agent.idMap);
-    var latch = countDownLatch.createCountDownLatch(count, { timeout: Constants.TIME.TIME_WAIT_MASTER_KILL }, function (isTimeout)
+    let sid, record;
+    let serverIds : string[] = [];
+    let count = utils.size(agent.idMap);
+    let latch = countDownLatch.createCountDownLatch(count, { timeout: Constants.TIME.TIME_WAIT_MASTER_KILL }, function (isTimeout)
     {
         if (!isTimeout)
         {
@@ -154,9 +154,9 @@ var kill = function (app : Application, agent : MasterAgent, msg : any, cb : Mas
         }, Constants.TIME.TIME_WAIT_MONITOR_KILL);
     });
 
-    var agentRequestCallback = function (msg : string)
+    let agentRequestCallback = function (msg : string)
     {
-        for (var i = 0; i < serverIds.length; ++i)
+        for (let i = 0; i < serverIds.length; ++i)
         {
             if (serverIds[i] === msg)
             {
@@ -175,16 +175,16 @@ var kill = function (app : Application, agent : MasterAgent, msg : any, cb : Mas
     }
 };
 
-var stop = function (app : Application, agent : MasterAgent, msg : any, cb : MasterCallback)
+let stop = function (app : Application, agent : MasterAgent, msg : any, cb : MasterCallback)
 {
-    var serverIds = msg.ids;
+    let serverIds = msg.ids;
     if (!!serverIds.length)
     {
-        var servers = app.getServers();
+        let servers = app.getServers();
         app.set(Constants.RESERVED.STOP_SERVERS, serverIds);
-        for (var i = 0; i < serverIds.length; i++)
+        for (let i = 0; i < serverIds.length; i++)
         {
-            var serverId = serverIds[i];
+            let serverId = serverIds[i];
             if (!servers[serverId])
             {
                 utils.invokeCallback(cb, new Error('Cannot find the server to stop.'), null);
@@ -196,9 +196,9 @@ var stop = function (app : Application, agent : MasterAgent, msg : any, cb : Mas
         utils.invokeCallback(cb, null, { status: "part" });
     } else
     {
-        var servers = app.getServers();
-        var serverIds : any = [];
-        for (var key in servers)
+        let servers = app.getServers();
+        let serverIds : any = [];
+        for (let key in servers)
         {
             serverIds.push(key)
         }
@@ -212,13 +212,13 @@ var stop = function (app : Application, agent : MasterAgent, msg : any, cb : Mas
     }
 };
 
-var restart = function (app : Application, agent : MasterAgent, msg : any, cb : MasterCallback)
+let restart = function (app : Application, agent : MasterAgent, msg : any, cb : MasterCallback)
 {
-    var successFlag : boolean;
-    var successIds : string[] = [];
-    var serverIds = msg.ids;
-    var type = msg.type;
-    var servers;
+    let successFlag : boolean;
+    let successIds : string[] = [];
+    let serverIds = msg.ids;
+    let type = msg.type;
+    let servers;
     if (!serverIds.length && !!type)
     {
         servers = app.getServersByType(type);
@@ -227,20 +227,20 @@ var restart = function (app : Application, agent : MasterAgent, msg : any, cb : 
             utils.invokeCallback(cb, new Error('restart servers with unknown server type: ' + type));
             return;
         }
-        for (var i = 0; i < servers.length; i++)
+        for (let i = 0; i < servers.length; i++)
         {
             serverIds.push(servers[i].id);
         }
     } else if (!serverIds.length)
     {
         servers = app.getServers();
-        for (var key in servers)
+        for (let key in servers)
         {
             serverIds.push(key);
         }
     }
-    var count = serverIds.length;
-    var latch = countDownLatch.createCountDownLatch(count, { timeout: Constants.TIME.TIME_WAIT_COUNTDOWN }, function ()
+    let count = serverIds.length;
+    let latch = countDownLatch.createCountDownLatch(count, { timeout: Constants.TIME.TIME_WAIT_COUNTDOWN }, function ()
     {
         if (!successFlag)
         {
@@ -250,7 +250,7 @@ var restart = function (app : Application, agent : MasterAgent, msg : any, cb : 
         utils.invokeCallback(cb, null, utils.arrayDiff(serverIds, successIds));
     });
 
-    var request = function (id : string)
+    let request = function (id : string)
     {
         return (function ()
         {
@@ -280,23 +280,23 @@ var restart = function (app : Application, agent : MasterAgent, msg : any, cb : 
         })();
     };
 
-    for (var j = 0; j < serverIds.length; j++)
+    for (let j = 0; j < serverIds.length; j++)
     {
         request(serverIds[j]);
     }
 };
 
-var list = function (app : Application, agent : MasterAgent, msg : any, cb : MasterCallback)
+let list = function (app : Application, agent : MasterAgent, msg : any, cb : MasterCallback)
 {
-    var sid, record;
-    var serverInfo : any = {};
-    var count = utils.size(agent.idMap);
-    var latch = countDownLatch.createCountDownLatch(count, { timeout: Constants.TIME.TIME_WAIT_COUNTDOWN }, function ()
+    let sid, record;
+    let serverInfo : any = {};
+    let count = utils.size(agent.idMap);
+    let latch = countDownLatch.createCountDownLatch(count, { timeout: Constants.TIME.TIME_WAIT_COUNTDOWN }, function ()
     {
         utils.invokeCallback(cb, null, { msg: serverInfo });
     });
 
-    var callback = function (msg : {serverId:string,body:any})
+    let callback = function (msg : {serverId:string,body:any})
     {
         serverInfo[msg.serverId] = msg.body;
         latch.done();
@@ -308,7 +308,7 @@ var list = function (app : Application, agent : MasterAgent, msg : any, cb : Mas
     }
 };
 
-var add = function (app : Application, agent : MasterAgent, msg : any, cb : MasterCallback)
+let add = function (app : Application, agent : MasterAgent, msg : any, cb : MasterCallback)
 {
     if (checkCluster(msg))
     {
@@ -320,22 +320,22 @@ var add = function (app : Application, agent : MasterAgent, msg : any, cb : Mast
     reset(ServerInfo);
 };
 
-var addCron = function  (app : Application, agent : MasterAgent, msg : any, cb : MasterCallback)
+let addCron = function  (app : Application, agent : MasterAgent, msg : any, cb : MasterCallback)
 {
-    var cron = parseArgs(msg, CronInfo, cb);
+    let cron = parseArgs(msg, CronInfo, cb);
     sendCronInfo(cron, agent, msg, CronInfo, cb);
 };
 
-var removeCron = function  (app : Application, agent : MasterAgent, msg : any, cb : MasterCallback)
+let removeCron = function  (app : Application, agent : MasterAgent, msg : any, cb : MasterCallback)
 {
-    var cron = parseArgs(msg, RemoveCron, cb);
+    let cron = parseArgs(msg, RemoveCron, cb);
     sendCronInfo(cron, agent, msg, RemoveCron, cb);
 };
 
-var blacklist = function (app : Application, agent : MasterAgent, msg : any, cb : MasterCallback)
+let blacklist = function (app : Application, agent : MasterAgent, msg : any, cb : MasterCallback)
 {
-    var ips = msg.args;
-    for (var i = 0; i < ips.length; i++)
+    let ips = msg.args;
+    for (let i = 0; i < ips.length; i++)
     {
         if (!(new RegExp(/(\d+)\.(\d+)\.(\d+)\.(\d+)/g).test(ips[i])))
         {
@@ -350,7 +350,7 @@ var blacklist = function (app : Application, agent : MasterAgent, msg : any, cb 
     });
 };
 
-var checkPort = function (server : ServerInfo, cb : MasterCallback)
+let checkPort = function (server : ServerInfo, cb : MasterCallback)
 {
     if (!server.port && !server.clientPort)
     {
@@ -358,9 +358,9 @@ var checkPort = function (server : ServerInfo, cb : MasterCallback)
         return;
     }
 
-    var p = server.port || server.clientPort;
-    var host = server.host;
-    var cmd = 'netstat -tln | grep ';
+    let p = server.port || server.clientPort;
+    let host = server.host;
+    let cmd = 'netstat -tln | grep ';
     if (!utils.isLocal(host))
     {
         cmd = 'ssh ' + host + ' ' + cmd;
@@ -388,19 +388,19 @@ var checkPort = function (server : ServerInfo, cb : MasterCallback)
     });
 };
 
-var parseArgs = function (msg : any, info : any, cb : (err?: string | Error, data?: any) => void)
+let parseArgs = function (msg : any, info : any, cb : (err?: string | Error, data?: any) => void)
 {
-    var rs : {[key:string]:string} = {};
-    var args = msg.args;
-    for (var i = 0; i < args.length; i++)
+    let rs : {[key:string]:string} = {};
+    let args = msg.args;
+    for (let i = 0; i < args.length; i++)
     {
         if (args[i].indexOf('=') < 0)
         {
             cb(new Error('Error server parameters format.'), null);
             return;
         }
-        var pairs = args[i].split('=');
-        var key = pairs[0];
+        let pairs = args[i].split('=');
+        let key = pairs[0];
         if (!!info[key])
         {
             info[key] = 1;
@@ -410,7 +410,7 @@ var parseArgs = function (msg : any, info : any, cb : (err?: string | Error, dat
     return rs;
 };
 
-var sendCronInfo = function (cron : any, agent : MasterAgent, msg : any, info : any, cb : Function)
+let sendCronInfo = function (cron : any, agent : MasterAgent, msg : any, info : any, cb : Function)
 {
     if (isReady(info) && (cron.serverId || cron.serverType))
     {
@@ -432,9 +432,9 @@ var sendCronInfo = function (cron : any, agent : MasterAgent, msg : any, info : 
     reset(info);
 };
 
-var startServer = function (app : Application, msg : any, cb : (err?: Error | string , result?:any)=>void)
+let startServer = function (app : Application, msg : any, cb : (err?: Error | string , result?:any)=>void)
 {
-    var server = parseArgs(msg, ServerInfo, cb);
+    let server = parseArgs(msg, ServerInfo, cb);
     if (isReady(ServerInfo))
     {
         runServer(app, server as any, cb);
@@ -444,7 +444,7 @@ var startServer = function (app : Application, msg : any, cb : (err?: Error | st
     }
 };
 
-var runServer = function (app : Application, server : ServerInfo, cb : (err?: Error , result?:any)=>void)
+let runServer = function (app : Application, server : ServerInfo, cb : (err?: Error , result?:any)=>void)
 {
     checkPort(server, function (status)
     {
@@ -469,15 +469,15 @@ var runServer = function (app : Application, server : ServerInfo, cb : (err?: Er
     });
 };
 
-var startCluster = function (app : Application, msg : any, cb : MasterCallback)
+let startCluster = function (app : Application, msg : any, cb : MasterCallback)
 {
-    var serverMap = {};
-    var fails : ServerInfo[] = [];
-    var successFlag : boolean;
-    var serverInfo = parseArgs(msg, ClusterInfo, cb) as any;
+    let serverMap = {};
+    let fails : ServerInfo[] = [];
+    let successFlag : boolean;
+    let serverInfo = parseArgs(msg, ClusterInfo, cb) as any;
     utils.loadCluster(app, serverInfo, serverMap);
-    var count = utils.size(serverMap);
-    var latch = countDownLatch.createCountDownLatch(count,  ()=>
+    let count = utils.size(serverMap);
+    let latch = countDownLatch.createCountDownLatch(count,  ()=>
     {
         if (!successFlag)
         {
@@ -487,7 +487,7 @@ var startCluster = function (app : Application, msg : any, cb : MasterCallback)
         utils.invokeCallback(cb, null, fails);
     });
 
-    var start = function (server : ServerInfo)
+    let start = function (server : ServerInfo)
     {
         return (function ()
         {
@@ -516,18 +516,18 @@ var startCluster = function (app : Application, msg : any, cb : MasterCallback)
             });
         })();
     };
-    for (var key in serverMap)
+    for (let key in serverMap)
     {
-        var server = (serverMap as any)[key];
+        let server = (serverMap as any)[key];
         start(server);
     }
 };
 
-var checkCluster = function (msg : any)
+let checkCluster = function (msg : any)
 {
-    var flag = false;
-    var args = msg.args;
-    for (var i = 0; i < args.length; i++)
+    let flag = false;
+    let args = msg.args;
+    for (let i = 0; i < args.length; i++)
     {
         if (utils.startsWith(args[i], Constants.RESERVED.CLUSTER_COUNT))
         {
@@ -537,9 +537,9 @@ var checkCluster = function (msg : any)
     return flag;
 };
 
-var isReady = function (info : any)
+let isReady = function (info : any)
 {
-    for (var key in info)
+    for (let key in info)
     {
         if (info[key])
         {
@@ -549,32 +549,32 @@ var isReady = function (info : any)
     return true;
 };
 
-var reset = function (info : any)
+let reset = function (info : any)
 {
-    for (var key in info)
+    for (let key in info)
     {
         info[key] = 0;
     }
 };
 
-var ServerInfo = {
+let ServerInfo = {
     host: 0,
     port: 0,
     id: 0,
     serverType: 0
 };
 
-var CronInfo = {
+let CronInfo = {
     id: 0,
     action: 0,
     time: 0
 };
 
-var RemoveCron = {
+let RemoveCron = {
     id: 0
 };
 
-var ClusterInfo = {
+let ClusterInfo = {
     host: 0,
     port: 0,
     clusterCount: 0

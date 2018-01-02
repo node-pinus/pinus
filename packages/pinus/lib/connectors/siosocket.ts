@@ -2,8 +2,8 @@ import * as util from 'util';
 import { EventEmitter } from 'events';
 import { ISocket } from '../interfaces/ISocket';
 
-var ST_INITED = 0;
-var ST_CLOSED = 1;
+let ST_INITED = 0;
+let ST_CLOSED = 1;
 
 /**
  * Socket class that wraps socket.io socket to provide unified interface for up level.
@@ -24,7 +24,7 @@ export class SioSocket extends EventEmitter implements ISocket
             ip: socket.handshake.address
         };
 
-        var self = this;
+        let self = this;
 
         socket.on('disconnect', this.emit.bind(this, 'disconnect'));
 
@@ -75,10 +75,10 @@ export class SioSocket extends EventEmitter implements ISocket
 /**
  * Encode batch msg to client
  */
-var encodeBatch = function (msgs: any[])
+let encodeBatch = function (msgs: any[])
 {
-    var res = '[', msg;
-    for (var i = 0, l = msgs.length; i < l; i++)
+    let res = '[', msg;
+    for (let i = 0, l = msgs.length; i < l; i++)
     {
         if (i > 0)
         {

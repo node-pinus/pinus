@@ -1,4 +1,4 @@
-import { getLogger } from 'pinus-logger'; var logger = getLogger('pinus', __filename);
+import { getLogger } from 'pinus-logger'; let logger = getLogger('pinus', __filename);
 import * as utils from '../util/utils';
 import * as Constants from '../util/constants';
 import * as countDownLatch from '../util/countDownLatch';
@@ -48,7 +48,7 @@ export class Watchdog extends EventEmitter
 
     reconnectServer(server : ServerInfo)
     {
-        var self = this;
+        let self = this;
         if (!server)
         {
             return;
@@ -84,7 +84,7 @@ export class Watchdog extends EventEmitter
     {
         if (!this.isStarted && --this.count < 0)
         {
-            var usedTime = Date.now() - this.app.startTime;
+            let usedTime = Date.now() - this.app.startTime;
             logger.info('all servers startup in %s ms', usedTime);
             this.notify({ action: 'startOver' });
             this.isStarted = true;
@@ -107,22 +107,22 @@ export class Watchdog extends EventEmitter
 
     notify(msg : any)
     {
-        var _listeners = this._listeners;
-        var success = true;
-        var fails : string[] = [];
-        var timeouts : string[] = [];
-        var requests : {[key:string]:number} = {};
-        var count = utils.size(_listeners);
+        let _listeners = this._listeners;
+        let success = true;
+        let fails : string[] = [];
+        let timeouts : string[] = [];
+        let requests : {[key:string]:number} = {};
+        let count = utils.size(_listeners);
         if (count === 0)
         {
             logger.warn('master watchdog _listeners is none, msg: %j', msg);
             return;
         }
-        var latch = countDownLatch.createCountDownLatch(count, { timeout: Constants.TIME.TIME_WAIT_COUNTDOWN }, function (isTimeout)
+        let latch = countDownLatch.createCountDownLatch(count, { timeout: Constants.TIME.TIME_WAIT_COUNTDOWN }, function (isTimeout)
         {
             if (!!isTimeout)
             {
-                for (var key in requests)
+                for (let key in requests)
                 {
                     if (!requests[key])
                     {
@@ -137,7 +137,7 @@ export class Watchdog extends EventEmitter
             }
         });
 
-        var moduleRequest = function (self : Watchdog, id : string)
+        let moduleRequest = function (self : Watchdog, id : string)
         {
             return (function ()
             {
@@ -154,7 +154,7 @@ export class Watchdog extends EventEmitter
             })();
         };
 
-        for (var id in _listeners)
+        for (let id in _listeners)
         {
             requests[id] = 0;
             moduleRequest(this, id);

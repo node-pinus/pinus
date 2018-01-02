@@ -41,8 +41,8 @@ export class DirectPushScheduler implements IPushScheduler
 
     doBroadcast(msg : any, opts : BroadcastOptions)
     {
-        var channelService = this.app.get('channelService');
-        var sessionService = this.app.get('sessionService');
+        let channelService = this.app.get('channelService');
+        let sessionService = this.app.get('sessionService');
 
         if (opts.binded)
         {
@@ -73,8 +73,8 @@ export class DirectPushScheduler implements IPushScheduler
 
     doBatchPush(msg : any, recvs : SID[])
     {
-        var sessionService = this.app.get('sessionService');
-        for (var i = 0, l = recvs.length; i < l; i++)
+        let sessionService = this.app.get('sessionService');
+        for (let i = 0, l = recvs.length; i < l; i++)
         {
             sessionService.sendMessage(recvs[i], msg);
         }

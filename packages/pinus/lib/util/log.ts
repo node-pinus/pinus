@@ -5,7 +5,7 @@ import { Application } from '../application';
  * Configure pinus logger
  */
 export function configure(app : Application, filename : string) {
-  var serverId = app.getServerId();
-  var base = app.getBase();
+  let serverId = app.getServerId();
+  let base = app.getBase();
   logger.configure(filename, {serverId: serverId, base: base});
 };

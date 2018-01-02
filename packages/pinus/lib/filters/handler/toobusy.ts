@@ -8,9 +8,9 @@ import { RouteRecord } from '../../util/constants';
 import { HandlerCallback } from '../../common/service/handlerService';
 import { FrontendOrBackendSession } from '../../server/server';
 
-var conLogger = getLogger('con-log', __filename);
-var toobusy : any = null;
-var DEFAULT_MAXLAG = 70;
+let conLogger = getLogger('con-log', __filename);
+let toobusy : any = null;
+let DEFAULT_MAXLAG = 70;
 
 
 export class ToobusyFilter implements IHandlerFilter
@@ -34,7 +34,7 @@ export class ToobusyFilter implements IHandlerFilter
         if (!!toobusy && toobusy())
         {
             conLogger.warn('[toobusy] reject request msg: ' + msg);
-            var err = new Error('Server toobusy!');
+            let err = new Error('Server toobusy!');
             (err as any).code = 500;
             next(err);
         } else

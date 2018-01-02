@@ -1,7 +1,7 @@
 /**
  * Filter to keep request sequence.
  */
-import { getLogger } from 'pinus-logger'; var logger = getLogger('pinus', __filename);
+import { getLogger } from 'pinus-logger'; let logger = getLogger('pinus', __filename);
 import * as taskManager from '../../common/manager/taskManager';
 import { RouteRecord } from '../../util/constants';
 import { IHandlerFilter } from '../../interfaces/IHandlerFilter';
@@ -35,7 +35,7 @@ export class SerialFilter implements IHandlerFilter
      */
     after(err : Error, routeRecord : RouteRecord , msg : any, session : FrontendOrBackendSession, resp : any, next : HandlerCallback)
     {
-        var task = (session as any).__serialTask__;
+        let task = (session as any).__serialTask__;
         if (task)
         {
             if (!task.done() && !err)

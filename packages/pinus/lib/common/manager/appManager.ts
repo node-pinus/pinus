@@ -1,9 +1,9 @@
 import * as async from 'async';
 import * as utils from '../../util/utils';
 import { getLogger } from 'pinus-logger';
-var logger = getLogger('pinus', __filename);
-var transactionLogger = getLogger('transaction-log', __filename);
-var transactionErrorLogger = getLogger('transaction-error-log', __filename);
+let logger = getLogger('pinus', __filename);
+let transactionLogger = getLogger('transaction-log', __filename);
+let transactionErrorLogger = getLogger('transaction-error-log', __filename);
 
 export type TransactionCondictionFunction = (cb : (err ?:Error)=>void)=>void;
 export type TransactionHandlerFunction = (cb : (err ?:Error)=>void)=>void;
@@ -25,11 +25,11 @@ export function transaction(name : string, conditions : TransactionCondictionFun
         return;
     }
 
-    var cmethods : TransactionCondictionFunction[] = [];
-    var dmethods : TransactionHandlerFunction[] = [];
-    var cnames : string[] = [];
-    var dnames : string[] = [];
-    for (var key in conditions)
+    let cmethods : TransactionCondictionFunction[] = [];
+    let dmethods : TransactionHandlerFunction[] = [];
+    let cnames : string[] = [];
+    let dnames : string[] = [];
+    for (let key in conditions)
     {
         if (typeof key !== 'string' || typeof conditions[key] !== 'function')
         {
@@ -40,7 +40,7 @@ export function transaction(name : string, conditions : TransactionCondictionFun
         cmethods.push(conditions[key]);
     }
 
-    var i = 0;
+    let i = 0;
     // execute conditions
     async.forEachSeries(cmethods, function (method, cb)
     {
@@ -54,7 +54,7 @@ export function transaction(name : string, conditions : TransactionCondictionFun
             process.nextTick(function ()
             {
                 transactionLogger.error('[%s]:[%s] condition is executed with err: %j.', name, cnames[--i], err.stack);
-                var log = {
+                let log = {
                     name: name,
                     method: cnames[i],
                     time: Date.now(),
@@ -69,7 +69,7 @@ export function transaction(name : string, conditions : TransactionCondictionFun
             // execute handlers
             process.nextTick(function ()
             {
-                for (var key in handlers)
+                for (let key in handlers)
                 {
                     if (typeof key !== 'string' || typeof handlers[key] !== 'function')
                     {
@@ -80,8 +80,8 @@ export function transaction(name : string, conditions : TransactionCondictionFun
                     dmethods.push(handlers[key]);
                 }
 
-                var flag = true;
-                var times = retry;
+                let flag = true;
+                let times = retry;
 
                 // do retry if failed util retry times
                 async.whilst(
@@ -91,7 +91,7 @@ export function transaction(name : string, conditions : TransactionCondictionFun
                     },
                     function (callback)
                     {
-                        var j = 0;
+                        let j = 0;
                         retry--;
                         async.forEachSeries(dmethods, function (method, cb)
                         {
@@ -105,7 +105,7 @@ export function transaction(name : string, conditions : TransactionCondictionFun
                                 process.nextTick(function ()
                                 {
                                     transactionLogger.error('[%s]:[%s]:[%s] handler is executed with err: %j.', name, dnames[--j], times - retry, err.stack);
-                                    var log = {
+                                    let log = {
                                         name: name,
                                         method: dnames[j],
                                         retry: times - retry,

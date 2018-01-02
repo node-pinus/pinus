@@ -1,15 +1,15 @@
 import { EventEmitter } from 'events';
 import * as  util from 'util';
-import { getLogger } from 'pinus-logger'; var logger = getLogger('pinus', __filename);
+import { getLogger } from 'pinus-logger'; let logger = getLogger('pinus', __filename);
 import * as utils from '../../util/utils';
 import { SID, FRONTENDID, UID } from '../../util/constants';
 import { ISocket } from '../../interfaces/ISocket';
 
-var FRONTEND_SESSION_FIELDS = ['id', 'frontendId', 'uid', '__sessionService__'];
-var EXPORTED_SESSION_FIELDS = ['id', 'frontendId', 'uid', 'settings'];
+let FRONTEND_SESSION_FIELDS = ['id', 'frontendId', 'uid', '__sessionService__'];
+let EXPORTED_SESSION_FIELDS = ['id', 'frontendId', 'uid', 'settings'];
 
-var ST_INITED = 0;
-var ST_CLOSED = 1;
+let ST_INITED = 0;
+let ST_CLOSED = 1;
 
 export interface SessionServiceOptions
 {singleSession ?: Session}
@@ -53,7 +53,7 @@ export class SessionService
      */
     create(sid : SID, frontendId : FRONTENDID, socket : ISocket)
     {
-        var session = new Session(sid, frontendId, socket, this);
+        let session = new Session(sid, frontendId, socket, this);
         this.sessions[session.id] = session;
 
         return session;
@@ -67,7 +67,7 @@ export class SessionService
      */
     bind(sid : SID, uid : UID, cb : (err : Error | null , result ?: void)=>void)
     {
-        var session = this.sessions[sid];
+        let session = this.sessions[sid];
 
         if (!session)
         {
@@ -95,7 +95,7 @@ export class SessionService
             return;
         }
 
-        var sessions = this.uidMap[uid];
+        let sessions = this.uidMap[uid];
 
         if (!!this.singleSession && !!sessions)
         {
@@ -111,7 +111,7 @@ export class SessionService
             sessions = this.uidMap[uid] = [];
         }
 
-        for (var i = 0, l = sessions.length; i < l; i++)
+        for (let i = 0, l = sessions.length; i < l; i++)
         {
             // session has binded with the uid
             if (sessions[i].id === session.id)
@@ -138,7 +138,7 @@ export class SessionService
      */
     unbind(sid : SID, uid : UID, cb : (err ?: Error , result ?: void)=>void)
     {
-        var session = this.sessions[sid];
+        let session = this.sessions[sid];
 
         if (!session)
         {
@@ -158,10 +158,10 @@ export class SessionService
             return;
         }
 
-        var sessions = this.uidMap[uid], sess;
+        let sessions = this.uidMap[uid], sess;
         if (sessions)
         {
-            for (var i = 0, l = sessions.length; i < l; i++)
+            for (let i = 0, l = sessions.length; i < l; i++)
             {
                 sess = sessions[i];
                 if (sess.id === sid)
@@ -222,19 +222,19 @@ export class SessionService
      */
     remove(sid : SID)
     {
-        var session = this.sessions[sid];
+        let session = this.sessions[sid];
         if (session)
         {
-            var uid = session.uid;
+            let uid = session.uid;
             delete this.sessions[session.id];
 
-            var sessions = this.uidMap[uid];
+            let sessions = this.uidMap[uid];
             if (!sessions)
             {
                 return;
             }
 
-            for (var i = 0, l = sessions.length; i < l; i++)
+            for (let i = 0, l = sessions.length; i < l; i++)
             {
                 if (sessions[i].id === sid)
                 {
@@ -256,7 +256,7 @@ export class SessionService
      */
     import(sid : SID, key : string, value : string, cb : (err ?: Error , result ?: void)=>void)
     {
-        var session = this.sessions[sid];
+        let session = this.sessions[sid];
         if (!session)
         {
             utils.invokeCallback(cb, new Error('session does not exist, sid: ' + sid));
@@ -274,14 +274,14 @@ export class SessionService
      */
     importAll(sid : SID, settings : {[key:string]:any}, cb : (err ?: Error , result ?: void)=>void)
     {
-        var session = this.sessions[sid];
+        let session = this.sessions[sid];
         if (!session)
         {
             utils.invokeCallback(cb, new Error('session does not exist, sid: ' + sid));
             return;
         }
 
-        for (var f in settings)
+        for (let f in settings)
         {
             session.set(f, settings[f]);
         }
@@ -304,13 +304,13 @@ export class SessionService
             cb = reason;
             reason = 'kick';
         }
-        var sessions = this.getByUid(uid);
+        let sessions = this.getByUid(uid);
 
         if (sessions)
         {
             // notify client
-            var sids : SID[] = [];
-            var self = this;
+            let sids : SID[] = [];
+            let self = this;
             sessions.forEach(function (session)
             {
                 sids.push(session.id);
@@ -350,7 +350,7 @@ export class SessionService
             reason = 'kick';
         }
 
-        var session = this.get(sid);
+        let session = this.get(sid);
 
         if (session)
         {
@@ -379,10 +379,10 @@ export class SessionService
      */
     getClientAddressBySessionId(sid : SID)
     {
-        var session = this.get(sid);
+        let session = this.get(sid);
         if (session)
         {
-            var socket = session.__socket__;
+            let socket = session.__socket__;
             return socket.remoteAddress;
         } else
         {
@@ -401,7 +401,7 @@ export class SessionService
      */
     sendMessage(sid : SID, msg : any)
     {
-        var session = this.sessions[sid];
+        let session = this.sessions[sid];
 
         if (!session)
         {
@@ -423,7 +423,7 @@ export class SessionService
      */
     sendMessageByUid(uid : UID, msg : any)
     {
-        var sessions = this.uidMap[uid];
+        let sessions = this.uidMap[uid];
 
         if (!sessions)
         {
@@ -432,7 +432,7 @@ export class SessionService
             return false;
         }
 
-        for (var i = 0, l = sessions.length; i < l; i++)
+        for (let i = 0, l = sessions.length; i < l; i++)
         {
             send(this, sessions[i], msg);
         }
@@ -446,7 +446,7 @@ export class SessionService
      */
     forEachSession(cb : (session:Session)=>void)
     {
-        for (var sid in this.sessions)
+        for (let sid in this.sessions)
         {
             cb(this.sessions[sid]);
         }
@@ -460,8 +460,8 @@ export class SessionService
      */
     forEachBindedSession(cb : (session:Session)=>void)
     {
-        var i, l, sessions;
-        for (var uid in this.uidMap)
+        let i, l, sessions;
+        for (let uid in this.uidMap)
         {
             sessions = this.uidMap[uid];
             for (i = 0, l = sessions.length; i < l; i++)
@@ -493,7 +493,7 @@ export class SessionService
  *
  * @api private
  */
-var send = function(service : SessionService, session : Session, msg : any) {
+let send = function(service : SessionService, session : Session, msg : any) {
   session.send(msg);
 
   return true;
@@ -580,8 +580,8 @@ export class Session extends EventEmitter
     {
         if (utils.isObject(keyOrValues))
         {
-            var values = keyOrValues as {[key:string]:any};
-            for (var i in values)
+            let values = keyOrValues as {[key:string]:any};
+            for (let i in values)
             {
                 this.settings[i] = values[i];
             }
@@ -651,7 +651,7 @@ export class Session extends EventEmitter
         this.emit('closed', this.toFrontendSession(), reason);
         this.__socket__.emit('closing', reason);
 
-        var self = this;
+        let self = this;
         // give a chance to send disconnect message to client
 
         process.nextTick(function ()
@@ -685,7 +685,7 @@ export class FrontendSession extends EventEmitter
 
     bind(uid : UID, cb : (err ?: Error , result ?: void)=>void)
     {
-        var self = this;
+        let self = this;
         this.__sessionService__.bind(this.id, uid, function (err)
         {
             if (!err)
@@ -698,7 +698,7 @@ export class FrontendSession extends EventEmitter
 
     unbind(uid : UID, cb : (err ?: Error , result ?: void)=>void)
     {
-        var self = this;
+        let self = this;
         this.__sessionService__.unbind(this.id, uid, function (err)
         {
             if (!err)
@@ -748,26 +748,26 @@ export class FrontendSession extends EventEmitter
      */
     export()
     {
-        var res = {};
+        let res = {};
         clone(this, res, EXPORTED_SESSION_FIELDS);
         return res;
     };
 }
 
-var clone = function (src : any, dest : any, includes : any)
+let clone = function (src : any, dest : any, includes : any)
 {
-    var f;
-    for (var i = 0, l = includes.length; i < l; i++)
+    let f;
+    for (let i = 0, l = includes.length; i < l; i++)
     {
         f = includes[i];
         dest[f] = src[f];
     }
 };
 
-var dclone = function (src : any)
+let dclone = function (src : any)
 {
-    var res : any = {};
-    for (var f in src)
+    let res : any = {};
+    for (let f in src)
     {
         res[f] = src[f];
     }

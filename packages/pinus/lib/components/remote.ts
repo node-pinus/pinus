@@ -4,10 +4,11 @@
  */
 import * as fs from 'fs';
 import * as pathUtil from '../util/pathUtil';
-import { createServer , Gateway, RpcServerOpts } from 'pinus-rpc';
+import { createServer , Gateway, RpcServerOpts, Remoters, Remoter, RemoteServerCode } from 'pinus-rpc';
 import { Application } from '../application';
 import { IComponent } from '../interfaces/Component';
 import { getLogger, Logger } from 'pinus-logger';
+import { ServerInfo } from '../util/constants';
 
 export interface RemoteComponentOptions extends RpcServerOpts
 {
@@ -42,6 +43,33 @@ export class RemoteComponent  implements IComponent
             opts.rpcDebugLog = true;
             opts.rpcLogger = getLogger('rpc-debug', __filename);
         }
+
+        opts.paths = this.getRemotePaths();
+        opts.context = this.app;
+
+        let remoters: Remoters = {};
+        opts.services = {};
+        opts.services['user'] = remoters;
+
+
+        let info = this.app.getCurrentServer()
+        // 添加插件中的remoter到ServerInfo中
+        for(let plugin of this.app.usedPlugins)
+        {
+            if(plugin.remoterPath)
+            {
+                opts.paths.push({
+                    namespace: 'user',
+                    serverType: info.serverType,
+                    path: plugin.remoterPath
+                });
+            }
+        }
+        
+        // 添加路径到ServerInfo中
+        info.remoterPaths = opts.paths;
+
+
     };
 
     name = '__remote__';
@@ -56,7 +84,7 @@ export class RemoteComponent  implements IComponent
     start(cb : ()=>void)
     {
         this.opts.port = this.app.getCurServer().port;
-        this.remote = genRemote(this.app, this.opts);
+        this.remote = this.genRemote(this.opts);
         this.remote.start();
         process.nextTick(cb);
     };
@@ -73,58 +101,58 @@ export class RemoteComponent  implements IComponent
         this.remote.stop(force);
         process.nextTick(cb);
     };
+
+    /**
+     * Get remote paths from application
+     *
+     * @param {Object} app current application context
+     * @return {Array} paths
+     *
+     */
+    getRemotePaths() : RemoteServerCode[]
+    {
+        let paths = [];
+
+        let role;
+        // master server should not come here
+        if (this.app.isFrontend())
+        {
+            role = 'frontend';
+        } else
+        {
+            role = 'backend';
+        }
+
+        let sysPath = pathUtil.getSysRemotePath(role), serverType = this.app.getServerType();
+        if (fs.existsSync(sysPath))
+        {
+            paths.push(pathUtil.remotePathRecord('sys', serverType, sysPath));
+        }
+        let userPath = pathUtil.getUserRemotePath(this.app.getBase(), serverType);
+        if (fs.existsSync(userPath))
+        {
+            paths.push(pathUtil.remotePathRecord('user', serverType, userPath));
+        }
+
+        return paths;
+    };
+
+    /**
+     * Generate remote server instance
+     *
+     * @param {Object} app current application context
+     * @param {Object} opts contructor parameters for rpc Server
+     * @return {Object} remote server instance
+     */
+    genRemote(opts: RemoteComponentOptions)
+    {
+        if (!!opts.rpcServer)
+        {
+            return opts.rpcServer.create(opts);
+        } else
+        {
+            return createServer(opts);
+        }
+    };
+
 }
-/**
- * Get remote paths from application
- *
- * @param {Object} app current application context
- * @return {Array} paths
- *
- */
-var getRemotePaths = function (app : Application)
-{
-    var paths = [];
-
-    var role;
-    // master server should not come here
-    if (app.isFrontend())
-    {
-        role = 'frontend';
-    } else
-    {
-        role = 'backend';
-    }
-
-    var sysPath = pathUtil.getSysRemotePath(role), serverType = app.getServerType();
-    if (fs.existsSync(sysPath))
-    {
-        paths.push(pathUtil.remotePathRecord('sys', serverType, sysPath));
-    }
-    var userPath = pathUtil.getUserRemotePath(app.getBase(), serverType);
-    if (fs.existsSync(userPath))
-    {
-        paths.push(pathUtil.remotePathRecord('user', serverType, userPath));
-    }
-
-    return paths;
-};
-
-/**
- * Generate remote server instance
- *
- * @param {Object} app current application context
- * @param {Object} opts contructor parameters for rpc Server
- * @return {Object} remote server instance
- */
-var genRemote = function (app : Application, opts : RemoteComponentOptions)
-{
-    opts.paths = getRemotePaths(app);
-    opts.context = app;
-    if (!!opts.rpcServer)
-    {
-        return opts.rpcServer.create(opts);
-    } else
-    {
-        return createServer(opts);
-    }
-};

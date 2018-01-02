@@ -2,15 +2,15 @@
  * Filter for timeout.
  * Print a warn information when request timeout.
  */
-import { getLogger } from 'pinus-logger'; var logger = getLogger('pinus', __filename);
+import { getLogger } from 'pinus-logger'; let logger = getLogger('pinus', __filename);
 import * as  utils from '../../util/utils';
 import { IHandlerFilter } from '../../interfaces/IHandlerFilter';
 import { RouteRecord } from '../../util/constants';
 import { HandlerCallback } from '../../common/service/handlerService';
 import { FrontendOrBackendSession } from '../../server/server';
 
-var DEFAULT_TIMEOUT = 3000;
-var DEFAULT_SIZE = 500;
+let DEFAULT_TIMEOUT = 3000;
+let DEFAULT_SIZE = 500;
 
 export class TimeoutFilter implements IHandlerFilter
 {
@@ -22,7 +22,7 @@ export class TimeoutFilter implements IHandlerFilter
 
     before(routeRecord : RouteRecord , msg : any, session : FrontendOrBackendSession, next : HandlerCallback)
     {
-        var count = utils.size(this.timeouts);
+        let count = utils.size(this.timeouts);
         if (count > this.maxSize)
         {
             logger.warn('timeout filter is out of range, current size is %s, max size is %s', count, this.maxSize);
@@ -40,7 +40,7 @@ export class TimeoutFilter implements IHandlerFilter
 
     after(err : Error, routeRecord : RouteRecord , msg : any, session : FrontendOrBackendSession, resp : any, next : HandlerCallback)
     {
-        var timeout = this.timeouts[(session as any).__timeout__];
+        let timeout = this.timeouts[(session as any).__timeout__];
         if (timeout)
         {
             clearTimeout(timeout);

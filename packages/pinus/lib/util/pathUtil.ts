@@ -1,6 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import * as Constants from './constants';
+import { RemoteServerCode } from '../../index';
 
 /**
  * Get system remote service path
@@ -10,7 +11,7 @@ import * as Constants from './constants';
  */
 export function getSysRemotePath(role : string)
 {
-    var p = path.join(__dirname, '/../common/remote/', role);
+    let p = path.join(__dirname, '/../common/remote/', role);
     return fs.existsSync(p) ? p : null;
 };
 
@@ -23,7 +24,7 @@ export function getSysRemotePath(role : string)
  */
 export function getUserRemotePath(appBase : string, serverType : string)
 {
-    var p = path.join(appBase, '/app/servers/', serverType, Constants.DIR.REMOTE);
+    let p = path.join(appBase, '/app/servers/', serverType, Constants.DIR.REMOTE);
     return fs.existsSync(p) ? p : null;
 };
 
@@ -36,7 +37,7 @@ export function getUserRemotePath(appBase : string, serverType : string)
  */
 export function getCronPath(appBase : string, serverType : string)
 {
-    var p = path.join(appBase, '/app/servers/', serverType, Constants.DIR.CRON);
+    let p = path.join(appBase, '/app/servers/', serverType, Constants.DIR.CRON);
     return fs.existsSync(p) ? p : null;
 };
 
@@ -49,8 +50,8 @@ export function getCronPath(appBase : string, serverType : string)
  */
 export function listUserRemoteDir(appBase : string)
 {
-    var base = path.join(appBase, '/app/servers/');
-    var files = fs.readdirSync(base);
+    let base = path.join(appBase, '/app/servers/');
+    let files = fs.readdirSync(base);
     return files.filter(function (fn)
     {
         if (fn.charAt(0) === '.')
@@ -70,7 +71,7 @@ export function listUserRemoteDir(appBase : string)
  * @param  {String} path       remote service source path
  * @return {Object}            remote path record
  */
-export function remotePathRecord(namespace : string, serverType : string, path : string)
+export function remotePathRecord(namespace : string, serverType : string, path : string) : RemoteServerCode
 {
     return { namespace: namespace, serverType: serverType, path: path };
 };
@@ -84,7 +85,7 @@ export function remotePathRecord(namespace : string, serverType : string, path :
  */
 export function getHandlerPath(appBase : string, serverType : string)
 {
-    var p = path.join(appBase, '/app/servers/', serverType, Constants.DIR.HANDLER);
+    let p = path.join(appBase, '/app/servers/', serverType, Constants.DIR.HANDLER);
     return fs.existsSync(p) ? p : null;
 };
 

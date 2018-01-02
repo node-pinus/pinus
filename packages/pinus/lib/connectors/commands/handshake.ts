@@ -2,9 +2,9 @@ import { pinus } from '../../pinus';
 import { Package } from 'pinus-protocol';
 import { ISocket } from '../../interfaces/ISocket';
 
-var CODE_OK = 200;
-var CODE_USE_ERROR = 500;
-var CODE_OLD_CLIENT = 501;
+let CODE_OK = 200;
+let CODE_USE_ERROR = 500;
+let CODE_OLD_CLIENT = 501;
 
 export type HanshakeFunction = (msg : any , cb : (err ?: Error , resp ?: any)=>void , socket : ISocket)=>void;
 
@@ -71,13 +71,13 @@ export class HandshakeCommand
             }
         }
 
-        var opts : any = {
+        let opts : any = {
             heartbeat: setupHeartbeat(this)
         };
 
         if (this.useDict)
         {
-            var dictVersion = pinus.app.components.__dictionary__.getVersion();
+            let dictVersion = pinus.app.components.__dictionary__.getVersion();
             if (!msg.sys.dictVersion || msg.sys.dictVersion !== dictVersion)
             {
 
@@ -93,7 +93,7 @@ export class HandshakeCommand
 
         if (this.useProtobuf)
         {
-            var protoVersion = pinus.app.components.__protobuf__.getVersion();
+            let protoVersion = pinus.app.components.__protobuf__.getVersion();
             if (!msg.sys.protoVersion || msg.sys.protoVersion !== protoVersion)
             {
                 opts.protos = pinus.app.components.__protobuf__.getProtos();
@@ -107,8 +107,8 @@ export class HandshakeCommand
             {
                 throw new Error('protobuf can not be both used in the same project.');
             }
-            var component = pinus.app.components.__decodeIO__protobuf__ as any;
-            var version = component.getVersion();
+            let component = pinus.app.components.__decodeIO__protobuf__ as any;
+            let version = component.getVersion();
             if (!msg.sys.protoVersion || msg.sys.protoVersion < version)
             {
                 opts.protos = component.getProtos();
@@ -149,14 +149,14 @@ export class HandshakeCommand
 
 }
 
-var setupHeartbeat = function (self : HandshakeCommand)
+let setupHeartbeat = function (self : HandshakeCommand)
 {
     return self.heartbeatSec;
 };
 
-var response = function (socket : ISocket, sys : any, resp ?: any)
+let response = function (socket : ISocket, sys : any, resp ?: any)
 {
-    var res : any = {
+    let res : any = {
         code: CODE_OK,
         sys: sys
     };
@@ -167,9 +167,9 @@ var response = function (socket : ISocket, sys : any, resp ?: any)
     socket.handshakeResponse(Package.encode(Package.TYPE_HANDSHAKE, new Buffer(JSON.stringify(res))));
 };
 
-var processError = function (socket : ISocket, code : number)
+let processError = function (socket : ISocket, code : number)
 {
-    var res = {
+    let res = {
         code: code
     };
     socket.sendForce(Package.encode(Package.TYPE_HANDSHAKE, new Buffer(JSON.stringify(res))));

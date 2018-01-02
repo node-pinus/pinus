@@ -5,7 +5,7 @@ import { Package } from 'pinus-protocol';
 import { getLogger } from 'pinus-logger';
 import { ISocket } from '../../interfaces/ISocket';
 import { IHybridSocket } from './IHybridSocket';
-var logger = getLogger('pinus', __filename);
+let logger = getLogger('pinus', __filename);
 
 export interface TcpSocketOptions
 {
@@ -17,9 +17,9 @@ export interface TcpSocketOptions
 /**
  * Work states
  */
-var ST_HEAD = 1;      // wait for head
-var ST_BODY = 2;      // wait for body
-var ST_CLOSED = 3;    // closed
+let ST_HEAD = 1;      // wait for head
+let ST_BODY = 2;      // wait for body
+let ST_CLOSED = 3;    // closed
 
 /**
  * Tcp socket wrapper with package compositing.
@@ -126,7 +126,7 @@ export class TcpSocket extends Stream implements IHybridSocket
             chunk = new Buffer(chunk, 'utf8');
         }
 
-        var offset = 0, end = chunk.length;
+        let offset = 0, end = chunk.length;
 
         while (offset < end && this.state !== ST_CLOSED)
         {
@@ -166,10 +166,10 @@ export class TcpSocket extends Stream implements IHybridSocket
      */
     readHead(data : Buffer, offset : number)
     {
-        var hlen = this.headSize - this.headOffset;
-        var dlen = data.length - offset;
-        var len = Math.min(hlen, dlen);
-        var dend = offset + len;
+        let hlen = this.headSize - this.headOffset;
+        let dlen = data.length - offset;
+        let len = Math.min(hlen, dlen);
+        let dend = offset + len;
 
         data.copy(this.headBuffer, this.headOffset, offset, dend);
         this.headOffset += len;
@@ -177,7 +177,7 @@ export class TcpSocket extends Stream implements IHybridSocket
         if (this.headOffset === this.headSize)
         {
             // if head segment finished
-            var size = this.headHandler(this.headBuffer);
+            let size = this.headHandler(this.headBuffer);
             if (size < 0)
             {
                 throw new Error('invalid body size: ' + size);
@@ -212,10 +212,10 @@ export class TcpSocket extends Stream implements IHybridSocket
      */
     readBody(data : Buffer, offset : number)
     {
-        var blen = this.packageSize - this.packageOffset;
-        var dlen = data.length - offset;
-        var len = Math.min(blen, dlen);
-        var dend = offset + len;
+        let blen = this.packageSize - this.packageOffset;
+        let dlen = data.length - offset;
+        let len = Math.min(blen, dlen);
+        let dend = offset + len;
 
         data.copy(this.packageBuffer, this.packageOffset, offset, dend);
 
@@ -224,7 +224,7 @@ export class TcpSocket extends Stream implements IHybridSocket
         if (this.packageOffset === this.packageSize)
         {
             // if all the package finished
-            var buffer = this.packageBuffer;
+            let buffer = this.packageBuffer;
             this.emit('message', buffer);
             this.reset();
         }
@@ -243,7 +243,7 @@ export class TcpSocket extends Stream implements IHybridSocket
 
 }
 
-var checkTypeData = function (data : number)
+let checkTypeData = function (data : number)
 {
     return data === Package.TYPE_HANDSHAKE || data === Package.TYPE_HANDSHAKE_ACK || data === Package.TYPE_HEARTBEAT || data === Package.TYPE_DATA || data === Package.TYPE_KICK;
 };
