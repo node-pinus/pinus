@@ -832,9 +832,17 @@ export class Application
      * @param  {[type]} opts    (optional) construct parameters for the factory function
      * @memberOf Application
      */
-    use(plugin : IPlugin, opts : any)
+    use(plugin : IPlugin, opts ?: any)
     {
         opts = opts || {};
+        if (!plugin)
+        {
+            throw new Error(`pluin is null!]`);
+        }    
+        if (this.usedPlugins.indexOf(plugin) >= 0)
+        {
+            throw new Error(`pluin[${plugin.name} was used already!]`);
+        }    
 
         if(plugin.components)
         {
@@ -850,6 +858,8 @@ export class Application
                 this.loadEvent(eventCtor, opts);
             }
         }
+        
+        this.usedPlugins.push(plugin);
 
         console.warn(`used Plugin : ${plugin.name}`);
     };
