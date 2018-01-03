@@ -1,4 +1,4 @@
-{
+﻿{
 	"name": "pinus",
 	"version": "0.0.1",
 	"devDependencies": {
@@ -12,7 +12,7 @@
 		"typescript": "^2.6.2"
 	},
 	"scripts": {
-		"postinstall": "lerna bootstrap",
+		"preinstall": "node -e \"if(process.env.npm_execpath.indexOf('yarn') === -1) throw new Error('请使用 Yarn 来代替 NPM 安装依赖，请看：https://yarnpkg.com/zh-Hans/docs/install')\"",
 		"test": "mocha",
 		"cov": "sh scripts/cov.sh",
 		"ci": "npm run build && npm run cov",
@@ -50,7 +50,11 @@
 		"url": "https://github.com/node-pinus/pinus.git"
 	},
 	"engines": {
-		"node": ">= 6.0.0"
+		"node": ">= 8.0.0"
 	},
-	"license": "MIT"
+	"license": "MIT",
+	"private": true,
+	"workspaces": [
+		"packages/*"
+	]
 }

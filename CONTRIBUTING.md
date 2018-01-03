@@ -5,7 +5,7 @@
 
 ### 多个 NPM 包在一个仓库？
 
-是的，我们是一个包在一个仓库，我们使用了 lerna 来管理这些包，实现关联和统一发布、管理。
+是的，我们是一个包在一个仓库，我们使用了 lerna + yarn 来管理这些包，实现关联和统一发布、管理。
 
 ### 我们目录结构如下
 
@@ -17,24 +17,24 @@
 		* test 功能测试
 		
 ### 每个 Package 应该暴露的命令
-
-* npm run build => 编译
-* npm run lint => 执行对 test、src 目录的 lint
-* npm run test => 执行测试
-* npm run cov => 覆盖率
-* npm run gen-api-ref => 生成 API-Reference
+* yarn => 安装所有依赖项目
+* yarn run build => 编译
+* yarn run lint => 执行对 test、src 目录的 lint
+* yarn run test => 执行测试
+* yarn run cov => 覆盖率
+* yarn run gen-api-ref => 生成 API-Reference
 
 ### 根目录暴露的命令
     
-* npm run bootstrap => lerna bootstrap
-* npm run test => 对所有 packages 执行单元测试
-* npm run cov => 对所有 packages 执行覆盖率测试
-* npm run build => 对所有 packages 执行 build
-* npm run publish => 发布到 npm
-* npm run clean => lerna clean
-* npm run purge => 清除所有依赖
-* npm run gen-api-ref => 生成全部 API-Reference
-* npm run ci => 执行 CI
+* yarn run bootstrap => lerna bootstrap
+* yarn run test => 对所有 packages 执行单元测试
+* yarn run cov => 对所有 packages 执行覆盖率测试
+* yarn run build => 对所有 packages 执行 build
+* yarn run publish => 发布到 npm
+* yarn run clean => lerna clean
+* yarn run purge => 清除所有依赖
+* yarn run gen-api-ref => 生成全部 API-Reference
+* yarn run ci => 执行 CI
 
 
 ### 开发新功能
@@ -46,7 +46,7 @@
 
 ### 如何执行单元测试
 
-* npm run test
+* yarn run test
 * 亦可通过 IDE 执行 Mocha
 
 
