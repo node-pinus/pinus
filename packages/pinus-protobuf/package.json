@@ -1,6 +1,6 @@
 {
   "name": "pinus-protobuf",
-  "version": "1.2.9-y.2",
+  "version": "1.2.9-y.3",
   "main": "./dist/protobuf",
   "types": "./dist/protobuf.d.ts",
   "dependencies": {
