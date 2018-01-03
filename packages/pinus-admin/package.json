@@ -1,6 +1,6 @@
 {
     "name": "pinus-admin",
-    "version": "1.2.9-10",
+    "version": "1.2.9-y.0",
     "main": "./dist/index",
     "types": "./dist/index.d.ts",
     "files": [
@@ -19,9 +19,9 @@
         "@types/mqtt-connection": "git+https://github.com/node-pinus/types-mqtt-connection.git",
         "@types/node": "^8.5.2",
         "mqtt-connection": "^3.2.0",
-        "pinus-logger": "^1.2.9-10",
-        "pinus-monitor": "^1.2.9-10",
-        "pinus-scheduler": "^1.2.9-10"
+        "pinus-logger": "^1.2.9-y.0",
+        "pinus-monitor": "^1.2.9-y.0",
+        "pinus-scheduler": "^1.2.9-y.0"
     },
     "devDependencies": {
         "mocha": ">=0.0.1",
