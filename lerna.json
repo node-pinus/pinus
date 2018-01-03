@@ -5,5 +5,5 @@
   ],
   "version": "1.2.9-10",
   "registry": "https://registry.npmjs.org/",
-  "npmClient": "yarn"
+  "npmClient": "npm"
 }
