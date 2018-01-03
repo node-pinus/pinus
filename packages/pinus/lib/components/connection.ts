@@ -1,6 +1,6 @@
 import { ConnectionService } from '../common/service/connectionService';
 import { Application } from '../application';
-import { IComponent } from '../interfaces/Component';
+import { IComponent } from '../interfaces/IComponent';
 
 
 

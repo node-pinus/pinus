@@ -19,7 +19,7 @@ import * as appManager from './common/manager/appManager';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as util from 'util';
-import { IComponent } from './interfaces/Component';
+import { IComponent } from './interfaces/IComponent';
 import { DictionaryComponent } from './components/dictionary';
 import { PushSchedulerComponent } from './components/pushScheduler';
 import { BackendSessionService } from './common/service/backendSessionService';

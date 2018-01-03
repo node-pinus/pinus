@@ -10,7 +10,7 @@ import * as pathUtil from '../util/pathUtil';
 import * as Constants from '../util/constants';
 import { getLogger } from 'pinus-logger';
 import { Application } from '../application';
-import { IComponent } from '../interfaces/Component';
+import { IComponent } from '../interfaces/IComponent';
 import { RpcClientOpts } from 'pinus-rpc/dist/lib/rpc-client/client';
 import { Session } from '../../index';
 import { ServerInfo } from '../util/constants';

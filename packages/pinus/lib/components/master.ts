@@ -2,7 +2,7 @@
  * Component for master.
  */
 import { MasterServer, MasterServerOptions } from '../master/master';
-import { IComponent } from '../interfaces/Component';
+import { IComponent } from '../interfaces/IComponent';
 import { Application } from '../application';
 
 /**

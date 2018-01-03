@@ -1,6 +1,6 @@
 import { SessionService, SessionServiceOptions } from '../common/service/sessionService';
 import { Application } from '../application';
-import { IComponent } from '../interfaces/Component';
+import { IComponent } from '../interfaces/IComponent';
 
 
 /**

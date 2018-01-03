@@ -6,7 +6,7 @@ import { default as events } from '../util/events';
 import * as utils from '../util/utils';
 import { Application } from '../application';
 import { ConnectionComponent } from './connection';
-import { IComponent } from '../interfaces/Component';
+import { IComponent } from '../interfaces/IComponent';
 import { PushSchedulerComponent } from './pushScheduler';
 import { SIOConnector, SIOConnectorOptions } from '../connectors/sioconnector';
 import { ConnectionService } from '../common/service/connectionService';

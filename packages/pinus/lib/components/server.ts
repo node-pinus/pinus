@@ -2,7 +2,7 @@
  * Component for server starup.
  */
 import { Server , create as createServer, ServerOptions, FrontendOrBackendSession } from '../server/server';
-import { IComponent } from '../interfaces/Component';
+import { IComponent } from '../interfaces/IComponent';
 import { Application } from '../application';
 import { FrontendSession } from '../common/service/sessionService';
 import { HandlerCallback } from '../common/service/handlerService';

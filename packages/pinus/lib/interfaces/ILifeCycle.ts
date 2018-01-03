@@ -1,5 +1,5 @@
 import { Application } from "../application";
-import { IComponent } from "./Component";
+import { IComponent } from "./IComponent";
 
 /**
  * 服务器生命周期

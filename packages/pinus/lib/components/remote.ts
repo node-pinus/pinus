@@ -6,7 +6,7 @@ import * as fs from 'fs';
 import * as pathUtil from '../util/pathUtil';
 import { createServer , Gateway, RpcServerOpts, Remoters, Remoter, RemoteServerCode } from 'pinus-rpc';
 import { Application } from '../application';
-import { IComponent } from '../interfaces/Component';
+import { IComponent } from '../interfaces/IComponent';
 import { getLogger, Logger } from 'pinus-logger';
 import { ServerInfo } from '../util/constants';
 

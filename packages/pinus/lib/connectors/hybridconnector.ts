@@ -12,7 +12,7 @@ import * as coder from './common/coder';
 import { ConnectorComponent } from '../components/connector';
 import { DictionaryComponent } from '../components/dictionary';
 import { ProtobufComponent } from '../components/protobuf';
-import { IComponent } from '../interfaces/Component';
+import { IComponent } from '../interfaces/IComponent';
 import { pinus } from '../pinus';
 import { IConnector } from '../interfaces/IConnector';
 import { TlsOptions } from 'tls';

@@ -1,5 +1,5 @@
 import { ChannelService, ChannelServiceOptions } from '../common/service/channelService';
-import { IComponent } from '../interfaces/Component';
+import { IComponent } from '../interfaces/IComponent';
 import { Application } from '../application';
 
 export class ChannelComponent extends ChannelService implements IComponent

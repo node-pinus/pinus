@@ -1,5 +1,5 @@
 import { BackendSessionService } from '../common/service/backendSessionService';
-import { IComponent } from '../interfaces/Component';
+import { IComponent } from '../interfaces/IComponent';
 import { Application } from '../application';
 
 

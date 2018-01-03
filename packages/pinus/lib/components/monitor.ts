@@ -3,7 +3,7 @@
  * Load and start monitor client.
  */
 import { Monitor, MonitorOptions } from '../monitor/monitor';
-import { IComponent } from '../interfaces/Component';
+import { IComponent } from '../interfaces/IComponent';
 import { Application } from '../application';
 import { MasterInfo } from '../../index';
 

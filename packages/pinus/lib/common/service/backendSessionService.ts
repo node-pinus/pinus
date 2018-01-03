@@ -3,7 +3,7 @@
  */
 import * as utils from '../../util/utils';
 import { Application } from '../../application';
-import { IComponent } from '../../interfaces/Component';
+import { IComponent } from '../../interfaces/IComponent';
 import { SID, FRONTENDID, ServerInfo } from '../../util/constants';
 
 let EXPORTED_FIELDS = ['id', 'frontendId', 'uid', 'settings'];

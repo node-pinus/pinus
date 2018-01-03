@@ -34,7 +34,7 @@ export { SerialFilter } from './lib/filters/handler/serial';
 export { TimeoutFilter } from './lib/filters/handler/timeout';
 
 export * from './lib/interfaces/define';
-export * from './lib/interfaces/Component';
+export * from './lib/interfaces/IComponent';
 export * from './lib/interfaces/IStore';
 export * from './lib/interfaces/IConnector';
 export * from './lib/interfaces/IHandlerFilter';

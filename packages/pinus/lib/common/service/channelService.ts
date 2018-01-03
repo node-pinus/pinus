@@ -2,7 +2,7 @@ import * as countDownLatch from '../../util/countDownLatch';
 import * as utils from '../../util/utils';
 import { ChannelRemote } from '../remote/frontend/channelRemote';
 import { getLogger } from 'pinus-logger'; import { Application } from '../../application';
-import { IComponent } from '../../interfaces/Component';
+import { IComponent } from '../../interfaces/IComponent';
 import { IStore } from '../../interfaces/IStore';
 import { IHandlerFilter } from '../../interfaces/IHandlerFilter';
 import { FRONTENDID, UID, SID } from '../../util/constants';

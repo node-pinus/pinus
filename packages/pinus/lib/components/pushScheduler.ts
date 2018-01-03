@@ -5,7 +5,7 @@
 import {DirectPushScheduler as DefaultScheduler} from '../pushSchedulers/direct';
 import { getLogger } from 'pinus-logger';
 import { Application } from '../application';
-import { IComponent } from '../interfaces/Component';
+import { IComponent } from '../interfaces/IComponent';
 import { IPushScheduler, ScheduleOptions } from '../interfaces/IPushScheduler';
 import { MultiPushScheduler, MultiPushSchedulerOptions } from '../pushSchedulers/multi';
 import { SID } from '../util/constants';
