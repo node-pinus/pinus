@@ -9,7 +9,7 @@
         "lib"
     ],
     "scripts": {
-        "build": "node ../../node_modules/typescript/bin/tsc",
+        "build": "tsc",
         "start": "npm run build && node dist/index",
         "lint": "node ../../node_modules/tslint/bin/tslint --format prose -c ../../tslint.json lib/**/*.ts test/**/*.ts",
         "test": "npm run build",

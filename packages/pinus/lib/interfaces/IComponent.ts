@@ -17,7 +17,14 @@ export interface IComponent
      * @param {Function} cb
      * @return {Void}
      */
-    afterStart ?: (cb : ()=>void)=>void;
+    afterStart?: (cb: () => void) => void;
+    
+    /**
+     * Component lifecycle callback
+     *
+     * @return {Void}
+     */
+    afterStartAll ?: ()=>void;
 
     /**
      * Component lifecycle function

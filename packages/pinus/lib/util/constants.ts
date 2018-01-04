@@ -57,6 +57,7 @@ export enum RESERVED  {
     STAND_ALONE = 'stand-alone',
     START = 'start',
     AFTER_START = 'afterStart',
+    AFTER_STARTALL = 'afterStartAll',
     CRONS = 'crons',
     ERROR_HANDLER = 'errorHandler',
     GLOBAL_ERROR_HANDLER = 'globalErrorHandler',

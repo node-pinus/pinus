@@ -39,7 +39,7 @@ export class DictionaryComponent implements IComponent
         }
     };
 
-    afterStart(cb : (err?:Error)=>void)
+    afterStartAll()
     {
         let servers = this.app.serverTypeMaps
         let routes = [];
@@ -85,6 +85,9 @@ export class DictionaryComponent implements IComponent
 
         //Sort the route to make sure all the routers abbr are the same in all the servers
         routes.sort();
+
+        console.warn("启动完毕，可用的路由：", JSON.stringify(routes));
+
         let abbr;
         let i;
         for (i = 0; i < routes.length; i++)
@@ -112,7 +115,6 @@ export class DictionaryComponent implements IComponent
 
         this.version = crypto.createHash('md5').update(JSON.stringify(this.dict)).digest('base64');
 
-        utils.invokeCallback(cb);
     };
 
     getDict()

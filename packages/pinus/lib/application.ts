@@ -534,7 +534,7 @@ export class Application
             {
                 logger.info('%j finish start', id);
             }
-            appUtil.optLifecycles(self.usedPlugins, Constants.RESERVED.AFTER_START, self, cb);
+            appUtil.optLifecycles(self.usedPlugins, Constants.LIFECYCLE.AFTER_STARTUP, self, cb);
             let usedTime = Date.now() - self.startTime;
             logger.info('%j startup in %s ms', id, usedTime);
             self.event.emit(events.START_SERVER, id);

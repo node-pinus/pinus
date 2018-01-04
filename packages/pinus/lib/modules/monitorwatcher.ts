@@ -112,14 +112,25 @@ let replaceServer = function (self : MonitorWatcherModule, agent : MonitorAgent,
 
 let startOver = function (self : MonitorWatcherModule, agent : MonitorAgent, msg : any, cb : MonitorCallback)
 {
+
+    for(let component of self.app.loaded)
+    {
+        let fun = component[Constants.RESERVED.AFTER_STARTALL];
+        if (!!fun)
+        {
+            fun.call(component);
+        }
+    }
+
     for(let lifecycle of self.app.usedPlugins)
     {
         let fun = lifecycle[Constants.LIFECYCLE.AFTER_STARTALL];
         if (!!fun)
         {
-            fun.call(null, self.app);
+            fun.call(lifecycle, self.app);
         }
     }
+
     self.app.event.emit(events.START_ALL);
     utils.invokeCallback(cb, Constants.SIGNAL.OK);
 };
