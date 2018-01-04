@@ -1,10 +1,11 @@
 {
 	"name": "pinus-rpc",
-	"version": "1.2.9-y.5",
+	"version": "1.2.9-y.6",
 	"main": "./dist/index",
 	"types": "./dist/index.d.ts",
 	"files": [
-		"dist"
+		"dist",
+		"lib"
 	],
 	"scripts": {
 		"build": "node ../../node_modules/typescript/bin/tsc",
@@ -27,8 +28,8 @@
 		"bearcat-buffer": "^0.1.x",
 		"crc": "^0.2.1",
 		"mqtt-connection": "^3.2.0",
-		"pinus-loader": "^1.2.9-y.5",
-		"pinus-logger": "^1.2.9-y.5",
+		"pinus-loader": "^1.2.9-y.6",
+		"pinus-logger": "^1.2.9-y.6",
 		"socket.io": "^2.0.4",
 		"stream-pkg": "0.0.5",
 		"uuid": "^3.1.0",

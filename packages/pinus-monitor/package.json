@@ -1,11 +1,12 @@
 {
  "name": "pinus-monitor",
  "description": "monitor the operating-system and process information",
- "version": "1.2.9-y.5",
+ "version": "1.2.9-y.6",
  "main": "./dist/index",
  "types": "./dist/index.d.ts",
  "files": [
-  "dist"
+  "dist",
+  "lib"
  ],
  "scripts": {
   "build": "node ../../node_modules/typescript/bin/tsc",

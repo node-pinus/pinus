@@ -1,11 +1,12 @@
 {
 	"name": "pinus-scheduler",
-	"version": "1.2.9-y.5",
+	"version": "1.2.9-y.6",
 	"author": "mybios <mybios@qq.com>",
 	"main": "./dist/schedule",
 	"types": "./dist/schedule.d.ts",
 	"files": [
-		"dist"
+		"dist",
+		"lib"
 	],
 	"scripts": {
 		"build": "node ../../node_modules/typescript/bin/tsc",
