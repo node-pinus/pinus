@@ -4182,6 +4182,37 @@ pinkie@^2.0.0:
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/pinkie/-/pinkie-2.0.4.tgz#72556b80cfa0d48a974e80e77248e80ed4f7f870"
 
+pinus-admin@^1.2.9-y.5:
+  version "1.2.9-y.5"
+  resolved "https://registry.yarnpkg.com/pinus-admin/-/pinus-admin-1.2.9-y.5.tgz#01a5d04821b796cd0e285cd8ec4316e33843a146"
+  dependencies:
+    "@types/mqtt-connection" "git+https://github.com/node-pinus/types-mqtt-connection.git"
+    "@types/node" "^8.5.2"
+    mqtt-connection "^3.2.0"
+    pinus-logger "^1.2.9-y.5"
+    pinus-monitor "^1.2.9-y.5"
+    pinus-scheduler "^1.2.9-y.5"
+
+pinus-logger@^1.2.9-y.5:
+  version "1.2.9-y.5"
+  resolved "https://registry.yarnpkg.com/pinus-logger/-/pinus-logger-1.2.9-y.5.tgz#e359491f8dfbfb09da65e3a42795e9e973b20687"
+  dependencies:
+    "@types/node" "^8.5.2"
+    log4js "^2.4.1"
+
+pinus-monitor@^1.2.9-y.5:
+  version "1.2.9-y.5"
+  resolved "https://registry.yarnpkg.com/pinus-monitor/-/pinus-monitor-1.2.9-y.5.tgz#a48e505aa193a5fb693664145345559856f7d545"
+  dependencies:
+    "@types/node" "^8.5.2"
+
+pinus-scheduler@^1.2.9-y.5:
+  version "1.2.9-y.5"
+  resolved "https://registry.yarnpkg.com/pinus-scheduler/-/pinus-scheduler-1.2.9-y.5.tgz#40622829e3cc677b7631f712ac2223fef1797447"
+  dependencies:
+    "@types/node" "^8.5.2"
+    log4js "^2.4.1"
+
 pinus-site-tools@^1.0.6:
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/pinus-site-tools/-/pinus-site-tools-1.0.6.tgz#0baeab1eb26d5ba9743f37a60348408357f5b0fa"
