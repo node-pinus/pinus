@@ -1,17 +1,10 @@
-import { IPushScheduler, ScheduleOptions } from "../interfaces/IPushScheduler";
+import { IPushScheduler, ScheduleOptions, IPushSchedulerOrCtor, MultiPushSchedulerOptions, IPushSelector } from "../interfaces/IPushScheduler";
 import { Application } from "../application";
 import { isFunction } from "util";
 import { getLogger } from 'pinus-logger';
 import { SID } from "../util/constants";
 let logger = getLogger('pinus', __filename);
 
-export type IPushSelector = (reqId : number, route : string, msg : any, recvs : number[], opts : any)=>number
-
-export interface MultiPushSchedulerOptions
-{
-    scheduler ?: {[id:number]:IPushScheduler};
-    selector ?: IPushSelector;
-}
 
 export class MultiPushScheduler implements IPushScheduler
 {
@@ -28,7 +21,7 @@ export class MultiPushScheduler implements IPushScheduler
         if (Array.isArray(scheduler))
         {
             this.scheduler = {};
-            scheduler.forEach( (sch)=>
+            for(let sch of scheduler)
             {
                 if (typeof sch.scheduler === 'function')
                 {
@@ -37,7 +30,7 @@ export class MultiPushScheduler implements IPushScheduler
                 {
                     this.scheduler[sch.id] = sch.scheduler;
                 }
-            });
+            }
 
             if(!isFunction(opts.selector))
             {

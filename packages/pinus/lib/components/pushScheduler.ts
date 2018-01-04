@@ -6,21 +6,16 @@ import {DirectPushScheduler as DefaultScheduler} from '../pushSchedulers/direct'
 import { getLogger } from 'pinus-logger';
 import { Application } from '../application';
 import { IComponent } from '../interfaces/IComponent';
-import { IPushScheduler, ScheduleOptions } from '../interfaces/IPushScheduler';
-import { MultiPushScheduler, MultiPushSchedulerOptions } from '../pushSchedulers/multi';
+import { IPushScheduler, ScheduleOptions, IPushSchedulerOrCtor, IPushSchedulerOptions, MultiPushSchedulerOptions } from '../interfaces/IPushScheduler';
+import { MultiPushScheduler } from '../pushSchedulers/multi';
 import { SID } from '../util/constants';
 let logger = getLogger('pinus', __filename);
 
 
-export interface PushSchedulerComponentOptions
-{
-    scheduler ?: {new (app : Application, opts ?:any):IPushScheduler} | IPushScheduler;
-}
-
 export class PushSchedulerComponent implements IComponent
 {
     scheduler : IPushScheduler;
-    constructor(private app : Application, opts ?: PushSchedulerComponentOptions | MultiPushSchedulerOptions)
+    constructor(private app : Application, opts ?: IPushSchedulerOptions)
     {
         opts = opts || {};
         this.scheduler = getScheduler(this, app, opts);
@@ -65,7 +60,7 @@ export class PushSchedulerComponent implements IComponent
         this.scheduler.schedule(reqId, route, msg, recvs, opts, cb);     
     };
 }
-let getScheduler = function (pushSchedulerComp : PushSchedulerComponent, app : Application, opts : PushSchedulerComponentOptions | MultiPushSchedulerOptions) : IPushScheduler
+let getScheduler = function (pushSchedulerComp : PushSchedulerComponent, app : Application, opts : IPushSchedulerOptions) : IPushScheduler
 {
     let scheduler = opts.scheduler || DefaultScheduler;
     if (typeof scheduler === 'function')
@@ -75,7 +70,7 @@ let getScheduler = function (pushSchedulerComp : PushSchedulerComponent, app : A
 
     if (Array.isArray(scheduler))
     {
-        return new MultiPushScheduler(app , opts as any);
+        return new MultiPushScheduler(app , opts as MultiPushSchedulerOptions);
     }
 
     return scheduler as IPushScheduler;
