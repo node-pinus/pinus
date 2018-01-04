@@ -2,6 +2,10 @@
 
 [![Build Status](https://travis-ci.org/node-pinus/pinus.svg?branch=master)](https://travis-ci.org/node-pinus/pinus)
 
+官方网站：http://pinus.io
+欢迎加Pinus官方QQ群：102530089
+
+
 示例工程请参见：https://github.com/node-pinus/examples/simple-example
 
 手动安装：
