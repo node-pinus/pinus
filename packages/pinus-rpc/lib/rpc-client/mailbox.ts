@@ -3,8 +3,8 @@
  */
 import * as Mailbox from './mailboxes/mqtt-mailbox';
 import { MailBox } from './mailboxes/mqtt-mailbox';
-// var Ws2Mailbox from ('./mailboxes/ws2-mailbox');
-// var WsMailbox from ('./mailboxes/ws-mailbox');
+// let Ws2Mailbox from ('./mailboxes/ws2-mailbox');
+// let WsMailbox from ('./mailboxes/ws-mailbox');
 
 export type MailBoxFactory =  (serverInfo: {id: string, host: string, port:number}, opts: Mailbox.MailBoxOpts)=>MailBox;
 
@@ -17,8 +17,8 @@ export type MailBoxFactory =  (serverInfo: {id: string, host: string, port:numbe
  */
 export function createMailBox (serverInfo: {id: string, host: string, port:number}, opts: Mailbox.MailBoxOpts)
 {
-    // var mailbox = opts.mailbox || 'mqtt';
-    // var Mailbox = null;
+    // let mailbox = opts.mailbox || 'mqtt';
+    // let Mailbox = null;
     // if (mailbox == 'ws') {
     // 	Mailbox = WsMailbox;
     // } else if (mailbox == 'ws2') {

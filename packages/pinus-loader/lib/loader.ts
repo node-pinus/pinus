@@ -46,7 +46,7 @@ export function load(mpath: string, context : any, reload : boolean)
 
 export function loadFile(fp: string, context : any, reload : boolean)
 {
-	var m  = reload ? requireUncached(fp) : require(fp);
+	let m  = reload ? requireUncached(fp) : require(fp);
 
 	if (!m)
 	{
@@ -69,7 +69,7 @@ export function loadFile(fp: string, context : any, reload : boolean)
 
 export function loadPath(path : string, context : any, reload : boolean)
 {
-	var files = fs.readdirSync(path);
+	let files = fs.readdirSync(path);
 	if (files.length === 0)
 	{
 		console.warn('path is empty, path:' + path);
@@ -81,8 +81,8 @@ export function loadPath(path : string, context : any, reload : boolean)
 		path += '/';
 	}
 
-	var fp, fn, m, res: {[key:string]:any} = {};
-	for (var i = 0, l = files.length; i < l; i++)
+	let fp, fn, m, res: {[key:string]:any} = {};
+	for (let i = 0, l = files.length; i < l; i++)
 	{
 		fn = files[i];
 		fp = path + fn;
@@ -100,7 +100,7 @@ export function loadPath(path : string, context : any, reload : boolean)
 			continue;
 		}
 
-		var name = m.name || getFileName(fn, '.js'.length);
+		let name = m.name || getFileName(fn, '.js'.length);
 		res[name] = m;
 	}
 
@@ -125,24 +125,24 @@ export function checkFileType(fn : string, suffix : string)
 		return false;
 	}
 
-	var str = fn.substring(fn.length - suffix.length).toLowerCase();
+	let str = fn.substring(fn.length - suffix.length).toLowerCase();
 	suffix = suffix.toLowerCase();
 	return str === suffix;
 };
 
-var isFile = function (path : string)
+let isFile = function (path : string)
 {
 	return fs.statSync(path).isFile();
 };
 
-var isDir = function (path : string)
+let isDir = function (path : string)
 {
 	return fs.statSync(path).isDirectory();
 };
 
-var getFileName = function (fp : string, suffixLength : number)
+let getFileName = function (fp : string, suffixLength : number)
 {
-	var fn = path.basename(fp);
+	let fn = path.basename(fp);
 	if (fn.length > suffixLength)
 	{
 		return fn.substring(0, fn.length - suffixLength);
@@ -151,7 +151,7 @@ var getFileName = function (fp : string, suffixLength : number)
 	return fn;
 };
 
-var requireUncached = function (module : string)
+let requireUncached = function (module : string)
 {
 	delete require.cache[require.resolve(module)]
 	return require(module)

@@ -12,7 +12,7 @@ export * from './lib/client/client';
 export * from './lib/monitor/monitorAgent';
 export * from './lib/master/masterAgent';
 
-export var modules = {
+export let modules = {
 	monitorLog : MonitorLogModule,
 	nodeInfo : NodeInfoModule,
 	profiler : ProfilerModule,

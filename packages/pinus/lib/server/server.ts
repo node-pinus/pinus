@@ -252,13 +252,13 @@ let loadCronHandlers = function (app : Application)
     if (p)
     {
         let crons = Loader.load(p, app, false);
-        for (var name in crons)
+        for (let name in crons)
         {
             all[name] = crons[name];
         }    
     }
 
-    for (var plugin of app.usedPlugins)
+    for (let plugin of app.usedPlugins)
     {
         if (plugin.cronPath)
         {
@@ -268,7 +268,7 @@ let loadCronHandlers = function (app : Application)
                 continue;
             }    
             let crons = Loader.load(plugin.cronPath, app, false);
-            for (var name in crons)
+            for (let name in crons)
             {
                 all[name] = crons[name];
             }

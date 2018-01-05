@@ -1,5 +1,5 @@
 import { getLogger } from 'pinus-logger';
-var logger = getLogger(__filename);
+let logger = getLogger(__filename);
 import * as util from '../util';
 import { consts } from '../consts';
 import * as cliff from 'cliff';
@@ -12,8 +12,8 @@ export default function (opts:object)
 	return new Command(opts);
 };
 
-export var commandId = 'dump';
-export var helpCommand = 'help dump';
+export let commandId = 'dump';
+export let helpCommand = 'help dump';
 
 
 export class Command implements ICommand
@@ -30,7 +30,7 @@ export class Command implements ICommand
 			return;
 		}
 
-		var Context = agent.getContext();
+		let Context = agent.getContext();
 		if (Context === 'all')
 		{
 			util.log('\n' + consts.COMANDS_CONTEXT_ERROR + '\n');
@@ -38,7 +38,7 @@ export class Command implements ICommand
 			return;
 		}
 
-		var argvs = util.argsFilter(argv);
+		let argvs = util.argsFilter(argv);
 
 		if (argvs.length < 3 || (comd === 'cpu' && argvs.length < 4))
 		{
@@ -46,7 +46,7 @@ export class Command implements ICommand
 			return;
 		}
 
-		var param = {};
+		let param = {};
 
 		if (comd === 'memory')
 		{

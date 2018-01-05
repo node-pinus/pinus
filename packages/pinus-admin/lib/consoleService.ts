@@ -119,8 +119,8 @@ export class ConsoleService extends EventEmitter
         this.port = _opts.port;
         this.env = _opts.env;
         this.values = {};
-        var masterOpts = _opts as MasterConsoleServiceOpts;
-        var monitorOpts = _opts as MonitorConsoleServiceOpts;
+        let masterOpts = _opts as MasterConsoleServiceOpts;
+        let monitorOpts = _opts as MonitorConsoleServiceOpts;
         this.master = masterOpts.master;
 
         this.modules = {};

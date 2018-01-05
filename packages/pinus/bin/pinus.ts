@@ -14,7 +14,7 @@ import * as utils from '../lib/util/utils'
 import * as starter from '../lib/master/starter'
 import { exec } from 'child_process'
 import { spawn } from 'child_process'
-var version = require('../../package.json').version
+let version = require('../../package.json').version
 import { AdminClient } from 'pinus-admin'
 import * as constants from '../lib/util/constants'
 import * as program from 'commander';
@@ -22,29 +22,29 @@ import * as program from 'commander';
 /**
  *  Constant Variables
  */
-var TIME_INIT = 1 * 1000;
-var TIME_KILL_WAIT = 5 * 1000;
-var KILL_CMD_LUX = 'kill -9 `ps -ef|grep node|awk \'{print $2}\'`';
-var KILL_CMD_WIN = 'taskkill /im node.exe /f';
+let TIME_INIT = 1 * 1000;
+let TIME_KILL_WAIT = 5 * 1000;
+let KILL_CMD_LUX = 'kill -9 `ps -ef|grep node|awk \'{print $2}\'`';
+let KILL_CMD_WIN = 'taskkill /im node.exe /f';
 
-var CUR_DIR = process.cwd();
-var DEFAULT_GAME_SERVER_DIR = CUR_DIR;
-var DEFAULT_USERNAME = 'admin';
-var DEFAULT_PWD = 'admin';
-var DEFAULT_ENV = 'development';
-var DEFAULT_MASTER_HOST = '127.0.0.1';
-var DEFAULT_MASTER_PORT = 3005;
+let CUR_DIR = process.cwd();
+let DEFAULT_GAME_SERVER_DIR = CUR_DIR;
+let DEFAULT_USERNAME = 'admin';
+let DEFAULT_PWD = 'admin';
+let DEFAULT_ENV = 'development';
+let DEFAULT_MASTER_HOST = '127.0.0.1';
+let DEFAULT_MASTER_PORT = 3005;
 
-var CONNECT_ERROR = 'Fail to connect to admin console server.';
-var FILEREAD_ERROR = 'Fail to read the file, please check if the application is started legally.';
-var CLOSEAPP_INFO = 'Closing the application......\nPlease wait......';
-var ADD_SERVER_INFO = 'Successfully add server.';
-var RESTART_SERVER_INFO = 'Successfully restart server.';
-var INIT_PROJ_NOTICE = ('\nThe default admin user is: \n\n' + '  username' as any).green + ': admin\n  ' + ('password' as any).green + ': admin\n\nYou can configure admin users by editing adminUser.json later.\n ';
-var SCRIPT_NOT_FOUND = ('Fail to find an appropriate script to run,\nplease check the current work directory or the directory specified by option `--directory`.\n' as any).red;
-var MASTER_HA_NOT_FOUND = ('Fail to find an appropriate masterha config file, \nplease check the current work directory or the arguments passed to.\n' as any).red;
-var COMMAND_ERROR = ('Illegal command format. Use `pinus --help` to get more info.\n' as any).red;
-var DAEMON_INFO = 'The application is running in the background now.\n';
+let CONNECT_ERROR = 'Fail to connect to admin console server.';
+let FILEREAD_ERROR = 'Fail to read the file, please check if the application is started legally.';
+let CLOSEAPP_INFO = 'Closing the application......\nPlease wait......';
+let ADD_SERVER_INFO = 'Successfully add server.';
+let RESTART_SERVER_INFO = 'Successfully restart server.';
+let INIT_PROJ_NOTICE = ('\nThe default admin user is: \n\n' + '  username' as any).green + ': admin\n  ' + ('password' as any).green + ': admin\n\nYou can configure admin users by editing adminUser.json later.\n ';
+let SCRIPT_NOT_FOUND = ('Fail to find an appropriate script to run,\nplease check the current work directory or the directory specified by option `--directory`.\n' as any).red;
+let MASTER_HA_NOT_FOUND = ('Fail to find an appropriate masterha config file, \nplease check the current work directory or the arguments passed to.\n' as any).red;
+let COMMAND_ERROR = ('Illegal command format. Use `pinus --help` to get more info.\n' as any).red;
+let DAEMON_INFO = 'The application is running in the background now.\n';
 
 program.version(version);
 
@@ -86,8 +86,8 @@ program.command('add')
     .option('-P, --port <master-port>', 'master server port', DEFAULT_MASTER_PORT)
     .action(function ()
     {
-        var args = [].slice.call(arguments, 0);
-        var opts = args[args.length - 1];
+        let args = [].slice.call(arguments, 0);
+        let opts = args[args.length - 1];
         opts.args = args.slice(0, -1);
         add(opts);
     });
@@ -100,8 +100,8 @@ program.command('stop')
     .option('-P, --port <master-port>', 'master server port', DEFAULT_MASTER_PORT)
     .action(function ()
     {
-        var args = [].slice.call(arguments, 0);
-        var opts = args[args.length - 1];
+        let args = [].slice.call(arguments, 0);
+        let opts = args[args.length - 1];
         opts.serverIds = args.slice(0, -1);
         terminal('stop', opts);
     });
@@ -115,8 +115,8 @@ program.command('kill')
     .option('-f, --force', 'using this option would kill all the node processes')
     .action(function ()
     {
-        var args = [].slice.call(arguments, 0);
-        var opts = args[args.length - 1];
+        let args = [].slice.call(arguments, 0);
+        let opts = args[args.length - 1];
         opts.serverIds = args.slice(0, -1);
         terminal('kill', opts);
     });
@@ -191,18 +191,18 @@ function init(path : string)
  */
 function createApplicationAt(ph : string, type : string)
 {
-    var name = path.basename(path.resolve(CUR_DIR, ph));
+    let name = path.basename(path.resolve(CUR_DIR, ph));
     copy(path.join(__dirname, '../../template/'), ph);
     mkdir(path.join(ph, 'game-server/logs'));
     mkdir(path.join(ph, 'shared'));
     // rmdir -r
-    var rmdir = function (dir : string)
+    let rmdir = function (dir : string)
     {
-        var list = fs.readdirSync(dir);
-        for (var i = 0; i < list.length; i++)
+        let list = fs.readdirSync(dir);
+        for (let i = 0; i < list.length; i++)
         {
-            var filename = path.join(dir, list[i]);
-            var stat = fs.statSync(filename);
+            let filename = path.join(dir, list[i]);
+            let stat = fs.statSync(filename);
             if (filename === "." || filename === "..")
             {
             } else if (stat.isDirectory())
@@ -217,11 +217,12 @@ function createApplicationAt(ph : string, type : string)
     };
     setTimeout(function ()
     {
+        let unlinkFiles: string[];
         switch (type)
         {
             case '1':
                 // use websocket
-                var unlinkFiles = ['game-server/app.ts.sio',
+                unlinkFiles = ['game-server/app.ts.sio',
                     'game-server/app.ts.wss',
                     'game-server/app.ts.mqtt',
                     'game-server/app.ts.sio.wss',
@@ -232,14 +233,14 @@ function createApplicationAt(ph : string, type : string)
                     'web-server/public/js/lib/pinusclient.js.wss',
                     'web-server/public/js/lib/build/build.js.wss',
                     'web-server/public/js/lib/socket.io.js'];
-                for (var i = 0; i < unlinkFiles.length; ++i)
+                for (let i = 0; i < unlinkFiles.length; ++i)
                 {
                     fs.unlinkSync(path.resolve(ph, unlinkFiles[i]));
                 }
                 break;
             case '2':
                 // use socket.io
-                var unlinkFiles = ['game-server/app.ts',
+                unlinkFiles = ['game-server/app.ts',
                     'game-server/app.ts.wss',
                     'game-server/app.ts.udp',
                     'game-server/app.ts.mqtt',
@@ -248,7 +249,7 @@ function createApplicationAt(ph : string, type : string)
                     'web-server/public/index.html',
                     'web-server/public/js/lib/component.tson',
                     'web-server/public/js/lib/pomeloclient.js.wss'];
-                for (var i = 0; i < unlinkFiles.length; ++i)
+                for (let i = 0; i < unlinkFiles.length; ++i)
                 {
                     fs.unlinkSync(path.resolve(ph, unlinkFiles[i]));
                 }
@@ -261,7 +262,7 @@ function createApplicationAt(ph : string, type : string)
                 break;
             case '3':
                 // use websocket wss
-                var unlinkFiles = ['game-server/app.ts.sio',
+                unlinkFiles = ['game-server/app.ts.sio',
                     'game-server/app.ts',
                     'game-server/app.ts.udp',
                     'game-server/app.ts.sio.wss',
@@ -272,7 +273,7 @@ function createApplicationAt(ph : string, type : string)
                     'web-server/public/js/lib/pomeloclient.js.wss',
                     'web-server/public/js/lib/build/build.js',
                     'web-server/public/js/lib/socket.io.js'];
-                for (var i = 0; i < unlinkFiles.length; ++i)
+                for (let i = 0; i < unlinkFiles.length; ++i)
                 {
                     fs.unlinkSync(path.resolve(ph, unlinkFiles[i]));
                 }
@@ -283,7 +284,7 @@ function createApplicationAt(ph : string, type : string)
                 break;
             case '4':
                 // use socket.io wss
-                var unlinkFiles = ['game-server/app.ts.sio',
+                unlinkFiles = ['game-server/app.ts.sio',
                     'game-server/app.ts',
                     'game-server/app.ts.udp',
                     'game-server/app.ts.wss',
@@ -291,7 +292,7 @@ function createApplicationAt(ph : string, type : string)
                     'web-server/app.js',
                     'web-server/public/index.html',
                     'web-server/public/js/lib/pomeloclient.js'];
-                for (var i = 0; i < unlinkFiles.length; ++i)
+                for (let i = 0; i < unlinkFiles.length; ++i)
                 {
                     fs.unlinkSync(path.resolve(ph, unlinkFiles[i]));
                 }
@@ -307,7 +308,7 @@ function createApplicationAt(ph : string, type : string)
                 break;
             case '5':
                 // use socket.io wss
-                var unlinkFiles = ['game-server/app.ts.sio',
+                unlinkFiles = ['game-server/app.ts.sio',
                     'game-server/app.ts',
                     'game-server/app.ts.wss',
                     'game-server/app.ts.mqtt',
@@ -316,7 +317,7 @@ function createApplicationAt(ph : string, type : string)
                     'web-server/public/index.html',
                     'web-server/public/js/lib/component.tson',
                     'web-server/public/js/lib/pomeloclient.js.wss'];
-                for (var i = 0; i < unlinkFiles.length; ++i)
+                for (let i = 0; i < unlinkFiles.length; ++i)
                 {
                     fs.unlinkSync(path.resolve(ph, unlinkFiles[i]));
                 }
@@ -327,7 +328,7 @@ function createApplicationAt(ph : string, type : string)
                 break;
             case '6':
                 // use socket.io
-                var unlinkFiles = ['game-server/app.ts',
+                unlinkFiles = ['game-server/app.ts',
                     'game-server/app.ts.wss',
                     'game-server/app.ts.udp',
                     'game-server/app.ts.sio',
@@ -336,7 +337,7 @@ function createApplicationAt(ph : string, type : string)
                     'web-server/public/index.html',
                     'web-server/public/js/lib/component.tson',
                     'web-server/public/js/lib/pomeloclient.js.wss'];
-                for (var i = 0; i < unlinkFiles.length; ++i)
+                for (let i = 0; i < unlinkFiles.length; ++i)
                 {
                     fs.unlinkSync(path.resolve(ph, unlinkFiles[i]));
                 }
@@ -348,16 +349,16 @@ function createApplicationAt(ph : string, type : string)
                 rmdir(path.resolve(ph, 'web-server/public/js/lib/local'));
                 break;
         }
-        var replaceFiles = ['game-server/app.ts',
+        let replaceFiles = ['game-server/app.ts',
             'game-server/package.json',
             'web-server/package.json'];
-        for (var j = 0; j < replaceFiles.length; j++)
+        for (let j = 0; j < replaceFiles.length; j++)
         {
-            var str = fs.readFileSync(path.resolve(ph, replaceFiles[j])).toString();
+            let str = fs.readFileSync(path.resolve(ph, replaceFiles[j])).toString();
             fs.writeFileSync(path.resolve(ph, replaceFiles[j]), str.replace('$', name));
         }
-        var f = path.resolve(ph, 'game-server/package.json');
-        var content = fs.readFileSync(f).toString();
+        let f = path.resolve(ph, 'game-server/package.json');
+        let content = fs.readFileSync(f).toString();
         fs.writeFileSync(f, content.replace('#', version));
     }, TIME_INIT);
 }
@@ -370,21 +371,21 @@ function createApplicationAt(ph : string, type : string)
  */
 function start(opts : any)
 {
-    var absScript = path.resolve(opts.directory, 'app.js');
+    let absScript = path.resolve(opts.directory, 'app.js');
     if (!fs.existsSync(absScript))
     {
         abort(SCRIPT_NOT_FOUND);
     }
 
-    var logDir = path.resolve(opts.directory, 'logs');
+    let logDir = path.resolve(opts.directory, 'logs');
     if (!fs.existsSync(logDir))
     {
         fs.mkdirSync(logDir);
     }
 
-    var ls;
-    var type = opts.type || constants.RESERVED.ALL;
-    var params = [absScript, 'env=' + opts.env, 'type=' + type];
+    let ls;
+    let type = opts.type || constants.RESERVED.ALL;
+    let params = [absScript, 'env=' + opts.env, 'type=' + type];
     if (!!opts.id)
     {
         params.push('startId=' + opts.id);
@@ -416,7 +417,7 @@ function start(opts : any)
  */
 function list(opts : any)
 {
-    var id = 'pomelo_list_' + Date.now();
+    let id = 'pomelo_list_' + Date.now();
     connectToMaster(id, opts, function (client: AdminClient)
     {
         client.request(co.moduleId, { signal: 'list' }, function (err : Error, data : any)
@@ -425,12 +426,12 @@ function list(opts : any)
             {
                 console.error(err);
             }
-            var servers : any[] = [];
-            for (var key in data.msg)
+            let servers : any[] = [];
+            for (let key in data.msg)
             {
                 servers.push(data.msg[key]);
             }
-            var comparer = function (a : any, b : any)
+            let comparer = function (a : any, b : any)
             {
                 if (a.serverType < b.serverType)
                 {
@@ -450,7 +451,7 @@ function list(opts : any)
                 }
             };
             servers.sort(comparer);
-            var rows : string[][] = [];
+            let rows : string[][] = [];
             rows.push(['serverId', 'serverType', 'pid', 'rss(M)', 'heapTotal(M)', 'heapUsed(M)', 'uptime(m)']);
             servers.forEach(function (server)
             {
@@ -469,7 +470,7 @@ function list(opts : any)
  */
 function add(opts : any)
 {
-    var id = 'pomelo_add_' + Date.now();
+    let id = 'pomelo_add_' + Date.now();
     connectToMaster(id, opts, function (client)
     {
         client.request(co.moduleId, { signal: 'add', args: opts.args }, function (err : Error)
@@ -509,7 +510,7 @@ function terminal(signal : string, opts : any)
         process.exit(1);
         return;
     }
-    var id = 'pomelo_terminal_' + Date.now();
+    let id = 'pomelo_terminal_' + Date.now();
     connectToMaster(id, opts, function (client)
     {
         client.request(co.moduleId, {
@@ -537,9 +538,9 @@ function terminal(signal : string, opts : any)
 
 function restart(opts : any)
 {
-    var id = 'pomelo_restart_' + Date.now();
-    var serverIds : string[] = [];
-    var type : string = null;
+    let id = 'pomelo_restart_' + Date.now();
+    let serverIds : string[] = [];
+    let type : string = null;
     if (!!opts.id)
     {
         serverIds.push(opts.id);
@@ -569,7 +570,7 @@ function restart(opts : any)
 
 function connectToMaster(id : string, opts : any, cb : (client : AdminClient)=>void)
 {
-    var client = new AdminClient({ username: opts.username, password: opts.password, md5: true });
+    let client = new AdminClient({ username: opts.username, password: opts.password, md5: true });
     client.connect(id, opts.host, opts.port, function (err)
     {
         if (err)
@@ -590,15 +591,15 @@ function connectToMaster(id : string, opts : any, cb : (client : AdminClient)=>v
  */
 function startMasterha(opts : any)
 {
-    var configFile = path.join(opts.directory, constants.FILEPATH.MASTER_HA);
+    let configFile = path.join(opts.directory, constants.FILEPATH.MASTER_HA);
     if (!fs.existsSync(configFile))
     {
         abort(MASTER_HA_NOT_FOUND);
     }
-    var masterha = require(configFile).masterha;
-    for (var i = 0; i < masterha.length; i++)
+    let masterha = require(configFile).masterha;
+    for (let i = 0; i < masterha.length; i++)
     {
-        var server = masterha[i];
+        let server = masterha[i];
         server.mode = constants.RESERVED.STAND_ALONE;
         server.masterha = 'true';
         server.home = opts.directory;
@@ -694,10 +695,10 @@ function copy(origin : string, target : string)
         {
             abort(FILEREAD_ERROR);
         }
-        for (var i = 0; i < datalist.length; i++)
+        for (let i = 0; i < datalist.length; i++)
         {
-            var oCurrent = path.resolve(origin, datalist[i]);
-            var tCurrent = path.resolve(target, datalist[i]);
+            let oCurrent = path.resolve(origin, datalist[i]);
+            let tCurrent = path.resolve(target, datalist[i]);
             if (fs.statSync(oCurrent).isFile())
             {
                 fs.writeFileSync(tCurrent, fs.readFileSync(oCurrent, ''), '');
@@ -769,11 +770,11 @@ function connectorType(cb : Function)
  */
 function runServer(server : any)
 {
-    var cmd, key;
-    var main = path.resolve(server.home, 'app.js');
+    let cmd, key;
+    let main = path.resolve(server.home, 'app.js');
     if (utils.isLocal(server.host))
     {
-        var options = [];
+        let options = [];
         options.push(main);
         for (key in server)
         {

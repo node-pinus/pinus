@@ -35,7 +35,7 @@ export class Handler
      */
     async publish(msg: any, session: FrontendSession)
     {
-        var result = {
+        let result = {
             topic: 'publish',
             payload: JSON.stringify({ code: 200, msg: 'publish message is ok.' })
         };
@@ -52,7 +52,7 @@ export class Handler
      */
     async subscribe(msg: any, session: FrontendSession)
     {
-        var result = {
+        let result = {
             topic: 'subscribe',
             payload: JSON.stringify({ code: 200, msg: 'subscribe message is ok.' })
         };

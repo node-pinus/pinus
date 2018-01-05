@@ -21,12 +21,12 @@ export class Dispatcher extends EventEmitter
     constructor(services: Services)
     {
         super();
-        var self = this;
+        let self = this;
         this.on('reload', function (services)
         {
-            for(var namespace in services)
+            for(let namespace in services)
             {
-                for(var service in services[namespace])
+                for(let service in services[namespace])
                 {
                     self.services[namespace][service] = services[namespace][service];
                 }
@@ -46,7 +46,7 @@ export class Dispatcher extends EventEmitter
     route(tracer: Tracer, msg: MsgPkg, cb: Function)
     {
         tracer && tracer.info('server', __filename, 'route', 'route messsage to appropriate service object');
-        var namespace = this.services[msg.namespace];
+        let namespace = this.services[msg.namespace];
         if (!namespace)
         {
             tracer && tracer.error('server', __filename, 'route', 'no such namespace:' + msg.namespace);
@@ -54,7 +54,7 @@ export class Dispatcher extends EventEmitter
             return;
         }
 
-        var service = namespace[msg.service];
+        let service = namespace[msg.service];
         if (!service)
         {
             tracer && tracer.error('server', __filename, 'route', 'no such service:' + msg.service);
@@ -62,7 +62,7 @@ export class Dispatcher extends EventEmitter
             return;
         }
 
-        var method = service[msg.method];
+        let method = service[msg.method];
         if (!method)
         {
             tracer && tracer.error('server', __filename, 'route', 'no such method:' + msg.method);
@@ -70,8 +70,8 @@ export class Dispatcher extends EventEmitter
             return;
         }
 
-        var args = msg.args;
-        var promise = method.apply(service, args);
+        let args = msg.args;
+        let promise = method.apply(service, args);
         if (promise == undefined || !promise || !promise.then)
         {
             tracer && tracer.error('server', __filename, 'route', 'not async method:' + msg.method);

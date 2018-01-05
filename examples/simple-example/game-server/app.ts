@@ -11,7 +11,7 @@ preload();
 /**
  * Init app for client.
  */
-var app = pinus.createApp();
+let app = pinus.createApp();
 app.set('name', 'pinus-example');
 
 // app configuration

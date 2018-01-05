@@ -80,7 +80,7 @@ function getLogger(... args : string[])
 				{
 					p = getLine() + ": " + p;
 				}
-				var a = colours[item];
+				let a = colours[item];
 				p = colorize(p, a as keyof typeof styles);
 			}
 
@@ -204,7 +204,7 @@ function configure(configOrFilename: string | Config, opts: object)
 	configOrFilename = configOrFilename || process.env.LOG4JS_CONFIG;
 	opts = opts || {};
 
-	var config: Config;
+	let config: Config;
 	if (typeof configOrFilename === 'string')
 	{
 		config = JSON.parse(fs.readFileSync(configOrFilename, "utf8")) as Config;
