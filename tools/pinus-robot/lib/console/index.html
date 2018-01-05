@@ -1,0 +1,177 @@
+<html>
+<head>
+<title>Pomelo Robot Console</title>
+<link rel="stylesheet" type="text/css" href="css/web_client.css" />
+<link rel="stylesheet" type="text/css" href="css/colors.css" />
+<script src="/js/lib/jquery.min.js"></script>
+<script src="/js/lib/socket.io.js"></script>
+<script src="/js/lib/underscore.min.js"></script>
+<script src="/js/nodeclient.js"></script>
+<script src="/js/webclient.js"></script>
+<script src="/js/lib/scrollTo.jquery.js"></script>
+<script src="/js/ui/renderers.jquery.js"></script>
+<script src="/js/ui/webclient.jquery.js"></script>
+<script src="/js/ui/layout.js"></script>
+<script src="/js/ui/graph.js"></script>
+</head>
+<body>
+	<div id="container">
+		<!-- #controls -->
+		<div id="right">
+			<div id="screens">
+				<!-- #history_template -->
+			</div>
+
+			<div class="screen history" id="history_template2">
+
+				<div class="bar">
+					<span class="screen-label">Config</span>
+					<div class="bar-top-right">
+						<div class="screen-buttons">
+							<a class="button" href="#"></a>
+						</div>
+						<div class="screen-search">
+							<a href="#" class="result-count"></a>
+						</div>
+					</div>
+				</div>
+				<div class="console">
+					<div class='dspan'>
+						<div style="float: left; width: 600px;">
+							<div class="" style="float: left" id="run-button1" style="">Per Client&nbsp;Agents：</div>
+							<div>
+								<input type='text' value='1' id="agentinput" />
+							</div>
+						</div>
+						<div style="">
+							<div class="" style="float: left" id="" style="">Per Agent Users：<input type='text' style="width:120px" value='1' id="maxuserinput" /></div>
+							<div> &nbsp;&nbsp;</div>
+						</div>
+					</div>
+					<div class='dspan'>
+						<div style="float: left; width: 100%;">
+							<div  style="float: left"> &nbsp;Run&nbsp;Script：</div>
+							<div style="width: 90%;">
+								<textarea style="width: 380px;" value='' id="robotinput" /></textarea>
+								<input type="button" class="add-button" style="float: none"
+									id="ready-button" style="" value='Ready?'>&nbsp;&nbsp;<input type="button" class="add-button" id="run-button"  style="float:none;display:none" value='Go'>
+								<span style="width:180px;margin:0px 0px 45px 15px;" id='hitdiv'></span>
+							</div>
+						</div>
+						<div style="clear: both"></div>
+
+					</div>
+					<div class='dspan'>
+						<div style="">
+							<div class="" style="float: left" id="" style="">Current Agents：</div>
+							<div style="width:100%;height:60px;overflow-x:no;overflow-y:auto;" id='conndiv'></div>
+						</div>
+						<div style="clear: both"></div>
+					</div>
+					<div class='dspan'>
+						 <textarea style="width:100%;" readonly=true id="errorinput" ></textarea> <div style="clear: both"></div>
+					</div>
+				</div>
+			</div>
+
+			<div class="screen history" id="summary_div2">
+				<div class="bar">
+					<span class="screen-label">Summary</span>
+					<div class="bar-top-right">
+						<div class="screen-buttons"></div>
+						<div class="screen-search">
+							<a href="#" class="result-count"></a>
+						</div>
+					</div>
+				</div>
+				<div class="console" >
+					<table style="width: 100%" class='table'>
+						<thead>
+							<tr class='table'>
+							<td>Request</td>
+							<td>Max</td>
+							<td>Min</td>
+							<td>Avg</td>
+							<td>Qps</td>
+							<td>Count</td>
+							</tr>
+		 				</thead>
+						<tbody id='reportSummary'>
+						</tbody>
+					</table>
+				</div>
+			</div>
+
+			<div id='graph_div'></div> 
+			
+			<div id="bottom">
+			<div id="bottom2">
+				<div id="stats">
+					<div class="stat nodes">
+						<b>0</b> agents
+					</div>
+					<div class="stat elapsed">
+						<b>0:00</b> elapsed
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- #bottom -->
+			
+		</div>
+		<div id="templates">
+			<label class="" id="node_template">
+				<span class="node" />&nbsp;&nbsp;<span>;</span>
+			</label>
+			<!--table_template  -->
+			<div class="screen history agentsummary"  id="table_template">
+				<div class="bar">
+					<span class="screen-label">Summary</span>
+					<div class="bar-top-right">
+						<div class="screen-buttons">
+						</div>
+						<div class="screen-search">
+							<a href="#" class="result-count"></a>
+						</div>
+					</div>
+				</div>
+				<div class="console" >
+					<table style="width: 100%" class='table'>
+						<thead>
+							<tr class='table'>
+							<td>Request</td>
+							<td>Max</td>
+							<td>Min</td>
+							<td>Avg</td>
+							<td>Qps</td>
+							<td>Count</td>
+							</tr>
+		 				</thead>
+						<tbody class='summary'>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<!--table_template  -->
+			 
+ 			<div class="screen history" id="avg_template">
+				<div class="bar">
+					<span class="screen-label">Response Time Graph</span>
+					<div class="bar-top-right">
+						<div class="screen-buttons"><img class='closebtn' id='vtest'
+						src="/images/icons/cross.png" title="Close Screen" />
+						</div>
+						<div class="screen-search">
+							<a href="#" class="result-count"></a>
+						</div>
+					</div>
+				</div>
+				<div class="console heightf">
+					<div class='cgraphdiv'></div>
+				</div>
+			</div>
+			
+		</div>
+	</div>
+</body>
+</html>
