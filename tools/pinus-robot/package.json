@@ -1,29 +1,27 @@
 {
-  "name": "pinus-robot",
-  "version": "0.1.10",
+  "name": "pomelo-robot",
+  "version": "0.1.4",
   "private": false,
   "dependencies": {
-		"@types/node": "^8.5.2",
-    "socket.io": "1.7.2",
-    "socket.io-client": "1.7.2",
+    "@types/underscore": "^1.8.6",
+    "socket.io": "0.9.13",
+    "socket.io-client": "0.9.11",
+    "typescript": "^2.6.2",
     "underscore": "1.4.4"
   },
-	"devDependencies": {
-		"mocha": ">=0.0.1",
-		"should": ">=0.0.1",
-		"typescript": "^2.6.2"
-	},
   "readmeFilename": "README.md",
-  "description": "pinus-robot is a simple tool to benchmark the socket.io server's performance.",
+  "gitHead": "d33db82d670b7a5d21c95e15f91548f8a8ba7821",
+  "description": "pomelo-robot is a simple tool to benchmark the socket.io server's performance.",
   "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/NetEase/pomelo-robot.git"
+  },
   "keywords": [
-    "pinus",
+    "pomelo",
     "client",
     "robot"
   ],
-	"scripts": {
-		"build": "tsc"
-	},
-  "author": "mybios",
+  "author": "palmtoy",
   "license": "MIT"
 }

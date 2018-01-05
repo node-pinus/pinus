@@ -1,15 +1,15 @@
-var __ = require('underscore');
-var io = require('socket.io-client');
-var logging = require('../common/logging').Logger;
-var Actor = require('./actor').Actor;
-var monitor  = require('../monitor/monitor');
-var fs = require('fs');
-var util = require('../common/util');
+let __ = require('underscore');
+let io = require('socket.io-client');
+let logging = require('../common/logging').Logger;
+import {Actor} from './actor'
+let monitor  = require('../monitor/monitor');
+let fs = require('fs');
+let util = require('../common/util');
 
-var STATUS_INTERVAL = 10 * 1000; // 10 seconds
-var RECONNECT_INTERVAL = 10 * 1000; // 15 seconds
-var HEARTBEAT_PERIOD = 30 * 1000; // 30 seconds
-var HEARTBEAT_FAILS = 3; // Reconnect after 3 missed heartbeats
+let STATUS_INTERVAL = 10 * 1000; // 10 seconds
+let RECONNECT_INTERVAL = 10 * 1000; // 15 seconds
+let HEARTBEAT_PERIOD = 30 * 1000; // 30 seconds
+let HEARTBEAT_FAILS = 3; // Reconnect after 3 missed heartbeats
 
 /**
  * 
@@ -18,7 +18,7 @@ var HEARTBEAT_FAILS = 3; // Reconnect after 3 missed heartbeats
  * include app data, exec script,etc.
  *
  */
- var Agent = function(conf) {
+ let Agent = function(this:any, conf: any) {
     this.log = logging;
     this.conf = conf || {};
     this.last_heartbeat = null;
@@ -31,11 +31,10 @@ var HEARTBEAT_FAILS = 3; // Reconnect after 3 missed heartbeats
 Agent.prototype = {
     // Create socket, bind callbacks, connect to server
     connect: function() {
-        var agent = this;
-        var uri = "http://" + agent.conf.master.host + ":" + agent.conf.master.port;    
+        let agent = this;
+        let uri = agent.conf.master.host + ":" + agent.conf.master.port;    
         agent.socket = io.connect(uri,{'force new connection':true,'try multiple transports':false});
-        agent.socket.on('error', function(reason) {
-            console.log("agent error: %j", reason);
+        agent.socket.on('error', function(reason: Error) {
             agent.reconnect();
         });
         // Register announcement callback
@@ -68,7 +67,7 @@ Agent.prototype = {
             process.exit(1);
         });
         //begin to run
-        agent.socket.on('run', function(message) {
+        agent.socket.on('run', function(message: string) {
             agent.run(message);
         });
         // Exit for BTN_ReReady
@@ -78,31 +77,31 @@ Agent.prototype = {
         });
     },
     
-    run:function(msg){
-        var agent = this;
+    run:function(msg: {maxuser:any, script:Array<any>, index:number}){
+        let agent = this;
         util.deleteLog();
         this.count = msg.maxuser;
-        var script = msg.script;
-        var index = msg.index;
+        let script = msg.script;
+        let index = msg.index;
         if (!!script && script.length>1){
             agent.conf.script = script;
         } 
         agent.log.info(this.nodeId + ' run ' + this.count + ' actors ');
         monitor.clear();
         this.actors = {};
-        var offset = index*this.count;
-        for (var i = 0;i < this.count;i++) {
-           var aid = i+offset; //calc database key offset;
-           var actor = new Actor(agent.conf,aid);
+        let offset = index*this.count;
+        for (let i = 0;i < this.count;i++) {
+           let aid = i+offset; //calc database key offset;
+           let actor = new Actor(agent.conf,aid);
            this.actors[aid]= actor;
            (function(actor){
-            actor.on('error',function(error){
+            actor.on('error',function(error: Error){
              agent.socket.emit('error',error);
             });
            if (agent.conf.master.interval<=0) {
                 actor.run();
             } else {
-                var time = Math.round(Math.random()*1000+ i*agent.conf.master.interval);
+                let time = Math.round(Math.random()*1000+ i*agent.conf.master.interval);
                     setTimeout(function(){
                         actor.run();
                     },time);
@@ -110,18 +109,18 @@ Agent.prototype = {
             })(actor);
        };
        setInterval(function(){
-          var mdata = monitor.getData();
+          let mdata = monitor.getData();
           agent.socket.emit('report',mdata);
       },STATUS_INTERVAL);
    },
 
     // Run agent
     start: function() {
-        var agent = this;
+        let agent = this;
         agent.connect();
         // Check for heartbeat every HEARTBEAT_PERIOD, reconnect if necessary
         setInterval(function() {
-            var delta = ((new Date().getTime()) - agent.last_heartbeat);
+            let delta = ((new Date().getTime()) - agent.last_heartbeat);
             if (delta > (HEARTBEAT_PERIOD * HEARTBEAT_FAILS)) {
                 agent.log.warn("Failed heartbeat check, reconnecting...");
                 agent.connected = false;
@@ -130,9 +129,9 @@ Agent.prototype = {
         }, HEARTBEAT_PERIOD);
     },
     // Sends announcement 
-    announce: function(socket) {
-     var agent = this;
-     var sessionid = agent.socket.id;
+    announce: function(socket: any) {
+     let agent = this;
+     let sessionid = agent.socket.socket.sessionid;
      agent.nodeId = sessionid;
          this._send('announce_node', {
             client_type:'node',
@@ -141,8 +140,8 @@ Agent.prototype = {
     },
 
     // Reconnect helper, retry until connection established
-    reconnect: function(force) {
-        var agent = this;
+    reconnect: function(force:any) {
+        let agent = this;
         if (!force && agent.reconnecting) { return; }
         this.reconnecting = true;
         if (agent.socket!=null){
@@ -155,7 +154,7 @@ Agent.prototype = {
             agent.connect();
         }, RECONNECT_INTERVAL);
     },
-    _send: function(event, message) {
+    _send: function(event: string, message: string) {
         try {
             this.socket.emit(event, message);
             // If server is down, a non-writeable stream error is thrown.

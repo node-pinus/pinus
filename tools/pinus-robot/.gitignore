@@ -10,4 +10,3 @@ node_modules/*
 *.sublime-project
 *.sublime-workspace
 *.swp
-dist/

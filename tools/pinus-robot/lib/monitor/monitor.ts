@@ -6,13 +6,13 @@
  * then report to master 
  *
  */
-var fs = require('fs');
-var util = require('../common/util');
+import * as fs from "fs"
+let util = require('../common/util');
 
-var monitor = module.exports;
-var dataMap = {};
-var incrMap = {};
-var profData = {};
+let monitor = module.exports;
+let dataMap: {[key:string]:any} = {};
+let incrMap: {[key:string]:any} = {};
+let profData: {[key:string]:any} = {};
 
 monitor.getData = function(){
   return {
@@ -26,17 +26,17 @@ monitor.clear = function(){
   incrMap = {};
 };
 
-monitor.incr = function(name){
+monitor.incr = function(name: string){
   incrMap[name] = incrMap[name]==null?1:incrMap[name]+1;
   console.log(incrMap[name] + ' ' + name);
 }
 
-monitor.decr = function(name){
+monitor.decr = function(name: string){
   incrMap[name] = incrMap[name]==null?0:incrMap[name]-1;
 }
 
-monitor.beginTime = function(route,uid,id){
-  var time = Date.now();
+monitor.beginTime = function(route:string,uid:string,id:number){
+  let time = Date.now();
   if(!dataMap[route]) {
     dataMap[route] = buildMapData();
   }
@@ -47,7 +47,7 @@ monitor.beginTime = function(route,uid,id){
   dataMap[route][uid][id] = time;
 }; 
 
-monitor.endTime = function(route,uid,id){
+monitor.endTime = function(route:string,uid:string,id:number){
 	if(!dataMap[route]){
 		return;
 	}
@@ -57,12 +57,12 @@ monitor.endTime = function(route,uid,id){
   if(!dataMap[route][uid][id]){
 		return;
 	}
-  var beginTime = dataMap[route][uid][id];
+  let beginTime = dataMap[route][uid][id];
 	delete dataMap[route][uid][id];
-  var span = Date.now()-beginTime;
+  let span = Date.now()-beginTime;
   //console.log('route span ' + route+ ' ' + uid + ' ' +  span);
   //saveTimes(uid,route+":"+span+'\r\n');
-  var srcData = profData[route];
+  let srcData = profData[route];
   if (!srcData) {
     srcData = {min:span,max:span,avg:span,num:1};
     profData[route] = srcData;
@@ -79,11 +79,11 @@ monitor.endTime = function(route,uid,id){
 };
 
 function buildMapData(){
-  var data = {};
+  let data = {};
   return data;
 }
 
-var saveTimes = function(uid,value) {
+let saveTimes = function(uid:string,value:string) {
   fs.appendFile(util.getPath()+'/detail', value, function(err) {
     if(err) {
       console.log(err);

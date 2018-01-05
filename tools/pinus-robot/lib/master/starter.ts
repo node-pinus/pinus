@@ -1,15 +1,113 @@
-var starter;
-var cp = require('child_process');
-var fs = require('fs');
-var vm = require('vm');
-var path = require('path');
+let cp = require('child_process');
+import * as fs from "fs"
+let vm = require('vm');
+let path = require('path');
 var util = require('util');
 
-function Starter(){}
+class Starter {
+    constructor(){
 
-var starter = module.exports = new Starter();
+    }
 
-var log = function () {
+    run(main:any,message:any,clients:Array<any>){
+        if (!clients) {
+            clients = ['127.0.0.1'];
+            this.prepare(main,message,clients);
+        } else {
+            this.prepare(main,message,clients);
+        }
+    };
+    
+    prepare(main:string,message:{agent:any},clients:Array<any>){
+        let self = this;
+        let count = parseInt(message.agent,10) || 1;
+        for(let ipindex in clients) {
+            for (let i = 0;i<count;i++) {
+            let cmd = 'cd ' + process.cwd() + ' && ' + process.execPath + ' ' + main + ' client > log/.log';
+                let ip = clients[ipindex];
+                if (ip==='127.0.0.1') {
+                    self.localrun(cmd);
+                } else {
+                    self.sshrun(cmd,ip);
+                }
+            }
+        }
+    }
+    
+    sshrun(cmd:string,host:number|string,callback?:Function) {
+          let hosts = [host];
+        log('Executing ' + (<any>$(cmd)).yellow + ' on ' + (<any>$(hosts.join(', '))).blue);
+        let wait = 0;
+        let data: Array<{host:number|string, out:any}> = [];
+        if (hosts.length > 1) {
+            starter.parallelRunning = true;
+        }
+        hosts.forEach(function (host) {
+            wait += 1;
+            spawnProcess('ssh', [host, cmd], function (err:Error, out:any) {
+                if (!err) {
+                    data.push({
+                        host: host,
+                        out: out
+                    });
+                }
+                done(err);
+            });
+        });
+    
+        let error:Error
+        function done(err:Error) {
+            error = error || err;
+            if (--wait === 0) {
+                starter.parallelRunning = false;
+                if (error) {
+                    starter.abort('FAILED TO RUN, return code: ' + error);
+                } else if (callback) {
+                    callback(data);
+                }
+            }
+        }
+    
+    };
+    
+    localrun(cmd:string, callback?:Function) {
+        log('Executing ' + (<any>$(cmd)).green + ' locally');
+        spawnProcess(cmd, ['',''], function (err:Error, data:string) {
+            if (err) {
+                starter.abort('FAILED TO RUN, return code: ' + err);
+            } else {
+                if (callback) callback(data);
+            }
+        });
+    };
+
+    set(key:number, def:string) {
+        if (typeof def === 'function') {
+            starter.__defineGetter__(key, def);
+        } else {
+            starter.__defineGetter__(key, function () {
+                return def;
+            });
+        }
+    };
+    
+    load(file:string) {
+        if (!file) throw new Error('File not specified');
+        log('Executing compile ' + file);
+        let code = fs.readFileSync(file).toString();
+        let script = vm.createScript(code, file);
+        script.runInNewContext(this);
+    };
+    
+    abort(msg:string) {
+        log((<any>$(msg)).red);
+        //process.exit(1);
+    };
+}
+
+let starter:any = new Starter();
+
+let log = function (str?:string) {
     util.puts([].join.call(arguments, ' '));
 };
 
@@ -18,89 +116,17 @@ var log = function () {
  * 
  *
  */
-Starter.prototype.run = function(main,message,clients){
-    if (!clients) {
-        clients = ['127.0.0.1'];
-        this.prepare(main,message,clients);
-    } else {
-        this.prepare(main,message,clients);
-    }
-};
 
-Starter.prototype.prepare = function(main,message,clients){
-    var self = this;
-	var count = parseInt(message.agent,10) || 1;
-    for(var ipindex in clients) {
-        for (var i = 0;i<count;i++) {
-        var cmd = 'cd ' + process.cwd() + ' && ' + process.execPath + ' ' + main + ' client > log/.log';
-            var ip = clients[ipindex];
-            if (ip==='127.0.0.1') {
-                self.localrun(cmd);
-            } else {
-                self.sshrun(cmd,ip);
-            }
-        }
-    }
-}
-
-Starter.prototype.sshrun = function (cmd,host,callback) {
-	  var hosts = [host];
-    log('Executing ' + $(cmd).yellow + ' on ' + $(hosts.join(', ')).blue);
-    var wait = 0;
-    data = [];
-    if (hosts.length > 1) {
-        parallelRunning = true;
-    }
-    hosts.forEach(function (host) {
-        wait += 1;
-        spawnProcess('ssh', [host, cmd], function (err, out) {
-            if (!err) {
-                data.push({
-                    host: host,
-                    out: out
-                });
-            }
-            done(err);
-        });
-    });
-
-    var error;
-    function done(err) {
-        error = error || err;
-        if (--wait === 0) {
-            starter.parallelRunning = false;
-            if (error) {
-                starter.abort('FAILED TO RUN, return code: ' + error);
-            } else if (callback) {
-                callback(data);
-            }
-        }
-    }
-
-};
-
-Starter.prototype.localrun = function (cmd, callback) {
-    log('Executing ' + $(cmd).green + ' locally');
-    spawnProcess(cmd, ['',''], function (err, data) {
-        if (err) {
-            starter.abort('FAILED TO RUN, return code: ' + err);
-        } else {
-            if (callback) callback(data);
-        }
-    });
-};
-
-
-function addBeauty(prefix,buf) {
-    var out =  prefix + ' ' + buf
+function addBeauty(prefix:string,buf:string) {
+    let out =  prefix + ' ' + buf
         .toString()
         .replace(/\s+$/, '')
         .replace(/\n/g, '\n' + prefix);
-    return $(out).green;
+    return (<any>$(out)).green;
 }
 
-function spawnProcess(command, options, callback) {
-    var child = null;
+function spawnProcess(command:string, options:Array<any>, callback:Function) {
+    let child = null;
     if (!!options[0]) {
     	  child = cp.spawn(command, options);
 
@@ -108,27 +134,27 @@ function spawnProcess(command, options, callback) {
     	  child = cp.exec(command, options);
     }
 
-    var prefix = command === 'ssh' ? '[' + options[0] + '] ' : '';
-    prefix = $(prefix).grey;
+    let prefix = command === 'ssh' ? '[' + options[0] + '] ' : '';
+    prefix = (<any>$(prefix)).grey;
     
     //child.stderr.on('data', function (chunk) {
     //    log(addBeauty(chunk));
     //});
 
-    var res = [];
-    child.stdout.on('data', function (chunk) {
+    let res:Array<any> = [];
+    child.stdout.on('data', function (chunk:any) {
         res.push(chunk.toString());
         log(addBeauty(chunk));
     });
 
-    function addBeauty(buf) {
+    function addBeauty(buf:string) {
         return prefix + buf
             .toString()
             .replace(/\s+$/, '')
             .replace(/\n/g, '\n' + prefix);
     }
 
-    child.on('exit', function (code) {
+    child.on('exit', function (code:number) {
         if (callback) {
             callback(code === 0 ? null : code, res && res.join('\n'));
         }
@@ -136,58 +162,63 @@ function spawnProcess(command, options, callback) {
 }
 
 
-Starter.prototype.set = function (key, def) {
-    if (typeof def === 'function') {
-        starter.__defineGetter__(key, def);
-    } else {
-        starter.__defineGetter__(key, function () {
-            return def;
-        });
-    }
-};
 
-Starter.prototype.load = function (file) {
-    if (!file) throw new Error('File not specified');
-    log('Executing compile ' + file);
-    var code = coffee.compile(fs.readFileSync(file).toString());
-    var script = vm.createScript(code, file);
-    script.runInNewContext(this);
-};
-
-Starter.prototype.abort = function (msg) {
-    log($(msg).red);
-    //process.exit(1);
-};
 
 
 // Stylize a string
-function stylize(str, style) {
-    var styles = {
-        'bold'      : [1,  22],
-        'italic'    : [3,  23],
-        'underline' : [4,  24],
-        'cyan'      : [96, 39],
-        'blue'      : [34, 39],
-        'yellow'    : [33, 39],
-        'green'     : [32, 39],
-        'red'       : [31, 39],
-        'grey'      : [90, 39],
-        'green-hi'  : [92, 32],
-    };
-    return '\033[' + styles[style][0] + 'm' + str +
-        '\033[' + styles[style][1] + 'm';
-};
+class Stylize {
+    styles:any;
+    static $:any;
+    constructor(){
+        this.styles = {
+            'bold'      : [1,  22],
+            'italic'    : [3,  23],
+            'underline' : [4,  24],
+            'cyan'      : [96, 39],
+            'blue'      : [34, 39],
+            'yellow'    : [33, 39],
+            'green'     : [32, 39],
+            'red'       : [31, 39],
+            'grey'      : [90, 39],
+            'green-hi'  : [92, 32],
+        }
+    }
+    output(this:any, str: string, style: keyof typeof this.styles){
+        return '\033[' + this.styles[style][0] + 'm' + str +
+        '\033[' + this.styles[style][1] + 'm';
+    }
+}
 
-function $(str) {
+// function stylize(str, style) {
+//     let styles = {
+//         'bold'      : [1,  22],
+//         'italic'    : [3,  23],
+//         'underline' : [4,  24],
+//         'cyan'      : [96, 39],
+//         'blue'      : [34, 39],
+//         'yellow'    : [33, 39],
+//         'green'     : [32, 39],
+//         'red'       : [31, 39],
+//         'grey'      : [90, 39],
+//         'green-hi'  : [92, 32],
+//     };
+//     return '\033[' + styles[style][0] + 'm' + str +
+//         '\033[' + styles[style][1] + 'm';
+// };
+
+function $(str: String) {
     str = new(String)(str);
+    let stylize = new Stylize();
     ['bold', 'grey', 'yellow', 'red', 'green', 'cyan', 'blue', 'italic', 'underline'].forEach(function (style) {
         Object.defineProperty(str, style, {
-            get: function () {
-                return $(stylize(this, style));
+            get: function (this:any) {
+                return $(stylize.output(this, style));
             }
         });
     });
     return str;
 };
 
-stylize.$ = $;
+Stylize.$ = $;
+
+export {starter}

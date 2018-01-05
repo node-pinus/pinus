@@ -1,11 +1,12 @@
-var __ = require('underscore');
+import * as __ from "underscore";
+import * as net from 'net';
 
 // WebClient is an end-user using a browser
-var WebClient = function(socket, server) {
+let WebClient = function(this:any, socket:any, server:net.Server) {
   this.log_server = server;
   this.socket = socket;
   this.id = socket.id;
-  var wc = this;
+  let wc = this;
 
   // Join web_clients room
   socket.join('web_clients');
@@ -22,7 +23,7 @@ var WebClient = function(socket, server) {
 WebClient.prototype = {
 
   // Tell WebClient to add new Node
-  add_node: function(node) {
+  add_node: function(node:{nodeId:number,iport:number}) {
     this.socket.emit('add_node', {
       nodeId: node.nodeId,
       iport:node.iport
@@ -30,12 +31,12 @@ WebClient.prototype = {
   },
 
   // Tell WebClient to remove Node
-  remove_node: function(node) {
+  remove_node: function(node:{nodeId:number,iport:number}) {
     this.socket.emit('remove_node', {
       node: node.nodeId
     });
   },
-  error_node: function(node,error) {
+  error_node: function(node:{nodeId:number,iport:number},error:Error) {
     this.socket.emit('error', {
       node: node.iport,
       error:error
