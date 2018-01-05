@@ -2,7 +2,7 @@ let io = require('socket.io');
 import * as __ from "underscore";
 let _nodeclient = require('./nodeclient.js');
 let _wc = require('./webclient.js');
-let logging = require('../common/logging').Logger;
+import { logging, Logger } from "../common/logging";
 let stat = require('../monitor/stat');
 let starter = require('./starter');
 
@@ -12,6 +12,17 @@ let STATUS_IDLE = 0;
 let STATUS_READY = 1;
 let STATUS_RUNNING = 2;
 let STATUS_DISCONN = 3;
+
+export interface Cfg
+{
+    clients: Array<any>,
+    mainFile: string,
+    master: { [key: string]: any },
+    apps: Array<any>,
+    scriptFile: string,
+    script: Array<any>
+}
+
 /**
  *
  * robot master instance
@@ -20,32 +31,31 @@ let STATUS_DISCONN = 3;
  *
  * conf.main client run file
  */
-let Server = function (this: any, conf: object)
-{
-    this.log = logging;
-    this.nodes = {};
-    this.web_clients = {};
-    this.conf = conf || {};
-    this.runconfig = null;
-    this.status = STATUS_IDLE;
-    let rserver = this;
+export class Server {
+    log: Logger;
+    nodes:{[key:string]:any} = {};
+    web_clients:{[key:string]:any} = {};
+    conf:{[key:string]:any};
+    runconfig:any = null;
+    status:number = STATUS_RUNNING;
+    io:any;
+    constructor(conf: Cfg){
+        this.log = logging;
+        this.conf = conf || {};
+        setInterval(()=>
+        {
+            this.log.info("Nodes: " + __(this.nodes).size() + ", " +
+                "WebClients: " + __(this.web_clients).size());
+        }, STATUS_INTERVAL);
+    }
 
-    setInterval(function ()
-    {
-        rserver.log.info("Nodes: " + __(rserver.nodes).size() + ", " +
-            "WebClients: " + __(rserver.web_clients).size());
-    }, STATUS_INTERVAL);
-};
-
-Server.prototype = {
-
-    listen: function (port: number | string)
+    listen(port:number | string)
     {
         this.io = io.listen(port);
         this.register();
-    },
+    }
     // Registers new Node with Server, announces to WebClients
-    announce_node: function (socket: any, message: any)
+    announce_node(socket: any, message: any)
     {
         let rserver = this, nodeId = message.nodeId;
         if (!!rserver.nodes[nodeId])
@@ -99,9 +109,9 @@ Server.prototype = {
             rserver.status = STATUS_READY;
         });
         /* temporary code */
-    },
+    }
     // Registers new WebClient with Server
-    announce_web_client: function (socket: any)
+    announce_web_client(socket: any)
     {
         let rserver = this;
         let web_client = new _wc.WebClient(socket, rserver);
@@ -134,11 +144,10 @@ Server.prototype = {
         {
             delete rserver.web_clients[web_client.id];
         });
-
-    },
+    }
 
     // Register announcement, disconnect callbacks
-    register: function ()
+    register()
     {
         let rserver = this;
         rserver.io.set('log level', 1);
@@ -200,6 +209,4 @@ Server.prototype = {
             rserver.io.sockets.emit('heartbeat');
         }, HEARTBEAT_INTERVAL);
     }
-};
-
-exports.Server = Server;
+}

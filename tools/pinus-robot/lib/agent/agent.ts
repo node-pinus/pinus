@@ -1,6 +1,6 @@
 let __ = require('underscore');
-let io = require('socket.io-client');
-let logging = require('../common/logging').Logger;
+import * as io from 'socket.io-client';
+import { logging, Logger } from "../common/logging";
 import { Actor } from './actor'
 let monitor = require('../monitor/monitor');
 let fs = require('fs');
@@ -11,6 +11,15 @@ let RECONNECT_INTERVAL = 10 * 1000; // 15 seconds
 let HEARTBEAT_PERIOD = 30 * 1000; // 30 seconds
 let HEARTBEAT_FAILS = 3; // Reconnect after 3 missed heartbeats
 
+export interface Cfg
+{
+    clients: Array<any>,
+    mainFile: string,
+    master: { [key: string]: any },
+    apps: Array<any>,
+    scriptFile: string,
+    script: Array<any>
+}
 /**
  * 
  * @param {Object} conf 
@@ -18,24 +27,35 @@ let HEARTBEAT_FAILS = 3; // Reconnect after 3 missed heartbeats
  * include app data, exec script,etc.
  *
  */
-let Agent = function (this: any, conf: any)
+class Agent
 {
-    this.log = logging;
-    this.conf = conf || {};
-    this.last_heartbeat = null;
-    this.connected = false;
-    this.reconnecting = false;
-    this.actors = {};
-    this.count = 0;
-};
+    log: Logger = logging;
+    conf: Cfg;
+    last_heartbeat: any;
+    connected: boolean;
+    reconnecting: boolean;
+    actors: { [key: string]: any };
+    count: number;
+    socket: any;
+    nodeId: number;
+    constructor(conf: Cfg)
+    {
+        this.log = logging;
+        this.conf = conf || <Cfg>{};
+        this.last_heartbeat = null;
+        this.connected = false;
+        this.reconnecting = false;
+        this.actors = {};
+        this.count = 0;
+    }
 
-Agent.prototype = {
     // Create socket, bind callbacks, connect to server
-    connect: function ()
+
+    connect()
     {
         let agent = this;
         let uri = agent.conf.master.host + ":" + agent.conf.master.port;
-        agent.socket = io.connect(uri, { 'force new connection': true, 'try multiple transports': false });
+        agent.socket = io.connect(uri, <any>{ 'force new connection': true, 'try multiple transports': false });
         agent.socket.on('error', function (reason: Error)
         {
             agent.reconnect();
@@ -74,7 +94,7 @@ Agent.prototype = {
             process.exit(1);
         });
         //begin to run
-        agent.socket.on('run', function (message: string)
+        agent.socket.on('run', function (message: { maxuser: any, script: Array<any>, index: number })
         {
             agent.run(message);
         });
@@ -84,9 +104,9 @@ Agent.prototype = {
             agent.log.info("Exit for BTN_ReReady.");
             process.exit(0);
         });
-    },
+    }
 
-    run: function (msg: { maxuser: any, script: Array<any>, index: number })
+    run(msg: { maxuser: any, script: Array<any>, index: number })
     {
         let agent = this;
         util.deleteLog();
@@ -130,10 +150,10 @@ Agent.prototype = {
             let mdata = monitor.getData();
             agent.socket.emit('report', mdata);
         }, STATUS_INTERVAL);
-    },
+    }
 
     // Run agent
-    start: function ()
+    start()
     {
         let agent = this;
         agent.connect();
@@ -148,9 +168,10 @@ Agent.prototype = {
                 agent.reconnect();
             }
         }, HEARTBEAT_PERIOD);
-    },
+    }
+
     // Sends announcement 
-    announce: function (socket: any)
+    announce(socket: any)
     {
         let agent = this;
         let sessionid = agent.socket.socket.sessionid;
@@ -159,10 +180,10 @@ Agent.prototype = {
             client_type: 'node',
             nodeId: sessionid
         });
-    },
+    }
 
     // Reconnect helper, retry until connection established
-    reconnect: function (force: any)
+    reconnect(force?: any)
     {
         let agent = this;
         if (!force && agent.reconnecting) { return; }
@@ -178,8 +199,12 @@ Agent.prototype = {
             if (agent.connected) { return; }
             agent.connect();
         }, RECONNECT_INTERVAL);
-    },
-    _send: function (event: string, message: string)
+    }
+
+    _send(event: string, message: {
+        client_type: string,
+        nodeId: number
+    })
     {
         try
         {
@@ -192,6 +217,6 @@ Agent.prototype = {
             this.reconnect();
         }
     }
-};
+}
 
-exports.Agent = Agent;
+export { Agent }

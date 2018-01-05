@@ -4,9 +4,10 @@
   "private": false,
   "dependencies": {
     "@types/node": "^4.0.35",
+    "@types/socket.io-client": "^1.4.32",
     "@types/underscore": "^1.8.6",
     "socket.io": "0.9.13",
-    "socket.io-client": "0.9.11",
+    "socket.io-client": "^0.9.11",
     "typescript": "^2.6.2",
     "underscore": "1.4.4"
   },
