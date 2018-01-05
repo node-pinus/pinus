@@ -1,0 +1,29 @@
+{
+  "name": "pinus-robot",
+  "version": "0.1.10",
+  "private": false,
+  "dependencies": {
+		"@types/node": "^8.5.2",
+    "socket.io": "1.7.2",
+    "socket.io-client": "1.7.2",
+    "underscore": "1.4.4"
+  },
+	"devDependencies": {
+		"mocha": ">=0.0.1",
+		"should": ">=0.0.1",
+		"typescript": "^2.6.2"
+	},
+  "readmeFilename": "README.md",
+  "description": "pinus-robot is a simple tool to benchmark the socket.io server's performance.",
+  "main": "index.js",
+  "keywords": [
+    "pinus",
+    "client",
+    "robot"
+  ],
+	"scripts": {
+		"build": "tsc"
+	},
+  "author": "mybios",
+  "license": "MIT"
+}
