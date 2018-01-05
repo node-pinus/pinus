@@ -56,5 +56,10 @@ export interface IPlugin extends ILifeCycle
     /**
      * 插件暴漏的remoters所在的路径
      */
-    remoterPath ?: string;
+    remoterPath?: string;
+    
+    /**
+     * 插件暴漏的crons所在的路径
+     */
+    cronPath ?: string;
 }

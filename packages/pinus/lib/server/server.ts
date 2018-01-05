@@ -247,11 +247,34 @@ let initHandler = function (app : Application, opts : HandlerServiceOptions)
  */
 let loadCronHandlers = function (app : Application)
 {
+    let all: {[key:string] : any} = {};
     let p = pathUtil.getCronPath(app.getBase(), app.getServerType());
     if (p)
     {
-        return Loader.load(p, app, false);
+        let crons = Loader.load(p, app, false);
+        for (var name in crons)
+        {
+            all[name] = crons[name];
+        }    
     }
+
+    for (var plugin of app.usedPlugins)
+    {
+        if (plugin.cronPath)
+        {
+            if (!fs.existsSync(plugin.cronPath))
+            {
+                logger.error(`插件[${plugin.name}的cronPath[${plugin.cronPath}不存在。]]`);
+                continue;
+            }    
+            let crons = Loader.load(plugin.cronPath, app, false);
+            for (var name in crons)
+            {
+                all[name] = crons[name];
+            }
+        }    
+    }
+    return all;
 };
 
 /**
