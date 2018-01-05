@@ -31,25 +31,27 @@ export interface Cfg
  *
  * conf.main client run file
  */
-export class Server {
+export class Server
+{
     log: Logger;
-    nodes:{[key:string]:any} = {};
-    web_clients:{[key:string]:any} = {};
-    conf:{[key:string]:any};
-    runconfig:any = null;
-    status:number = STATUS_RUNNING;
-    io:any;
-    constructor(conf: Cfg){
+    nodes: { [key: string]: any } = {};
+    web_clients: { [key: string]: any } = {};
+    conf: { [key: string]: any };
+    runconfig: any = null;
+    status: number = STATUS_RUNNING;
+    io: any;
+    constructor(conf: Cfg)
+    {
         this.log = logging;
         this.conf = conf || {};
-        setInterval(()=>
+        setInterval(() =>
         {
             this.log.info("Nodes: " + __(this.nodes).size() + ", " +
                 "WebClients: " + __(this.web_clients).size());
         }, STATUS_INTERVAL);
     }
 
-    listen(port:number | string)
+    listen(port: number | string)
     {
         this.io = io.listen(port);
         this.register();

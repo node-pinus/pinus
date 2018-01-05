@@ -53,6 +53,6 @@ export class Logger
   }
 }
 
-let instance:Logger = new Logger();
+let instance: Logger = new Logger();
 
 export { instance as logging }
