@@ -1,4 +1,4 @@
-﻿{
+{
 	"name": "pinus",
 	"version": "0.0.1",
 	"devDependencies": {
@@ -15,21 +15,21 @@
 		"preinstall": "node -e \"if(process.env.npm_execpath.indexOf('yarn') === -1) throw new Error('请使用 Yarn 来代替 NPM 安装依赖，请看：https://yarnpkg.com/zh-Hans/docs/install')\"",
 		"test": "mocha",
 		"cov": "sh scripts/cov.sh",
-		"ci": "npm run build && npm run cov",
-		"purge": "npm run clean && rm -rf node_modules",
-		"reset": "npm run purge && npm i && npm run ci",
+		"ci": "yarn run build && yarn run cov",
+		"purge": "yarn run clean && rm -rf node_modules",
+		"reset": "yarn run purge && npm i && yarn run ci",
 		"canary": "lerna publish --canary",
 		"beta": "lerna publish --npm-tag beta --force-publish=*",
 		"next": "lerna publish --npm-tag next",
 		"publish": "lerna publish",
 		"force-publish": "lerna publish --force-publish=*",
 		"bootstrap": "lerna bootstrap",
-		"clean": "lerna clean --yes; rm -rf ./packages/**/package-lock.json",
+		"clean": "lerna clean --yes",
 		"updated": "lerna updated",
 		"li": "lerna init",
 		"build": "lerna run build",
 		"gen-api-ref": "lerna run gen-api-ref",
-		"gen-site": "pst build && npm run gen-api-ref",
+		"gen-site": "pst build && yarn run gen-api-ref",
 		"authors": "git log --format='%aN <%aE>' | sort -u > AUTHORS"
 	},
 	"keywords": [
@@ -55,6 +55,8 @@
 	"license": "MIT",
 	"private": true,
 	"workspaces": [
-		"packages/*"
+		"packages/*",
+		"examples/simple-example/*",
+		"tools/*"
 	]
 }

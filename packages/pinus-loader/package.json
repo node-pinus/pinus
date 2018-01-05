@@ -9,11 +9,11 @@
 	],
 	"scripts": {
 		"build": "tsc",
-		"start": "npm run build && node dist/index",
+		"start": "yarn run build && node dist/index",
 		"lint": "node ../../node_modules/tslint/bin/tslint --format prose -c ../../tslint.json lib/**/*.ts test/**/*.ts",
-		"test": "npm run build",
+		"test": "yarn run build",
 		"cov": "nyc mocha",
-		"ci": "npm run test",
+		"ci": "yarn run test",
 		"gen-api-ref": "node ../../node_modules/typedoc/bin/typedoc --mode file --hideGenerator --excludeExternals --ignoreCompilerErrors --out ../../run/site/public/api-reference/pinus-loader lib/"
 	},
 	"dependencies": {
