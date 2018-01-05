@@ -6,7 +6,7 @@ let envConfig = require(process.cwd() + '/app/config/env.json');
 let fs = require('fs');
 let script = fs.readFileSync(process.cwd() + envConfig.script, 'utf8');
 
-let Actor:any = function (this: any, conf: { script: any }, aid: string)
+let Actor: any = function (this: any, conf: { script: any }, aid: string)
 {
   EventEmitter.call(this);
   this.id = aid;
