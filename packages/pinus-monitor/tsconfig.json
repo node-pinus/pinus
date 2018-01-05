@@ -5,11 +5,6 @@
     // add node as an option
     "node"
     ],
-    // typeRoots option has been previously configured
-    "typeRoots": [
-    // add path to @types
-    "node_modules/@types"
-    ],
     "module": "commonjs",   //指定生成哪个模块系统代码
     "target": "es2016",
     "lib": [
