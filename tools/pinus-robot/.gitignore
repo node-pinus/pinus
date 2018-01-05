@@ -10,3 +10,7 @@ node_modules/*
 *.sublime-project
 *.sublime-workspace
 *.swp
+.DS_Store
+.idea/*
+/.vs/
+/.vscode/

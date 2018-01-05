@@ -3,6 +3,7 @@
   "version": "0.1.4",
   "private": false,
   "dependencies": {
+    "@types/node": "^4.0.35",
     "@types/underscore": "^1.8.6",
     "socket.io": "0.9.13",
     "socket.io-client": "0.9.11",
