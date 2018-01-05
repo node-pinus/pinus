@@ -1,23 +1,23 @@
-#pinus-robot
-pinus-robot is a simple tool to benchmark the socket.io server's performance.
+#pomelo-robot
+pomelo-robot is a simple tool to benchmark the socket.io server's performance.
 
-pinus-robot can run in multiple mode such as single machine or distributed machines with many processes.
+pomelo-robot can run in multiple mode such as single machine or distributed machines with many processes.
 
-pinus-robot executes developer's custom javascript in a sand box and statistical analysis monitors including avg(min/max) responsing time and QPS, etc. Then reports data to the http server with graph display.
+pomelo-robot executes developer's custom javascript in a sand box and statistical analysis monitors including avg(min/max) responsing time and QPS, etc. Then reports data to the http server with graph display.
 
-pinus-robot can be also used in http benchmark with developer script.
+pomelo-robot can be also used in http benchmark with developer script.
 
 
 ##Installation
 ```
-npm install pinus-robot
+npm install pomelo-robot
 ```
 
 ##Usage
 ``` javascript
 var envConfig = require('./app/config/env.json');
 var config = require('./app/config/' + envConfig.env + '/config');
-var Robot = require('pinus-robot').Robot;
+var Robot = require('pomelo-robot').Robot;
 
 var robot = new Robot(config);
 var mode = 'master';
@@ -50,5 +50,5 @@ robot run in client agent mode.
 + script - The developer's custom script that the agent will execute. 
 
 ###Notice
-When pinus-robot run in distribute mode, every client should be in same directory path and master could be ssh login automatic. Otherwise developer can start up agent manually. For the custom script, refer to [the demo](https://github.com/NetEase/pinus-robot-demo).
+When pomelo-robot run in distribute mode, every client should be in same directory path and master could be ssh login automatic. Otherwise developer can start up agent manually. For the custom script, refer to [the demo](https://github.com/NetEase/pomelo-robot-demo).
 

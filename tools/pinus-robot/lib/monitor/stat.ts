@@ -1,3 +1,5 @@
+import { Stream } from "stream";
+
 /**
  * stat  receive agent client monitor data
  * merger vaild data that has response
@@ -5,36 +7,42 @@
  *
  *
  */
- var _ = require('underscore');
- var stat = module.exports;
- var _timeDataMap = {};
- var _countDataMap = {};
+let _ = require('underscore');
+let stat = module.exports;
+let _timeDataMap: { [key: string]: any } = {};
+let _countDataMap: { [key: string]: any } = {};
 
-var incrData = {};
+let incrData: { [key: string]: any } = {};
 
-stat.getTimeData = function(){
+stat.getTimeData = function ()
+{
 	return _timeDataMap;
 };
 
-stat.getCountData = function(){
+stat.getCountData = function ()
+{
 	return _countDataMap;
 };
 
 /**
  * clear data
  */
- stat.clear = function(agent){
- 	if (!!agent) {
- 		delete _timeDataMap[agent];
- 		delete _countDataMap[agent];
- 	} else {
- 		_timeDataMap = {};
- 		_countDataMap = {};
- 	}
- };
+stat.clear = function (agent: string)
+{
+	if (!!agent)
+	{
+		delete _timeDataMap[agent];
+		delete _countDataMap[agent];
+	} else
+	{
+		_timeDataMap = {};
+		_countDataMap = {};
+	}
+};
 
 
-stat.merge = function(agent,message){
- 	_timeDataMap[agent]= message.timeData;
+stat.merge = function (agent: string, message: any)
+{
+	_timeDataMap[agent] = message.timeData;
 	_countDataMap[agent] = message.incrData;
 };

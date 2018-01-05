@@ -10,7 +10,7 @@ var WebClient = function(io) {
   this.stats = { messages:0,nodes:0,start:new Date()};
   this.connected = false;
   var wc = this;
-  this.socket = io('http://'+window.location.hostname+':8888', {forceNode: true});
+  this.socket = io.connect('http://'+window.location.hostname+':8888');
   this.socket.on('connect', function() {
     wc.connected = true;
     wc.socket.emit('announce_web_client');
