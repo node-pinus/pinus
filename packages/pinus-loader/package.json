@@ -2,7 +2,7 @@
 	"name": "pinus-loader",
 	"version": "1.2.9-y.9",
 	"main": "./dist/index",
-	"types": "./dist/index.d.ts",
+    "types": "./lib/index",
 	"files": [
 		"dist",
 		"lib"

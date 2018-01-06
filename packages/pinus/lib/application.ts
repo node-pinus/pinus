@@ -43,13 +43,13 @@ import { Session, MasterInfo, ApplicationEventContructor } from '../index';
 import { ServerInfo, FRONTENDID } from './util/constants';
 import { BeforeHandlerFilter, AfterHandlerFilter, IHandlerFilter } from './interfaces/IHandlerFilter';
 import { TransactionCondictionFunction, TransactionHandlerFunction } from './common/manager/appManager';
-import { RpcFilter, MailStationErrorHandler } from 'pinus-rpc/dist/lib/rpc-client/mailstation';
+import { RpcFilter, MailStationErrorHandler } from 'pinus-rpc';
 import { ILifeCycle } from './interfaces/ILifeCycle';
 import { ModuleRecord } from './util/moduleUtil';
 import { IPlugin } from './interfaces/IPlugin';
 import { Cron } from './server/server';
 import { ServerStartArgs } from './util/appUtil';
-import { listEs6ClassMethods } from '../../pinus-rpc/dist/lib/util/utils';
+import { listEs6ClassMethods } from 'pinus-rpc';
 
 
 export type ConfigureCallback =  ()=>void;

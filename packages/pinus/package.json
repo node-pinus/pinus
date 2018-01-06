@@ -38,7 +38,7 @@
     "server"
   ],
   "main": "./dist/index",
-  "types": "./dist/index.d.ts",
+  "types": "./lib/index",
   "dependencies": {
     "@types/mqtt-connection": "git+https://github.com/node-pinus/types-mqtt-connection.git",
     "@types/socket.io": "^1.4.31",

@@ -11,7 +11,7 @@ import * as Constants from '../util/constants';
 import { getLogger } from 'pinus-logger';
 import { Application } from '../application';
 import { IComponent } from '../interfaces/IComponent';
-import { RpcClientOpts } from 'pinus-rpc/dist/lib/rpc-client/client';
+import { RpcClientOpts } from 'pinus-rpc';
 import { Session } from '../../index';
 import { ServerInfo } from '../util/constants';
 let logger = getLogger('pinus', __filename);

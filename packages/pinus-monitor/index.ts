@@ -5,3 +5,5 @@ export{
     psmonitor,
     sysmonitor
 }
+
+export { PsParam } from './lib/processMonitor';

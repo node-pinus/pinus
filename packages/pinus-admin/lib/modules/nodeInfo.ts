@@ -7,7 +7,7 @@ import * as monitor from 'pinus-monitor';
 import { getLogger } from 'pinus-logger';import { IModule, ModuleType, MonitorCallback, MasterCallback } from '../consoleService';
 import { MonitorAgent } from '../monitor/monitorAgent';
 import { MasterAgent } from '../master/masterAgent';
-import { PsParam } from 'pinus-monitor/dist/lib/processMonitor';
+import { PsParam } from 'pinus-monitor';
  let logger = getLogger('pinus-admin', __filename);
 
 let DEFAULT_INTERVAL = 5 * 60;		// in second

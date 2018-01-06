@@ -23,7 +23,6 @@
     "maintening"
   ],
   "main": "./dist/index",
-  "types": "./dist/index.d.ts",
   "bin": {
     "pinus-cli": "./dist/bin/pinus-cli.js"
   },
