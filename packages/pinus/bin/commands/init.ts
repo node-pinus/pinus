@@ -155,7 +155,7 @@ function createApplicationAt(ph: string, type: string)
 {
     let name = path.basename(path.resolve(CUR_DIR, ph));
     copy(path.join(__dirname, '../../../template/'), ph);
-    mkdir(path.join(ph, 'game-server/logs'));
+    mkdir(path.join(ph, 'game-server/dist/logs'));
     mkdir(path.join(ph, 'shared'));
     // rmdir -r
     let rmdir = function (dir: string)
@@ -285,6 +285,8 @@ function createApplicationAt(ph: string, type: string)
             }
 
             fs.renameSync(path.resolve(ph, 'game-server/app.ts.udp'), path.resolve(ph, 'game-server/app.ts'));
+            fs.renameSync(path.resolve(ph, 'web-server/public/index.html.sio'), path.resolve(ph, 'web-server/public/index.html'));
+
             rmdir(path.resolve(ph, 'web-server/public/js/lib/build'));
             rmdir(path.resolve(ph, 'web-server/public/js/lib/local'));
             break;

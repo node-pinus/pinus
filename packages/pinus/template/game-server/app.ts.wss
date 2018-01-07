@@ -26,8 +26,8 @@ app.configure('production|development', 'connector', function(){
       useProtobuf : true,
       ssl: {
         type: 'wss',
-      	key: fs.readFileSync('../shared/server.key'),
-  			cert: fs.readFileSync('../shared/server.crt')
+      	key: fs.readFileSync('../../shared/server.key'),
+  			cert: fs.readFileSync('../../shared/server.crt')
       }
     });
 });
