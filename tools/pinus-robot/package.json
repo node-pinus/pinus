@@ -1,6 +1,6 @@
 {
   "name": "pinus-robot",
-  "version": "1.2.15",
+  "version": "1.2.16",
   "private": false,
   "dependencies": {
     "@types/cliff": "^0.1.4",
@@ -22,6 +22,11 @@
     "ci": "yarn run test",
     "gen-api-ref": "node ../../node_modules/typedoc/bin/typedoc --mode file --hideGenerator --excludeExternals --ignoreCompilerErrors --out ../../run/site/public/api-reference/pinus lib/"
   },
+  "files": [
+    "dist",
+    "lib",
+    "index.ts"
+  ],
   "readmeFilename": "README.md",
   "gitHead": "d33db82d670b7a5d21c95e15f91548f8a8ba7821",
   "description": "pinus-robot is a simple tool to benchmark the socket.io server's performance.",
