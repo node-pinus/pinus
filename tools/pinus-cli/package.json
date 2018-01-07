@@ -1,6 +1,6 @@
 {
   "name": "pinus-cli",
-  "version": "1.2.16",
+  "version": "1.2.17",
   "description": "pinus command line client for managing pinus",
   "scripts": {
     "build": "tsc",
