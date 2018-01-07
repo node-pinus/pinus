@@ -9,12 +9,11 @@
 import * as fs from "fs"
 let util = require('../common/util');
 
-let monitor = module.exports;
 let dataMap: { [key: string]: any } = {};
 let incrMap: { [key: string]: any } = {};
 let profData: { [key: string]: any } = {};
 
-monitor.getData = function ()
+export function getData()
 {
   return {
     timeData: profData,
@@ -22,24 +21,24 @@ monitor.getData = function ()
   };
 };
 
-monitor.clear = function ()
+export function clear()
 {
   profData = {};
   incrMap = {};
 };
 
-monitor.incr = function (name: string)
+export function incr(name: string)
 {
   incrMap[name] = incrMap[name] == null ? 1 : incrMap[name] + 1;
   console.log(incrMap[name] + ' ' + name);
 }
 
-monitor.decr = function (name: string)
+export function decr(name: string)
 {
   incrMap[name] = incrMap[name] == null ? 0 : incrMap[name] - 1;
 }
 
-monitor.beginTime = function (route: string, uid: string, id: number)
+export function beginTime(route: string, uid: number, id: number)
 {
   let time = Date.now();
   if (!dataMap[route])
@@ -54,7 +53,7 @@ monitor.beginTime = function (route: string, uid: string, id: number)
   dataMap[route][uid][id] = time;
 };
 
-monitor.endTime = function (route: string, uid: string, id: number)
+export function endTime(route: string, uid: number, id: number)
 {
   if (!dataMap[route])
   {

@@ -3,18 +3,28 @@
   "version": "1.2.10",
   "private": false,
   "dependencies": {
-    "@types/node": "^4.0.35",
+    "@types/node": "^8.5.7",
     "@types/socket.io-client": "^1.4.32",
     "@types/underscore": "^1.8.6",
-    "socket.io": "0.9.13",
-    "socket.io-client": "^0.9.11",
+    "socket.io": "^2.0.4",
+    "socket.io-client": "^2.0.4",
     "typescript": "^2.6.2",
     "underscore": "1.4.4"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "yarn run build && node dist/index",
+    "lint": "node ../../node_modules/tslint/bin/tslint --format prose -c ../../tslint.json lib/**/*.ts test/**/*.ts",
+    "test": "yarn run build",
+    "cov": "nyc mocha",
+    "ci": "yarn run test",
+    "gen-api-ref": "node ../../node_modules/typedoc/bin/typedoc --mode file --hideGenerator --excludeExternals --ignoreCompilerErrors --out ../../run/site/public/api-reference/pinus lib/"
   },
   "readmeFilename": "README.md",
   "gitHead": "d33db82d670b7a5d21c95e15f91548f8a8ba7821",
   "description": "pinus-robot is a simple tool to benchmark the socket.io server's performance.",
-  "main": "index.js",
+  "main": "./dist/index",
+  "types": "./index.ts",
   "repository": {
     "type": "git",
     "url": "git://github.com/node-pinus/pinus.git"

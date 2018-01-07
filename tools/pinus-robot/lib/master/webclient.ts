@@ -1,14 +1,15 @@
 import * as __ from "underscore";
-import * as net from 'net';
+import { Server } from "./server";
+import { NodeClient } from "./nodeclient";
 
 // WebClient is an end-user using a browser
 export class WebClient
 {
-  log_server: net.Server;
+  log_server: Server;
   socket: any;
   id: number;
   watching_logs: Array<any>;
-  constructor(socket: any, server: net.Server)
+  constructor(socket: any, server: Server)
   {
     this.log_server = server;
     this.socket = socket;
@@ -27,7 +28,7 @@ export class WebClient
     });
   }
 
-  add_node(node: { nodeId: number, iport: number })
+  add_node(node: NodeClient)
   {
     this.socket.emit('add_node', {
       nodeId: node.nodeId,
@@ -36,14 +37,14 @@ export class WebClient
   }
 
   // Tell WebClient to remove Node
-  remove_node(node: { nodeId: number, iport: number })
+  remove_node(node: NodeClient)
   {
     this.socket.emit('remove_node', {
       node: node.nodeId
     });
   }
 
-  error_node(node: { nodeId: number, iport: number }, error: Error)
+  error_node(node: NodeClient, error: Error)
   {
     this.socket.emit('error', {
       node: node.iport,

@@ -1,27 +1,37 @@
-let util = require('util');
-let vm = require('vm');
+import * as util  from 'util';
+import * as  vm  from 'vm';
 import { EventEmitter } from 'events'
-let monitor = require('../monitor/monitor');
+import * as  monitor  from '../monitor/monitor';
 let envConfig = require(process.cwd() + '/app/config/env.json');
-let fs = require('fs');
-let script = fs.readFileSync(process.cwd() + envConfig.script, 'utf8');
+import * as  fs  from 'fs';
 import { logging, Logger } from "../common/logging";
+import { AgentCfg } from './agent';
 
-class Actor extends EventEmitter
+
+export interface IActor
+{
+    id : number;
+
+    emit(type : "start" | "end" , action : string , reqId : string): void;
+    emit(type : "incr" | "decr" , action : string): void;
+}
+
+export class Actor extends EventEmitter implements IActor
 {
   id: number;
   script: string;
   log: Logger = logging;
-  constructor(conf: { script: Array<any> }, aid: number)
+  constructor(conf: AgentCfg, aid: number)
   {
     super();
     this.id = aid;
-    this.script = conf.script || script;
-    this.on('start', (action: string, reqId: string) =>
+    this.script = conf.script || envConfig.script;
+    this.script = 'require(process.cwd()+"'+this.script+'").default(actor);';
+    this.on('start', (action: string, reqId: number) =>
     {
       monitor.beginTime(action, this.id, reqId);
     });
-    this.on('end', (action: string, reqId: string) =>
+    this.on('end', (action: string, reqId: number) =>
     {
       monitor.endTime(action, this.id, reqId);
     });
@@ -35,24 +45,24 @@ class Actor extends EventEmitter
     });
   }
 
+
   run()
   {
     try
     {
       let initSandbox = {
-        console: console,
-        require: require,
-        actor: this,
-        setTimeout: setTimeout,
-        clearTimeout: clearTimeout,
-        setInterval: setInterval,
-        clearInterval: clearInterval,
-        global: global,
-        process: process
+        console:console,
+        require:require,
+        actor:this,
+        setTimeout:setTimeout,
+        clearTimeout:clearTimeout,
+        setInterval:setInterval,
+        clearInterval:clearInterval,
+        global:global,
+        process:process
       };
-
       let context = vm.createContext(initSandbox);
-      vm.runInContext(script, context);
+      vm.runInContext(this.script, context);
     } catch (ex)
     {
       this.emit('error', ex.stack);
@@ -129,4 +139,3 @@ class Actor extends EventEmitter
    */
 }
 
-export { Actor };

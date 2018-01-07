@@ -1,5 +1,5 @@
-let __ = require('underscore');
-import * as net from 'net'
+import * as __ from "underscore";
+import { Server } from "./server";
 
 // NodeClient is a server/machine/instance running a agent socket 
 export class NodeClient
@@ -7,13 +7,13 @@ export class NodeClient
   nodeId: number;
   socket: any;
   iport: string;
-  id: number;
-  log_server: any;
-  constructor(nodeId: number, socket: any, server: net.Server)
+  id: string;
+  log_server: Server;
+  constructor(nodeId: number, socket: SocketIO.Socket, server: Server)
   {
     this.nodeId = nodeId;
     this.socket = socket;
-    this.iport = socket.handshake.address.address + ":" + socket.handshake.address.port;
+    this.iport = socket.handshake.address;
     this.id = socket.id;
     this.log_server = server;
 

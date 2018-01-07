@@ -56,8 +56,9 @@
 	"private": true,
 	"workspaces": [
 		"packages/*",
+		"tools/*",
 		"examples/simple-example/*",
 		"examples/websocket-chat/*",
-		"tools/*"
+		"examples/robot-sample"
 	]
 }

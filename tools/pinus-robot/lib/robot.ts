@@ -1,9 +1,9 @@
-let Agent = require('./agent/agent').Agent;
-let Server = require('./master/server').Server;
-let HTTP_SERVER = require('./console/http').HTTP_SERVER;
-var util = require('./common/util').createPath();
+import {Agent } from './agent/agent';
+import {Server}  from './master/server';
+import {HTTP_SERVER} from './console/http';
+import * as util  from './common/util';
 
-export interface Cfg
+export interface RobotCfg
 {
   clients: Array<any>,
   mainFile: string,
@@ -22,11 +22,11 @@ export interface Cfg
  */
 export class Robot
 {
-  conf: Cfg;
-  master: any = null;
-  agent: any = null;
+  conf: RobotCfg;
+  master: Server = null;
+  agent: Agent = null;
 
-  constructor(conf: Cfg)
+  constructor(conf: RobotCfg)
   {
     this.conf = conf;
   }
@@ -71,6 +71,4 @@ export class Robot
     }
   }
 }
-
-exports.Robot = Robot;
 

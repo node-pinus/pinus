@@ -4,28 +4,21 @@ let vm = require('vm');
 let path = require('path');
 var util = require('util');
 
-class Starter
-{
-    constructor()
-    {
 
-    }
-
-    run(main: any, message: any, clients: Array<any>)
+    export function run(main: any, message: any, clients: Array<any>)
     {
         if (!clients)
         {
             clients = ['127.0.0.1'];
-            this.prepare(main, message, clients);
+            prepare(main, message, clients);
         } else
         {
-            this.prepare(main, message, clients);
+            prepare(main, message, clients);
         }
     };
 
-    prepare(main: string, message: { agent: any }, clients: Array<any>)
+    export function prepare(main: string, message: { agent: any }, clients: Array<any>)
     {
-        let self = this;
         let count = parseInt(message.agent, 10) || 1;
         for (let ipindex in clients)
         {
@@ -35,16 +28,16 @@ class Starter
                 let ip = clients[ipindex];
                 if (ip === '127.0.0.1')
                 {
-                    self.localrun(cmd);
+                    localrun(cmd);
                 } else
                 {
-                    self.sshrun(cmd, ip);
+                    sshrun(cmd, ip);
                 }
             }
         }
     }
 
-    sshrun(cmd: string, host: number | string, callback?: Function)
+    export function sshrun(cmd: string, host: number | string, callback?: Function)
     {
         let hosts = [host];
         log('Executing ' + (<any>$(cmd)).yellow + ' on ' + (<any>$(hosts.join(', '))).blue);
@@ -79,7 +72,7 @@ class Starter
                 starter.parallelRunning = false;
                 if (error)
                 {
-                    starter.abort('FAILED TO RUN, return code: ' + error);
+                    abort('FAILED TO RUN, return code: ' + error);
                 } else if (callback)
                 {
                     callback(data);
@@ -89,14 +82,14 @@ class Starter
 
     };
 
-    localrun(cmd: string, callback?: Function)
+    export function localrun(cmd: string, callback?: Function)
     {
         log('Executing ' + (<any>$(cmd)).green + ' locally');
         spawnProcess(cmd, ['', ''], function (err: Error, data: string)
         {
             if (err)
             {
-                starter.abort('FAILED TO RUN, return code: ' + err);
+                abort('FAILED TO RUN, return code: ' + err);
             } else
             {
                 if (callback) callback(data);
@@ -104,42 +97,39 @@ class Starter
         });
     };
 
-    set(key: number, def: string)
+    var starter = new class{parallelRunning : boolean;};
+
+    export function set(key: number, def: string)
     {
         if (typeof def === 'function')
         {
-            starter.__defineGetter__(key, def);
+            (starter as any).__defineGetter__(key, def);
         } else
         {
-            starter.__defineGetter__(key, function ()
+            (starter as any).__defineGetter__(key, function ()
             {
                 return def;
             });
         }
     };
 
-    load(file: string)
+    export function load(file: string)
     {
         if (!file) throw new Error('File not specified');
         log('Executing compile ' + file);
         let code = fs.readFileSync(file).toString();
         let script = vm.createScript(code, file);
-        script.runInNewContext(this);
+        script.runInNewContext(starter);
     };
 
-    abort(msg: string)
+    export function abort(msg: string)
     {
         log((<any>$(msg)).red);
         //process.exit(1);
     };
-}
 
-let starter: any = new Starter();
 
-let log = function (str?: string)
-{
-    util.puts([].join.call(arguments, ' '));
-};
+let log = console.log;
 
 /**
  *begin notify to run agent
@@ -225,8 +215,8 @@ class Stylize
     }
     output(this: any, str: string, style: keyof typeof this.styles)
     {
-        return '\033[' + this.styles[style][0] + 'm' + str +
-            '\033[' + this.styles[style][1] + 'm';
+        return '\0o33[' + this.styles[style][0] + 'm' + str +
+            '\0o33[' + this.styles[style][1] + 'm';
     }
 }
 
@@ -265,4 +255,3 @@ function $(str: String)
 
 Stylize.$ = $;
 
-export { starter }

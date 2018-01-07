@@ -11,14 +11,14 @@ let RECONNECT_INTERVAL = 10 * 1000; // 15 seconds
 let HEARTBEAT_PERIOD = 30 * 1000; // 30 seconds
 let HEARTBEAT_FAILS = 3; // Reconnect after 3 missed heartbeats
 
-export interface Cfg
+export interface AgentCfg
 {
     clients: Array<any>,
     mainFile: string,
     master: { [key: string]: any },
     apps: Array<any>,
     scriptFile: string,
-    script: Array<any>
+    script: string
 }
 /**
  * 
@@ -27,21 +27,21 @@ export interface Cfg
  * include app data, exec script,etc.
  *
  */
-class Agent
+export class Agent
 {
     log: Logger = logging;
-    conf: Cfg;
+    conf: AgentCfg;
     last_heartbeat: any;
     connected: boolean;
     reconnecting: boolean;
     actors: { [key: string]: any };
     count: number;
-    socket: any;
-    nodeId: number;
-    constructor(conf: Cfg)
+    socket: SocketIOClient.Socket;
+    nodeId: string;
+    constructor(conf: AgentCfg)
     {
         this.log = logging;
-        this.conf = conf || <Cfg>{};
+        this.conf = conf || <AgentCfg>{};
         this.last_heartbeat = null;
         this.connected = false;
         this.reconnecting = false;
@@ -54,10 +54,12 @@ class Agent
     connect()
     {
         let agent = this;
-        let uri = agent.conf.master.host + ":" + agent.conf.master.port;
-        agent.socket = io.connect(uri, <any>{ 'force new connection': true, 'try multiple transports': false });
+        let uri = "http://" + agent.conf.master.host + ":" + agent.conf.master.port;
+        console.log("connecting:" , uri);
+        agent.socket = io.connect(uri, { forceNew: true, multiplex: false });
         agent.socket.on('error', function (reason: Error)
         {
+            console.error("err:" , reason);
             agent.reconnect();
         });
         // Register announcement callback
@@ -94,7 +96,7 @@ class Agent
             process.exit(1);
         });
         //begin to run
-        agent.socket.on('run', function (message: { maxuser: any, script: Array<any>, index: number })
+        agent.socket.on('run', function (message: { maxuser: any, script: string, index: number })
         {
             agent.run(message);
         });
@@ -106,7 +108,7 @@ class Agent
         });
     }
 
-    run(msg: { maxuser: any, script: Array<any>, index: number })
+    run(msg: { maxuser: any, script: string, index: number })
     {
         let agent = this;
         util.deleteLog();
@@ -174,7 +176,7 @@ class Agent
     announce(socket: any)
     {
         let agent = this;
-        let sessionid = agent.socket.socket.sessionid;
+        let sessionid = agent.socket.id;
         agent.nodeId = sessionid;
         this._send('announce_node', {
             client_type: 'node',
@@ -203,7 +205,7 @@ class Agent
 
     _send(event: string, message: {
         client_type: string,
-        nodeId: number
+        nodeId: string
     })
     {
         try
@@ -219,4 +221,3 @@ class Agent
     }
 }
 
-export { Agent }

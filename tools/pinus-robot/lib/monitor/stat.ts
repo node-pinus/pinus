@@ -8,18 +8,17 @@ import { Stream } from "stream";
  *
  */
 let _ = require('underscore');
-let stat = module.exports;
 let _timeDataMap: { [key: string]: any } = {};
 let _countDataMap: { [key: string]: any } = {};
 
 let incrData: { [key: string]: any } = {};
 
-stat.getTimeData = function ()
+export function getTimeData()
 {
 	return _timeDataMap;
 };
 
-stat.getCountData = function ()
+export function getCountData()
 {
 	return _countDataMap;
 };
@@ -27,7 +26,7 @@ stat.getCountData = function ()
 /**
  * clear data
  */
-stat.clear = function (agent: string)
+export function clear(agent?: string)
 {
 	if (!!agent)
 	{
@@ -40,8 +39,12 @@ stat.clear = function (agent: string)
 	}
 };
 
+export function getDetails()
+{
+	return {time:_timeDataMap , count : _countDataMap , incr:incrData};
+}
 
-stat.merge = function (agent: string, message: any)
+export function merge(agent: string, message: any)
 {
 	_timeDataMap[agent] = message.timeData;
 	_countDataMap[agent] = message.incrData;
