@@ -2,6 +2,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as Constants from './constants';
 import { RemoteServerCode } from '../index';
+import { DIR } from './constants';
 
 /**
  * Get system remote service path
@@ -109,4 +110,22 @@ export function getScriptPath(appBase : string)
 export function getLogPath(appBase : string)
 {
     return path.join(appBase, Constants.DIR.LOG);
+};
+
+export function getPluginRemotePath(basePath : string)
+{
+    let p = path.join(basePath, DIR.REMOTE);
+    return fs.existsSync(p) ? p : null;
+};
+
+export function getPluginHandlerPath(basePath : string)
+{
+    let p = path.join(basePath, DIR.HANDLER);
+    return fs.existsSync(p) ? p : null;
+};
+    
+export function getPluginCronPath(basePath : string)
+{
+    let p = path.join(basePath, DIR.CRON);
+    return fs.existsSync(p) ? p : null;
 };

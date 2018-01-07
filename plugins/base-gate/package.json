@@ -1,0 +1,29 @@
+{
+  "name": "pinus-base-gate",
+  "version": "1.0.42",
+  "description": "pinus base gate plugin",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "start": "npm run build && node dist/index",
+    "lint": "node ../../node_modules/tslint/bin/tslint --format prose -c ../../tslint.json src/**/*.ts test/**/*.ts",
+    "test": "npm run build",
+    "cov": "nyc mocha",
+    "ci": "npm run test",
+    "gen-api-ref": "node ../../node_modules/typedoc/bin/typedoc --mode file --hideGenerator --excludeExternals --ignoreCompilerErrors --out ../../run/site/public/api-reference/base-database src/"
+  },
+  "repository": "",
+  "keywords": [
+    "pinus"
+  ],
+  "main": "./dist/index",
+  "types": "./src/index",
+  "dependencies": {
+    "@types/node": "^8.5.2",
+    "pinus": "^1.2.12"
+  },
+  "license": "MIT",
+  "publishConfig": {}
+}

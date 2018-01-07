@@ -57,6 +57,7 @@
 	"workspaces": [
 		"packages/*",
 		"tools/*",
+		"plugins/*",
 		"examples/simple-example/*",
 		"examples/websocket-chat/*",
 		"examples/robot-sample"
