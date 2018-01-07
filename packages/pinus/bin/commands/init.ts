@@ -1,7 +1,7 @@
 
 import * as program from 'commander';
 import { CUR_DIR, INIT_PROJ_NOTICE, TIME_INIT, FILEREAD_ERROR } from '../utils/constants';
-import { emptyDirectory, confirm, abort, version, prompt } from '../utils/utils';
+import {  confirm, abort, version, prompt } from '../utils/utils';
 
 import * as fs from 'fs'
 import * as os from 'os'
@@ -29,6 +29,7 @@ function connectorType(cb: Function)
 {
     prompt('Please select underly connector, 1 for websocket(native socket), 2 for socket.io, 3 for wss, 4 for socket.io(wss), 5 for udp, 6 for mqtt: [1]', function (msg: string)
     {
+        console.log("selected" , msg);
         switch (msg.trim())
         {
             case '':
@@ -51,6 +52,20 @@ function connectorType(cb: Function)
 }
 
 /**
+ * Check if the given directory `path` is empty.
+ *
+ * @param {String} path
+ * @param {Function} fn
+ */
+export function emptyDirectory(path : string)
+{
+    if(!fs.existsSync(path))
+        return true;
+    var files = fs.readdirSync(path);
+    return (!files || !files.length);
+}
+
+/**
  * Init application at the given directory `path`.
  *
  * @param {String} path
@@ -60,27 +75,26 @@ function init(path: string)
     console.log(INIT_PROJ_NOTICE);
     connectorType(function (type: string)
     {
-        emptyDirectory(path, function (empty: boolean)
+        let empty = emptyDirectory(path);
+        if (empty)
         {
-            if (empty)
+            process.stdin.destroy();
+            console.log("start createApplication");
+            createApplicationAt(path, type);
+        } else
+        {
+            confirm('Destination is not empty, continue? (y/n) [no] ', function (force: boolean)
             {
                 process.stdin.destroy();
-                createApplicationAt(path, type);
-            } else
-            {
-                confirm('Destination is not empty, continue? (y/n) [no] ', function (force: boolean)
+                if (force)
                 {
-                    process.stdin.destroy();
-                    if (force)
-                    {
-                        createApplicationAt(path, type);
-                    } else
-                    {
-                        abort(('Fail to init a project' as any).red);
-                    }
-                });
-            }
-        });
+                    createApplicationAt(path, type);
+                } else
+                {
+                    abort(('Fail to init a project' as any).red);
+                }
+            });
+        }
     });
 }
 
@@ -195,8 +209,8 @@ function createApplicationAt(ph: string, type: string)
                 'game-server/app.ts.sio.wss',
                 'web-server/app.js.https',
                 'web-server/public/index.html',
-                'web-server/public/js/lib/component.tson',
-                'web-server/public/js/lib/pomeloclient.js.wss'];
+                'web-server/public/js/lib/component.json',
+                'web-server/public/js/lib/pinusclient.js.wss'];
             for (let i = 0; i < unlinkFiles.length; ++i)
             {
                 fs.unlinkSync(path.resolve(ph, unlinkFiles[i]));
@@ -215,10 +229,10 @@ function createApplicationAt(ph: string, type: string)
                 'game-server/app.ts.udp',
                 'game-server/app.ts.sio.wss',
                 'game-server/app.ts.mqtt',
-                'web-server/app.ts',
+                'web-server/app.js',
                 'web-server/public/index.html.sio',
-                'web-server/public/js/lib/pomeloclient.js',
-                'web-server/public/js/lib/pomeloclient.js.wss',
+                'web-server/public/js/lib/pinusclient.js',
+                'web-server/public/js/lib/pinusclient.js.wss',
                 'web-server/public/js/lib/build/build.js',
                 'web-server/public/js/lib/socket.io.js'];
             for (let i = 0; i < unlinkFiles.length; ++i)
@@ -239,7 +253,7 @@ function createApplicationAt(ph: string, type: string)
                 'game-server/app.ts.mqtt',
                 'web-server/app.js',
                 'web-server/public/index.html',
-                'web-server/public/js/lib/pomeloclient.js'];
+                'web-server/public/js/lib/pinusclient.js'];
             for (let i = 0; i < unlinkFiles.length; ++i)
             {
                 fs.unlinkSync(path.resolve(ph, unlinkFiles[i]));
@@ -248,11 +262,11 @@ function createApplicationAt(ph: string, type: string)
             fs.renameSync(path.resolve(ph, 'game-server/app.ts.sio.wss'), path.resolve(ph, 'game-server/app.ts'));
             fs.renameSync(path.resolve(ph, 'web-server/app.js.https'), path.resolve(ph, 'web-server/app.js'));
             fs.renameSync(path.resolve(ph, 'web-server/public/index.html.sio'), path.resolve(ph, 'web-server/public/index.html'));
-            fs.renameSync(path.resolve(ph, 'web-server/public/js/lib/pomeloclient.js.wss'), path.resolve(ph, 'web-server/public/js/lib/pomeloclient.js'));
+            fs.renameSync(path.resolve(ph, 'web-server/public/js/lib/pinusclient.js.wss'), path.resolve(ph, 'web-server/public/js/lib/pinusclient.js'));
 
             rmdir(path.resolve(ph, 'web-server/public/js/lib/build'));
             rmdir(path.resolve(ph, 'web-server/public/js/lib/local'));
-            fs.unlinkSync(path.resolve(ph, 'web-server/public/js/lib/component.tson'));
+            fs.unlinkSync(path.resolve(ph, 'web-server/public/js/lib/component.json'));
             break;
         case '5':
             // use socket.io wss
@@ -263,8 +277,8 @@ function createApplicationAt(ph: string, type: string)
                 'game-server/app.ts.sio.wss',
                 'web-server/app.js.https',
                 'web-server/public/index.html',
-                'web-server/public/js/lib/component.tson',
-                'web-server/public/js/lib/pomeloclient.js.wss'];
+                'web-server/public/js/lib/component.json',
+                'web-server/public/js/lib/pinusclient.js.wss'];
             for (let i = 0; i < unlinkFiles.length; ++i)
             {
                 fs.unlinkSync(path.resolve(ph, unlinkFiles[i]));
@@ -283,8 +297,8 @@ function createApplicationAt(ph: string, type: string)
                 'game-server/app.ts.sio.wss',
                 'web-server/app.js.https',
                 'web-server/public/index.html',
-                'web-server/public/js/lib/component.tson',
-                'web-server/public/js/lib/pomeloclient.js.wss'];
+                'web-server/public/js/lib/component.json',
+                'web-server/public/js/lib/pinusclient.js.wss'];
             for (let i = 0; i < unlinkFiles.length; ++i)
             {
                 fs.unlinkSync(path.resolve(ph, unlinkFiles[i]));

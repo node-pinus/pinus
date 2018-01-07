@@ -109,24 +109,6 @@ export function runServer(server : any)
 }
 
 /**
- * Check if the given directory `path` is empty.
- *
- * @param {String} path
- * @param {Function} fn
- */
-export function emptyDirectory(path : string, fn :Function)
-{
-    fs.readdir(path, function (err, files)
-    {
-        if (err && 'ENOENT' !== err.code)
-        {
-            abort(FILEREAD_ERROR);
-        }
-        fn(!files || !files.length);
-    });
-}
-
-/**
  * Terminal application.
  *
  * @param {String} signal stop/kill
