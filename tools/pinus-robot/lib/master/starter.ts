@@ -25,7 +25,7 @@ export function prepare(main: string, message: { agent: any }, clients: Array<an
     {
         for (let i = 0; i < count; i++)
         {
-            let cmd = process.execPath + ' ' + main + ' client > robot.log';
+            let cmd = `"${process.execPath}" ${main}`;
             let ip = clients[ipindex];
             if (ip === '127.0.0.1')
             {

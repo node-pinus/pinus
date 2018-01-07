@@ -3,6 +3,7 @@ import * as  vm  from 'vm';
 import { EventEmitter } from 'events'
 import * as  monitor  from '../monitor/monitor';
 import * as  fs  from 'fs';
+import * as  path  from 'path';
 import { logging, Logger } from "../common/logging";
 import { AgentCfg } from './agent';
 
@@ -30,8 +31,16 @@ export class Actor extends EventEmitter implements IActor
     }
     else
     {
-      this.script = 'require(process.cwd()+"' + conf.scriptFile + '").default(actor);';
+     if(path.isAbsolute(conf.scriptFile))
+     {
+      this.script = `require("${conf.scriptFile}").default(actor);`;
+     }
+     else
+     {
+      this.script = `require("${path.join(process.cwd() , conf.scriptFile)}").default(actor);`;
+     }
     }
+    console.log("runScript " , this.script);
     this.on('start', (action: string, reqId: number) =>
     {
       monitor.beginTime(action, this.id, reqId);

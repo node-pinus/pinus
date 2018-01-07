@@ -197,7 +197,7 @@ export class Agent
             agent.socket.disconnect();
             agent.connected = false;
         }
-        agent.log.info("Reconnecting to server...");
+        console.log("Reconnecting to server...");
         setTimeout(function ()
         {
             if (agent.connected) { return; }
