@@ -1,6 +1,6 @@
 {
   "name": "pinus-base-plugin",
-  "version": "1.2.13",
+  "version": "1.2.14",
   "description": "pinus base plugin",
   "files": [
     "dist"
@@ -12,7 +12,7 @@
   "types": "./src/index",
   "dependencies": {
     "@types/node": "^8.5.2",
-    "pinus": "^1.2.13"
+    "pinus": "^1.2.14"
   },
   "license": "MIT"
 }

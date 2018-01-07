@@ -1,6 +1,6 @@
 {
     "name": "pinus-simple-example-game-server",
-    "version": "1.2.13",
+    "version": "1.2.14",
     "private": false,
     "bin": {
         "$": "./dist/bin/app.js"
@@ -13,7 +13,7 @@
         "@types/bluebird": "^3.5.19",
         "@types/node": "^8.5.2",
         "bluebird": "^3.5.1",
-        "pinus": "^1.2.13",
+        "pinus": "^1.2.14",
         "reflect-metadata": "^0.1.10",
         "source-map-support": "^0.5.0",
         "typescript": "^2.6.1"
