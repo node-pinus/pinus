@@ -6,8 +6,7 @@ import { EventEmitter } from 'events';
 import * as util from 'util';
 import { Application } from '../application';
 import { ServerInfo } from '../util/constants';
-import { ConsoleService } from 'pinus-admin';
-import { MasterAgent } from '../../index';
+import { ConsoleService, MasterAgent } from 'pinus-admin';
 
 export class Watchdog extends EventEmitter
 {

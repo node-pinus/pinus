@@ -16,7 +16,7 @@ import { HandlerService, HandlerServiceOptions, HandlerCallback } from '../commo
 import { Application } from '../application';
 import { EventEmitter } from 'events';
 import { RouteRecord } from '../util/constants';
-import { BackendSession, FrontendSession } from '../../index';
+import { FrontendSession, BackendSession } from '../index';
 
 let ST_INITED = 0;    // server inited
 let ST_STARTED = 1;   // server started

@@ -8,8 +8,8 @@ import * as starter from '../master/starter';
 import * as Loader from 'pinus-loader';
 import { getLogger } from 'pinus-logger';import { Application } from '../application';
 import { pinus } from '../pinus';
-import { IComponent, ILifeCycle } from '../../index';
 import { ServerInfo } from './constants';
+import { IComponent, ILifeCycle } from '../index';
  let logger = getLogger('pinus', __filename);
 
 /**

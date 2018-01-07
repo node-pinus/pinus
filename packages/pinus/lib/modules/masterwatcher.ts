@@ -3,8 +3,7 @@ import * as utils from '../util/utils';
 import * as Constants from '../util/constants';
 import { Watchdog} from '../master/watchdog';
 import { Application } from '../application';
-import { IModule, ConsoleService } from 'pinus-admin';
-import { MasterAgent, MasterCallback } from '../../index';
+import { IModule, ConsoleService, MasterAgent, MasterCallback } from 'pinus-admin';
 
 
 export class MasterWatcherModule implements IModule

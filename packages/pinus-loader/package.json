@@ -1,8 +1,14 @@
 {
 	"name": "pinus-loader",
-	"version": "1.2.9",
+	"version": "1.2.10-0",
 	"main": "./dist/index",
 	"types": "./lib/index",
+	"files": [
+		"dist",
+		"lib",
+		"test",
+		"index.ts"
+	],
 	"scripts": {
 		"build": "tsc",
 		"start": "yarn run build && node dist/index",

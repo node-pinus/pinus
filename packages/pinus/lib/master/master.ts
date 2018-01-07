@@ -9,7 +9,8 @@ import * as moduleUtil from '../util/moduleUtil';
 import * as Constants from '../util/constants';
 import { Application } from '../application';
 import { ConsoleService, ConsoleServiceOpts } from 'pinus-admin';
-import { IModule } from '../../index';
+import { IModule } from '../index';
+
 
 export type MasterServerOptions = 
 {

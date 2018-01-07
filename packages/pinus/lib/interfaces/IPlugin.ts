@@ -1,8 +1,9 @@
-import { IComponent } from "../../index";
+
 import {default as AppEvents} from "../util/events"
 import { ServerInfo } from "../util/constants";
 import { ObjectType } from "./define";
 import { ILifeCycle } from "./ILifeCycle";
+import { IComponent } from "./IComponent";
 
 export interface ComponentContructor
 {

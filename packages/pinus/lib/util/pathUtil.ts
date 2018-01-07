@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import * as Constants from './constants';
-import { RemoteServerCode } from '../../index';
+import { RemoteServerCode } from '../index';
 
 /**
  * Get system remote service path

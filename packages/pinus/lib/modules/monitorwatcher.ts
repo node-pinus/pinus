@@ -4,8 +4,7 @@ import { default as events } from '../util/events';
 import * as Constants from '../util/constants';
 import * as util from 'util';
 import { Application } from '../application';
-import { IModule } from 'pinus-admin';
-import { ConsoleService, MonitorAgent, MonitorCallback } from '../../index';
+import { IModule, ConsoleService, MonitorAgent, MonitorCallback } from 'pinus-admin';
 import { ServerInfo } from '../util/constants';
 
 

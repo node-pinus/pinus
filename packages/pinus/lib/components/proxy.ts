@@ -12,8 +12,8 @@ import { getLogger } from 'pinus-logger';
 import { Application } from '../application';
 import { IComponent } from '../interfaces/IComponent';
 import { RpcClientOpts } from 'pinus-rpc';
-import { Session } from '../../index';
 import { ServerInfo } from '../util/constants';
+import { Session } from '../index';
 let logger = getLogger('pinus', __filename);
 
 export interface ProxyComponentOptions extends RpcClientOpts 

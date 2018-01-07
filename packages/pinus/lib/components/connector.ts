@@ -17,7 +17,7 @@ import { ScheduleOptions } from '../interfaces/IPushScheduler';
 import { SessionComponent } from './session';
 import { IConnector, IEncoder, IDecoder } from '../interfaces/IConnector';
 import { ISocket } from '../interfaces/ISocket';
-import { Session } from '../../index';
+import { Session } from '../common/service/sessionService';
 
 export type BlackListFunction = (process : (err : Error, list : string[])=>void)=>void;
 export interface ConnectorComponentOptions

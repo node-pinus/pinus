@@ -2,7 +2,7 @@ import * as utils from '../util/utils';
 import { Application } from '../application';
 import { SID } from '../util/constants';
 import { ScheduleOptions, BroadcastOptions } from '../interfaces/IPushScheduler';
-import { Session } from '../../index';
+import { Session } from '../index';
 let DEFAULT_FLUSH_INTERVAL = 20;
 
 export interface BufferPushSchedulerOptions

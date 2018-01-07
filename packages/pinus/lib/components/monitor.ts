@@ -5,7 +5,7 @@
 import { Monitor, MonitorOptions } from '../monitor/monitor';
 import { IComponent } from '../interfaces/IComponent';
 import { Application } from '../application';
-import { MasterInfo } from '../../index';
+import { MasterInfo } from '../index';
 
 
 

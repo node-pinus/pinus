@@ -8,10 +8,10 @@ import * as moduleUtil from '../util/moduleUtil';
 import * as utils from '../util/utils';
 import * as Constants from '../util/constants';
 import { Application } from '../application';
-import { ConsoleService } from 'pinus-admin';
-import { IModule, MasterInfo } from '../../index';
+import { ConsoleService, IModule } from 'pinus-admin';
 import { ServerInfo } from '../util/constants';
 import { ServerStartArgs } from '../util/appUtil';
+import { MasterInfo } from '../index';
 export interface MonitorOptions
 {
     closeWatcher ?: boolean;
