@@ -1,5 +1,5 @@
 /*!
- * Pomelo -- consoleModule watchServer
+ * Pinus -- consoleModule watchServer
  * Copyright(c) 2013 fantasyni <fantasyni@163.com>
  * MIT Licensed
  */
@@ -540,7 +540,7 @@ function dumpCPU(handle : HandleType, _agent : MonitorAgent | MasterAgent, comd 
         let times = param['times'];
         let filepath = param['filepath'];
         let force = param['force'];
-        cb(null, 'cpu dump is unused in 1.0 of pomelo');
+        cb(null, 'cpu dump is unused in 1.0 of pinus');
 		/**
 		if (!/\.cpuprofile$/.test(filepath)) {
 			filepath = filepath + '.cpuprofile';

@@ -1,17 +1,17 @@
 # Commands list  
 
-- [use](https://github.com/NetEase/pomelo-cli/wiki/pomelo-cli-man-page#use)  
-- [quit](https://github.com/NetEase/pomelo-cli/wiki/pomelo-cli-man-page#quit)  
-- [kill](https://github.com/NetEase/pomelo-cli/wiki/pomelo-cli-man-page#kill)  
-- [exec](https://github.com/NetEase/pomelo-cli/wiki/pomelo-cli-man-page#exec)  
-- [get](https://github.com/NetEase/pomelo-cli/wiki/pomelo-cli-man-page#get)  
-- [set](https://github.com/NetEase/pomelo-cli/wiki/pomelo-cli-man-page#set)  
-- [add](https://github.com/NetEase/pomelo-cli/wiki/pomelo-cli-man-page#add)  
-- [stop](https://github.com/NetEase/pomelo-cli/wiki/pomelo-cli-man-page#stop)  
-- [show](https://github.com/NetEase/pomelo-cli/wiki/pomelo-cli-man-page#show)  
-- [enable](https://github.com/NetEase/pomelo-cli/wiki/pomelo-cli-man-page#enable)  
-- [disable](https://github.com/NetEase/pomelo-cli/wiki/pomelo-cli-man-page#disable)  
-- [dump](https://github.com/NetEase/pomelo-cli/wiki/pomelo-cli-man-page#dump)  
+- [use](https://github.com/NetEase/pinus-cli/wiki/pinus-cli-man-page#use)  
+- [quit](https://github.com/NetEase/pinus-cli/wiki/pinus-cli-man-page#quit)  
+- [kill](https://github.com/NetEase/pinus-cli/wiki/pinus-cli-man-page#kill)  
+- [exec](https://github.com/NetEase/pinus-cli/wiki/pinus-cli-man-page#exec)  
+- [get](https://github.com/NetEase/pinus-cli/wiki/pinus-cli-man-page#get)  
+- [set](https://github.com/NetEase/pinus-cli/wiki/pinus-cli-man-page#set)  
+- [add](https://github.com/NetEase/pinus-cli/wiki/pinus-cli-man-page#add)  
+- [stop](https://github.com/NetEase/pinus-cli/wiki/pinus-cli-man-page#stop)  
+- [show](https://github.com/NetEase/pinus-cli/wiki/pinus-cli-man-page#show)  
+- [enable](https://github.com/NetEase/pinus-cli/wiki/pinus-cli-man-page#enable)  
+- [disable](https://github.com/NetEase/pinus-cli/wiki/pinus-cli-man-page#disable)  
+- [dump](https://github.com/NetEase/pinus-cli/wiki/pinus-cli-man-page#dump)  
 
 # Use
 use another server. takes serverId|all as argument  
@@ -25,7 +25,7 @@ example: use all
 **note**: context is what your command will be applied to  
 
 # Quit
-type **quit** and you can quit pomelo-cli  
+type **quit** and you can quit pinus-cli  
 
 # Kill
 kill all servers   
@@ -35,7 +35,7 @@ example: **kill**
 # Exec
 exec script files  
 example: exec {filepath}  
-filepath can be relative path to your pomelo-cli pwd path  
+filepath can be relative path to your pinus-cli pwd path  
 ```
 example : exec xxx.js  
 ```
@@ -79,7 +79,7 @@ example: set {key} {value}
 **note**: value must be string or simple value   
 
 # Add  
-add server to pomelo clusters  
+add server to pinus clusters  
 add args are key=value from servers.json config files  
 ```
 example: add host=127.0.0.1 port=3451 serverType=chat id=chat-server-2  

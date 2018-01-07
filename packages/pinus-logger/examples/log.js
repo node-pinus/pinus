@@ -1,4 +1,4 @@
-var logger = require('pomelo-logger').getLogger('log', __filename, process.pid);
+var logger = require('pinus-logger').getLogger('log', __filename, process.pid);
 
 process.env.LOGGER_LINE = true;
 logger.info('test1');

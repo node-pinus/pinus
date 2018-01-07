@@ -1,5 +1,5 @@
 /*!
- * Pomelo -- consoleModule monitorLog
+ * Pinus -- consoleModule monitorLog
  * Copyright(c) 2012 fantasyni <fantasyni@163.com>
  * MIT Licensed
  */

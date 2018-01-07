@@ -449,7 +449,7 @@ let doFilter = function (tracer: Tracer, err: Error, serverId: string, msg: Mail
         filter(serverId, msg, opts, function (target: any, message: MailBoxMessage, options: object)
         {
             index++;
-            //compatible for pomelo filter next(err) method
+            //compatible for pinus filter next(err) method
             if (utils.getObjectClass(target) === 'Error')
             {
                 doFilter(tracer, target, serverId, msg, opts, filters, index, operate, cb);

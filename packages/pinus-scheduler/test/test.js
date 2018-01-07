@@ -1,4 +1,4 @@
-var schedule = require('pomelo-scheduler');
+var schedule = require('pinus-scheduler');
 
 var cronJob = function() {
 	console.log('doing %s', Date.now())

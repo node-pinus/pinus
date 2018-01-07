@@ -104,7 +104,7 @@ export class MqttAdaptor
      *
      * if packet.id exist and this.subReqs[packet.id] exist then packet is a suback.
      * Subscription is request/response mode.
-     * packet.id is pass from client in packet.messageId and record in Pomelo context and attached to the subscribe response packet.
+     * packet.id is pass from client in packet.messageId and record in Pinus context and attached to the subscribe response packet.
      * packet.body is the context that returned by subscribe next callback.
      *
      * if packet.id not exist then packet is a publish message.

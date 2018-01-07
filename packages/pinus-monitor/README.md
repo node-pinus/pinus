@@ -7,11 +7,11 @@ Simple, comprehensive monitoring tool for operating-system and process in nodejs
 
 ## Installation
 
-	$ npm install -g pomelo-monitor
+	$ npm install -g pinus-monitor
 
 ## Usage
 
-	var monitor = require(pomelo-monitor);
+	var monitor = require(pinus-monitor);
 
 	var param = {
 		pid: process.pid,

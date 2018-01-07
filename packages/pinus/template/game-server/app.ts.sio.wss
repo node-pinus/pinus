@@ -13,14 +13,14 @@ var fs = require('fs');
 /**
  * Init app for client.
  */
-var app = pomelo.createApp();
+var app = pinus.createApp();
 app.set('name', '$');
 
 // app configuration
 app.configure('production|development', function(){
   app.set('connectorConfig',
     {
-      connector : pomelo.connectors.sioconnector,
+      connector : pinus.connectors.sioconnector,
       key: fs.readFileSync('../shared/server.key'),
   		cert: fs.readFileSync('../shared/server.crt')
     });

@@ -1,5 +1,5 @@
 /*!
- * Pomelo
+ * Pinus
  * Copyright(c) 2012 xiechengchao <xiecc@163.com>
  * MIT Licensed
  */
@@ -50,7 +50,7 @@ import { ChannelComponent } from './components/channel';
  * @module
  */
 
-export class Pomelo
+export class Pinus
 {
     private _app: Application;
     /**
@@ -133,7 +133,7 @@ export class Pomelo
      * Create an pinus application.
      *
      * @return {Application}
-     * @memberOf Pomelo
+     * @memberOf Pinus
      * @api public
      */
     createApp(opts ?: ApplicationOptions)
@@ -153,4 +153,4 @@ export class Pomelo
     }
 }
 
-export let pinus = new Pomelo();
+export let pinus = new Pinus();

@@ -11,14 +11,14 @@ preload();
 /**
  * Init app for client.
  */
-var app = pomelo.createApp();
+var app = pinus.createApp();
 app.set('name', '$');
 
 // app configuration
 app.configure('production|development', 'connector', function(){
   app.set('connectorConfig',
     {
-      connector : pomelo.connectors.sioconnector,
+      connector : pinus.connectors.sioconnector,
       // 'websocket', 'polling-xhr', 'polling-jsonp', 'polling'
       transports : ['websocket', 'polling'],
       heartbeats : true,

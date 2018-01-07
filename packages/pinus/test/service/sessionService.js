@@ -1,5 +1,5 @@
 var should = require('should');
-var pomelo = require('../../');
+var pinus = require('../../');
 var SessionService = require('../../lib/common/service/sessionService');
 
 describe('session service test', function() {

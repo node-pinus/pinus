@@ -26,7 +26,7 @@ export default function (program: program.CommanderStatic)
  */
 function list(opts : any)
 {
-    let id = 'pomelo_list_' + Date.now();
+    let id = 'pinus_list_' + Date.now();
     connectToMaster(id, opts, function (client: AdminClient)
     {
         client.request(co.moduleId, { signal: 'list' }, function (err : Error, data : any)

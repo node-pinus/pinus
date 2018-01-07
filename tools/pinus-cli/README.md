@@ -1,33 +1,33 @@
-pomelo-cli
+pinus-cli
 ========
 
-pomelo-cli is a command-line tool for [pomelo](https://github.com/NetEase/pomelo).  
-you can use pomelo-cli to connect to pomelo master and do lots of things.
+pinus-cli is a command-line tool for [pinus](https://github.com/NetEase/pinus).  
+you can use pinus-cli to connect to pinus master and do lots of things.
 
 ##Installation
 ```
-npm install -g pomelo-cli
+npm install -g pinus-cli
 ```
 ##Usage
-Use pomelo-cli to connect to pomelo master  
+Use pinus-cli to connect to pinus master  
 
 ```
-pomelo-cli -h host -P port -u username -p password  
+pinus-cli -h host -P port -u username -p password  
 ```  
 
-The default parameter of pomelo-cli is as follows:
+The default parameter of pinus-cli is as follows:
 
 ```  
-pomelo-cli -h 127.0.0.1 -P 3005 -u monitor -p monitor 
+pinus-cli -h 127.0.0.1 -P 3005 -u monitor -p monitor 
 ```  
 
-After that, pomelo-cli will enter repl mode. You can type 'help' for more information. 
+After that, pinus-cli will enter repl mode. You can type 'help' for more information. 
 Enjoy it:
-![pomelo-cli help](http://ww1.sinaimg.cn/mw690/b7bc844fgw1eaa5s16o2uj20hv0k4whw.jpg)
+![pinus-cli help](http://ww1.sinaimg.cn/mw690/b7bc844fgw1eaa5s16o2uj20hv0k4whw.jpg)
 
 ## Links
-[user level control](https://github.com/NetEase/pomelo-admin#user-level-control)  
-[commands wiki](https://github.com/NetEase/pomelo-cli/wiki/pomelo-cli-man-page)
+[user level control](https://github.com/NetEase/pinus-admin#user-level-control)  
+[commands wiki](https://github.com/NetEase/pinus-cli/wiki/pinus-cli-man-page)
 
 ## License
 

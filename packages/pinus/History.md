@@ -1,7 +1,7 @@
 2.2.5 / 2017-1-22
 =================
-  * [#815](https://github.com/NetEase/pomelo/pull/815)
-  * [#901](https://github.com/NetEase/pomelo/pull/901)
+  * [#815](https://github.com/NetEase/pinus/pull/815)
+  * [#901](https://github.com/NetEase/pinus/pull/901)
 
 2.2.4 / 2017-1-20
 =================
@@ -13,7 +13,7 @@
 
 2.2.2 / 2017-1-20
 =================
-  * [#899](https://github.com/NetEase/pomelo/pull/899)
+  * [#899](https://github.com/NetEase/pinus/pull/899)
 
 2.2.1 / 2017-1-20
 =================
@@ -28,16 +28,16 @@
 1.2.1 / 2015-12-31
 ================
   * [NEW] upgrade ws to 0.8.0
-  * [#771](https://github.com/NetEase/pomelo/pull/771)
-  * [#774](https://github.com/NetEase/pomelo/pull/774)
+  * [#771](https://github.com/NetEase/pinus/pull/771)
+  * [#774](https://github.com/NetEase/pinus/pull/774)
   * [FIX] tls: destory connection when clientError
 
 1.2.0 / 2015-09-18
 =================
   * [NEW] upgrade pinus-admin to 0.4.5
-  * [#751](https://github.com/NetEase/pomelo/pull/751)
-  * [#741](https://github.com/NetEase/pomelo/pull/741)
-  * [#740](https://github.com/NetEase/pomelo/pull/740)
+  * [#751](https://github.com/NetEase/pinus/pull/751)
+  * [#741](https://github.com/NetEase/pinus/pull/741)
+  * [#740](https://github.com/NetEase/pinus/pull/740)
   * [FIX] fix wrong variable in protobuf
 
 1.1.9 / 2015-06-05
@@ -54,11 +54,11 @@
 
 1.1.7 / 2015-05-12
 =================
-  * [#706](https://github.com/NetEase/pomelo/pull/706)
-  * [#707](https://github.com/NetEase/pomelo/pull/707)
-  * [#443](https://github.com/NetEase/pomelo/pull/443)
-  * [#444](https://github.com/NetEase/pomelo/pull/444)
-  * [#713](https://github.com/NetEase/pomelo/pull/713)
+  * [#706](https://github.com/NetEase/pinus/pull/706)
+  * [#707](https://github.com/NetEase/pinus/pull/707)
+  * [#443](https://github.com/NetEase/pinus/pull/443)
+  * [#444](https://github.com/NetEase/pinus/pull/444)
+  * [#713](https://github.com/NetEase/pinus/pull/713)
   * [NEW] upgrade pinus-rpc to 0.4.9
   * [NEW] upgrade pinus-admin to 0.4.3
 
@@ -74,45 +74,45 @@
 
 1.1.4 / 2015-01-23
 =================
-  [#670](https://github.com/NetEase/pomelo/pull/670)
-  [#669](https://github.com/NetEase/pomelo/pull/669)
-  [#666](https://github.com/NetEase/pomelo/pull/666)
-  [#665](https://github.com/NetEase/pomelo/pull/665)
-  [#662](https://github.com/NetEase/pomelo/pull/662)
-  [#659](https://github.com/NetEase/pomelo/pull/659)
-  [#657](https://github.com/NetEase/pomelo/pull/657)
-  [#653](https://github.com/NetEase/pomelo/pull/653)
+  [#670](https://github.com/NetEase/pinus/pull/670)
+  [#669](https://github.com/NetEase/pinus/pull/669)
+  [#666](https://github.com/NetEase/pinus/pull/666)
+  [#665](https://github.com/NetEase/pinus/pull/665)
+  [#662](https://github.com/NetEase/pinus/pull/662)
+  [#659](https://github.com/NetEase/pinus/pull/659)
+  [#657](https://github.com/NetEase/pinus/pull/657)
+  [#653](https://github.com/NetEase/pinus/pull/653)
 
 1.1.2 / 2014-11-12
 =================
 * [NEW] introduce updateUserInfo for connectionService
-  [#637](https://github.com/NetEase/pomelo/pull/637)
+  [#637](https://github.com/NetEase/pinus/pull/637)
 * [FIX] fix wrong variable err using 
-  [#642](https://github.com/NetEase/pomelo/pull/642)
+  [#642](https://github.com/NetEase/pinus/pull/642)
 * [NEW] introduce cancelShutdownHook
-  [#644](https://github.com/NetEase/pomelo/pull/644)
+  [#644](https://github.com/NetEase/pinus/pull/644)
 * [FIX] revert PR #613, which should not be accepted
-  [#649](https://github.com/NetEase/pomelo/pull/649)
+  [#649](https://github.com/NetEase/pinus/pull/649)
 
 1.1.1 / 2014-10-10
 =================
 * [NEW] upgrade pinus-protocol to 0.1.4
-  [#616](https://github.com/NetEase/pomelo/pull/616)
+  [#616](https://github.com/NetEase/pinus/pull/616)
 * [FIX] incorrect this scope
-  [#622](https://github.com/NetEase/pomelo/pull/622)
+  [#622](https://github.com/NetEase/pinus/pull/622)
 * [FIX] fix bug on arg parse
-  [#623](https://github.com/NetEase/pomelo/pull/623)
+  [#623](https://github.com/NetEase/pinus/pull/623)
 * [FIX] connection without communication bug
 
 1.1.0 / 2014-09-12
 =================
-* [NEW] fit for libpomelo2
+* [NEW] fit for libpinus2
 * [NEW] upgrade pinus-rpc to 0.4.5
-  [#612](https://github.com/NetEase/pomelo/pull/612)
+  [#612](https://github.com/NetEase/pinus/pull/612)
 * [FIX] close http server after WebSocketServer.close
-  [#613](https://github.com/NetEase/pomelo/pull/613)
+  [#613](https://github.com/NetEase/pinus/pull/613)
 * [FIX] update timeout.js
-  [#614](https://github.com/NetEase/pomelo/pull/614)
+  [#614](https://github.com/NetEase/pinus/pull/614)
 * [FIX] fix typo
 
 1.0.4 / 2014-08-26
@@ -120,20 +120,20 @@
 * [NEW] upgrade pinus-rpc to 0.4.3
 * [NEW] upgrade pinus-logger to 0.1.6
 * [FIX] pinus-masterha-plugin reconnect bug miss parameter env
-* [#582](https://github.com/NetEase/pomelo/pull/582)
+* [#582](https://github.com/NetEase/pinus/pull/582)
 
 1.0.3 / 2014-07-18
 =================
 * [NEW] dictVersion : Similar to `protoVersion`, add `dictVersion` and skip sending dict when handshaking if possible.
-  [#572](https://github.com/NetEase/pomelo/pull/572)
+  [#572](https://github.com/NetEase/pinus/pull/572)
 * [FIX] CRON : Upgrade pinus-scheduler to v0.3.9. Fix a bug that will loss tasks if The number of days next month is greater than this month.
-  [#560](https://github.com/NetEase/pomelo/pull/560)
+  [#560](https://github.com/NetEase/pinus/pull/560)
   [pinus-scheduler#4](https://github.com/NetEase/pinus-scheduler/pull/4)
 * [FIX] hot update : Remove the error logging if a server doesn't have any handler.
-  [#562](https://github.com/NetEase/pomelo/pull/562)
-* [NEW] protobuf : Add `protobuf cache` into libpomelo, and add `useProto` handshake option to tell the client whether to use the protobuf.
-  [#564](https://github.com/NetEase/pomelo/pull/564)
-  [libpomelo#58](https://github.com/NetEase/libpomelo/pull/58)
+  [#562](https://github.com/NetEase/pinus/pull/562)
+* [NEW] protobuf : Add `protobuf cache` into libpinus, and add `useProto` handshake option to tell the client whether to use the protobuf.
+  [#564](https://github.com/NetEase/pinus/pull/564)
+  [libpinus#58](https://github.com/NetEase/libpinus/pull/58)
   [discuss(chinese)](http://nodejs.netease.com/topic/53c6c126898634292c8157a2)
 
 1.0.2 / 2014-07-10
@@ -220,7 +220,7 @@
 
 0.9.1 / 2014-03-03
 =================
-* fix pomelo stop auto-restart bug
+* fix pinus stop auto-restart bug
 * add restart-force option
 * add application.require method
 * export constants.js
@@ -245,7 +245,7 @@
 
 0.8.7 / 2014-01-28
 =================
-* refactor pomelo command, report remained servers if kill failed 
+* refactor pinus command, report remained servers if kill failed 
 
 0.8.6 / 2014-01-22
 =================
@@ -259,7 +259,7 @@
 
 0.8.4 / 2014-01-20
 =================
-* fix bin/pomelo spell bug
+* fix bin/pinus spell bug
 
 0.8.3 / 2014-01-16
 =================
@@ -281,7 +281,7 @@
 
 0.8.0 / 2013-12-24
 =================
-* refactor bin/pomelo
+* refactor bin/pinus
 * pushScheduler add option
 * add rpc invoke method
 * lifecycle callback feature
@@ -303,12 +303,12 @@
 
 0.7.5 / 2013-11-27
 =================
-* fix pomelo kill bug
+* fix pinus kill bug
 * fix rpc toobusy filter bug
 
 0.7.4 / 2013-11-20
 =================
-* fix pomelo add command
+* fix pinus add command
 * master start servers in 2 mode, detached in production, no detched in development
 
 0.7.3 / 2013-11-15
@@ -318,9 +318,9 @@
 0.7.2 / 2013-11-14
 =================
 * add start server detached mode
-* add masterha for pomelo stop&list
+* add masterha for pinus stop&list
 * fix auto-restart disconnect bug
-* update pomelo start for different envs
+* update pinus start for different envs
 
 0.7.1 / 2013-11-11
 =================
@@ -358,7 +358,7 @@
 0.6.4 / 2013-9-27
 =================
 * update logger config && test log4js config
-* update require pomelo path & unuse module
+* update require pinus path & unuse module
 * merge pull request update readme #295
 
 0.6.3 / 2013-9-10
@@ -504,7 +504,7 @@
 ==================
 
 * fix server not verifing useDict, useProtobuf bug
-* fix can not start pomelo from ide bug
+* fix can not start pinus from ide bug
 * add host param in listen for hybridconnector, which is important for some load balance strategy
 
 0.3.3 / 2013-3-12

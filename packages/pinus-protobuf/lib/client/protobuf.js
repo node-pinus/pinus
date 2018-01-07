@@ -1,7 +1,7 @@
 /* ProtocolBuffer client 0.1.0*/
 
 /**
- * pomelo-protobuf
+ * pinus-protobuf
  * @author <zhang0935@gmail.com>
  */
 

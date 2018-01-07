@@ -69,7 +69,7 @@ export class Command implements ICommand
 					rl.setPrompt(PROMPT);
 				} else
 				{
-					util.log('\ncommand \'use ' + comd + '\' error for serverId ' + comd + ' not in pomelo clusters\n');
+					util.log('\ncommand \'use ' + comd + '\' error for serverId ' + comd + ' not in pinus clusters\n');
 				}
 			}
 			rl.prompt();

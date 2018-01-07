@@ -26,7 +26,7 @@ export default function (program: program.CommanderStatic)
 
 function restart(opts : any)
 {
-    let id = 'pomelo_restart_' + Date.now();
+    let id = 'pinus_restart_' + Date.now();
     let serverIds : string[] = [];
     let type : string = null;
     if (!!opts.id)

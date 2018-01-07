@@ -1,5 +1,5 @@
 var should = require('should');
-var pomelo = require('../../');
+var pinus = require('../../');
 var consoleModule = require('../../lib/modules/console');
 
 describe('console module test', function() {

@@ -20,7 +20,7 @@ export default function doConnect()
     password: password,
     md5: true
   });
-  let id = 'pomelo_cli_' + Date.now();
+  let id = 'pinus_cli_' + Date.now();
   client.connect(id, host, port, function (err: Error)
   {
     if (err)

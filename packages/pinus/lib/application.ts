@@ -1,5 +1,5 @@
 /*!
- * Pomelo -- proto
+ * Pinus -- proto
  * Copyright(c) 2012 xiechengchao <xiecc@163.com>
  * MIT Licensed
  */

@@ -1,26 +1,26 @@
 [![Build Status](https://travis-ci.org/node-pinus/pinus-admin.svg?branch=master)](https://travis-ci.org/node-pinus/pinus-admin)
 
-#pomelo-admin
+#pinus-admin
 
-`pomelo-admin` is an admin console library for [pomelo](https://github.com/NetEase/pomelo). It provides the a series of utilities to monitor the `pomelo` server clusters.
+`pinus-admin` is an admin console library for [pinus](https://github.com/NetEase/pinus). It provides the a series of utilities to monitor the `pinus` server clusters.
 
 ##Installation
 
 ```
-npm install pomelo-admin
+npm install pinus-admin
 ```
 
 ##Basic conception
 
 ###Process roles
 
-There are three process roles in `pomelo-admin`: master, monitor and client.
+There are three process roles in `pinus-admin`: master, monitor and client.
 
 + master - the master server process, collects and maintains all the client and monitor status and exports the cluster status for the clients.  
 
 + monitor - monitor proxy, in every server process which needs to be monitored. It should be started during the process starts and registers itself to the master server and reports the monitored process status to the master. 
 
-+ client - `pomelo-admin` client process that fetches the status from master server, such as [pomelo-admin-web](https://github.com/NetEase/pomelo-admin-web) and [pomelo-cli](https://github.com/NetEase/pomelo-cli).
++ client - `pinus-admin` client process that fetches the status from master server, such as [pinus-admin-web](https://github.com/NetEase/pinus-admin-web) and [pinus-cli](https://github.com/NetEase/pinus-cli).
 
 ###Message types
 
@@ -34,19 +34,19 @@ There are two message types of the communication between processes.
 
 ###ConsoleService 
 
-Main service of `pomelo-admin` that runs in both master and monitor processes. It maintains the master agent or monitor agent for the process, loads the registed modules and provides the messages routing service for the messages from other processes.
+Main service of `pinus-admin` that runs in both master and monitor processes. It maintains the master agent or monitor agent for the process, loads the registed modules and provides the messages routing service for the messages from other processes.
 
 ###MasterAgent  
 
-`pomelo-admin` agent that runs on the master process to provide the basic network communication and protocol encoding and decoding.
+`pinus-admin` agent that runs on the master process to provide the basic network communication and protocol encoding and decoding.
 
 ###MonitorAgent  
 
-`pomelo-admin` agent that runs on the monitor process to provide the basic network communication and protocol encoding and decoding. 
+`pinus-admin` agent that runs on the monitor process to provide the basic network communication and protocol encoding and decoding. 
 
 ###Module  
  
-Module is the place to implement the monitor logic, such as process status collecting. Developer can register modules in `pomelo-admin` to customize all kinds of system monitors.
+Module is the place to implement the monitor logic, such as process status collecting. Developer can register modules in `pinus-admin` to customize all kinds of system monitors.
 
 There are three optional callback functions in each module.
 
@@ -59,13 +59,13 @@ There are three optional callback functions in each module.
 The relations of the components is as below:
 
 <center>
-![pomelo-admin-arch](http://pomelo.netease.com/resource/documentImage/pomelo-admin-arch.png)
+![pinus-admin-arch](http://pinus.netease.com/resource/documentImage/pinus-admin-arch.png)
 </center>
 
 ##Usage
 
 ```javascript
-var admin = require("pomelo-admin");
+var admin = require("pinus-admin");
 ```
 
 Create a consoleService instance in master process.
@@ -115,12 +115,12 @@ var Module = function(app, opts) {
   this.interval = opts.interval || 5; // pull or push interval
 };
 
-Module.moduleId = 'helloPomelo';
+Module.moduleId = 'helloPinus';
 
 module.exports = Module;
 
 Module.prototype.monitorHandler = function(agent, msg) {
-  var word = agent.id + ' hello pomelo';
+  var word = agent.id + ' hello pinus';
   // notify admin messages to master
   agent.notify(Module.moduleId, {serverId: agent.id, body: word});
 };
@@ -149,17 +149,17 @@ Module.prototype.clientHandler = function(agent, msg, cb) {
 
 ###Register customized modules
 
-you must register your customized modules to pomelo to make it work.  
+you must register your customized modules to pinus to make it work.  
 write in app.js which is in your project's root directory  
 
 ```javascript
 app.configure('production|development', function() {
-  app.registerAdmin('helloPomelo',new helloPomelo());
+  app.registerAdmin('helloPinus',new helloPinus());
 });
 ```
 
 ##User level control  
-pomelo-admin defines user level for admin client to login master server in this schema  
+pinus-admin defines user level for admin client to login master server in this schema  
 ```javascript
 {
     "id": "user-1",
@@ -197,8 +197,8 @@ adminUser.json
 ```
 
 ##Self-defined auth 
-pomelo-admin provides a simple auth function in [pomelo-admin auth](https://github.com/NetEase/pomelo-admin/blob/master/lib/util/utils.js#L78)  
-developers can provide self-defined auth in pomelo by  
+pinus-admin provides a simple auth function in [pinus-admin auth](https://github.com/NetEase/pinus-admin/blob/master/lib/util/utils.js#L78)  
+developers can provide self-defined auth in pinus by  
 in master server
 ```javascript
 app.set('adminAuthUser', function(msg, cb){
@@ -212,8 +212,8 @@ app.set('adminAuthUser', function(msg, cb){
 
 ##Server master auth  
 server connect to master with authorization  
-pomelo-admin provides a simple auth function in [pomelo-admin auth](https://github.com/NetEase/pomelo-admin/blob/master/lib/util/utils.js#L117)  
-developers can provide self-defined auth in pomelo by  
+pinus-admin provides a simple auth function in [pinus-admin auth](https://github.com/NetEase/pinus-admin/blob/master/lib/util/utils.js#L117)  
+developers can provide self-defined auth in pinus by  
 in master server
 ```javascript
 app.set('adminAuthServerMaster', function(msg, cb){
@@ -253,11 +253,11 @@ adminServer.json
 ```
 
 **type** is the serverType, **token** is a string you can genrate by yourself  
-when using in pomelo, you should fill all your servers with type:token  
+when using in pinus, you should fill all your servers with type:token  
 
 ###Notes  
 
-`pomelo-admin` provides a series of useful system modules by default. But most of them are turned off by default. Add a simple line of code in `app.js` as below to enable them.
+`pinus-admin` provides a series of useful system modules by default. But most of them are turned off by default. Add a simple line of code in `app.js` as below to enable them.
 
 ```javascript
 app.configure('development', function() {

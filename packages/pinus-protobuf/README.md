@@ -1,12 +1,12 @@
 [![Build Status](https://travis-ci.org/node-pinus/pinus-protobuf.svg?branch=master)](https://travis-ci.org/node-pinus/pinus-protobuf)
 
-#Pomelo-protobuf
+#Pinus-protobuf
   Protobuf protocol is a high efficient binary protocol for data encode, this module implement the protobuf protocol, and used in [pinus](https://github.com/mybios/pinus) for data transfer.
 Of course, pinus-protobuf can also be used independently in other projects.
 ##Architecture
 Unlike the google protobuf, we provide a universal encoder and decoder in pinus-protobuf. We use protos file as meta data to encode/decode messages, so you do not need to add any code to your project, instead , what you need is to add a protos.json (or two for different encoder and decoder messages) files to define the message need to encode by protobuf.The architecture of pinus-protobuf is as follow:
 
-![pinus protobuf](http://pinus.netease.com/resource/documentImage/protocol/Protobuf_pomelo.png)
+![pinus protobuf](http://pinus.netease.com/resource/documentImage/protocol/Protobuf_pinus.png)
 
 ##Usage
 ###Define protos
@@ -77,7 +77,7 @@ you can write rootMessage in protos for global usage
 ```
 
 ###Server side and Client side
-Pomelo-protobuf has server code and client code for js.
+Pinus-protobuf has server code and client code for js.
 
 - The server code run in Node.JS environment, use Buffer to represent the binary data.
 - The client side code run on browser, use ByteArray to represent the binary data.
@@ -147,8 +147,8 @@ Some how we has some changes in the proto file, and there are some features we d
 
 - **package** : The array with simple content (integer, float) are packaged by default.And the complex content(message, string) are not packaged.
 
-- **long** : Pomelo protocol do not support long type, because there are no long int in javascript.All the integer bigger than 32 bits will be translate to a 64bit float, which has only has 52 bits significant figure. It will lost presion for any integer has more than 52 bits significant figures.
+- **long** : Pinus protocol do not support long type, because there are no long int in javascript.All the integer bigger than 32 bits will be translate to a 64bit float, which has only has 52 bits significant figure. It will lost presion for any integer has more than 52 bits significant figures.
 
-- **default** : Pomelo-protobuf do not support default keyword, for the default value is only used to initialized the element at the decoder side, which can be done by the constructor.
+- **default** : Pinus-protobuf do not support default keyword, for the default value is only used to initialized the element at the decoder side, which can be done by the constructor.
 
-- **enum** : Pomelo-protobuf do not support the enum keyword.
+- **enum** : Pinus-protobuf do not support the enum keyword.

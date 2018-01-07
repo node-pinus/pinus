@@ -1,5 +1,5 @@
 {
-  "name": "pomelo-robot",
+  "name": "pinus-robot",
   "version": "1.2.9-y.10",
   "private": false,
   "dependencies": {
@@ -13,14 +13,14 @@
   },
   "readmeFilename": "README.md",
   "gitHead": "d33db82d670b7a5d21c95e15f91548f8a8ba7821",
-  "description": "pomelo-robot is a simple tool to benchmark the socket.io server's performance.",
+  "description": "pinus-robot is a simple tool to benchmark the socket.io server's performance.",
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/NetEase/pomelo-robot.git"
+    "url": "git://github.com/node-pinus/pinus.git"
   },
   "keywords": [
-    "pomelo",
+    "pinus",
     "client",
     "robot"
   ],

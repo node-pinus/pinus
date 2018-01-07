@@ -1,4 +1,4 @@
-var logger = require('pomelo-logger').getLogger('pomelo-admin', 'test_module');
+var logger = require('pinus-logger').getLogger('pinus-admin', 'test_module');
 
 var DEFAULT_INTERVAL = 5; // in second
 var DEFAULT_DELAY = 1; // in second

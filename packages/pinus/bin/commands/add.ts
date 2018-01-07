@@ -30,7 +30,7 @@ export default function (program: program.CommanderStatic)
  */
 function add(opts : any)
 {
-    let id = 'pomelo_add_' + Date.now();
+    let id = 'pinus_add_' + Date.now();
     connectToMaster(id, opts, function (client)
     {
         client.request(co.moduleId, { signal: 'add', args: opts.args }, function (err : Error)

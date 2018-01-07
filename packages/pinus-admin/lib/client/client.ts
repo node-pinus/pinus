@@ -1,5 +1,5 @@
 /*!
- * Pomelo -- commandLine Client
+ * Pinus -- commandLine Client
  * Copyright(c) 2015 fantasyni <fantasyni@163.com>
  * MIT Licensed
  */

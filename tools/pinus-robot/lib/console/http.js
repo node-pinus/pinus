@@ -159,7 +159,7 @@ HttpServer.prototype.serveFile_ = function(file, response) {
 	  }
 		if (file==='./')
 			file = 'index.html';
-	  file = process.cwd() + '/node_modules/pomelo-robot/lib/console/' + file;
+	  file = process.cwd() + '/node_modules/pinus-robot/lib/console/' + file;
     fs.stat(file, function(err, stat) {
         if (err) {
             response.writeHead(404, {"Content-Type": "text/plain"});

@@ -3,7 +3,7 @@ var Protocol = require('../');
 var Package = Protocol.Package;
 var Message = Protocol.Message;
 
-describe('Pomelo protocol test', function() {
+describe('Pinus protocol test', function() {
   describe('String encode and decode', function() {
     it('should be ok to encode and decode Chinese string', function() {
       var str = '你好, abc~~~';

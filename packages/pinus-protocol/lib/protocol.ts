@@ -53,7 +53,7 @@ export namespace Package
   /**
    * Package protocol encode.
    *
-   * Pomelo package format:
+   * Pinus package format:
    * +------+-------------+------------------+
    * | type | body length |       body       |
    * +------+-------------+------------------+

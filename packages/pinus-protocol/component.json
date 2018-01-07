@@ -1,8 +1,8 @@
 {
-  "name": "pomelo-protocol",
-  "description": "pomelo-protocol",
+  "name": "pinus-protocol",
+  "description": "pinus-protocol",
   "keywords": [
-    "pomelo",
+    "pinus",
     "protocol"
   ],
   "version": "0.1.3",
@@ -10,5 +10,5 @@
   "scripts": [
     "lib/protocol.js"
   ],
-  "repo": "https://github.com/NetEase/pomelo-protocol"
+  "repo": "https://github.com/NetEase/pinus-protocol"
 }

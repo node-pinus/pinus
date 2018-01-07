@@ -14,7 +14,7 @@ node.js自身特点与游戏服务器的特性惊人的吻合。 在node.js的�
 ### 一个典型的多进程MMO运行架构， 如下图所示：
 
 
- ![MMO运行架构](http://pomelo.netease.com/resource/documentImage/mmoArchitecture.png)
+ ![MMO运行架构](http://pinus.netease.com/resource/documentImage/mmoArchitecture.png)
 
 
 说明： 上图中的方块表示进程， 定义上等同于“服务器“
@@ -42,7 +42,7 @@ pinus正是这样一个框架，它使我们用最少的代码， 最清晰的�
 pinus framework的组成架构如图所示：
 
 
- ![pinus框架](http://pomelo.netease.com/resource/documentImage/pomelo-arch.png)
+ ![pinus框架](http://pinus.netease.com/resource/documentImage/pinus-arch.png)
 
 
 * server management, pinus是个真正多进程、分布式的游戏服务器。因此各游戏server(进程)的管理是pinus很重要的部分，框架通过抽象使服务器的管理非常容易。
@@ -77,7 +77,7 @@ pinus framework的组成架构如图所示：
 该架构把游戏服务器做了抽象， 抽象成为两类：前端服务器和后端服务器， 如图：
 
 
-![服务器抽象](http://pomelo.netease.com/resource/documentImage/serverAbstraction.png)
+![服务器抽象](http://pinus.netease.com/resource/documentImage/serverAbstraction.png)
 
  
 前端服务器(frontend)的职责：
@@ -99,7 +99,7 @@ pinus framework的组成架构如图所示：
 利用目录结构与服务器对应的形式， 可以快速实现服务器的抽象。
 
 以下是示例图：
-![目录结构](http://pomelo.netease.com/resource/documentImage/directory.png)
+![目录结构](http://pinus.netease.com/resource/documentImage/directory.png)
  
 图中的connector, area, chat三个目录代表三类服务器类型， 每个目录下的handler与remote决定了这个服务器的行为（对外接口）。 开发者只要往handler与remote目录填代码， 就可以实现某一类的服务器。这让服务器实现起来非常方便。
 让服务器动起来， 只要填一份配置文件servers.json就可以让服务器快速动起来。
@@ -130,7 +130,7 @@ pinus framework的组成架构如图所示：
 下图的代码是一个request请求示例：
  
 
-![请求示例](http://pomelo.netease.com/resource/documentImage/request.png)
+![请求示例](http://pinus.netease.com/resource/documentImage/request.png)
 
 
 请求的api与web应用的ajax请求很象，基于Convention over configuration的原则， 请求不需要任何配置。 如下图所示，请求的route字符串：chat.chatHandler.send， 它可以将请求分发到chat服务器上chatHandler文件定义的send方法。
@@ -142,7 +142,7 @@ Pinus的框架里还实现了request的filter机制，广播/组播机制，详�
 服务器间的RPC调用也实现了零配置。实例如下图所示：
  
 
-![rpc调用](http://pomelo.netease.com/resource/documentImage/rpcInterface.png)
+![rpc调用](http://pinus.netease.com/resource/documentImage/rpcInterface.png)
 
 
 上图的remote目录里定义了一个RPC接口： chatRemote.js，它的接口定义如下：
@@ -163,7 +163,7 @@ component是pinus自定义组件，开发者可自加载自定义的component。
 component在[pinus框架参考](https://github.com/node-pinus/pinus/wiki/Pinus-Framework)将有更深入的讨论。
 以下是component的生命周期图：
 
-![components](http://pomelo.netease.com/resource/documentImage/components.png)
+![components](http://pinus.netease.com/resource/documentImage/components.png)
 
 
 用户只要实现component相关的接口： start, afterStart, stop, 就可以加载自定义的组件：
