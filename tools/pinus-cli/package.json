@@ -2,10 +2,6 @@
   "name": "pinus-cli",
   "version": "1.2.9-y.12",
   "description": "pinus command line client for managing pinus",
-  "files": [
-    "dist",
-    "lib"
-  ],
   "scripts": {
     "build": "tsc",
     "start": "yarn run build && node dist/index",

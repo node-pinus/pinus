@@ -14,7 +14,8 @@
   ],
     "noImplicitAny": false, //在表达式和声明上有隐含的'any'类型时报错。
     "noImplicitThis": false,
-    "sourceMap": true,     //用于debug
+    "inlineSourceMap": true,
+
 
     "rootDirs": ["."],      //仅用来控制输出的目录结构--outDir。
     "outDir":"./dist",     //重定向输出目录。

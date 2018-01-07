@@ -4,10 +4,6 @@
 	"author": "mybios <mybios@qq.com>",
 	"main": "./dist/schedule",
 	"types": "./lib/schedule",
-	"files": [
-		"dist",
-		"lib"
-	],
 	"scripts": {
 		"build": "tsc",
 		"start": "yarn run build && node dist/index",

@@ -4,10 +4,6 @@
     "private": false,
     "main": "./dist/index",
     "types": "./lib/index",
-    "files": [
-        "dist",
-        "lib"
-    ],
     "scripts": {
         "build": "tsc",
         "start": "yarn run build && node dist/index",
