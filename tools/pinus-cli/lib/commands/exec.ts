@@ -2,7 +2,7 @@ import { getLogger } from 'pinus-logger';
 let logger = getLogger(__filename);
 import * as util from '../util';
 import { consts } from '../consts';
-import * as cliff from 'cliff';
+require('cliff')
 import * as fs from 'fs';
 import { ICommand, AgentCommand } from '../command';
 import { ReadLine } from 'readline';
