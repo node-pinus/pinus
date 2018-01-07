@@ -1,0 +1,181 @@
+body {
+    padding: 0;
+    margin: 0;
+}
+
+body, #entry {
+    background: #c5e8d6;
+    color: #000000;
+}
+
+body, table {
+    font-family: DejaVu Sans Mono, fixed;
+    font-size: 14pt;
+    line-height: 150%;
+}
+
+#loginView {
+    width: 100%;
+    font-size: 13pt;
+    overflow: hidden;
+}
+
+#loginTitle {
+    width: 100%;
+    margin-top: 150px;
+    font-size: 50pt;
+    text-align: center;
+}
+
+#loginView input[type = "text"] {
+    height: 30px;
+    width: 270px;
+    font-size: inherit;
+    margin-left: 15px;
+}
+
+#loginView input[type = "button"] {
+    height: 30px;
+    width: 90px;
+    font-size: inherit;
+}
+
+#loginView table {
+    width: 100%;
+    height: 100%;
+    margin-top: 10%;
+}
+
+#loginView table tr {
+    text-align: center;
+    height: 50%;
+}
+
+#loginView table tr td {
+    padding-top: 25px;
+}
+
+#loginError {
+    text-align: center;
+    font-size: 16pt;
+    color: #ff0000;
+    margin-top: 15px;
+}
+
+#chatHistory {
+    padding-bottom: 5.1em;
+}
+
+#toolbar {
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    background: #007077;
+}
+
+#toolbar ul {
+    margin: 0;
+    padding: 5px 0 0 6px;
+    height: 35px;
+    list-style: none;
+}
+
+#toolbar li {
+    display: block;
+    float: left;
+    margin: 0 2em 0 0;
+}
+
+#toolbar select {
+    width: 100px;
+    height: 30px;
+    font-size: inherit;
+}
+
+#entry {
+    width: 100%;
+    font-size: inherit;
+    padding: 1em;
+    margin: 0;
+    border-width: 0;
+    outline-width: 0;
+    clear: both;
+}
+
+.message {
+    margin: 0.1em 0;
+}
+
+.message td {
+    vertical-align: top;
+}
+
+.nick {
+    font-weight: bold;
+    padding: 0 1em 0 0.5em;
+}
+
+#pop {
+    display: none;
+    background: #fff;
+    width: 260px;
+    height: 152px;
+    border: 1px solid #e0e0e0;
+    font-size: 12px;
+    font-family: DejaVu Sans Mono, fixed;
+    position: fixed;
+    right: 10px;
+    bottom: 10px;
+}
+
+#popHead {
+    line-height: 40px;
+    background: #E74C65;
+    border-bottom: 1px solid #e0e0e0;
+    position: relative;
+    font-size: 12px;
+    padding: 0 0 0 10px;
+}
+
+#popHead h2 {
+    font-size: 14px;
+    color: #666;
+    line-height: 40px;
+    height: 32px;
+    margin-top: -12px;
+}
+
+#popHead #popClose {
+    position: absolute;
+    right: 10px;
+    top: 1px;
+}
+
+#popHead a#popClose:hover {
+    color: #f00;
+    cursor: pointer;
+}
+
+#popContent {
+    padding: 20px 10px;
+}
+
+#popIntro {
+    text-align: center;
+    line-height: 160%;
+    margin: 5px 0;
+    color: #000;
+    font-size: 12pt;
+}
+
+#popMore {
+    text-align: right;
+    border-top: 1px solid #ccc;
+    line-height: 24px;
+    padding-top: 5px;
+}
+
+#popMore:hover {
+    color: #f00;
+    cursor: pointer;
+}

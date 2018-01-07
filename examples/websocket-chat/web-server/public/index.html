@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+    
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>
+            chatofpinus
+        </title>
+        <link rel="stylesheet" href="style.css" type="text/css" />
+        <script src="js/lib/jquery-1.8.0.min.js" type="text/javascript">
+        </script>
+
+        <script src="js/lib/build/build.js" type="text/javascript">
+
+        </script>
+        <script type="text/javascript">
+         
+         require('boot');
+        </script> 
+        <script src="js/client.js">
+                		
+        </script>
+        <script src="js/pop.js" type="text/javascript">
+
+        </script>
+    </head>
+    
+    <body>
+        <div id="app">
+            <div id="loginView">
+                <div id="loginTitle">
+                    Chat of Pinus
+                </div>
+                <table>
+                    <tr>
+                        <td>
+                            <input id="loginUser" type="text" placeholder="enter your name" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input name="channels" type="text" id="channelList" placeholder="enter your channel"
+                            />
+                        </td>
+                        <tr>
+                            <td>
+                                <input id="login" type='button' value="join" />
+                            </td>
+                        </tr>
+                </table>
+                <div id="loginError">
+                </div>
+            </div>
+            <div id="chatHistory">
+            </div>
+            <div id="toolbar">
+                <ul id="status">
+                    <li>
+                        users:
+                        <select name="users" id="usersList">
+                            <option value="*">
+                                all
+                            </option>
+                        </select>
+                    </li>
+                    <li>
+                        name:
+                        <span id="name">
+                        </span>
+                    </li>
+                    <li>
+                        room:
+                        <span id="room">
+                        </span>
+                    </li>
+                </ul>
+                <input tabindex="1" type="text" id="entry" />
+            </div>
+        </div>
+        <div id="pop">
+            <div id="popHead">
+                <a id="popClose" title="close">Close</a>
+                <h2>
+                    Tip
+                </h2>
+            </div>
+            <div id="popContent">
+                <dl>
+                    <dd id="popIntro">
+                    </dd>
+                </dl>
+                <p id="popMore">
+                    No Tip Again
+                </p>
+            </div>
+        </div>
+    </body>
+
+</html>
