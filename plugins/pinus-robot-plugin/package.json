@@ -1,0 +1,20 @@
+{
+  "name": "pinus-robot-plugin",
+  "version": "1.2.12",
+  "description": "pinus robot plugin",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc"
+  },
+  "main": "./dist/index",
+  "types": "./src/index",
+  "dependencies": {
+    "@types/node": "^8.5.2",
+    "@types/yargs": "^10.0.1",
+    "pinus": "^1.2.12",
+    "yargs": "^10.0.3"
+  },
+  "license": "MIT"
+}

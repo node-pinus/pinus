@@ -1,15 +1,13 @@
-import {Agent } from './agent/agent';
-import {Server}  from './master/server';
+import {Agent, AgentCfg } from './agent/agent';
+import {Server, ServerCfg}  from './master/server';
 import {HTTP_SERVER} from './console/http';
 import * as util  from './common/util';
 
 export interface RobotCfg
 {
-  clients: Array<any>,
-  mainFile: string,
-  master: { [key: string]: any },
-  apps: Array<any>,
-  scriptFile: string
+  clients ?: Array<string>;
+  master ?: {host:string,port:number,interval:number,webport:number};
+  scriptFile: string;
 }
 /**
  * export to developer prototype
@@ -39,12 +37,12 @@ export class Robot
  */
   runMaster(mainFile: string)
   {
-    let conf: any = {}, master;
+    let conf = { } as ServerCfg, master;
     conf.clients = this.conf.clients;
     conf.mainFile = mainFile;
     this.master = new Server(conf);
     this.master.listen(this.conf.master.port);
-    HTTP_SERVER.start(this.conf.master.webport);
+    HTTP_SERVER.start(`http://${this.conf.master.host}:${this.conf.master.port}` , this.conf.master.webport);
   };
 
   /**
@@ -55,9 +53,8 @@ export class Robot
    */
   runAgent(scriptFile: string)
   {
-    let conf: any = {};
+    let conf = {} as AgentCfg;
     conf.master = this.conf.master;
-    conf.apps = this.conf.apps;
     conf.scriptFile = scriptFile;
     this.agent = new Agent(conf);
     this.agent.start();

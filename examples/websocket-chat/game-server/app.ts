@@ -2,7 +2,7 @@
 import { pinus } from 'pinus';
 import * as  routeUtil from './app/util/routeUtil';
 import { preload } from './preload';
-
+import {createRobotPlugin} from 'pinus-robot-plugin';
 /**
  *  替换全局Promise
  *  自动解析sourcemap
@@ -46,6 +46,11 @@ app.configure('production|development', function ()
 	// filter configures
 	app.filter(new pinus.filters.timeout());
 });
+
+if(app.isMaster())
+{
+	app.use(createRobotPlugin({scriptFile:__dirname + "/robot/robot.js"}));
+}
 
 // start app
 app.start();

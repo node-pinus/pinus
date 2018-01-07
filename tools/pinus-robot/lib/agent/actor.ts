@@ -2,7 +2,6 @@ import * as util  from 'util';
 import * as  vm  from 'vm';
 import { EventEmitter } from 'events'
 import * as  monitor  from '../monitor/monitor';
-let envConfig = require(process.cwd() + '/app/config/env.json');
 import * as  fs  from 'fs';
 import { logging, Logger } from "../common/logging";
 import { AgentCfg } from './agent';
@@ -25,8 +24,14 @@ export class Actor extends EventEmitter implements IActor
   {
     super();
     this.id = aid;
-    this.script = conf.script || envConfig.script;
-    this.script = 'require(process.cwd()+"'+this.script+'").default(actor);';
+    if (conf.script)
+    {
+      this.script = conf.script;
+    }
+    else
+    {
+      this.script = 'require(process.cwd()+"' + conf.scriptFile + '").default(actor);';
+    }
     this.on('start', (action: string, reqId: number) =>
     {
       monitor.beginTime(action, this.id, reqId);

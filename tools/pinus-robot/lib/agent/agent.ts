@@ -13,12 +13,9 @@ let HEARTBEAT_FAILS = 3; // Reconnect after 3 missed heartbeats
 
 export interface AgentCfg
 {
-    clients: Array<any>,
-    mainFile: string,
-    master: { [key: string]: any },
-    apps: Array<any>,
-    scriptFile: string,
-    script: string
+    master: {host:string,port:number,interval:number},
+    script: string;
+    scriptFile:string;
 }
 /**
  * 
@@ -115,9 +112,14 @@ export class Agent
         this.count = msg.maxuser;
         let script = msg.script;
         let index = msg.index;
+
+        var conf = {} as AgentCfg;
+        conf.master = agent.conf.master;
+        conf.scriptFile = agent.conf.scriptFile;
+
         if (!!script && script.length > 1)
         {
-            agent.conf.script = script;
+            conf.script = script;
         }
         agent.log.info(this.nodeId + ' run ' + this.count + ' actors ');
         monitor.clear();
@@ -126,7 +128,7 @@ export class Agent
         for (let i = 0; i < this.count; i++)
         {
             let aid = i + offset; //calc database key offset;
-            let actor = new Actor(agent.conf, aid);
+            let actor = new Actor(conf, aid);
             this.actors[aid] = actor;
             (function (actor)
             {
@@ -134,12 +136,12 @@ export class Agent
                 {
                     agent.socket.emit('error', error);
                 });
-                if (agent.conf.master.interval <= 0)
+                if (conf.master.interval <= 0)
                 {
                     actor.run();
                 } else
                 {
-                    let time = Math.round(Math.random() * 1000 + i * agent.conf.master.interval);
+                    let time = Math.round(Math.random() * 1000 + i * conf.master.interval);
                     setTimeout(function ()
                     {
                         actor.run();

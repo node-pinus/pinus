@@ -28,11 +28,13 @@ export class HttpServer extends EventEmitter
     connections: net.Socket[];
     routes: { regex: any, handler: Function }[] = [];
     running = false;
+    robotMasterUrl : string;
     /** Start the server listening on the given port */
-    start(port?: number, hostname?: string)
+    start(robotMasterUrl : string , port?: number, hostname?: string)
     {
         if (this.running) { return; }
         this.running = true;
+        this.robotMasterUrl = robotMasterUrl;
 
         var self = this;
         port = port || 8000;
@@ -174,17 +176,17 @@ export class HttpServer extends EventEmitter
     }
 
 
-    serveFile_(file:string, response :any)
+    serveFile_(basefile:string, response :any)
     {
-        if (file.lastIndexOf('report') != -1)
+        if (basefile.lastIndexOf('report') != -1)
         {
             this.doReport(response);
             return;
         }
-        if (file === './')
-            file = 'index.html';
-        file = __dirname + '/' + file;
-        fs.stat(file, function (err, stat)
+        if (basefile === './')
+        basefile = 'index.html';
+        let file = __dirname + '/' + basefile;
+        fs.stat(file,  (err, stat)=>
         {
             if (err)
             {
@@ -194,7 +196,7 @@ export class HttpServer extends EventEmitter
                 return;
             }
 
-            fs.readFile(file, "binary", function (err, data)
+            fs.readFile(file, "binary",  (err, data)=>
             {
                 if (err)
                 {
@@ -204,6 +206,10 @@ export class HttpServer extends EventEmitter
                 {
                     if (file.lastIndexOf('.html') == -1)
                     {
+                        if(basefile == "./js/webclient.js")
+                        {
+                            data = data.replace('${robotMasterUrl}' , this.robotMasterUrl);
+                        }
                         response.writeHead(200, { 'Content-Length': data.length });
                         response.write(data, "binary");
                     } else
@@ -224,11 +230,11 @@ export class HttpServer extends EventEmitter
 export var HTTP_SERVER = new HttpServer();
 HTTP_SERVER.on('start', function (hostname, port)
 {
-    console.log(`Started HTTP server on : http://${hostname}:${port}`);
+    console.log(`Started Robot Master Http server on : http://${hostname}:${port}`);
 });
 
 HTTP_SERVER.on('end', function ()
 {
-    qputs('Shutdown HTTP server.');
+    qputs('Shutdown Robot Master Http server.');
 });
 

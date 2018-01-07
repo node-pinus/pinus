@@ -4,11 +4,13 @@
   "private": false,
   "dependencies": {
     "@types/node": "^8.5.7",
+    "@types/cliff": "^0.1.4",
     "@types/socket.io-client": "^1.4.32",
     "@types/underscore": "^1.8.6",
     "socket.io": "^2.0.4",
     "socket.io-client": "^2.0.4",
     "typescript": "^2.6.2",
+    "cliff": "^0.1.10",
     "underscore": "1.4.4"
   },
   "scripts": {

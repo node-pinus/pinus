@@ -18,7 +18,6 @@ export interface ServerCfg
     clients: Array<any>,
     mainFile: string,
     master: { [key: string]: any },
-    apps: Array<any>,
     scriptFile: string,
     script: Array<any>
 }
@@ -36,14 +35,14 @@ export class Server
     log: Logger;
     nodes: { [key: string]: any } = {};
     web_clients: { [key: string]:  _wc.WebClient } = {};
-    conf: { [key: string]: any };
+    conf: ServerCfg;
     runconfig = { maxuser: 1, agent: 1 };
     status: number = STATUS_RUNNING;
     io: SocketIO.Server;
     constructor(conf: ServerCfg)
     {
         this.log = logging;
-        this.conf = conf || {};
+        this.conf = conf || {} as ServerCfg;
         setInterval(() =>
         {
             this.log.info("Nodes: " + __(this.nodes).size() + ", " +
