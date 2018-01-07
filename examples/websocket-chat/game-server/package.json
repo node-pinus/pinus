@@ -1,6 +1,6 @@
 {
     "name": "pinus-sample-websocket-chat-game-server",
-    "version": "1.2.10",
+    "version": "1.2.11",
     "private": false,
     "main": "./dist/app",
     "scripts": {
