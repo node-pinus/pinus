@@ -1,13 +1,13 @@
-var http = require('http');
+import * as http from 'http';
 var envConfig = require('./app/config/env.json');
 var config = require('./app/config/' + envConfig.env + '/config');
 var path = __filename.substring(0, __filename.lastIndexOf('/'));
-var Robot = require('./lib/robot').Robot;
-var cluster = require('cluster');
+import { Robot } from 'pinus-robot';
+import * as cluster from 'cluster';
 
 var robot = new Robot(config);
 
-var run = function (num)
+function run(num)
 {
     for (var i = 0; i < num; i++)
     {
@@ -15,7 +15,7 @@ var run = function (num)
     }
 }
 
-var stop = function ()
+function stop()
 {
     for (var id in cluster.workers)
     {
@@ -23,7 +23,7 @@ var stop = function ()
     }
 }
 
-var startHttp = function ()
+function startHttp()
 {
     http.createServer(function (req, res)
     {
@@ -62,7 +62,7 @@ var startHttp = function ()
         res.writeHead(404);
         res.end("<h1>404<h1>\n");
     }).listen(config.master.cwebport);
-    console.log(' http server start at port ' + config.master.cwebport);
+    console.log(' http server start at http://127.0.0.1:' + config.master.cwebport);
 }
 
 process.on('uncaughtException', function (err)
