@@ -1,9 +1,9 @@
 {
 	"name": "pinus-scheduler",
-	"version": "1.2.9-y.9",
+	"version": "1.2.9-y.10",
 	"author": "mybios <mybios@qq.com>",
 	"main": "./dist/schedule",
-    "types": "./lib/schedule",
+	"types": "./lib/schedule",
 	"files": [
 		"dist",
 		"lib"

@@ -1,8 +1,8 @@
 {
 	"name": "pinus-loader",
-	"version": "1.2.9-y.9",
+	"version": "1.2.9-y.10",
 	"main": "./dist/index",
-    "types": "./lib/index",
+	"types": "./lib/index",
 	"files": [
 		"dist",
 		"lib"
