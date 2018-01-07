@@ -86,8 +86,9 @@ export class robot
         this.pinusClient.request("connector.entryHandler.enter",result , (ret : any)=> {
             //消息回调
             this.actor.emit("end" , "loginQuery" , this.actor.id);
-            console.log("connector返回",JSON.stringify(result));
-            
+            //console.log("connector返回",JSON.stringify(result));
+            setTimeout(()=>
+            this.loginQuery(result) , Math.random() * 5000 + 1000);
         });
     }
 }
