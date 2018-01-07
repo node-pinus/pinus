@@ -14,36 +14,6 @@ import { exec } from 'child_process';
 import { ConsoleModule as co } from '../../lib/modules/console'
 
 export let version = require('../../../package.json').version
-/**
- * Get user's choice on connector selecting
- * 
- * @param {Function} cb
- */
-export function connectorType(cb : Function)
-{
-    prompt('Please select underly connector, 1 for websocket(native socket), 2 for socket.io, 3 for wss, 4 for socket.io(wss), 5 for udp, 6 for mqtt: [1]', function (msg :string)
-    {
-        switch (msg.trim())
-        {
-            case '':
-                cb(1);
-                break;
-            case '1':
-            case '2':
-            case '3':
-            case '4':
-            case '5':
-            case '6':
-                cb(msg.trim());
-                break;
-            default:
-                console.log(('Invalid choice! Please input 1 - 5.' as any).red + '\n');
-                connectorType(cb);
-                break;
-        }
-    });
-}
-
 
 export function connectToMaster(id : string, opts : any, cb : (client : AdminClient)=>void)
 {
@@ -106,67 +76,6 @@ export function abort(str : string)
 {
     console.error(str);
     process.exit(1);
-}
-
-/**
- * Copy template files to project.
- *
- * @param {String} origin
- * @param {String} target
- */
-export function copy(origin : string, target : string)
-{
-    if (!fs.existsSync(origin))
-    {
-        abort(origin + 'does not exist.');
-    }
-    if (!fs.existsSync(target))
-    {
-        mkdir(target);
-        console.log(('   create : ' as any).green + target);
-    }
-    fs.readdir(origin, function (err, datalist)
-    {
-        if (err)
-        {
-            abort(FILEREAD_ERROR);
-        }
-        for (let i = 0; i < datalist.length; i++)
-        {
-            let oCurrent = path.resolve(origin, datalist[i]);
-            let tCurrent = path.resolve(target, datalist[i]);
-            if (fs.statSync(oCurrent).isFile())
-            {
-                fs.writeFileSync(tCurrent, fs.readFileSync(oCurrent, ''), '');
-                console.log(('   create : ' as any).green + tCurrent);
-            } else if (fs.statSync(oCurrent).isDirectory())
-            {
-                copy(oCurrent, tCurrent);
-            }
-        }
-    });
-}
-
-/**
- * Mkdir -p.
- *
- * @param {String} path
- * @param {Function} fn
- */
-export function mkdir(path : string, fn?: Function)
-{
-    mkdirp(path, 0o755, function (err)
-    {
-        if (err)
-        {
-            throw err;
-        }
-        console.log(('   create : ' as any).green + path);
-        if (typeof fn === 'function')
-        {
-            fn();
-        }
-    });
 }
 
 /**

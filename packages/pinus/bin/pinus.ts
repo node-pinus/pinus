@@ -11,7 +11,6 @@ import { COMMAND_ERROR } from './utils/constants';
 import { version } from './utils/utils';
 import { isFunction } from 'util';
 
-
 program.version(version);
 
 program.command('*')
