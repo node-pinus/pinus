@@ -13,7 +13,7 @@ export interface ICommand
 
 export class AgentCommand
 {
-	commands: {[key:string]:any} = {};
+	commands: {[key:string]:()=>ICommand} = {};
 	Context = 'all';
 
 	constructor()
@@ -49,7 +49,7 @@ export class AgentCommand
 		if (m)
 		{
 			let _command = m();
-			_command.handle(self, comd1, argv, rl, client, msg);
+			_command.handle(self, comd1, argv, msg, rl, client);
 		} else
 		{
 			util.errorHandle(argv, rl);
