@@ -1,6 +1,6 @@
 {
   "name": "pinus-robot",
-  "version": "1.2.11",
+  "version": "1.2.12",
   "private": false,
   "dependencies": {
     "@types/node": "^8.5.7",
