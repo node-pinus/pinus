@@ -1,6 +1,6 @@
 {
   "name": "pinus-robot-plugin",
-  "version": "1.2.18",
+  "version": "1.2.19",
   "description": "pinus robot plugin",
   "files": [
     "dist",
@@ -14,7 +14,7 @@
   "dependencies": {
     "@types/node": "^8.5.2",
     "@types/yargs": "^10.0.1",
-    "pinus": "^1.2.18",
+    "pinus": "^1.2.19",
     "yargs": "^10.0.3"
   },
   "license": "MIT"

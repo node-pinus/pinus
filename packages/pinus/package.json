@@ -1,6 +1,6 @@
 {
   "name": "pinus",
-  "version": "1.2.18",
+  "version": "1.2.19",
   "homepage": "https://github.com/mybios/pinus",
   "repository": {
     "type": "git",
@@ -40,7 +40,7 @@
     "template",
     "test"
   ],
-  "main": "./dist/index",
+  "main": "./dist/lib/index",
   "types": "./lib/index",
   "dependencies": {
     "@types/mqtt-connection": "git+https://github.com/node-pinus/types-mqtt-connection.git",
