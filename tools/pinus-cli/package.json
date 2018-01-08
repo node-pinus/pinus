@@ -1,6 +1,6 @@
 {
   "name": "pinus-cli",
-  "version": "1.2.17",
+  "version": "1.2.18",
   "description": "pinus command line client for managing pinus",
   "scripts": {
     "build": "tsc",
@@ -37,7 +37,7 @@
     "async": "^2.6.0",
     "cliff": "^0.1.10",
     "optimist": "^0.6.1",
-    "pinus-admin": "^1.2.14",
+    "pinus-admin": "^1.2.18",
     "pinus-logger": "^1.2.14"
   },
   "devDependencies": {

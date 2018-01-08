@@ -1,6 +1,6 @@
 {
     "name": "pinus-admin",
-    "version": "1.2.14",
+    "version": "1.2.18",
     "main": "./dist/index",
     "types": "./lib/index",
     "files": [

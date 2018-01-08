@@ -1,6 +1,6 @@
 {
   "name": "pinus-base-gate",
-  "version": "1.2.16",
+  "version": "1.2.18",
   "description": "pinus base gate plugin",
   "files": [
     "dist",
@@ -23,7 +23,7 @@
   "types": "./src/index",
   "dependencies": {
     "@types/node": "^8.5.2",
-    "pinus": "^1.2.14"
+    "pinus": "^1.2.18"
   },
   "license": "MIT",
   "publishConfig": {}
