@@ -1,0 +1,29 @@
+<html>
+	<head>
+		<title></title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<script src="/js/socket.io.js"></script>
+		<script src="/js/util/protocol.js"></script>
+		<script src="/js/client.js"></script>
+	</head>
+	<body>
+		<div id = 'main'></div>
+		<script type="text/javascript">
+			var client = window.client = new ConsoleClient({username: 'admin', password: 'admin'});
+			var host = 'localhost';
+			var port = '3005';
+			client.connect('xxx', host, port, function(err){
+				if(err) throw err;
+				client.request('helloPinus',null,function(err,msg){
+					var dom = document.getElementById('main');
+					for(var key in msg){
+						var elem = document.createElement('p');
+						elem.innerText = msg[key]['body'];
+						dom.appendChild(elem);
+					}
+					console.log(msg);
+				});
+			});
+		</script>
+	</body>	
+</html>

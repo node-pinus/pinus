@@ -28,7 +28,7 @@ export interface RouteContext
     getServersByType(serverType:string):RpcServerInfo[];
 }
 
-export type Proxies = {[namespace:string]:{[serverType:string]:{[attr:string]:Function}}}
+export type Proxies = {[namespace:string]:{[serverType:string]:{[remoterName:string]:{[attr:string]:Function}}}}
 
 export interface RpcClientOpts 
 {

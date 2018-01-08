@@ -47,6 +47,11 @@ app.configure('production|development', function ()
 	app.filter(new pinus.filters.timeout());
 });
 
+app.configure('development', function() {
+	// enable the system monitor modules
+	app.enable('systemMonitor');
+  });
+  
 if(app.isMaster())
 {
 	app.use(createRobotPlugin({scriptFile:__dirname + "/robot/robot.js"}));

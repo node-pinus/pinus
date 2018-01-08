@@ -1,0 +1,38 @@
+<html>
+	<head>
+		<title>Pinus服务监控</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<link rel="stylesheet" type="text/css" href="/ext-4.0.7-gpl/resources/css/ext-all.css"></>
+	</head>
+	<body>
+		<script src="/ext-4.0.7-gpl/ext-all.js"></script>
+		<script src="/js/main.js"></script>
+		<script src="/js/util/protocol.js"></script>
+		<script src="/js/util/browserMqtt.js"></script>
+		<script src="/js/util/mqttClient.js"></script>
+		<script src="/js/client.js"></script>
+		<script>
+			var host = '<%= host %>';
+			var port = <%= webPort %>;
+			var username = '<%= username %>';
+			var password = '<%= password %>';
+
+			var client = window.client = new ConsoleClient({
+				username: username,
+				password: password,
+				md5: false
+			});
+			// TODO: add login logic
+			client.connect('browser-' + Date.now(), host, port, function(err){
+				if(err) {
+					console.error('fail to connect to admin console server:');
+					console.error(err);
+					alert(err);
+				} else {
+					console.info('admin console connected.');
+				}
+			});
+			console.log(window.client);
+		</script>
+	</body>	
+</html>

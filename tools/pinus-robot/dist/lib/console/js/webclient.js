@@ -49,8 +49,8 @@ var WebClient = function(io) {
   //report status
   this.socket.on('webreport', function(snum,suser,stimeData,sincrData) {
   	//doReport(timeData);
-    $('#agentinput').val(snum);
-    $('#maxuserinput').val(suser);
+    //$('#agentinput').val(snum);
+    //$('#maxuserinput').val(suser);
     updateIncrData(sincrData);
     updateTimesData(snum,suser,stimeData);
   });

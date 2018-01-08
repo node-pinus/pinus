@@ -19,7 +19,7 @@ export interface ServerInfo
 	port: number;
 	clientHost: string;
     clientPort: number;
-    frontend ?: 'true';
+    frontend ?: boolean;
 
     pid ?: string;
 }

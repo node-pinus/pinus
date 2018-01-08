@@ -8,6 +8,8 @@ import { getLogger } from 'pinus-logger';import { Application } from '../applica
 import { ConsoleService, IModule, IModuleFactory } from 'pinus-admin';
 import { MasterWatcherModule } from '../modules/masterwatcher';
 import { MonitorWatcherModule } from '../modules/monitorwatcher';
+import { WatchServerModule } from '../modules/watchServer';
+import { OnlineUserModule } from '../modules/onlineUser';
 import { ConsoleModule } from '../modules/console';
 let logger = getLogger('pinus', __filename);
 
@@ -87,7 +89,7 @@ export function registerDefaultModules(isMaster : boolean, app : Application, cl
             app.registerAdmin(MonitorWatcherModule, { app: app });
         }
     }
-    app.registerAdmin(admin.modules.watchServer, { app: app });
+    app.registerAdmin(WatchServerModule, { app: app });
     app.registerAdmin(ConsoleModule, { app: app, starter: starter });
     if (app.enabled('systemMonitor'))
     {
@@ -96,6 +98,7 @@ export function registerDefaultModules(isMaster : boolean, app : Application, cl
             app.registerAdmin(admin.modules.systemInfo);
             app.registerAdmin(admin.modules.nodeInfo);
         }
+        app.registerAdmin(OnlineUserModule);
         app.registerAdmin(admin.modules.monitorLog, { path: pathUtil.getLogPath(app.getBase()) });
         app.registerAdmin(admin.modules.scripts, { app: app, path: pathUtil.getScriptPath(app.getBase()) });
         if (os.platform() !== Constants.PLATFORM.WIN)

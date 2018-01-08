@@ -5,7 +5,6 @@ import { NodeInfoModule } from './lib/modules/nodeInfo';
 import { ProfilerModule } from './lib/modules/profiler';
 import { ScriptsModule } from './lib/modules/scripts';
 import { SystemInfoModule } from './lib/modules/systemInfo';
-import { WatchServerModule } from './lib/modules/watchServer';
 export * from './lib/consoleService';
 
 export * from './lib/client/client';
@@ -17,6 +16,5 @@ export let modules = {
 	nodeInfo : NodeInfoModule,
 	profiler : ProfilerModule,
 	scripts : ScriptsModule,
-	systemInfo : SystemInfoModule,
-	watchServer : WatchServerModule
+	systemInfo : SystemInfoModule
 };
