@@ -83,6 +83,7 @@
 			msg = msg || {};
 			msg.clientId = this.id;
 			msg.username = this.username;
+			console.trace("request:" , JSON.stringify(msg));
 			var req = protocol.composeRequest(id, moduleId, msg);
 			this.callbacks[id] = cb;
 			this.doSend('client', req);
