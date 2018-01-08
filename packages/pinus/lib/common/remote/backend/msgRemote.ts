@@ -1,7 +1,8 @@
 import * as utils from '../../../util/utils';
 import { getLogger } from 'pinus-logger'; import { Application } from '../../../application';
 import { BackendSession } from '../../service/backendSessionService';
- let logger = getLogger('forward-log', __filename);
+import * as path from 'path';
+let logger = getLogger('forward-log', path.basename(__filename));
 /**
  * Remote service for backend servers.
  * Receive and handle request message forwarded from frontend server.

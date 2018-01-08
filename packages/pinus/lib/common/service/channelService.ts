@@ -6,7 +6,8 @@ import { IComponent } from '../../interfaces/IComponent';
 import { IStore } from '../../interfaces/IStore';
 import { IHandlerFilter } from '../../interfaces/IHandlerFilter';
 import { FRONTENDID, UID, SID } from '../../util/constants';
- let logger = getLogger('pinus', __filename);
+import * as path from 'path';
+let logger = getLogger('pinus', path.basename(__filename));
 
 /**
  * constant

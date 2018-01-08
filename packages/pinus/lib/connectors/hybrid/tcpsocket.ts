@@ -5,7 +5,9 @@ import { Package } from 'pinus-protocol';
 import { getLogger } from 'pinus-logger';
 import { ISocket } from '../../interfaces/ISocket';
 import { IHybridSocket } from './IHybridSocket';
-let logger = getLogger('pinus', __filename);
+import * as path from 'path';
+let logger = getLogger('pinus', path.basename(__filename));
+
 
 export interface TcpSocketOptions
 {

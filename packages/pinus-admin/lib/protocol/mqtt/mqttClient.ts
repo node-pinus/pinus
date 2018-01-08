@@ -1,10 +1,12 @@
-import { getLogger } from 'pinus-logger'; let logger = getLogger('pinus-admin', 'MqttClient');
+import { getLogger } from 'pinus-logger';
 import {EventEmitter } from 'events';
 import * as constants from '../../util/constants';
 import * as MqttCon from 'mqtt-connection';
 import * as Util from 'util';
 import * as net from 'net';
 import * as mqtt_connection from 'mqtt-connection';
+import * as path from 'path';
+let logger = getLogger('pinus-admin', path.basename(__filename));
 export interface MqttClientOpts
 {
     id : string;

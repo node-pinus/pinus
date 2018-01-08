@@ -8,7 +8,8 @@ import { getLogger } from 'pinus-logger';
 import { IModule, ModuleType, MonitorCallback, MasterCallback } from '../consoleService';
 import { MonitorAgent } from '../monitor/monitorAgent';
 import { MasterAgent } from '../master/masterAgent';
- let logger = getLogger('pinus-admin', __filename);
+import * as path from 'path';
+let logger = getLogger('pinus-admin', path.basename(__filename));
 
 let DEFAULT_INTERVAL = 5 * 60;		// in second
 let DEFAULT_DELAY = 10;						// in second

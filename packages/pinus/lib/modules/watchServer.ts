@@ -4,7 +4,6 @@
  * MIT Licensed
  */
 import { getLogger } from 'pinus-logger'; 
-let logger = getLogger('pinus-admin', __filename);
 import * as countDownLatch from '../util/countDownLatch';
 import * as monitor from 'pinus-monitor';
 import * as utils from '../util/utils';
@@ -14,6 +13,9 @@ import * as vm from 'vm';
 import { IModule, MonitorCallback, MasterCallback, ModuleType ,  MonitorAgent, MasterAgent } from 'pinus-admin';
 import { ServerInfo } from '../util/constants';
 import { Application } from '../application';
+import * as path from 'path';
+let logger = getLogger('pinus', path.basename(__filename));
+
 
 enum HandleType
 {

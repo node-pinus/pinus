@@ -7,8 +7,9 @@ import { Application } from '../../application';
 import { Session, FrontendSession } from './sessionService';
 import { RouteRecord, ServerInfo } from '../../util/constants';
 import { BackendSession } from './backendSessionService';
-let logger = getLogger('pinus', __filename);
-let forwardLogger = getLogger('forward-log', __filename);
+import * as path from 'path';
+let logger = getLogger('pinus', path.basename(__filename));
+let forwardLogger = getLogger('forward-log', path.basename(__filename));
 
 export interface HandlerServiceOptions
 {

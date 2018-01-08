@@ -10,7 +10,8 @@ import { getLogger } from 'pinus-logger';import { Application } from '../applica
 import { pinus } from '../pinus';
 import { ServerInfo } from './constants';
 import { IComponent, ILifeCycle } from '../index';
- let logger = getLogger('pinus', __filename);
+let logger = getLogger('pinus', path.basename(__filename));
+
 
 /**
  * Initialize application configuration.

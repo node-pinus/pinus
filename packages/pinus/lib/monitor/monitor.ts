@@ -2,7 +2,7 @@
  * Component for monitor.
  * Load and start monitor client.
  */
-import { getLogger } from 'pinus-logger'; let logger = getLogger('pinus', __filename);
+import { getLogger } from 'pinus-logger';
 import * as admin from 'pinus-admin';
 import * as moduleUtil from '../util/moduleUtil';
 import * as utils from '../util/utils';
@@ -12,6 +12,9 @@ import { ConsoleService, IModule } from 'pinus-admin';
 import { ServerInfo } from '../util/constants';
 import { ServerStartArgs } from '../util/appUtil';
 import { MasterInfo } from '../index';
+import * as path from 'path';
+let logger = getLogger('pinus', path.basename(__filename));
+
 export interface MonitorOptions
 {
     closeWatcher ?: boolean;

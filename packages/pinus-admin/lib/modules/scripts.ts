@@ -4,7 +4,7 @@
  * MIT Licensed
  */
 
-import { getLogger } from 'pinus-logger'; let logger = getLogger('pinus-admin', __filename);
+import { getLogger } from 'pinus-logger';
 import * as monitor from 'pinus-monitor';
 import * as vm from 'vm';
 import * as fs from 'fs';
@@ -13,7 +13,7 @@ import * as path from 'path';
 import { IModule, MonitorCallback, MasterCallback } from '../consoleService';
 import { MonitorAgent } from '../monitor/monitorAgent';
 import { MasterAgent } from '../master/masterAgent';
-
+let logger = getLogger('pinus-admin', path.basename(__filename));
 
 export class ScriptsModule implements IModule
 {

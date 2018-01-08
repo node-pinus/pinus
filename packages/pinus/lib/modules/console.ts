@@ -4,7 +4,6 @@
  * MIT Licensed
  */
 import { getLogger } from 'pinus-logger';
- let logger = getLogger('pinus', __filename);
 import * as countDownLatch from '../util/countDownLatch';
 import * as utils from '../util/utils';
 import * as Constants from '../util/constants';
@@ -14,6 +13,9 @@ import { Application } from '../application';
 import { IModule, MonitorCallback, MasterAgent, MasterCallback } from 'pinus-admin';
 import { MonitorAgent } from 'pinus-admin';
 import { ServerInfo } from '../util/constants';
+import * as path from 'path';
+let logger = getLogger('pinus', path.basename(__filename));
+
 
 export interface ConsoleModuleOptions
 {

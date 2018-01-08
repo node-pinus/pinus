@@ -1,9 +1,12 @@
-import { getLogger } from 'pinus-logger'; let logger = getLogger('pinus', __filename);
+import { getLogger } from 'pinus-logger';
 import * as utils from '../util/utils';
 import * as Constants from '../util/constants';
 import { Watchdog} from '../master/watchdog';
 import { Application } from '../application';
 import { IModule, ConsoleService, MasterAgent, MasterCallback } from 'pinus-admin';
+import * as path from 'path';
+let logger = getLogger('pinus', path.basename(__filename));
+
 
 
 export class MasterWatcherModule implements IModule

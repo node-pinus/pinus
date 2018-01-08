@@ -8,7 +8,9 @@ import * as generate from './mqtt/generate';
 import { getLogger } from 'pinus-logger';
 import { IConnector } from '../interfaces/IConnector';
 import * as mqtt_connection from 'mqtt-connection';
-let logger = getLogger('pinus', __filename);
+import * as path from 'path';
+let logger = getLogger('pinus', path.basename(__filename));
+
 
 
 export interface MQTTConnectorOptions

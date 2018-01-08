@@ -1,4 +1,4 @@
-import { getLogger } from 'pinus-logger'; let logger = getLogger('pinus-admin', 'MonitorAgent');
+import { getLogger } from 'pinus-logger'; ;
 import { MqttClient } from '../protocol/mqtt/mqttClient';
 import {EventEmitter } from 'events';
 import * as protocol from '../util/protocol';
@@ -6,6 +6,8 @@ import * as utils from '../util/utils';
 import * as Util from 'util';
 import { ServerInfo, AdminServerInfo, Callback } from '../util/constants';
 import { ConsoleService } from '../consoleService';
+import * as path from 'path';
+let logger = getLogger('pinus-admin', path.basename(__filename));
 
 let ST_INITED = 1;
 let ST_CONNECTED = 2;

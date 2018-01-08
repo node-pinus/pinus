@@ -2,7 +2,9 @@ import { Message } from 'pinus-protocol';
 import * as  Constants from '../../util/constants';
 import { getLogger } from 'pinus-logger';
 import { IConnector } from '../../interfaces/IConnector';
-let logger = getLogger('pinus', __filename);
+import * as path from 'path';
+let logger = getLogger('pinus', path.basename(__filename));
+
 
 let encode = function (this : IConnector ,  reqId : number, route : string, msg : any)
 {

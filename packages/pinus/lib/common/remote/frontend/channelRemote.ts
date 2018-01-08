@@ -8,7 +8,8 @@ import { Application } from '../../../application';
 import { UID, SID } from '../../../util/constants';
 import { ScheduleOptions } from '../../../interfaces/IPushScheduler';
 import { Session } from '../../service/sessionService';
- let logger = getLogger('pinus', __filename);
+import * as path from 'path';
+let logger = getLogger('pinus', path.basename(__filename));
 
 export default function(app : Application) {
   return new ChannelRemote(app);

@@ -9,6 +9,7 @@ import { Application } from '../application';
 import { IComponent } from '../interfaces/IComponent';
 import { getLogger, Logger } from 'pinus-logger';
 import { ServerInfo } from '../util/constants';
+import * as path from 'path';
 
 export interface RemoteComponentOptions extends RpcServerOpts
 {
@@ -41,7 +42,7 @@ export class RemoteComponent  implements IComponent
         if (app.enabled('rpcDebugLog'))
         {
             opts.rpcDebugLog = true;
-            opts.rpcLogger = getLogger('rpc-debug', __filename);
+            opts.rpcLogger = getLogger('rpc-debug', path.basename(__filename));
         }
 
         opts.paths = this.getRemotePaths();

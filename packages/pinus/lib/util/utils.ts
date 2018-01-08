@@ -1,11 +1,14 @@
 import * as os from 'os';
 import * as util from 'util';
 import { exec } from 'child_process';
-import { getLogger } from 'pinus-logger'; let logger = getLogger('pinus', __filename);
+import { getLogger } from 'pinus-logger';
 import * as Constants from './constants';
 import { pinus } from '../pinus';
 import { ServerInfo } from './constants';
 import { Application } from '../application';
+import * as path from 'path';
+let logger = getLogger('pinus', path.basename(__filename));
+
 
 
 /**

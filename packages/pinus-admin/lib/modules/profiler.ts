@@ -1,5 +1,8 @@
-import { getLogger } from 'pinus-logger'; let logger = getLogger('pinus-admin', __filename);
+import { getLogger } from 'pinus-logger'; 
 import * as utils from '../util/utils';
+
+import * as path from 'path';
+let logger = getLogger('pinus-admin', path.basename(__filename));
 
 let profiler : any = null;
 try
@@ -10,7 +13,6 @@ try
 }
 
 import * as fs from 'fs';
-import * as path from 'path';
 import { ProfileProxy } from '../util/profileProxy';
 import { IModule, MonitorCallback, MasterCallback } from '../consoleService';
 import { MonitorAgent } from '../monitor/monitorAgent';

@@ -2,7 +2,7 @@
  * Implementation of server component.
  * Init and start server instance.
  */
-import { getLogger } from 'pinus-logger'; let logger = getLogger('pinus', __filename);
+import { getLogger } from 'pinus-logger';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as pathUtil from '../util/pathUtil';
@@ -17,6 +17,8 @@ import { Application } from '../application';
 import { EventEmitter } from 'events';
 import { RouteRecord } from '../util/constants';
 import { FrontendSession, BackendSession } from '../index';
+let logger = getLogger('pinus', path.basename(__filename));
+
 
 let ST_INITED = 0;    // server inited
 let ST_STARTED = 1;   // server started

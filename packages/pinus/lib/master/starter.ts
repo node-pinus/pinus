@@ -1,6 +1,5 @@
 import * as cp from 'child_process';
 import { getLogger } from 'pinus-logger';
- let logger = getLogger('pinus', __filename);
 import * as util from 'util';
 import * as utils from '../util/utils';
 import * as Constants from '../util/constants';
@@ -8,6 +7,10 @@ import * as os from 'os';
 import {pinus} from '../pinus';
 import { Application } from '../application';
 import { ServerInfo } from '../util/constants';
+import * as path from 'path';
+let logger = getLogger('pinus', path.basename(__filename));
+
+
 
 
 let cpus : {[serverId : string] : number} = {};

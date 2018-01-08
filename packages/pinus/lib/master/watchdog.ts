@@ -1,4 +1,4 @@
-import { getLogger } from 'pinus-logger'; let logger = getLogger('pinus', __filename);
+import { getLogger } from 'pinus-logger';
 import * as utils from '../util/utils';
 import * as Constants from '../util/constants';
 import * as countDownLatch from '../util/countDownLatch';
@@ -7,6 +7,9 @@ import * as util from 'util';
 import { Application } from '../application';
 import { ServerInfo } from '../util/constants';
 import { ConsoleService, MasterAgent } from 'pinus-admin';
+import * as path from 'path';
+let logger = getLogger('pinus', path.basename(__filename));
+
 
 export class Watchdog extends EventEmitter
 {

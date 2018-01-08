@@ -5,10 +5,12 @@ import * as PriorityQueue from './priorityQueue';
 import * as Job from './job';
 import { SimpleTriggerOpts } from './simpleTrigger';
 
+
+import { getLogger } from 'pinus-logger';
+import * as path from 'path';
+let logger = getLogger('pinus-scheduler', path.basename(__filename));
+
 let timerCount = 0;
-
-let logger = require('log4js').getLogger(__filename);
-
 let map: {[key:number]: Job.Job} = {};
 let queue = PriorityQueue.createPriorityQueue(comparator);
 

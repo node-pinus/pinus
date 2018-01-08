@@ -14,7 +14,8 @@ import { IComponent } from '../interfaces/IComponent';
 import { RpcClientOpts } from 'pinus-rpc';
 import { ServerInfo } from '../util/constants';
 import { Session } from '../index';
-let logger = getLogger('pinus', __filename);
+import * as path from 'path';
+let logger = getLogger('pinus', path.basename(__filename));
 
 export interface ProxyComponentOptions extends RpcClientOpts 
 {
@@ -52,7 +53,7 @@ export class ProxyComponent implements IComponent
         if (app.enabled('rpcDebugLog'))
         {
             opts.rpcDebugLog = true;
-            opts.rpcLogger = getLogger('rpc-debug', __filename);
+            opts.rpcLogger = getLogger('rpc-debug', path.basename(__filename));
         }
 
         this.app = app;

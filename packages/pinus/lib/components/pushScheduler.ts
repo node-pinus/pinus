@@ -9,7 +9,8 @@ import { IComponent } from '../interfaces/IComponent';
 import { IPushScheduler, ScheduleOptions, IPushSchedulerOrCtor, IPushSchedulerOptions, MultiPushSchedulerOptions } from '../interfaces/IPushScheduler';
 import { MultiPushScheduler } from '../pushSchedulers/multi';
 import { SID } from '../util/constants';
-let logger = getLogger('pinus', __filename);
+import * as path from 'path';
+let logger = getLogger('pinus', path.basename(__filename));
 
 
 export class PushSchedulerComponent implements IComponent

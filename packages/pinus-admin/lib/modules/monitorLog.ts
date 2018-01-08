@@ -3,13 +3,14 @@
  * Copyright(c) 2012 fantasyni <fantasyni@163.com>
  * MIT Licensed
  */
-import { getLogger } from 'pinus-logger'; let logger = getLogger('pinus-admin', __filename);
+import { getLogger } from 'pinus-logger'; 
 import { exec } from 'child_process';
 import * as path from 'path';
 import { IModule, MonitorCallback } from '../consoleService';
 import { MonitorAgent } from '../monitor/monitorAgent';
 import { MasterAgent } from '../master/masterAgent';
 import { MasterCallback } from '../../index';
+let logger = getLogger('pinus-admin', path.basename(__filename));
 const readLastLines = require('read-last-lines');
 let DEFAULT_INTERVAL = 5 * 60;		// in second
 

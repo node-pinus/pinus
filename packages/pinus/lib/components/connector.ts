@@ -1,4 +1,4 @@
-import { getLogger } from 'pinus-logger'; let logger = getLogger('pinus', __filename);
+import { getLogger } from 'pinus-logger';
 import * as taskManager from '../common/manager/taskManager';
 import { pinus } from '../pinus';
 let rsa = require("node-bignumber");
@@ -18,6 +18,8 @@ import { SessionComponent } from './session';
 import { IConnector, IEncoder, IDecoder } from '../interfaces/IConnector';
 import { ISocket } from '../interfaces/ISocket';
 import { Session } from '../common/service/sessionService';
+import * as path from 'path';
+let logger = getLogger('pinus', path.basename(__filename));
 
 export type BlackListFunction = (process : (err : Error, list : string[])=>void)=>void;
 export interface ConnectorComponentOptions

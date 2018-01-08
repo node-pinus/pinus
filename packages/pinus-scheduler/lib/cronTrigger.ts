@@ -1,9 +1,10 @@
 /**
  * This is the trigger used to decode the cronTimer and calculate the next excution time of the cron Trigger.
  */
-import { getLogger } from 'log4js';
 import { Job } from './job';
-let logger = getLogger(__filename);
+import { getLogger } from 'pinus-logger';
+import * as path from 'path';
+let logger = getLogger('pinus-scheduler', path.basename(__filename));
 
 let SECOND = 0;
 let MIN = 1;

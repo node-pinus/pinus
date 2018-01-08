@@ -1,7 +1,9 @@
 import * as starter from './starter';
-import { getLogger } from 'pinus-logger'; let logger = getLogger('pinus', __filename);
-let crashLogger = getLogger('crash-log', __filename);
-let adminLogger = getLogger('admin-log', __filename);
+import { getLogger } from 'pinus-logger';
+import * as path from 'path';
+let logger = getLogger('pinus', path.basename(__filename));
+let crashLogger = getLogger('crash-log', path.basename(__filename));
+let adminLogger = getLogger('admin-log', path.basename(__filename));
 import * as admin from 'pinus-admin';
 import * as util from 'util';
 import * as utils from '../util/utils';

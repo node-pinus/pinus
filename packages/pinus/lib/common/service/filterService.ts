@@ -2,7 +2,8 @@ import { getLogger } from 'pinus-logger';import { RouteRecord } from '../../util
 import { HandlerCallback } from './handlerService';
 import { BeforeHandlerFilter, AfterHandlerFilter } from '../../interfaces/IHandlerFilter';
 import { FrontendOrBackendSession } from '../../server/server';
- let logger = getLogger('pinus', __filename);
+import * as path from 'path';
+let logger = getLogger('pinus', path.basename(__filename));
 
 /**
  * Filter service.

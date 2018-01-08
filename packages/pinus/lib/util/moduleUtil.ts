@@ -11,7 +11,9 @@ import { MonitorWatcherModule } from '../modules/monitorwatcher';
 import { WatchServerModule } from '../modules/watchServer';
 import { OnlineUserModule } from '../modules/onlineUser';
 import { ConsoleModule } from '../modules/console';
-let logger = getLogger('pinus', __filename);
+import * as path from 'path';
+let logger = getLogger('pinus', path.basename(__filename));
+
 
 export interface ModuleRecord
 {

@@ -8,7 +8,9 @@ import { ISocket } from '../interfaces/ISocket';
 import * as WebSocket from 'ws';
 import { TcpSocket } from './hybrid/tcpsocket';
 import { IHybridSocket } from './hybrid/IHybridSocket';
-let logger = getLogger('pinus', __filename);
+import * as path from 'path';
+let logger = getLogger('pinus', path.basename(__filename));
+
 
 let ST_INITED = 0;
 let ST_WAIT_ACK = 1;

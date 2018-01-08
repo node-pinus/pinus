@@ -4,11 +4,13 @@
  * MIT Licensed
  */
 import { getLogger } from 'pinus-logger';
-let logger = getLogger('pinus-monitor', __filename);
 import * as utils from '../util/utils';
 import { IModule, MonitorCallback, MasterCallback, ModuleType ,  MonitorAgent, MasterAgent } from 'pinus-admin';
 import { Application } from '../application';
 import { pinus } from '../pinus';
+import * as path from 'path';
+let logger = getLogger('pinus', path.basename(__filename));
+
 
 export class OnlineUserModule implements IModule
 {

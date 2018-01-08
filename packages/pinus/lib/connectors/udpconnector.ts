@@ -13,7 +13,9 @@ import { EventEmitter } from 'events';
 import { getLogger } from 'pinus-logger';
 import { SocketType } from 'dgram';
 import { IConnector } from '../interfaces/IConnector';
-let logger = getLogger('pinus', __filename);
+import * as path from 'path';
+let logger = getLogger('pinus', path.basename(__filename));
+
 
 
 export interface UDPConnectorOptions extends HandshakeCommandOptions , HeartbeatCommandOptions

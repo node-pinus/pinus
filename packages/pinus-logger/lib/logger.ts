@@ -144,6 +144,15 @@ function reloadConfiguration()
 	configState.lastMTime = mtime;
 };
 
+function replaceConsole()
+{
+	
+	const logger = log4js.getLogger('console');
+	console.log = logger.info.bind(logger);
+	console.warn = logger.warn.bind(logger);
+	console.error = logger.error.bind(logger);
+	console.trace = logger.trace.bind(logger);
+}
 
 function configureOnceOff(config : Config)
 {
@@ -154,11 +163,7 @@ function configureOnceOff(config : Config)
 			configureLevels(config.categories);
 			if (config.replaceConsole)
 			{
-				const logger = log4js.getLogger('console');
-				console.log = logger.info.bind(logger);
-				console.warn = logger.warn.bind(logger);
-				console.error = logger.error.bind(logger);
-				console.trace = logger.trace.bind(logger);
+				replaceConsole();
 			}
 		} catch (e)
 		{
@@ -225,7 +230,7 @@ function configure(configOrFilename: string | Config, opts: object)
 	}
 	else
 	{
-		process.env.LOGGER_LINE = undefined;
+		delete process.env["LOGGER_LINE"];
 	}
 
 	if (config && config.rawMessage)
@@ -241,6 +246,10 @@ function configure(configOrFilename: string | Config, opts: object)
 	// config object could not turn on the auto reload configure file in log4js
 
 	log4js.configure(config);
+	if (config.replaceConsole)
+	{
+		replaceConsole();
+	}
 };
 
 function replaceProperties(configObj : any, opts: object)

@@ -9,7 +9,9 @@ import { TlsOptions } from 'tls';
 import * as WebSocket from 'ws';
 import { TcpSocket } from './tcpsocket';
 import { IHybridSocket } from './IHybridSocket';
-let logger = getLogger('pinus', __filename);
+import * as path from 'path';
+let logger = getLogger('pinus', path.basename(__filename));
+
 
 let HTTP_METHODS = [
     'GET', 'POST', 'DELETE', 'PUT', 'HEAD'

@@ -1,12 +1,15 @@
 /**
  * Filter to keep request sequence.
  */
-import { getLogger } from 'pinus-logger'; let logger = getLogger('pinus', __filename);
+import { getLogger } from 'pinus-logger';
 import * as taskManager from '../../common/manager/taskManager';
 import { RouteRecord } from '../../util/constants';
 import { IHandlerFilter } from '../../interfaces/IHandlerFilter';
 import { HandlerCallback } from '../../common/service/handlerService';
 import { FrontendOrBackendSession } from '../../server/server';
+import * as path from 'path';
+let logger = getLogger('pinus', path.basename(__filename));
+
 
 
 export class SerialFilter implements IHandlerFilter

@@ -3,9 +3,10 @@ import * as path from 'path';
 import { Protobuf} from 'pinus-protobuf';
 import * as Constants from '../util/constants';
 import * as crypto from 'crypto';
-import { getLogger } from 'pinus-logger'; import { Application } from '../application';
+import { getLogger } from 'pinus-logger';
+import { Application } from '../application';
 import { IComponent } from '../interfaces/IComponent';
-let logger = getLogger('pinus', __filename);
+let logger = getLogger('pinus', path.basename(__filename));
 
 export interface ProtobufComponentOptions
 {

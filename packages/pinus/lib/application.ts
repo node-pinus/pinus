@@ -10,7 +10,7 @@
 import * as utils from './util/utils';
 import { getLogger } from 'pinus-logger';
 import * as Logger from 'pinus-logger';
- let logger = getLogger('pinus', __filename);
+let logger = getLogger('pinus', path.basename(__filename));
 import { EventEmitter } from 'events';
 import { default as events, AppEvents } from './util/events';
 import * as appUtil from './util/appUtil';

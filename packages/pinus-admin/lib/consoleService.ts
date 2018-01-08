@@ -1,4 +1,4 @@
-import { getLogger } from 'pinus-logger'; let logger = getLogger('pinus-admin', 'ConsoleService');
+import { getLogger } from 'pinus-logger';
 import {MonitorAgent} from './monitor/monitorAgent';
 import { EventEmitter } from 'events';
 import { MasterAgent, MasterAgentOptions } from './master/masterAgent';
@@ -7,6 +7,8 @@ import * as protocol from './util/protocol';
 import * as utils from './util/utils';
 import * as util from 'util';
 import { AdminServerInfo, ServerInfo, AdminUserInfo, Callback } from './util/constants';
+import * as path from 'path';
+let logger = getLogger('pinus-admin', path.basename(__filename));
 
 let MS_OF_SECOND = 1000;
 
