@@ -3,6 +3,7 @@ import * as log4js from 'log4js';
 import * as fs from 'fs';
 import * as util from 'util';
 import { Configuration, Levels } from 'log4js';
+import { isNullOrUndefined } from 'util';
 
 
 let funcs: {[key:string] : (name:string , opts:any) => string} = {
@@ -45,7 +46,7 @@ let colours = {
 function getLogger(... args : string[])
 {
 	let categoryName = args[0];
-	let prefix = "";
+	let prefix =  "";
 	for (let i = 1; i < args.length; i++)
 	{
 		if (i !== args.length - 1)
@@ -72,10 +73,22 @@ function getLogger(... args : string[])
 			let p = "";
 			if (!process.env.RAW_MESSAGE)
 			{
-				if (args.length > 1)
+				if (process.env.LOGGER_PREFIX)
+				{
+					if (args.length > 1)
+					{
+						p = "[" + process.env.LOGGER_PREFIX + prefix + "] ";
+					}
+					else if (process.env.LOGGER_PREFIX)
+					{
+						p = "[" + process.env.LOGGER_PREFIX + "] ";
+					}	
+				}	
+				else if (args.length > 1)
 				{
 					p = "[" + prefix + "] ";
 				}
+				
 				if (args.length && process.env.LOGGER_LINE)
 				{
 					p = getLine() + ": " + p;
@@ -150,8 +163,7 @@ function reloadConfiguration()
 
 function replaceConsole()
 {
-	
-	const logger = log4js.getLogger('console');
+	const logger = getLogger('console');
 	console.log = logger.info.bind(logger);
 	console.warn = logger.warn.bind(logger);
 	console.error = logger.error.bind(logger);
@@ -193,6 +205,11 @@ function configureLevels(levels:  { [name: string]: { level: string; } })
 	}
 };
 
+export interface ILogger
+{
+	configure(configOrFilename: string | Config, opts?: {[key:string]:any}): void;
+}	
+
 /**
  * Configure the logger.
  * Configure file just like log4js.json. And support ${scope:arg-name} format property setting.
@@ -206,12 +223,13 @@ function configureLevels(levels:  { [name: string]: { level: string; } })
  * @param  {Object} opts   options
  * @return {Void}
  */
-export type Config = Configuration & { errorStack?:boolean, lineDebug?: boolean, rawMessage?: boolean, reloadSecs?: number, replaceConsole ?: boolean };
-function configure(configOrFilename: string | Config, opts: object)
+export type CustomConfig = { prefix?: string, errorStack?: boolean, lineDebug?: boolean, rawMessage?: boolean, reloadSecs?: number, replaceConsole?: boolean };
+export type Config = Configuration & CustomConfig;
+function configure(configOrFilename: string | Config, opts?: {[key:string]:any})
 {
 	let filename = configOrFilename as string;
 	configOrFilename = configOrFilename || process.env.LOG4JS_CONFIG;
-	opts = opts || {};
+	opts = opts || {} as Config;
 
 	let config: Config;
 	if (typeof configOrFilename === 'string')
@@ -232,6 +250,11 @@ function configure(configOrFilename: string | Config, opts: object)
 	{
 		process.env.ERROR_STACK = "true";
 	}
+
+	if (config && config.prefix)
+	{
+		process.env.LOGGER_PREFIX = config.prefix;
+	}	
 
 	if (config && config.lineDebug)
 	{
@@ -257,7 +280,7 @@ function configure(configOrFilename: string | Config, opts: object)
 	}
 };
 
-function replaceProperties(configObj : any, opts: object)
+function replaceProperties(configObj : any, opts: any)
 {
 	if (configObj instanceof Array)
 	{

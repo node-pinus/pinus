@@ -8,8 +8,7 @@
  * Module dependencies.
  */
 import * as utils from './util/utils';
-import { getLogger } from 'pinus-logger';
-import * as Logger from 'pinus-logger';
+import { getLogger, ILogger } from 'pinus-logger';
 import { EventEmitter } from 'events';
 import { default as events, AppEvents } from './util/events';
 import * as appUtil from './util/appUtil';
@@ -172,20 +171,21 @@ export class Application
      *
      * @memberOf Application
      */
-    configureLogger(logger : typeof Logger)
+    configureLogger(logger : ILogger)
     {
         if (process.env.POMELO_LOGGER !== 'off')
         {
+            let serverId = this.getServerId();
             let base = this.getBase();
             let env = this.get(Constants.RESERVED.ENV);
             let originPath = path.join(base, Constants.FILEPATH.LOG);
             let presentPath = path.join(base, Constants.FILEPATH.CONFIG_DIR, env, path.basename(Constants.FILEPATH.LOG));
             if (fs.existsSync(originPath))
             {
-                logger.configure(originPath, { serverId: this.serverId, base: base });
+                logger.configure(originPath, {serverId: serverId, base: base});
             } else if (fs.existsSync(presentPath))
             {
-                logger.configure(presentPath, { serverId: this.serverId, base: base });
+                logger.configure(presentPath, {serverId: serverId, base: base});
             } else
             {
                 console.error('logger file path configuration is error.');

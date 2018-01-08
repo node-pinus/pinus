@@ -94,9 +94,8 @@
         }
     },
 
+    "prefix": "${opts:serverId} ",
     "replaceConsole": true,
-
     "lineDebug": false,
-
     "errorStack": true
 }

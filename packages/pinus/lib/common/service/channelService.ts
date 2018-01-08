@@ -619,7 +619,7 @@ let addToStore = function (self : ChannelService, key : string,  value : string)
         {
             if (!!err)
             {
-                logger.error('add key: %s value: %s to store, with err: %j', key, value, err.stack);
+                logger.error('add key: %s value: %s to store, with err: %j', key, value);
             }
         });
     }
@@ -633,7 +633,7 @@ let removeFromStore = function (self : ChannelService, key : string,  value : st
         {
             if (!!err)
             {
-                logger.error('remove key: %s value: %s from store, with err: %j', key, value, err.stack);
+                logger.error('remove key: %s value: %s from store, with err: %j', key, value);
             }
         });
     }
@@ -647,7 +647,7 @@ let loadAllFromStore = function (self : ChannelService, key : string, cb : (err:
         {
             if (!!err)
             {
-                logger.error('load key: %s from store, with err: %j', key, err.stack);
+                logger.error('load key: %s from store, with err: %j', key);
                 utils.invokeCallback(cb, err);
             } else
             {
@@ -665,7 +665,7 @@ let removeAllFromStore = function (self : ChannelService, key : string)
         {
             if (!!err)
             {
-                logger.error('remove key: %s all members from store, with err: %j', key, err.stack);
+                logger.error('remove key: %s all members from store, with err: %j', key);
             }
         });
     }
