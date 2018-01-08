@@ -88,6 +88,10 @@ function getLogger(... args : string[])
 			{
 				arguments[0] = p + arguments[0];
 			}
+			if (item == "error" && process.env.ERROR_STACK)
+			{
+				arguments[0] += colorize((new Error()).stack, colours[item] as keyof typeof styles);
+			}
 			logger[item].apply(logger, arguments);
 		}
 	});
@@ -202,7 +206,7 @@ function configureLevels(levels:  { [name: string]: { level: string; } })
  * @param  {Object} opts   options
  * @return {Void}
  */
-export type Config = Configuration & { lineDebug?: boolean, rawMessage?: boolean, reloadSecs?: number, replaceConsole ?: boolean };
+export type Config = Configuration & { errorStack?:boolean, lineDebug?: boolean, rawMessage?: boolean, reloadSecs?: number, replaceConsole ?: boolean };
 function configure(configOrFilename: string | Config, opts: object)
 {
 	let filename = configOrFilename as string;
@@ -224,13 +228,14 @@ function configure(configOrFilename: string | Config, opts: object)
 		config = replaceProperties(config, opts);
 	}
 
+	if (config && config.errorStack)
+	{
+		process.env.ERROR_STACK = "true";
+	}
+
 	if (config && config.lineDebug)
 	{
 		process.env.LOGGER_LINE = "true";
-	}
-	else
-	{
-		delete process.env["LOGGER_LINE"];
 	}
 
 	if (config && config.rawMessage)

@@ -10,7 +10,6 @@
 import * as utils from './util/utils';
 import { getLogger } from 'pinus-logger';
 import * as Logger from 'pinus-logger';
-let logger = getLogger('pinus', path.basename(__filename));
 import { EventEmitter } from 'events';
 import { default as events, AppEvents } from './util/events';
 import * as appUtil from './util/appUtil';
@@ -49,6 +48,7 @@ import { IPlugin,ApplicationEventContructor } from './interfaces/IPlugin';
 import { Cron } from './server/server';
 import { ServerStartArgs } from './util/appUtil';
 import { listEs6ClassMethods } from 'pinus-rpc';
+let logger = getLogger('pinus', path.basename(__filename));
 
 
 export type ConfigureCallback =  ()=>void;
