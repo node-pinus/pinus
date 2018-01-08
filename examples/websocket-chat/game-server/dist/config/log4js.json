@@ -96,5 +96,7 @@
 
   "replaceConsole": true,
 
-  "lineDebug": false
+  "lineDebug": false,
+
+  "errorStack": true
 }
