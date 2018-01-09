@@ -1,5 +1,6 @@
 var CountDownLatch = require('../../lib/util/countDownLatch');
-var should = require('should');
+import * as should from "should"
+import {describe, it} from "mocha-typescript"
 
 var cbCreator = (function() {
   var count =0;
@@ -20,7 +21,7 @@ describe('countdown latch test', function() {
   var countDownLatch2;
 
   describe('#count down', function() {
-    it('should invoke the callback after the done method was invoked the specified times', function(done) {
+    it('should invoke the callback after the done method was invoked the specified times', function(done: MochaDone) {
       var n = 3, doneCount = 0;
       var cdl = CountDownLatch.createCountDownLatch(n, function() {
         doneCount.should.equal(n);
@@ -64,7 +65,7 @@ describe('countdown latch test', function() {
 
     it('should invoke the callback if timeout', function() {
       var n = 3;
-      var cdl = CountDownLatch.createCountDownLatch(n, {timeout: 3000}, function(isTimeout) {
+      var cdl = CountDownLatch.createCountDownLatch(n, {timeout: 3000}, function(isTimeout: boolean) {
         isTimeout.should.equal(true);
       });
 

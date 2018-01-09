@@ -1,12 +1,13 @@
-var utils = require('../../lib/util/utils');
-var should = require('should');
+let utils = require('../../lib/util/utils');
+import * as should from "should"
+import {describe, it} from "mocha-typescript"
 
 describe('utils test', function() {
   describe('#invokeCallback', function() {
     it('should invoke the function with the parameters', function() {
-      var p1 = 1, p2 = 'str';
+      let p1 = 1, p2 = 'str';
 
-      var func = function(arg1, arg2) {
+      let func = function(arg1: number, arg2: string) {
         p1.should.equal(arg1);
         p2.should.equal(arg2);
       };
@@ -15,7 +16,7 @@ describe('utils test', function() {
     });
 
     it('should ok if cb is null', function() {
-      var p1 = 1, p2 = 'str';
+      let p1 = 1, p2 = 'str';
       (function() {
         utils.invokeCallback(null, p1, p2);
       }).should.not.throw();
@@ -24,7 +25,7 @@ describe('utils test', function() {
 
   describe('#size', function() {
     it('should return the own property count of the object', function() {
-      var obj = {
+      let obj = {
         p1: 'str',
         p2: 1,
         m1: function() {}
@@ -36,15 +37,15 @@ describe('utils test', function() {
 
   describe('#startsWith', function() {
     it('should return true if the string do start with the prefix', function() {
-      var src = 'prefix with a string';
-      var prefix = 'prefix';
+      let src = 'prefix with a string';
+      let prefix = 'prefix';
 
       utils.startsWith(src, prefix).should.be.true;
     });
 
     it('should return false if the string not start with the prefix', function() {
-      var src = 'prefix with a string';
-      var prefix = 'prefix222';
+      let src = 'prefix with a string';
+      let prefix = 'prefix222';
 
       utils.startsWith(src, prefix).should.be.false;
 
@@ -59,15 +60,15 @@ describe('utils test', function() {
 
   describe('#endsWith', function() {
     it('should return true if the string do end with the prefix', function() {
-      var src = 'string with a suffix';
-      var suffix = 'suffix';
+      let src = 'string with a suffix';
+      let suffix = 'suffix';
 
       utils.endsWith(src, suffix).should.be.true;
     });
 
     it('should return false if the string not end with the prefix', function() {
-      var src = 'string with a suffix';
-      var suffix = 'suffix222';
+      let src = 'string with a suffix';
+      let suffix = 'suffix222';
 
       utils.endsWith(src, suffix).should.be.false;
 
@@ -82,33 +83,33 @@ describe('utils test', function() {
 
   describe('#hasChineseChar', function() {
     it('should return false if the string does not have any Chinese characters', function() {
-      var src = 'string without Chinese characters';
+      let src = 'string without Chinese characters';
       utils.hasChineseChar(src).should.be.false;
     });
 
     it('should return true if the string has Chinese characters', function() {
-      var src = 'string with Chinese characters 你好';
+      let src = 'string with Chinese characters 你好';
       utils.hasChineseChar(src).should.be.true;
     });
   });
 
   describe('#unicodeToUtf8', function() {
     it('should return the origin string if the string does not have any Chinese characters', function() {
-      var src = 'string without Chinese characters';
+      let src = 'string without Chinese characters';
       utils.unicodeToUtf8(src).should.equal(src);
     });
 
     it('should not return the origin string if the string has Chinese characters', function() {
-      var src = 'string with Chinese characters 你好';
+      let src = 'string with Chinese characters 你好';
       utils.unicodeToUtf8(src).should.not.equal(src);
     });
   });
 
   describe('#isLocal', function() {
     it('should return true if the ip is local', function() {
-      var ip = '127.0.0.1';
-      var host = 'localhost';
-      var other = '192.168.1.1';
+      let ip = '127.0.0.1';
+      let host = 'localhost';
+      let other = '192.168.1.1';
       utils.isLocal(ip).should.be.true;
       utils.isLocal(host).should.be.true;
       utils.isLocal(other).should.be.false;
@@ -117,9 +118,9 @@ describe('utils test', function() {
 
   describe('#loadCluster', function() {
     it('should produce cluster servers', function() {
-      var clusterServer = {host: '127.0.0.1', port: '3010++', serverType: 'chat', cluster: true, clusterCount: 2};
-      var serverMap = {};
-      var app = {clusterSeq:{}};
+      let clusterServer = {host: '127.0.0.1', port: '3010++', serverType: 'chat', cluster: true, clusterCount: 2};
+      let serverMap = {};
+      let app = {clusterSeq:{}};
       utils.loadCluster(app, clusterServer, serverMap);
       utils.size(serverMap).should.equal(2);
     });
@@ -127,22 +128,22 @@ describe('utils test', function() {
 
   describe('#arrayDiff', function() {
     it('should return the difference of two arrays', function() {
-      var array1 = [1, 2, 3, 4, 5];
-      var array2 = [1, 2, 3];
-      var array = utils.arrayDiff(array1, array2);
+      let array1 = [1, 2, 3, 4, 5];
+      let array2 = [1, 2, 3];
+      let array = utils.arrayDiff(array1, array2);
       array.should.eql([4, 5]);
     });
   });
 
   describe('#extends', function() {
     it('should extends opts', function() {
-      var opts = {
+      let opts = {
         test: 123
       };
-      var add = {
+      let add = {
         aaa: 555
       };
-      var result = utils.extends(opts, add);
+      let result = utils.extends(opts, add);
       result.should.eql({
         test: 123,
         aaa: 555
@@ -152,10 +153,10 @@ describe('utils test', function() {
 
   describe('#ping', function() {
     it('should ping server', function() {
-      utils.ping('127.0.0.1', function(flag) {
+      utils.ping('127.0.0.1', function(flag: boolean) {
         flag.should.be.true;
       });
-      utils.ping('111.111.111.111', function(flag) {
+      utils.ping('111.111.111.111', function(flag: boolean) {
         flag.should.be.false;
       });
     });
