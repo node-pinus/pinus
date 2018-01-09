@@ -56,6 +56,7 @@ export interface RpcMsg {
     args: any[];
 }
 
+export type TargetRouterFunction = (serverType: string, msg: RpcMsg, routeParam: object, cb: (err: Error, serverId:string)=>void)=>void; 
 
 /**
  * RPC Client Class
@@ -71,8 +72,10 @@ export class RpcClient {
     _station: MailStation;
     state: number;
 
-    wrrParam ?: {[serverType: string]: {index: number, weight: number}};
-    chParam ?:  {[serverType: string]: {consistentHash: ConsistentHash}};
+    targetRouterFunction : TargetRouterFunction;
+
+    wrrParam ?: {[serverType:string] : {index:number,weight : number}};
+    chParam ?:  {[serverType:string] : {consistentHash:ConsistentHash}};
 
     constructor(opts?: RpcClientOpts) {
         opts = opts || {};
@@ -86,6 +89,7 @@ export class RpcClient {
         }
         this.opts = opts;
         this.proxies = {};
+        this.targetRouterFunction = getRouteFunction(this);
         this._station = createStation(opts);
         this.state = STATE_INITED;
     }
@@ -355,9 +359,12 @@ let proxyCB = function (client: RpcClient, serviceName: string, methodName: stri
         if (isToSpecifiedServer) {
             rpcToSpecifiedServer(client, msg, serverType, routeParam, resolve);
         }
-        else {
-            getRouteTarget(client, serverType, msg, routeParam, function (err: Error, serverId: string) {
-                if (err) {
+        else
+        {
+            client.targetRouterFunction(serverType, msg, routeParam, function (err: Error, serverId: string)
+            {
+                if (err)
+                {
                     return resolve(err);
                 }
 
@@ -384,10 +391,13 @@ let proxyCB = function (client: RpcClient, serviceName: string, methodName: stri
  *
  * @api private
  */
-let getRouteTarget = function (client: RpcClient, serverType: string, msg: RpcMsg, routeParam: object, cb: (err: Error, serverId: string) => void) {
-    if (!!client.routerType) {
-        let method;
-        switch (client.routerType) {
+function getRouteFunction(client: RpcClient) : TargetRouterFunction
+{
+    if (!!client.routerType)
+    {
+        let method : (client: RpcClient, serverType: string, msg: RpcMsg, cb:(err:Error, serverId?:string)=>void)=>void;
+        switch (client.routerType)
+        {
             case constants.SCHEDULE.ROUNDROBIN:
                 method = router.rr;
                 break;
@@ -404,12 +414,18 @@ let getRouteTarget = function (client: RpcClient, serverType: string, msg: RpcMs
                 method = router.rd;
                 break;
         }
-        method.call(null, client, serverType, msg, function (err: Error, serverId: string) {
-            cb(err, serverId);
-        });
-    } else {
-        let route, target;
-        if (typeof client.router === 'function') {
+        return (serverType: string, msg: RpcMsg, routeParam: object, cb: (err: Error, serverId:string)=>void)=>
+        {
+            method.call(null, client, serverType, msg, function (err: Error, serverId: string)
+            {
+                cb(err, serverId);
+            });
+        }
+    } else
+    {
+        let route : RouterFunction, target : Object;
+        if (typeof client.router === 'function')
+        {
             route = client.router;
             target = null;
         } else if (typeof client.router.route === 'function') {
@@ -419,9 +435,14 @@ let getRouteTarget = function (client: RpcClient, serverType: string, msg: RpcMs
             logger.error('[pinus-rpc] invalid route function.');
             return;
         }
-        route.call(target, routeParam, msg, client._routeContext, function (err: Error, serverId: string) {
-            cb(err, serverId);
-        });
+        
+        return (serverType: string, msg: RpcMsg, routeParam: object, cb: (err: Error, serverId:string)=>void)=>
+        {
+            route.call(target, routeParam, msg, client._routeContext, function (err: Error, serverId: string)
+            {
+                cb(err, serverId);
+            });
+        }
     }
 };
 
