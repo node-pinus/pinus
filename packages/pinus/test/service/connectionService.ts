@@ -1,5 +1,5 @@
 import * as should from "should"
-import {describe, it} from "mocha-typescript"
+import { describe, it } from "mocha-typescript"
 let ConnectionService = require('../../lib/common/service/connectionService');
 
 let mockApp = {
@@ -7,24 +7,29 @@ let mockApp = {
     serverId: 'connector-server-1'
   },
 
-  get: function(key: 'serverId') {
+  get: function (key: 'serverId')
+  {
     return this.settings[key];
   },
 
-  getServerId: function() {
+  getServerId: function ()
+  {
     return this.get('serverId');
   }
 };
 
-describe('connection service test', function() {
-  describe('#addLoginedUser', function() {
-    it('should add logined user and could fetch it later', function() {
+describe('connection service test', function ()
+{
+  describe('#addLoginedUser', function ()
+  {
+    it('should add logined user and could fetch it later', function ()
+    {
       let service = new ConnectionService(mockApp);
       should.exist(service);
       service.loginedCount.should.equal(0);
 
       let uid = 'uid1';
-      let info = {msg: 'some other message'};
+      let info = { msg: 'some other message' };
       service.addLoginedUser(uid, info);
 
       service.loginedCount.should.equal(1);
@@ -34,8 +39,10 @@ describe('connection service test', function() {
     });
   });
 
-  describe('#increaseConnectionCount', function() {
-    it('should increate connection count and could fetch it later', function() {
+  describe('#increaseConnectionCount', function ()
+  {
+    it('should increate connection count and could fetch it later', function ()
+    {
       let service = new ConnectionService(mockApp);
       should.exist(service);
       service.connCount.should.equal(0);
@@ -45,14 +52,16 @@ describe('connection service test', function() {
     });
   });
 
-  describe('#removeLoginedUser', function() {
-    it('should remove logined user info with the uid', function() {
+  describe('#removeLoginedUser', function ()
+  {
+    it('should remove logined user info with the uid', function ()
+    {
       let service = new ConnectionService(mockApp);
       should.exist(service);
       service.loginedCount.should.equal(0);
 
       let uid = 'uid1';
-      let info = {msg: 'some other message'};
+      let info = { msg: 'some other message' };
       service.addLoginedUser(uid, info);
 
       service.loginedCount.should.equal(1);
@@ -72,8 +81,10 @@ describe('connection service test', function() {
     });
   });
 
-  describe('#decreaseConnectionCount', function() {
-    it('should decrease connection count only if uid is empty', function() {
+  describe('#decreaseConnectionCount', function ()
+  {
+    it('should decrease connection count only if uid is empty', function ()
+    {
       let service = new ConnectionService(mockApp);
       should.exist(service);
 
@@ -83,7 +94,8 @@ describe('connection service test', function() {
       service.connCount.should.equal(0);
     });
 
-    it('should keep zero if connection count become zero', function() {
+    it('should keep zero if connection count become zero', function ()
+    {
       let service = new ConnectionService(mockApp);
       should.exist(service);
 
@@ -92,14 +104,15 @@ describe('connection service test', function() {
       service.connCount.should.equal(0);
     });
 
-    it('should remove the logined info if uid is specified', function() {
+    it('should remove the logined info if uid is specified', function ()
+    {
       let service = new ConnectionService(mockApp);
       should.exist(service);
 
       service.increaseConnectionCount();
 
       let uid = 'uid1';
-      let info = {msg: 'some other message'};
+      let info = { msg: 'some other message' };
       service.addLoginedUser(uid, info);
 
       service.connCount.should.equal(1);
@@ -112,7 +125,8 @@ describe('connection service test', function() {
     });
   });
 
-  it('should getStatisticsInfo',  function(done: MochaDone){
+  it('should getStatisticsInfo', function (done: MochaDone)
+  {
     let service = new ConnectionService(mockApp);
     let uid1 = 'uid1', uid2 = 'uid2';
     let info1 = 'msg1', info2 = 'msg2';
