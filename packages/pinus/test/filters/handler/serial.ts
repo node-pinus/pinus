@@ -1,17 +1,18 @@
-var should = require('should');
-var serialFilter = require('../../../lib/filters/handler/serial');
-var FilterService = require('../../../lib/common/service/filterService');
-var util = require('util');
+import * as should from "should"
+import { describe, it } from "mocha-typescript"
+let serialFilter = require('../../../lib/filters/handler/serial');
+let FilterService = require('../../../lib/common/service/filterService');
+let util = require('util');
 
-var mockSession = {
+let mockSession: {key:string, __serialTask__?:any} = {
   key : "123"
 };
 
-var WAIT_TIME = 100;
+let WAIT_TIME = 100;
 describe("#serialFilter",function(){
-  it("should do before filter ok",function(done){
-    var service = new FilterService();
-    var filter = serialFilter();
+  it("should do before filter ok",function(done: MochaDone){
+    let service = new FilterService();
+    let filter = serialFilter();
     service.before(filter);
 
     service.beforeFilter(null,mockSession,function(){
@@ -22,10 +23,10 @@ describe("#serialFilter",function(){
     });
   });
 
-  it("should do after filter by doing before filter ok",function(done){
-    var service = new FilterService();
-    var filter = serialFilter();
-    var _session ;
+  it("should do after filter by doing before filter ok",function(done: MochaDone){
+    let service = new FilterService();
+    let filter = serialFilter();
+    let _session: {key:string, __serialTask__?:any};
     service.before(filter);
 
     service.beforeFilter(null,mockSession,function(){

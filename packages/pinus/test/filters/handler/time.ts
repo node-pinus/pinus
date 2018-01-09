@@ -1,16 +1,17 @@
-var should = require('should');
-var serialFilter = require('../../../lib/filters/handler/time');
-var FilterService = require('../../../lib/common/service/filterService');
-var util = require('util');
-var mockSession = {
+import * as should from "should"
+import { describe, it } from "mocha-typescript"
+let serialFilter = require('../../../lib/filters/handler/time');
+let FilterService = require('../../../lib/common/service/filterService');
+let util = require('util');
+let mockSession: {key:string, __startTime__?:any} = {
   key : "123"
 };
 
-var WAIT_TIME = 100;
+let WAIT_TIME = 100;
 describe("#serialFilter",function(){
-  it("should do before filter ok",function(done){
-    var service = new FilterService();
-    var filter = serialFilter();
+  it("should do before filter ok",function(done: MochaDone){
+    let service = new FilterService();
+    let filter = serialFilter();
     service.before(filter);
 
 
@@ -22,10 +23,10 @@ describe("#serialFilter",function(){
     });
   });
 
-  it("should do after filter by doing before filter ok",function(done){
-    var service = new FilterService();
-    var filter = serialFilter();
-    var _session ;
+  it("should do after filter by doing before filter ok",function(done: MochaDone){
+    let service = new FilterService();
+    let filter = serialFilter();
+    let _session: {key:string, __startTime__?:any} ;
     service.before(filter);
 
     service.beforeFilter(null,mockSession,function(){

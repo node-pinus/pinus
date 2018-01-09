@@ -1,22 +1,23 @@
-var should = require('should');
-var taskManager = require('../../lib/common/manager/taskManager');
+import * as should from "should"
+import { describe, it } from "mocha-typescript"
+let taskManager = require('../../lib/common/manager/taskManager');
 
 // set timeout for test
 taskManager.timeout = 100;
 
-var WAIT_TIME = 200;
+let WAIT_TIME = 200;
 
 describe("#taskManager",function(){
-  it("should add task and execute it",function(done){
-    var key = 'key-1';
-    var fn = function(task) {
+  it("should add task and execute it",function(done: MochaDone){
+    let key = 'key-1';
+    let fn = function(task: any) {
       taskCount++;
       task.done();
     };
-    var onTimeout = function() {
-      should.fail('should not timeout.');
+    let onTimeout = function() {
+      should.fail('should not timeout.', null);
     };
-    var taskCount = 0;
+    let taskCount = 0;
 
     taskManager.addTask(key, fn, onTimeout);
 
@@ -26,16 +27,16 @@ describe("#taskManager",function(){
     }, WAIT_TIME);
   });
 
-  it("should fire timeout callback if task timeout",function(done){
-    var key = 'key-1';
-    var fn = function(task) {
+  it("should fire timeout callback if task timeout",function(done: MochaDone){
+    let key = 'key-1';
+    let fn = function(task: any) {
       taskCount++;
     };
-    var onTimeout = function() {
+    let onTimeout = function() {
       timeoutCount++;
     };
-    var taskCount = 0;
-    var timeoutCount = 0;
+    let taskCount = 0;
+    let timeoutCount = 0;
 
     taskManager.addTask(key, fn, onTimeout);
 
@@ -46,16 +47,16 @@ describe("#taskManager",function(){
     }, WAIT_TIME);
   });
 
-  it("should not fire timeout after close the task",function(done){
-    var key = 'key-1';
-    var fn = function(task) {
+  it("should not fire timeout after close the task",function(done: MochaDone){
+    let key = 'key-1';
+    let fn = function(task: any) {
       taskCount++;
     };
-    var onTimeout = function() {
+    let onTimeout = function() {
       timeoutCount++;
     };
-    var taskCount = 0;
-    var timeoutCount = 0;
+    let taskCount = 0;
+    let timeoutCount = 0;
 
     taskManager.addTask(key, fn, onTimeout);
 
@@ -71,7 +72,7 @@ describe("#taskManager",function(){
   });
 
   it("should be ok to remove a queue not exist",function(){
-    var key = 'key-n';
+    let key = 'key-n';
     taskManager.closeQueue(key, true);
   });
 });

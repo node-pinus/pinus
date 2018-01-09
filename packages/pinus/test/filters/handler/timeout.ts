@@ -1,16 +1,17 @@
-var should = require('should');
-var timeoutFilter = require('../../../lib/filters/handler/timeout');
-var FilterService = require('../../../lib/common/service/filterService');
-var util = require('util');
-var mockSession = {
+import * as should from "should"
+import { describe, it } from "mocha-typescript"
+let timeoutFilter = require('../../../lib/filters/handler/timeout');
+let FilterService = require('../../../lib/common/service/filterService');
+let util = require('util');
+let mockSession: {key:string, __timeout__?:any} = {
   key : "123"
 };
 
-var WAIT_TIME = 100;
+let WAIT_TIME = 100;
 describe("#serialFilter",function(){
-  it("should do before filter ok",function(done){
-    var service = new FilterService();
-    var filter = timeoutFilter();
+  it("should do before filter ok",function(done: MochaDone){
+    let service = new FilterService();
+    let filter = timeoutFilter();
     service.before(filter);
 
     service.beforeFilter(null,mockSession,function(){
@@ -21,10 +22,10 @@ describe("#serialFilter",function(){
     });
   });
 
-  it("should do after filter by doing before filter ok",function(done){
-    var service = new FilterService();
-    var filter = timeoutFilter();
-    var _session ;
+  it("should do after filter by doing before filter ok",function(done:MochaDone){
+    let service = new FilterService();
+    let filter = timeoutFilter();
+    let _session:{key:string, __timeout__?:any};
     service.before(filter);
 
     service.beforeFilter(null,mockSession,function(){
