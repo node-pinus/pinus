@@ -81,6 +81,7 @@
     "grunt-contrib-jshint": "^0.8.0",
     "grunt-mocha-test": "^0.8.2",
     "mocha": "^4.1.0",
+    "mocha-typescript": "^1.1.12",
     "muk": ">=0.0.1",
     "nyc": "^8.4.0",
     "should": "^3.3.2",
