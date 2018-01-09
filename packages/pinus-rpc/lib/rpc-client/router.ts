@@ -1,7 +1,7 @@
 import { ConsistentHash } from '../util/consistentHash';
 import * as utils from '../util/utils';
 import * as crc from 'crc';
-import {RpcMsg, RpcClient} from './client'
+import {RpcMsg, RpcClient, RouteContext, RouteContextClass} from './client'
 /**
  * Calculate route info and return an appropriate server id.
  *
@@ -10,7 +10,7 @@ import {RpcMsg, RpcClient} from './client'
  * @param context {Object} context of client
  * @param cb(err, serverId)
  */
-let defRoute = function (session:{[key:string]:any}, msg: RpcMsg, context: {[key:string]:any}, cb: (err:Error, serverId?:string)=>void)
+let defRoute = function (session:{[key:string]:any}, msg: RpcMsg, context: RouteContextClass, cb: (err:Error, serverId?:string)=>void)
 {
     let list = context.getServersByType(msg.serverType);
     if (!list || !list.length)

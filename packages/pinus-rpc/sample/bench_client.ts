@@ -1,4 +1,4 @@
-var Client = require('..').client;
+import { RpcClient, RpcMsg, RouteContext, RouteServers } from '../index';
 
 // remote service interface path info list
 var records = [{
@@ -12,32 +12,35 @@ var context = {
 };
 
 // server info list
-var servers = [{
-  id: 'test-server-1',
-  serverType: 'test',
-  host: '127.0.0.1',
-  port: 3333
-}];
-
+var servers =
+  [{
+    id: 'test-server-1',
+    serverType: 'test',
+    host: '127.0.0.1',
+    port: 3333
+  }]
 // route parameter passed to route function
-var routeParam = null;
+var routeParam: string = null;
 
 // route context passed to route function
 var routeContext = servers;
 
+
 // route function to caculate the remote server id
-var routeFunc = function(routeParam, msg, routeContext, cb) {
-  cb(null, routeContext[0].id);
+var routeFunc = function (session: { [key: string]: any }, msg: RpcMsg, context: RouteServers, cb: (err: Error, serverId?: string) => void)
+{
+  cb(null, context[0].id);
 };
 
-var client = Client.create({
-  routeContext: routeContext,
+var client = new RpcClient({
+  routeContext: servers,
   router: routeFunc,
   context: context
 });
 
-var start = null;
-client.start(function(err) {
+var start: number = null;
+client.start(function (err)
+{
   console.log('rpc client start ok.');
 
   client.addProxies(records);
@@ -54,10 +57,11 @@ var mock_data_2 = 'hello';
 
 var num_repeat = 200; // 100 200 300 400 800
 
-for (var i = 0; i < num_repeat; i++) {
+for (var i = 0; i < num_repeat; i++)
+{
   mock_data_2 += mock_data_1;
 }
-
+var mock_data_1 = "abcdefg";
 var mock_data_3 = {
   a: 'run',
   b: mock_data_2 + Date.now() + '_',
@@ -69,33 +73,32 @@ var payload = mock_data_3;
 // console.log(new Buffer(payload).length / 1024 + 'k');
 console.log(new Buffer(JSON.stringify(payload)).length / 1024 + 'k');
 
-function run() {
-  if (times > num_requests) {
+async function run()
+{
+  if (times > num_requests)
+  {
     return;
   }
 
-  if (times == num_requests) {
+  if (times == num_requests)
+  {
     var now = Date.now();
     var cost = now - start;
     console.log('run %d num requests cost: %d ops/sec', num_requests, cost, (num_requests / (cost / 1000)).toFixed(2));
     times = 0;
     start = now;
     // return;
-    return run();
+    await run();
+    return;
   }
 
   times++;
-  rpcRequest(payload, function() {
-      run();
-  });
+  await rpcRequest(payload);
+  run();
 }
 
-function rpcRequest(param, cb) {
-  client.proxies.user.test.service.echo(routeParam, param, 123, function(err, resp) {
-    if (err) {
-      console.error(err.stack);
-    }
-    // console.log(resp);
-    cb();
-  });
+async function rpcRequest(param: any)
+{
+  var result = await client.proxies.user.test.service.echo(routeParam, mock_data_1, 123);
+  console.log("result:" , result);
 }

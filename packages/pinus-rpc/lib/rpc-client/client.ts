@@ -22,11 +22,16 @@ let STATE_INITED = 1; // client has inited
 let STATE_STARTED = 2; // client has started
 let STATE_CLOSED = 3; // client has closed
 
-export type Router = typeof router.df | {route : typeof router.df};
-export interface RouteContext
+export type RouterFunction = (session:{[key:string]:any}, msg: RpcMsg, context: RouteContext, cb: (err:Error, serverId?:string)=>void)=>void;
+export type Router = RouterFunction | {route : RouterFunction};
+
+export type RouteServers = RpcServerInfo[];
+export interface RouteContextClass
 {
-    getServersByType(serverType:string):RpcServerInfo[];
+    getServersByType ?: (serverType:string)=>RouteServers;
 }
+
+export type RouteContext = RouteServers | RouteContextClass;
 
 export type Proxies = {[namespace:string]:{[serverType:string]:{[remoterName:string]:{[attr:string]:Function}}}}
 
@@ -494,7 +499,7 @@ let rpcToSpecifiedServer = function (client: RpcClient, msg: RpcMsg, serverType:
     }
     if (serverId === '*')
     {
-        let servers = client._routeContext.getServersByType(serverType);
+        let servers = (client._routeContext as RouteContextClass).getServersByType(serverType);
         if (!servers)
         {
             logger.error('[pinus-rpc] serverType %s servers not exist', serverType);
