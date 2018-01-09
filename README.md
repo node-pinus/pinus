@@ -6,7 +6,7 @@
 欢迎加Pinus官方QQ群：102530089
 
 
-示例工程请参见：https://github.com/node-pinus/examples/simple-example
+示例工程请参见：https://github.com/node-pinus/pinus/tree/master/examples/simple-example
 
 手动安装：
 npm install pinus -g
