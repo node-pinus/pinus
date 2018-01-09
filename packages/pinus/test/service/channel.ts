@@ -1,6 +1,6 @@
 import * as should from "should"
-import { describe, it } from "mocha-typescript"
-let pinus = require('../../');
+// import { describe, it } from "mocha-typescript"
+let pinus = require('../../lib/index');
 let ChannelService = require('../../lib/common/service/channelService');
 
 let mockBase = process.cwd() + '/test';

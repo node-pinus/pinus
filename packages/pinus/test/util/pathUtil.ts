@@ -1,7 +1,7 @@
 let pathUtil = require('../../lib/util/pathUtil');
 let utils = require('../../lib/util/utils');
 import * as should from "should"
-import { describe, it } from "mocha-typescript"
+// import { describe, it } from "mocha-typescript"
 let fs = require('fs');
 
 let mockBase = process.cwd() + '/test/mock-base';

@@ -1,7 +1,10 @@
 import { Application } from '../../../lib/application';
+import { IComponent } from '../../../lib/index';
 
-export function mockPlugin(app: Application, opts: any)
+export class mockPlugin implements IComponent
 {
-  var service = { name: 'mockPlugin' };
-  return service;
-};
+  name = 'mockPlugin';
+  constructor(opts: any)
+  {
+  }
+}

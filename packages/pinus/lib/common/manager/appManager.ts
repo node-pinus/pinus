@@ -8,7 +8,7 @@ let transactionErrorLogger = getLogger('transaction-error-log', __filename);
 export type TransactionCondictionFunction = (cb : (err ?:Error)=>void)=>void;
 export type TransactionHandlerFunction = (cb : (err ?:Error)=>void)=>void;
 
-export function transaction(name : string, conditions : TransactionCondictionFunction[], handlers : TransactionHandlerFunction[], retry: number)
+export function transaction(name: string, conditions: { [key: string]: TransactionCondictionFunction }, handlers: { [key: string]: TransactionHandlerFunction }, retry?: number)
 {
     if (!retry)
     {

@@ -4,6 +4,8 @@ import { ServerInfo } from "../util/constants";
 import { ObjectType } from "./define";
 import { ILifeCycle } from "./ILifeCycle";
 import { IComponent } from "./IComponent";
+import { Cron } from "../server/server";
+import { Session } from "../index";
 
 export interface ComponentContructor
 {
@@ -15,13 +17,13 @@ export interface IApplicationEvent
     add_servers ?: (servers : ServerInfo[])=>void;
     remove_servers ?: (servers : ServerInfo[])=>void;
     replace_servers ?: (servers : ServerInfo[])=>void;
-    bind_session ?: (servers : ServerInfo[])=>void;
-    unbind_session ?: (servers : ServerInfo[])=>void;
-    close_session ?: (servers : ServerInfo[])=>void;
-    add_crons ?: (servers : ServerInfo[])=>void;
-    remove_crons ?: (servers : ServerInfo[])=>void;
-    start_server ?: (servers : ServerInfo[])=>void;
-    start_all ?: (servers : ServerInfo[])=>void;
+    bind_session ?: (session: Session)=>void;
+    unbind_session ?: (session: Session)=>void;
+    close_session ?: (session: Session)=>void;
+    add_crons ?: (crons: Cron[])=>void;
+    remove_crons ?: (crons: Cron[])=>void;
+    start_server ?: (serverId: string)=>void;
+    start_all ?: ()=>void;
 }
 
 export interface ApplicationEventContructor

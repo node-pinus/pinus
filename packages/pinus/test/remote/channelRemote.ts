@@ -1,8 +1,8 @@
 import * as should from "should"
-import { describe, it } from "mocha-typescript"
+// import { describe, it } from "mocha-typescript"
 import { UID, SID } from '../../lib/util/constants';
 import { ScheduleOptions } from '../../lib/interfaces/IPushScheduler';
-let pinus = require('../../');
+let pinus = require('../../lib/index');
 let remote = require('../../lib/common/remote/frontend/channelRemote');
 let SessionService = require('../../lib/common/service/sessionService');
 let ChannelService = require('../../lib/common/service/channelService');

@@ -873,7 +873,7 @@ export class Application
      * @param {Number} retry retry times to execute handlers if conditions are successfully executed
      * @memberOf Application
      */
-    transaction(name : string, conditions : TransactionCondictionFunction[], handlers : TransactionHandlerFunction[], retry: number)
+    transaction(name : string, conditions : { [key: string]: TransactionCondictionFunction }, handlers : { [key: string]: TransactionHandlerFunction }, retry?: number)
     {
         appManager.transaction(name, conditions, handlers, retry);
     };

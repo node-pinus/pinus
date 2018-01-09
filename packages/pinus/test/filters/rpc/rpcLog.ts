@@ -1,5 +1,5 @@
 import * as should from "should"
-import { describe, it } from "mocha-typescript"
+// import { describe, it } from "mocha-typescript"
 let rpcLogFilter = require('../../../lib/filters/rpc/rpcLog');
 
 let mockData = {

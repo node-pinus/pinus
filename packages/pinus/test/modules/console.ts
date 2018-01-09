@@ -1,6 +1,6 @@
 import * as should from "should"
-import { describe, it } from "mocha-typescript"
-let pinus = require('../../');
+// import { describe, it } from "mocha-typescript"
+let pinus = require('../../lib/index');
 let consoleModule = require('../../lib/modules/console');
 
 declare let before: Function, after: Function;

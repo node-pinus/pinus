@@ -1,16 +1,15 @@
 import { Application } from '../../../lib/application';
 import { Session } from '../../../lib/common/service/sessionService';
+import { IApplicationEvent } from '../../../lib/index';
 
-class Event
+export class mockEvent implements IApplicationEvent
 {
 	app: Application;
 	constructor(app: Application)
 	{
 		this.app = app;
 	}
-	bind_session = function (session: Session)
+	bind_session(session: Session)
 	{
 	}
 }
-
-export { Event }

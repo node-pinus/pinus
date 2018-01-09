@@ -1,11 +1,14 @@
-let app = require('../lib/application');
-let pinus = require('../');
+import { Application, IComponent, events } from '../lib/index';
 import * as should from "should"
-import { describe, it } from "mocha-typescript"
+import { mockPlugin } from './mock-plugin/components/mockPlugin';
+import { mockEvent } from './mock-plugin/events/mockEvent';
+
 
 declare var afterEach: any;
 let WAIT_TIME = 1000;
 let mockBase = process.cwd() + '/test';
+
+var app = new Application();
 
 describe('application test', function ()
 {
@@ -38,9 +41,9 @@ describe('application test', function ()
     it('should return the value if pass just one parameter to the set method', function ()
     {
       let key = 'some defined key', value = 'some value';
-      should.not.exist(app.set(key));
+      should.not.exist(app.get(key));
       app.set(key, value);
-      value.should.equal(app.set(key));
+      value.should.equal(app.get(key));
     });
   });
 
@@ -69,6 +72,7 @@ describe('application test', function ()
       let startCount = 0, afterStartCount = 0, stopCount = 0;
 
       let mockComponent = {
+        name : "mockComponent",
         start: function (cb: Function)
         {
           console.log('start invoked');
@@ -116,7 +120,7 @@ describe('application test', function ()
 
     it('should access the component with a name by app.components.name after loaded', function ()
     {
-      let key1 = 'key1', comp1 = { content: 'some thing in comp1' };
+      let key1 = 'key1', comp1 = new class implements IComponent { name: "comp1"; content: 'some thing in comp1'; };
       let comp2 = { name: 'key2', content: 'some thing in comp2' };
       let key3 = 'key3';
       let comp3 = function ()
@@ -137,8 +141,8 @@ describe('application test', function ()
     it('should ignore duplicated components', function ()
     {
       let key = 'key';
-      let comp1 = { content: 'some thing in comp1' };
-      let comp2 = { content: 'some thing in comp2' };
+      let comp1 = new class implements IComponent { name: "comp1";  content: 'some thing in comp1' };
+      let comp2 = new class implements IComponent { name: "comp2";  content: 'some thing in comp2' };
 
       app.init({ base: mockBase });
       app.load(key, comp1);
@@ -211,7 +215,8 @@ describe('application test', function ()
       let i, l;
       for (i = 0, l = filters.length; i < l; i++)
       {
-        app.filter(filters[i]);
+        app.before(filters[i]);
+        app.after(filters[i]);
       }
 
       let filters2 = app.get('__befores__');
@@ -294,7 +299,8 @@ describe('application test', function ()
       let i, l;
       for (i = 0, l = filters.length; i < l; i++)
       {
-        app.globalFilter(filters[i]);
+        app.globalBefore(filters[i]);
+        app.globalAfter(filters[i]);
       }
 
       let filters2 = app.get('__globalBefores__');
@@ -491,7 +497,7 @@ describe('application test', function ()
         { id: 'area-server-1', serverType: 'area', host: '127.0.0.1', port: 2234 }
       ];
       app.init({ base: mockBase });
-      app.event.on(pinus.events.ADD_SERVERS, function (servers: Array<{ [key: string]: any }>)
+      app.event.on(events.ADD_SERVERS, function (servers: Array<{ [key: string]: any }>)
       {
         // check event args
         newServers.should.eql(servers);
@@ -527,7 +533,7 @@ describe('application test', function ()
         types.length.should.equal(types2.length);
         for (i = 0, l = types.length; i < l; i++)
         {
-          types2.should.include(types[i]);
+          types2.should.containEql(types[i]);
         }
 
         // check server type list
@@ -562,14 +568,14 @@ describe('application test', function ()
       let delCount = 0;
 
       app.init({ base: mockBase });
-      app.event.on(pinus.events.ADD_SERVERS, function (servers: Array<{ [key: string]: any }>)
+      app.event.on(events.ADD_SERVERS, function (servers: Array<{ [key: string]: any }>)
       {
         // check event args
         newServers.should.eql(servers);
         addCount++;
       });
 
-      app.event.on(pinus.events.REMOVE_SERVERS, function (ids: Array<string>)
+      app.event.on(events.REMOVE_SERVERS, function (ids: Array<string>)
       {
         delIds.should.eql(ids);
 
@@ -605,7 +611,7 @@ describe('application test', function ()
         types.length.should.equal(types2.length);
         for (i = 0, l = types.length; i < l; i++)
         {
-          types2.should.include(types[i]);
+          types2.should.containEql(types[i]);
         }
 
         // check server type list
@@ -660,8 +666,9 @@ describe('application test', function ()
     it('should exist plugin component and event', function (done: MochaDone)
     {
       let plugin = {
-        components: mockBase + '/mock-plugin/components/',
-        events: mockBase + '/mock-plugin/events/'
+        name:"mock-plugin",
+        components: [mockPlugin],
+        events: [mockEvent]
       };
       let opts = {};
       app.use(plugin, opts);
