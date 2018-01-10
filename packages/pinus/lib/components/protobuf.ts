@@ -23,7 +23,7 @@ export class ProtobufComponent implements IComponent {
     } = {};
     clientProtos: {
         [key: string]: any;
-    }= {};
+    } = {};
     version = '';
     serverProtosPath: string;
     clientProtosPath: string;

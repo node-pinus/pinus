@@ -9,8 +9,8 @@
   "scripts": {
     "build": "tsc",
     "start": "npm run build && node dist/index",
-    "lint": "node --max_old_space_size=4096 ../../node_modules/tslint/bin/tslint --format prose -c ../../tslint.json src/**/*.ts",
-    "fix-lint": "node --max_old_space_size=4096 ../../node_modules/tslint/bin/tslint --format prose -c ../../tslint.json src/**/*.ts --fix",
+    "lint": "node_modules/.bin/tslint --format prose -c ../../tslint.json src/**/*.ts",
+    "fix-lint": "node_modules/.bin/tslint --format prose -c ../../tslint.json src/**/*.ts --fix",
     "test": "npm run build",
     "cov": "nyc mocha",
     "ci": "npm run test",
@@ -25,6 +25,21 @@
   "dependencies": {
     "@types/node": "^8.5.2",
     "pinus": "^1.2.19"
+  },
+  "dependencies": {
+      "@types/bluebird": "^3.5.19",
+      "@types/crc": "^3.4.0",
+      "@types/node": "^8.5.2",
+      "bluebird": "^3.5.1",
+      "crc": "^3.5.0",
+      "pinus": "^1.2.19",
+      "pinus-robot-plugin": "^1.2.19",
+      "reflect-metadata": "^0.1.10",
+      "source-map-support": "^0.5.0"
+  },
+  "devDependencies": {
+  "tslint": "^5.9.0",
+      "typescript": "^2.6.2"
   },
   "license": "MIT",
   "publishConfig": {}

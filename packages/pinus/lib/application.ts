@@ -93,7 +93,7 @@ export class Application {
     backendSessionService ?: BackendSessionService;
     channelService ?: ChannelService;
 
-    settings: {[key: string]: any}= {};     // collection keep set/get
+    settings: {[key: string]: any} = {};     // collection keep set/get
     event = new EventEmitter();  // event object to sub/pub events
 
     // current server info

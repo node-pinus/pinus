@@ -33,7 +33,7 @@ export class MqttClient extends EventEmitter {
     closed = false;
     timeoutId: NodeJS.Timer = null;
     connected = false;
-    reconnectId: NodeJS.Timer= null;
+    reconnectId: NodeJS.Timer = null;
     timeoutFlag = false;
     keepaliveTimer: NodeJS.Timer = null;
     reconnectDelay = 0;
