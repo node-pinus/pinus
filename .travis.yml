@@ -14,4 +14,4 @@ cache:
 install:
   - yarn
 script:
-  - yarn run build
+  - yarn run ci
