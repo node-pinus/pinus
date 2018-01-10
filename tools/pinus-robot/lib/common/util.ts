@@ -8,14 +8,11 @@ import { EventEmitter } from 'events';
 //
 // Extends node.js util.js with other common functions.
 //
-let BUILD_AS_SINGLE_FILE;
-if (!BUILD_AS_SINGLE_FILE) {
-    let util = require('util');
-}
+
 
 let fs = require('fs');
 
-util.getPath = function () {
+export let getPath = function () {
     let path = './';
     if (__filename.indexOf('node_modules') === -1) {
         path = __filename.substring(0, __filename.lastIndexOf('/')) + '/../../log';
@@ -25,15 +22,15 @@ util.getPath = function () {
     return path;
 };
 
-util.createPath = function () {
-    let path = util.getPath();
+export let createPath = function () {
+    let path = getPath();
     if (!require('fs').existsSync(path)) {
         fs.mkdirSync(path);
     }
 };
 
-util.deleteLog = function () {
-    let path = util.getPath();
+export let deleteLog = function () {
+    let path = getPath();
     try {
         fs.unlinkSync(path + '/detail');
         fs.unlinkSync(path + '/.log');
@@ -44,22 +41,23 @@ util.deleteLog = function () {
 
 // A few common global functions so we can access them with as few keystrokes as possible
 //
-let qputs = util.qputs = function (s: string) {
-    util.puts(s);
+
+export let qputs = function (s: string) {
+    console.log(s);
 };
 
-let qprint = util.qprint = function (s: string) {
-    util.print(s);
+export let qprint = function (s: string) {
+    console.log(s);
 };
 
 
 // Static utility methods
 //
-util.uid = function () {
+export let uid = function () {
     exports.lastUid_ = exports.lastUid_ || 0;
     return exports.lastUid_++;
 };
-util.defaults = function (obj: { [key: string]: any }, defaults: Array<any>) {
+export let defaults = function (obj: { [key: string]: any }, defaults: Array<any>) {
     for (let i in defaults) {
         if (obj[i] === undefined) {
             obj[i] = defaults[i];
@@ -67,7 +65,7 @@ util.defaults = function (obj: { [key: string]: any }, defaults: Array<any>) {
     }
     return obj;
 };
-util.extend = function (obj: { [key: string]: any }, extension: { [key: string]: any }) {
+export let extend = function (obj: { [key: string]: any }, extension: { [key: string]: any }) {
     for (let i in extension) {
         if (extension.hasOwnProperty(i)) {
             obj[i] = extension[i];
@@ -76,7 +74,7 @@ util.extend = function (obj: { [key: string]: any }, extension: { [key: string]:
     return obj;
 };
 
-util.forEach = function (obj: { [key: string]: any }, f: (i: string, val: any) => void) {
+export let forEach = function (obj: { [key: string]: any }, f: (i: string, val: any) => void) {
     for (let i in obj) {
         if (obj.hasOwnProperty(i)) {
             f(i, obj[i]);
@@ -84,7 +82,7 @@ util.forEach = function (obj: { [key: string]: any }, f: (i: string, val: any) =
     }
 };
 
-util.every = function (obj: { [key: string]: any }, f: (i: string, val: any) => void) {
+export let every = function (obj: { [key: string]: any }, f: (i: string, val: any) => void) {
     for (let i in obj) {
         if (obj.hasOwnProperty(i)) {
             if (!f(i, obj[i])) {
@@ -94,10 +92,10 @@ util.every = function (obj: { [key: string]: any }, f: (i: string, val: any) => 
     }
     return true;
 };
-util.argarray = function (args: Array<any>) {
+export let argarray = function (args: Array<any>) {
     return Array.prototype.slice.call(args);
 };
-util.readStream = function (stream: any, callback: (data: string) => void) {
+export let readStream = function (stream: any, callback: (data: string) => void) {
     let data: Array<any> = [];
     stream.on('data', function (chunk: any) {
         data.push(chunk.toString());
@@ -107,25 +105,10 @@ util.readStream = function (stream: any, callback: (data: string) => void) {
     });
 };
 
-/** Make an object a PeriodicUpdater by adding PeriodicUpdater.call(this) to the constructor.
-The object will call this.update() every interval. */
-util.PeriodicUpdater = function (updateIntervalMs: number) {
-    let self = this, updateTimeoutId: NodeJS.Timer;
-    this.__defineGetter__('updateInterval', function () { return updateIntervalMs; });
-    this.__defineSetter__('updateInterval', function (milliseconds: number) {
-        clearInterval(updateTimeoutId);
-        if (milliseconds > 0 && milliseconds < Infinity) {
-            updateTimeoutId = setInterval(self.update.bind(self), milliseconds);
-        }
-        updateIntervalMs = milliseconds;
-    });
-    this.updateInterval = updateIntervalMs;
-};
-
 /** Same arguments as http.createClient. Returns an wrapped http.Client object that will reconnect when
 connection errors are detected. In the current implementation of http.Client (11/29/10), calls to
 request() fail silently after the initial 'error' event. */
-util.createReconnectingClient = function () {
+export let createReconnectingClient = function () {
     let http = require('http'),
         clientArgs = arguments, events = {}, client: any, wrappedClient: { [key: string]: any } = {},
         clientMethod = function (method: string) {
@@ -137,7 +120,7 @@ util.createReconnectingClient = function () {
             let oldclient = client;
             if (oldclient) { oldclient.destroy(); }
             client = http.createClient.apply(http, clientArgs);
-            client._events = util.extend(events, client._events); // EventEmitter._events stores event handlers
+            client._events = extend(events, client._events); // EventEmitter._events stores event handlers
             client.emit('reconnect', oldclient);
         };
 
@@ -157,32 +140,3 @@ util.createReconnectingClient = function () {
     wrappedClient.impl = client;
     return wrappedClient;
 };
-
-/** Accepts an EventEmitter object that emits text data. LineReader buffers the text and emits a 'data'
-event each time a newline is encountered. For example, */
-util.LineReader = function (eventEmitter: EventEmitter, event: string) {
-    EventEmitter.call(this);
-    event = event || 'data';
-
-    let self = this, buffer = '';
-
-    let emitLine = function (buffer: string) {
-        let lineEnd = buffer.indexOf('\n');
-        let line = (lineEnd === -1) ? buffer : buffer.substring(0, lineEnd);
-        if (line) { self.emit('data', line); }
-        return buffer.substring(line.length + 1, buffer.length);
-    };
-
-    let readloop = function (this: any, data: any) {
-        if (data) { buffer += data.toString(); }
-        if (buffer.indexOf('\n') > -1) {
-            buffer = emitLine(buffer);
-            process.nextTick(readloop.bind(this));
-        }
-    };
-
-    eventEmitter.on(event, readloop.bind(this));
-};
-util.inherits(util.LineReader, EventEmitter);
-
-util.extend(exports, util);

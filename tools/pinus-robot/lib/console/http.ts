@@ -138,7 +138,7 @@ export class HttpServer extends EventEmitter {
                     ++sindex;
                 });
                 let avg = Math.round(sum / sindex);
-                summary = { 'max': max, 'min': min, 'avg': avg, 'qs': Math.round(i * 1000 / avg) };
+                summary = { 'max': max, 'min': min, 'avg': avg, 'qs': Math.round(sindex * 1000 / avg) };
                 gsummary[dkey] = (summary);
             });
             single['summary'] = gsummary;

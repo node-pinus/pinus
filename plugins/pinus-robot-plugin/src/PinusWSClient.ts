@@ -542,8 +542,9 @@ class Message implements IMessage {
         if (type === Message.TYPE_REQUEST || type === Message.TYPE_RESPONSE) {
             // 7.x
             let i: number = 0;
+            let m: number;
             do {
-                let m: number = buffer.readUnsignedByte();
+                m = buffer.readUnsignedByte();
                 id = id + ((m & 0x7f) * Math.pow(2, (7 * i)));
                 i++;
             } while (m >= 128);
@@ -752,9 +753,9 @@ class Protobuf {
                 let proto: any = protos && (protos.__messages[type] || this._servers['message ' + type]);
                 if (proto) {
                     let len: number = this.decodeUInt32(buffer);
-
+                    let buf: egret.ByteArray;
                     if (len) {
-                        let buf: egret.ByteArray = new egret.ByteArray();
+                        buf = new egret.ByteArray();
                         buffer.readBytes(buf, 0, len);
                     }
 

@@ -58,7 +58,6 @@ let num_repeat = 200; // 100 200 300 400 800
 for (let i = 0; i < num_repeat; i++) {
   mock_data_2 += mock_data_1;
 }
-let mock_data_1 = 'abcdefg';
 let mock_data_3 = {
   a: 'run',
   b: mock_data_2 + Date.now() + '_',

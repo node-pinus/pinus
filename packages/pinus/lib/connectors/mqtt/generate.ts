@@ -64,35 +64,42 @@ let gen_length = function (length: number) {
     return len;
 };
 
-let gen_string = function (str: string, without_length ?: boolean) { /* based on code in (from http://farhadi.ir/downloads/utf8.js) */
+let gen_string = function (str : string, without_length ?: boolean)
+{ /* based on code in (from http://farhadi.ir/downloads/utf8.js) */
     if (arguments.length < 2) without_length = false;
-    if (typeof str !== 'string') return null;
-    if (typeof without_length !== 'boolean') return null;
+    if (typeof str !== "string") return null;
+    if (typeof without_length !== "boolean") return null;
 
-    let str: number[] = [];
+    let nums:number[] = [];
     let length = 0;
-    for (let i = 0; i < str.length; i++) {
+    for (let i = 0; i < str.length; i++)
+    {
         let code = str.charCodeAt(i);
-        if (code < 128) {
-            str.push(code); ++length;
+        if (code < 128)
+        {
+            nums.push(code); ++length;
 
-        } else if (code < 2048) {
-            str.push(192 + ((code >> 6))); ++length;
-            str.push(128 + ((code) & 63)); ++length;
-        } else if (code < 65536) {
-            str.push(224 + ((code >> 12))); ++length;
-            str.push(128 + ((code >> 6) & 63)); ++length;
-            str.push(128 + ((code) & 63)); ++length;
-        } else if (code < 2097152) {
-            str.push(240 + ((code >> 18))); ++length;
-            str.push(128 + ((code >> 12) & 63)); ++length;
-            str.push(128 + ((code >> 6) & 63)); ++length;
-            str.push(128 + ((code) & 63)); ++length;
-        } else {
-            throw new Error('Can\'t encode character with code ' + code);
+        } else if (code < 2048)
+        {
+            nums.push(192 + ((code >> 6))); ++length;
+            nums.push(128 + ((code) & 63)); ++length;
+        } else if (code < 65536)
+        {
+            nums.push(224 + ((code >> 12))); ++length;
+            nums.push(128 + ((code >> 6) & 63)); ++length;
+            nums.push(128 + ((code) & 63)); ++length;
+        } else if (code < 2097152)
+        {
+            nums.push(240 + ((code >> 18))); ++length;
+            nums.push(128 + ((code >> 12) & 63)); ++length;
+            nums.push(128 + ((code >> 6) & 63)); ++length;
+            nums.push(128 + ((code) & 63)); ++length;
+        } else
+        {
+            throw new Error("Can't encode character with code " + code);
         }
     }
-    return without_length ? str : gen_number(length).concat(str);
+    return without_length ? nums : gen_number(length).concat(nums);
 };
 
 let gen_number = function (num: number) {

@@ -5,7 +5,7 @@ export let consts = {
 
     WELCOME_INFO: ['\nWelcome to Pinus interactive client.',
         'Pinus is a fast, scalable game server framework for node.js. ',
-        'Type \\'help\\' for more information.\n'
+        "Type \\'help\\' for more information.\n"
     ],
 
     HELP_INFO_1: [
@@ -73,7 +73,7 @@ export let consts = {
             'example: show config proxy',
             'example: show config remote',
             'example: show config connection',
-            'note: show config xxx command show configuration from app.get(\\'xxxConfig\\')',
+            "note: show config xxx command show configuration from app.get(\\'xxxConfig\\')",
             'in pinus you can pass opt config to component to make your like-style server',
             'but you should keep in mind to use it in a proper context\n'
         ],
@@ -125,7 +125,7 @@ export let consts = {
             'filepath can be relative path to your pinus-cli pwd path',
             'example : exec xxx.js',
             'equals to : exec pwd/xxx.js',
-            'filepath also can be absolute with \\' / \\' ahead',
+            "filepath also can be absolute with \\' / \\' ahead",
             'example : exec /home/user/xxx.js\n'
         ],
         'addCron': ['\nadd cron for server',
@@ -227,7 +227,7 @@ export let consts = {
     COMANDS_USE_ERROR: '\nuse command error\n',
     COMANDS_STOP_ERROR: '\nstop command error\n',
     COMANDS_EXEC_ERROR: '\nexec command script filepath error\n',
-    COMANDS_CONTEXT_ERROR: 'this command is not used in this context\nyou can use command \\'use\\' to switch context',
+    COMANDS_CONTEXT_ERROR: "this command is not used in this context\nyou can use command \\'use\\' to switch context",
     MODULE_INFO: 'there are following modules registered in pinus clusters',
     COMPONENTS_INFO: 'there are following components registered in current server',
     STATUS_ERROR: 'can not get status in this server',
