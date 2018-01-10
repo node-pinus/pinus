@@ -66,9 +66,10 @@ export type BeforeStopHookFunction = (app: Application , shutDown: () => void, c
  * Application states
  */
 let STATE_INITED = 1;  // app has inited
-let STATE_START = 2;  // app start
-let STATE_STARTED = 3;  // app has started
-let STATE_STOPED = 4;  // app has stoped
+let STATE_BEFORE_START = 2;  // app before start
+let STATE_START = 3;  // app start
+let STATE_STARTED = 4;  // app has started
+let STATE_STOPED = 5;  // app has stoped
 
 export class Application {
 
@@ -441,15 +442,27 @@ export class Application {
         appUtil.startByType(self, function () {
             appUtil.loadDefaultComponents(self);
             let startUp = function () {
-                appUtil.optComponents(self.loaded, Constants.RESERVED.START, function (err) {
-                    self.state = STATE_START;
+                self.state = STATE_BEFORE_START;
+                logger.info('%j enter before start...', self.getServerId());
+
+                appUtil.optComponents(self.loaded, Constants.RESERVED.BEFORE_START, function (err) {
                     if (err) {
                         utils.invokeCallback(cb, err);
                     } else {
                         logger.info('%j enter after start...', self.getServerId());
-                        self.afterStart(cb);
+
+                        appUtil.optComponents(self.loaded, Constants.RESERVED.START, function (err) {
+                            self.state = STATE_START;
+                            if (err) {
+                                utils.invokeCallback(cb, err);
+                            } else {
+                                logger.info('%j enter after start...', self.getServerId());
+                                self.afterStart(cb);
+                            }
+                        });
                     }
                 });
+
             };
 
             appUtil.optLifecycles(self.usedPlugins, Constants.LIFECYCLE.BEFORE_STARTUP, self, function (err) {

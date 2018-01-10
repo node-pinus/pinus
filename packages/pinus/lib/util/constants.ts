@@ -56,6 +56,7 @@ export enum RESERVED  {
     TYPE = 'type',
     CLUSTER = 'clusters',
     STAND_ALONE = 'stand-alone',
+    BEFORE_START = 'beforeStart',
     START = 'start',
     AFTER_START = 'afterStart',
     AFTER_STARTALL = 'afterStartAll',
