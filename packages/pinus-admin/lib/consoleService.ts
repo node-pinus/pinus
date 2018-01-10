@@ -84,12 +84,12 @@ export interface AdminLogInfo {
  * @class ConsoleService
  * @constructor
  * @param {Object} opts construct parameter
- *                 opts.type 	{String} server type, 'master', 'connector', etc.
- *                 opts.id 		{String} server id
- *                 opts.host 	{String} (monitor only) master server host
- *                 opts.port 	{String | Number} listen port for master or master port for monitor
+ *                 opts.type     {String} server type, 'master', 'connector', etc.
+ *                 opts.id         {String} server id
+ *                 opts.host     {String} (monitor only) master server host
+ *                 opts.port     {String | Number} listen port for master or master port for monitor
  *                 opts.master  {Boolean} current service is master or monitor
- *                 opts.info 	{Object} more server info for current server, {id, serverType, host, port}
+ *                 opts.info     {Object} more server info for current server, {id, serverType, host, port}
  * @api public
  */
 export class ConsoleService extends EventEmitter {

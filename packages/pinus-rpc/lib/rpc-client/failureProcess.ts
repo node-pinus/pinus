@@ -17,19 +17,19 @@ export function failureProcess(this: any, code: string, tracer: any, serverId: s
 
     }
     // switch (mode) {
-    // 	case constants.FAIL_MODE.FAILOVER:
-    // 		method = failover;
-    // 		break;
-    // 	case constants.FAIL_MODE.FAILBACK:
-    // 		method = failback;
-    // 		break;
-    // 	case constants.FAIL_MODE.FAILFAST:
-    // 		method = failfast;
-    // 		break;
-    // 	case constants.FAIL_MODE.FAILSAFE:
-    // 	default:
-    // 		method = failfast;
-    // 		break;
+    //     case constants.FAIL_MODE.FAILOVER:
+    //         method = failover;
+    //         break;
+    //     case constants.FAIL_MODE.FAILBACK:
+    //         method = failback;
+    //         break;
+    //     case constants.FAIL_MODE.FAILFAST:
+    //         method = failfast;
+    //         break;
+    //     case constants.FAIL_MODE.FAILSAFE:
+    //     default:
+    //         method = failfast;
+    //         break;
     // }
     method.call(this, code, tracer, serverId, msg, opts, cb);
 }

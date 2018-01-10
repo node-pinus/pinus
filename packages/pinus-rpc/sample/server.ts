@@ -14,5 +14,5 @@ server.start();
 console.log('rpc server started.');
 
 process.on('uncaughtException', function(err) {
-	console.error(err);
+    console.error(err);
 });
