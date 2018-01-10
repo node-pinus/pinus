@@ -12,6 +12,7 @@ before_install: # if "install" is overridden
 cache:
   yarn: true
 install:
+  - yarn clean
   - yarn
 script:
   - yarn run ci
