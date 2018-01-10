@@ -6,8 +6,8 @@
     "scripts": {
         "build": "tsc",
 		"start": "yarn run build && node dist/index",
-		"lint": "node --max_old_space_size=4096 ../node_modules/tslint/bin/tslint --format prose -c ../../../tslint.json **/*.ts",
-		"fix-lint": "node --max_old_space_size=4096 ../node_modules/tslint/bin/tslint --format prose -c ../../../tslint.json **/*.ts --fix",
+		"lint": "node_modules/.bin/tslint --format prose -c ../../../tslint.json **/*.ts",
+		"fix-lint": "node_modules/.bin/tslint --format prose -c ../../../tslint.json **/*.ts --fix",
 		"test": "yarn run build",
 		"cov": "nyc mocha",
 		"ci": "yarn run test",
