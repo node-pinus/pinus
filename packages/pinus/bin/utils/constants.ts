@@ -1,5 +1,5 @@
 
-require('cliff')
+require('cliff');
 /**
  *  Constant Variables
  */

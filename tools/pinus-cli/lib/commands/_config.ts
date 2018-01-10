@@ -9,55 +9,47 @@ import * as path from 'path';
 let logger = getLogger('pinus-cli', path.basename(__filename));
 
 
-export default function (opts:object)
-{
-	return new Command(opts);
-};
+export default function (opts: object) {
+    return new Command(opts);
+}
 
 export let commandId = 'config';
 export let helpCommand = 'help config';
 
-export class Command implements ICommand
-{
-	constructor(opt:object)
-	{
+export class Command implements ICommand {
+    constructor(opt: object) {
 
-	}
+    }
 
-	handle(agent : AgentCommand , comd : string , argv : string, msg : {[key:string]: string}, rl : ReadLine, client : AdminClient):void
-	{
-		if (!comd)
-		{
-			agent.handle(helpCommand, msg, rl, client);
-			return;
-		}
-		let Context = agent.getContext();
-		let argvs = util.argsFilter(argv);
+    handle(agent: AgentCommand , comd: string , argv: string, msg: {[key: string]: string}, rl: ReadLine, client: AdminClient): void {
+        if (!comd) {
+            agent.handle(helpCommand, msg, rl, client);
+            return;
+        }
+        let Context = agent.getContext();
+        let argvs = util.argsFilter(argv);
 
-		if (argvs.length > 2)
-		{
-			agent.handle(helpCommand, msg, rl, client);
-			return;
-		}
+        if (argvs.length > 2) {
+            agent.handle(helpCommand, msg, rl, client);
+            return;
+        }
 
-		let user = msg['user'] || 'admin';
+        let user = msg['user'] || 'admin';
 
-		if (Context === 'all')
-		{
-			util.log('\n' + consts.COMANDS_CONTEXT_ERROR + '\n');
-			rl.prompt();
-			return;
-		}
+        if (Context === 'all') {
+            util.log('\n' + consts.COMANDS_CONTEXT_ERROR + '\n');
+            rl.prompt();
+            return;
+        }
 
-		client.request('watchServer', {
-			comd: commandId,
-			param: comd,
-			context: Context
-		}, function (err: Error, data: object)
-			{
-				if (err) console.log(err);
-				else util.log('\n' + cliff.inspect(data) + '\n');
-				rl.prompt();
-			});
-	}
+        client.request('watchServer', {
+            comd: commandId,
+            param: comd,
+            context: Context
+        }, function (err: Error, data: object) {
+                if (err) console.log(err);
+                else util.log('\n' + cliff.inspect(data) + '\n');
+                rl.prompt();
+            });
+    }
 }

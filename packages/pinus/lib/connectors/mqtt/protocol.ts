@@ -21,7 +21,7 @@ export let types = {
 };
 
 /* Mnemonic => Command code */
-export let codes : {[key:string]:number} = {};
+export let codes: {[key: string]: number} = {};
 for(let k in types) {
   let v = (types as any)[k];
   codes[v] = Number(k);

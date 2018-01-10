@@ -1,15 +1,14 @@
 
 
-export interface IComponent
-{
-    name : string;
+export interface IComponent {
+    name: string;
     /**
      * Component lifecycle callback
      *
      * @param {Function} cb
      * @return {Void}
      */
-    start ?: (cb : ()=>void)=>void;
+    start ?: (cb: () => void) => void;
 
     /**
      * Component lifecycle callback
@@ -18,13 +17,13 @@ export interface IComponent
      * @return {Void}
      */
     afterStart?: (cb: () => void) => void;
-    
+
     /**
      * Component lifecycle callback
      *
      * @return {Void}
      */
-    afterStartAll ?: ()=>void;
+    afterStartAll ?: () => void;
 
     /**
      * Component lifecycle function
@@ -33,5 +32,5 @@ export interface IComponent
      * @param {Function}  cb
      * @return {Void}
      */
-    stop?: (force : boolean, cb : ()=>void)=>void;
+    stop?: (force: boolean, cb: () => void) => void;
 }

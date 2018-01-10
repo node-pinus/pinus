@@ -9,15 +9,13 @@ import { IComponent } from '../interfaces/IComponent';
  * @param {Object} app  current application context
  * @param {Object} opts attach parameters
  */
-export class SessionComponent extends SessionService implements IComponent
-{
+export class SessionComponent extends SessionService implements IComponent {
     app: Application;
-    constructor(app: Application, opts ?: SessionServiceOptions)
-    {
+    constructor(app: Application, opts ?: SessionServiceOptions) {
         super(opts);
         this.app = app;
         app.set('sessionService', this, true);
-    };
+    }
 
     name = '__session__';
 

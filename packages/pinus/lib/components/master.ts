@@ -8,27 +8,24 @@ import { Application } from '../application';
 /**
 * Master component class
 *
-* @param {Object} app  current application context
+* @param {Object} app current application context
 */
-export class MasterComponent implements IComponent
-{
+export class MasterComponent implements IComponent {
     name = '__master__';
     master: MasterServer;
-    constructor(app : Application, opts: MasterServerOptions)
-    {
+    constructor(app: Application, opts: MasterServerOptions) {
         this.master = new MasterServer(app, opts);
-    };
-    
+    }
+
     /**
      * Component lifecycle function
      *
      * @param  {Function} cb
      * @return {Void}
      */
-    start(cb : (err?:Error)=>void)
-    {
+    start(cb: (err?: Error) => void) {
         this.master.start(cb);
-    };
+    }
 
     /**
      * Component lifecycle function
@@ -37,9 +34,8 @@ export class MasterComponent implements IComponent
      * @param  {Function}  cb
      * @return {Void}
      */
-    stop(force : boolean, cb : (err?:Error)=>void)
-    {
+    stop(force: boolean, cb: (err?: Error) => void) {
         this.master.stop(cb);
-    };
+    }
 
 }

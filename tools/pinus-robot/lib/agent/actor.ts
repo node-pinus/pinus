@@ -1,96 +1,81 @@
 import * as util  from 'util';
 import * as  vm  from 'vm';
-import { EventEmitter } from 'events'
+import { EventEmitter } from 'events';
 import * as  monitor  from '../monitor/monitor';
 import * as  fs  from 'fs';
 import * as  path  from 'path';
-import { logging, Logger } from "../common/logging";
+import { logging, Logger } from '../common/logging';
 import { AgentCfg } from './agent';
 
 
-export interface IActor
-{
-    id : number;
+export interface IActor {
+    id: number;
 
-    emit(type : "start" | "end" , action : string , reqId : string): void;
-    emit(type : "incr" | "decr" , action : string): void;
+    emit(type: 'start' | 'end' , action: string , reqId: string): void;
+    emit(type: 'incr' | 'decr' , action: string): void;
 }
 
-export class Actor extends EventEmitter implements IActor
-{
+export class Actor extends EventEmitter implements IActor {
   id: number;
   script: string;
   log: Logger = logging;
-  constructor(conf: AgentCfg, aid: number)
-  {
+  constructor(conf: AgentCfg, aid: number) {
     super();
     this.id = aid;
-    if (conf.script)
-    {
+    if (conf.script) {
       this.script = conf.script;
     }
-    else
-    {
-     if(path.isAbsolute(conf.scriptFile))
-     {
+    else {
+     if(path.isAbsolute(conf.scriptFile)) {
       this.script = `require("${conf.scriptFile}").default(actor);`;
      }
-     else
-     {
+     else {
       this.script = `require("${path.join(process.cwd() , conf.scriptFile)}").default(actor);`;
      }
     }
-    console.log("runScript " , this.script);
-    this.on('start', (action: string, reqId: number) =>
-    {
+    console.log('runScript ' , this.script);
+    this.on('start', (action: string, reqId: number) => {
       monitor.beginTime(action, this.id, reqId);
     });
-    this.on('end', (action: string, reqId: number) =>
-    {
+    this.on('end', (action: string, reqId: number) => {
       monitor.endTime(action, this.id, reqId);
     });
-    this.on('incr', function (action: string)
-    {
+    this.on('incr', function (action: string) {
       monitor.incr(action);
     });
-    this.on('decr', function (action: string)
-    {
+    this.on('decr', function (action: string) {
       monitor.decr(action);
     });
   }
 
 
-  run()
-  {
-    try
-    {
+  run() {
+    try {
       let initSandbox = {
-        console:console,
-        require:require,
-        actor:this,
-        setTimeout:setTimeout,
-        clearTimeout:clearTimeout,
-        setInterval:setInterval,
-        clearInterval:clearInterval,
-        global:global,
-        process:process
+        console: console,
+        require: require,
+        actor: this,
+        setTimeout: setTimeout,
+        clearTimeout: clearTimeout,
+        setInterval: setInterval,
+        clearInterval: clearInterval,
+        global: global,
+        process: process
       };
       let context = vm.createContext(initSandbox);
       vm.runInContext(this.script, context);
-    } catch (ex)
-    {
+    } catch (ex) {
       this.emit('error', ex.stack);
     }
-  };
+  }
 
   /**
-   * clear data 
+   * clear data
    *
    */
-  reset()
-  {
+  reset() {
     monitor.clear();
-  };
+  }
 
   /**
    * wrap setTimeout
@@ -98,28 +83,24 @@ export class Actor extends EventEmitter implements IActor
    *@param {Function} fn
    *@param {Number} time
    */
-  later(fn: (...args: any[]) => void, time: number)
-  {
-    if (time > 0 && typeof (fn) == 'function')
-    {
+  later(fn: (...args: any[]) => void, time: number) {
+    if (time > 0 && typeof (fn) === 'function') {
       return setTimeout(fn, time);
     }
-  };
+  }
 
   /**
-   * wrap setInterval 
+   * wrap setInterval
    * when time is Array, the interval time is thd random number
    * between then
-   * 
+   *
    *@param {Function} Fn
    *@param {Number} time
    */
-  interval(Fn: Function, time: any)
-  {
+  interval(Fn: Function, time: any) {
     let fn = arguments[0];
     let self = this;
-    switch (typeof (time))
-    {
+    switch (typeof (time)) {
       case 'number':
         if (arguments[1] > 0) return setInterval(fn, arguments[1]);
         break;
@@ -131,7 +112,7 @@ export class Actor extends EventEmitter implements IActor
         self.log.error('wrong argument');
         return;
     }
-  };
+  }
 
   /**
    *wrap clearTimeout
@@ -139,8 +120,7 @@ export class Actor extends EventEmitter implements IActor
    * @param {Number} timerId
    *
    */
-  clean(timerId: NodeJS.Timer)
-  {
+  clean(timerId: NodeJS.Timer) {
     clearTimeout(timerId);
   }
 

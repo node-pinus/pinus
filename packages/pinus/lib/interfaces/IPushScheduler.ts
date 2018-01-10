@@ -1,37 +1,32 @@
-import { SID } from "../util/constants";
-import { Application } from "../application";
+import { SID } from '../util/constants';
+import { Application } from '../application';
 
 
-export interface BroadcastOptions
-{
-    binded : boolean ;
-    filterParam : any;
+export interface BroadcastOptions {
+    binded: boolean ;
+    filterParam: any;
 }
-export interface ScheduleOptions
-{
+export interface ScheduleOptions {
     type ?: 'broadcast' | 'response';
     userOptions ?: BroadcastOptions;
 }
 
-export type IPushSelector = (reqId : number, route : string, msg : any, recvs : number[], opts : any)=>number
+export type IPushSelector = (reqId: number, route: string, msg: any, recvs: number[], opts: any) => number;
 
 export type IPushSchedulerOrCtor = { new(app: Application, opts?: any): IPushScheduler } | IPushScheduler;
 
-export interface SinglePushScheduler
-{
+export interface SinglePushScheduler {
     scheduler ?: IPushSchedulerOrCtor;
 }
 
-export interface MultiPushSchedulerOptions
-{
-    scheduler ?: {id:number , scheduler:IPushSchedulerOrCtor , options : IPushSchedulerOptions}[];
+export interface MultiPushSchedulerOptions {
+    scheduler ?: {id: number , scheduler: IPushSchedulerOrCtor , options: IPushSchedulerOptions}[];
     selector ?: IPushSelector;
 }
 
 export type IPushSchedulerOptions = SinglePushScheduler | MultiPushSchedulerOptions;
 
-export interface IPushScheduler
-{
+export interface IPushScheduler {
 
     /**
      * Component lifecycle callback
@@ -39,7 +34,7 @@ export interface IPushScheduler
      * @param {Function} cb
      * @return {Void}
      */
-    start():Promise<void>;
+    start(): Promise<void>;
 
     /**
      * Component lifecycle function
@@ -48,10 +43,10 @@ export interface IPushScheduler
      * @param {Function}  cb
      * @return {Void}
      */
-    stop():Promise<void>;
+    stop(): Promise<void>;
 
     /**
      * 调度发生时调用
      */
-    schedule(reqId : number, route : string, msg : any, recvs : SID[], opts : ScheduleOptions, cb : (err?:Error)=>void):void;
+    schedule(reqId: number, route: string, msg: any, recvs: SID[], opts: ScheduleOptions, cb: (err?: Error) => void): void;
 }

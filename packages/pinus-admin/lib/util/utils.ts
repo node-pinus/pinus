@@ -8,49 +8,42 @@ import { ServerInfo, AdminUserInfo } from './constants';
 /**
  * Check and invoke callback
  */
-export function invokeCallback (cb : Function , ...args:any[])
-{
-    if (!!cb && typeof cb === 'function')
-    {
+export function invokeCallback (cb: Function , ...args: any[]) {
+    if (!!cb && typeof cb === 'function') {
         cb.apply(null, Array.prototype.slice.call(arguments, 1));
     }
-};
+}
 
 /*
  * Date format
  */
-export function format(date : Date, format ?: string)
-{
+export function format(date: Date, format ?: string) {
     format = format || 'MM-dd-hhmm';
-    let o : any = {
-        "M+": date.getMonth() + 1, //month
-        "d+": date.getDate(), //day
-        "h+": date.getHours(), //hour
-        "m+": date.getMinutes(), //minute
-        "s+": date.getSeconds(), //second
-        "q+": Math.floor((date.getMonth() + 3) / 3), //quarter
-        "S": date.getMilliseconds() //millisecond
+    let o: any = {
+        'M+': date.getMonth() + 1, // month
+        'd+': date.getDate(), // day
+        'h+': date.getHours(), // hour
+        'm+': date.getMinutes(), // minute
+        's+': date.getSeconds(), // second
+        'q+': Math.floor((date.getMonth() + 3) / 3), // quarter
+        'S': date.getMilliseconds() // millisecond
     };
 
-    if (/(y+)/.test(format))
-    {
-        format = format.replace(RegExp.$1, (date.getFullYear() + "").substr(4 - RegExp.$1.length));
+    if (/(y+)/.test(format)) {
+        format = format.replace(RegExp.$1, (date.getFullYear() + '').substr(4 - RegExp.$1.length));
     }
-    for (let k in o)
-    {
-        if (new RegExp("(" + k + ")").test(format))
-        {
+    for (let k in o) {
+        if (new RegExp('(' + k + ')').test(format)) {
             format = format.replace(RegExp.$1,
                 RegExp.$1.length === 1 ? o[k] :
-                    ("00" + o[k]).substr(("" + o[k]).length));
+                    ('00' + o[k]).substr(('' + o[k]).length));
         }
     }
 
     return format;
-};
+}
 
-export function compareServer(server1 : ServerInfo, server2 : ServerInfo)
-{
+export function compareServer(server1: ServerInfo, server2: ServerInfo) {
     return (server1['host'] === server2['host']) &&
         (server1['port'] === server2['port']);
 }
@@ -58,50 +51,40 @@ export function compareServer(server1 : ServerInfo, server2 : ServerInfo)
 /**
  * Get the count of elements of object
  */
-export function size(obj : any, type ?: string)
-{
+export function size(obj: any, type ?: string) {
     let count = 0;
-    for (let i in obj)
-    {
-        if (obj.hasOwnProperty(i) && typeof obj[i] !== 'function')
-        {
-            if (!type)
-            {
+    for (let i in obj) {
+        if (obj.hasOwnProperty(i) && typeof obj[i] !== 'function') {
+            if (!type) {
                 count++;
                 continue;
             }
 
-            if (type && type === obj[i]['type'])
-            {
+            if (type && type === obj[i]['type']) {
                 count++;
             }
         }
     }
     return count;
-};
+}
 
-export function md5(str : string)
-{
+export function md5(str: string) {
     let md5sum = crypto.createHash('md5');
     md5sum.update(str);
     str = md5sum.digest('hex');
     return str;
 }
 
-export function defaultAuthUser(msg : {username:string,password:string,md5:string}, env : string, cb : (user:AdminUserInfo)=>void)
-{
+export function defaultAuthUser(msg: {username: string, password: string, md5: string}, env: string, cb: (user: AdminUserInfo) => void) {
     let adminUser = null;
     let appBase = path.dirname(require.main.filename);
     let adminUserPath = path.join(appBase, '/config/adminUser.json');
     let presentPath = path.join(appBase, 'config', env, 'adminUser.json');
-    if (fs.existsSync(adminUserPath))
-    {
+    if (fs.existsSync(adminUserPath)) {
         adminUser = require(adminUserPath);
-    } else if (fs.existsSync(presentPath))
-    {
+    } else if (fs.existsSync(presentPath)) {
         adminUser = require(presentPath);
-    } else
-    {
+    } else {
         cb(null);
         return;
     }
@@ -110,29 +93,22 @@ export function defaultAuthUser(msg : {username:string,password:string,md5:strin
     let md5Str = msg['md5'];
 
     let len = adminUser.length;
-    if (md5Str)
-    {
-        for (let i = 0; i < len; i++)
-        {
+    if (md5Str) {
+        for (let i = 0; i < len; i++) {
             let user = adminUser[i];
-            let p = "";
-            if (user['username'] === username)
-            {
+            let p = '';
+            if (user['username'] === username) {
                 p = md5(user['password']);
-                if (password === p)
-                {
+                if (password === p) {
                     cb(user);
                     return;
                 }
             }
         }
-    } else
-    {
-        for (let i = 0; i < len; i++)
-        {
+    } else {
+        for (let i = 0; i < len; i++) {
             let user = adminUser[i];
-            if (user['username'] === username && user['password'] === password)
-            {
+            if (user['username'] === username && user['password'] === password) {
                 cb(user);
                 return;
             }
@@ -141,13 +117,11 @@ export function defaultAuthUser(msg : {username:string,password:string,md5:strin
     cb(null);
 }
 
-export function defaultAuthServerMaster(msg : {id:string,serverType:string,token:string}, env : string, cb :(result:'ok' | 'bad')=>void)
-{
+export function defaultAuthServerMaster(msg: {id: string, serverType: string, token: string}, env: string, cb: (result: 'ok' | 'bad') => void) {
     let id = msg['id'];
     let type = msg['serverType'];
     let token = msg['token'];
-    if (type === 'master')
-    {
+    if (type === 'master') {
         cb('ok');
         return;
     }
@@ -156,29 +130,23 @@ export function defaultAuthServerMaster(msg : {id:string,serverType:string,token
     let appBase = path.dirname(require.main.filename);
     let serverPath = path.join(appBase, '/config/adminServer.json');
     let presentPath = null;
-    if (env)
-    {
+    if (env) {
         presentPath = path.join(appBase, 'config', env, 'adminServer.json');
     }
 
-    if (fs.existsSync(serverPath))
-    {
+    if (fs.existsSync(serverPath)) {
         servers = require(serverPath);
-    } else if (fs.existsSync(presentPath))
-    {
+    } else if (fs.existsSync(presentPath)) {
         servers = require(presentPath);
-    } else
-    {
+    } else {
         cb('ok');
         return;
     }
 
     let len = servers.length;
-    for (let i = 0; i < len; i++)
-    {
+    for (let i = 0; i < len; i++) {
         let server = servers[i];
-        if (server['type'] === type && server['token'] === token)
-        {
+        if (server['type'] === type && server['token'] === token) {
             cb('ok');
             return;
         }
@@ -187,8 +155,7 @@ export function defaultAuthServerMaster(msg : {id:string,serverType:string,token
     return;
 }
 
-export function defaultAuthServerMonitor(msg : {id:string,serverType:string}, env : string, cb :(result:'ok' | 'bad')=>void)
-{
+export function defaultAuthServerMonitor(msg: {id: string, serverType: string}, env: string, cb: (result: 'ok' | 'bad') => void) {
     let id = msg['id'];
     let type = msg['serverType'];
 
@@ -196,29 +163,23 @@ export function defaultAuthServerMonitor(msg : {id:string,serverType:string}, en
     let appBase = path.dirname(require.main.filename);
     let serverPath = path.join(appBase, '/config/adminServer.json');
     let presentPath = null;
-    if (env)
-    {
+    if (env) {
         presentPath = path.join(appBase, 'config', env, 'adminServer.json');
     }
 
-    if (fs.existsSync(serverPath))
-    {
+    if (fs.existsSync(serverPath)) {
         servers = require(serverPath);
-    } else if (fs.existsSync(presentPath))
-    {
+    } else if (fs.existsSync(presentPath)) {
         servers = require(presentPath);
-    } else
-    {
+    } else {
         cb('ok');
         return;
     }
 
     let len = servers.length;
-    for (let i = 0; i < len; i++)
-    {
+    for (let i = 0; i < len; i++) {
         let server = servers[i];
-        if (server['type'] === type)
-        {
+        if (server['type'] === type) {
             cb(server['token']);
             return;
         }

@@ -11,8 +11,7 @@ import { getLogger, Logger } from 'pinus-logger';
 import { ServerInfo } from '../util/constants';
 import * as path from 'path';
 
-export interface RemoteComponentOptions extends RpcServerOpts
-{
+export interface RemoteComponentOptions extends RpcServerOpts {
     bufferMsg ?: boolean;
     cacheMsg ?: boolean;
     interval ?: number;
@@ -20,7 +19,7 @@ export interface RemoteComponentOptions extends RpcServerOpts
     rpcDebugLog ?: boolean;
     rpcLogger ?: Logger;
 
-    rpcServer ?: {create:(opts ?: RemoteComponentOptions)=>Gateway};
+    rpcServer ?: {create: (opts ?: RemoteComponentOptions) => Gateway};
 }
 /**
  * Remote component class
@@ -28,19 +27,16 @@ export interface RemoteComponentOptions extends RpcServerOpts
  * @param {Object} app  current application context
  * @param {Object} opts construct parameters
  */
-export class RemoteComponent  implements IComponent
-{
+export class RemoteComponent  implements IComponent {
     opts: RemoteComponentOptions;
-    constructor(private app: Application, opts?: RemoteComponentOptions)
-    {
+    constructor(private app: Application, opts?: RemoteComponentOptions) {
         opts = opts || {};
         this.opts = opts;
 
         // cacheMsg is deprecated, just for compatibility here.
         opts.bufferMsg = opts.bufferMsg || opts.cacheMsg || false;
         opts.interval = opts.interval || 30;
-        if (app.enabled('rpcDebugLog'))
-        {
+        if (app.enabled('rpcDebugLog')) {
             opts.rpcDebugLog = true;
             opts.rpcLogger = getLogger('rpc-debug', path.basename(__filename));
         }
@@ -53,12 +49,10 @@ export class RemoteComponent  implements IComponent
         opts.services['user'] = remoters;
 
 
-        let info = this.app.getCurrentServer()
+        let info = this.app.getCurrentServer();
         // 添加插件中的remoter到ServerInfo中
-        for(let plugin of this.app.usedPlugins)
-        {
-            if(plugin.remoterPath)
-            {
+        for(let plugin of this.app.usedPlugins) {
+            if(plugin.remoterPath) {
                 opts.paths.push({
                     namespace: 'user',
                     serverType: info.serverType,
@@ -66,15 +60,15 @@ export class RemoteComponent  implements IComponent
                 });
             }
         }
-        
+
         // 添加路径到ServerInfo中
         info.remoterPaths = opts.paths;
 
 
-    };
+    }
 
     name = '__remote__';
-    remote : Gateway;
+    remote: Gateway;
 
     /**
      * Remote component lifecycle function
@@ -82,13 +76,12 @@ export class RemoteComponent  implements IComponent
      * @param {Function} cb
      * @return {Void}
      */
-    start(cb : ()=>void)
-    {
+    start(cb: () => void) {
         this.opts.port = this.app.getCurServer().port;
         this.remote = this.genRemote(this.opts);
         this.remote.start();
         process.nextTick(cb);
-    };
+    }
 
     /**
      * Remote component lifecycle function
@@ -97,11 +90,10 @@ export class RemoteComponent  implements IComponent
      * @param {Function}  cb
      * @return {Void}
      */
-    stop(force : boolean, cb : ()=>void)
-    {
+    stop(force: boolean, cb: () => void) {
         this.remote.stop(force);
         process.nextTick(cb);
-    };
+    }
 
     /**
      * Get remote paths from application
@@ -110,33 +102,28 @@ export class RemoteComponent  implements IComponent
      * @return {Array} paths
      *
      */
-    getRemotePaths() : RemoteServerCode[]
-    {
+    getRemotePaths(): RemoteServerCode[] {
         let paths = [];
 
         let role;
         // master server should not come here
-        if (this.app.isFrontend())
-        {
+        if (this.app.isFrontend()) {
             role = 'frontend';
-        } else
-        {
+        } else {
             role = 'backend';
         }
 
         let sysPath = pathUtil.getSysRemotePath(role), serverType = this.app.getServerType();
-        if (fs.existsSync(sysPath))
-        {
+        if (fs.existsSync(sysPath)) {
             paths.push(pathUtil.remotePathRecord('sys', serverType, sysPath));
         }
         let userPath = pathUtil.getUserRemotePath(this.app.getBase(), serverType);
-        if (fs.existsSync(userPath))
-        {
+        if (fs.existsSync(userPath)) {
             paths.push(pathUtil.remotePathRecord('user', serverType, userPath));
         }
 
         return paths;
-    };
+    }
 
     /**
      * Generate remote server instance
@@ -145,15 +132,12 @@ export class RemoteComponent  implements IComponent
      * @param {Object} opts contructor parameters for rpc Server
      * @return {Object} remote server instance
      */
-    genRemote(opts: RemoteComponentOptions)
-    {
-        if (!!opts.rpcServer)
-        {
+    genRemote(opts: RemoteComponentOptions) {
+        if (!!opts.rpcServer) {
             return opts.rpcServer.create(opts);
-        } else
-        {
+        } else {
             return createServer(opts);
         }
-    };
+    }
 
 }

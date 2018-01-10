@@ -9,37 +9,29 @@ import { HandlerCallback } from '../../common/service/handlerService';
 import { FrontendOrBackendSession } from '../../server/server';
 
 let conLogger = getLogger('con-log', __filename);
-let toobusy : any = null;
+let toobusy: any = null;
 let DEFAULT_MAXLAG = 70;
 
 
-export class ToobusyFilter implements IHandlerFilter
-{
-    constructor(maxLag = DEFAULT_MAXLAG)
-    {
-        try
-        {
+export class ToobusyFilter implements IHandlerFilter {
+    constructor(maxLag = DEFAULT_MAXLAG) {
+        try {
             toobusy = require('toobusy');
-        } catch (e)
-        {
+        } catch (e) {
         }
-        if (!!toobusy)
-        {
+        if (!!toobusy) {
             toobusy.maxLag(maxLag);
         }
-    };
+    }
 
-    before(routeRecord : RouteRecord , msg : any, session : FrontendOrBackendSession, next : HandlerCallback)
-    {
-        if (!!toobusy && toobusy())
-        {
+    before(routeRecord: RouteRecord , msg: any, session: FrontendOrBackendSession, next: HandlerCallback) {
+        if (!!toobusy && toobusy()) {
             conLogger.warn('[toobusy] reject request msg: ' + msg);
             let err = new Error('Server toobusy!');
             (err as any).code = 500;
             next(err);
-        } else
-        {
+        } else {
             next(null);
         }
-    };
+    }
 }

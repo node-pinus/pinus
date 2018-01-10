@@ -3,20 +3,16 @@ import * as Gateway from './gateway';
 import { Services, Remoters } from './dispatcher';
 
 
-let loadRemoteServices = function (paths: Array<Gateway.RemoteServerCode>, context: object, res: Services): Services
-{
+let loadRemoteServices = function (paths: Array<Gateway.RemoteServerCode>, context: object, res: Services): Services {
     res = res || {};
-    let item : Gateway.RemoteServerCode, m: Remoters;
-    for (let i = 0, l = paths.length; i < l; i++)
-    {
+    let item: Gateway.RemoteServerCode, m: Remoters;
+    for (let i = 0, l = paths.length; i < l; i++) {
         item = paths[i];
         m = Loader.load(item.path, context, false);
 
-        if (m)
-        {
+        if (m) {
             createNamespace(item.namespace, res);
-            for (let s in m)
-            {
+            for (let s in m) {
                 res[item.namespace][s] = m[s];
             }
         }
@@ -25,8 +21,7 @@ let loadRemoteServices = function (paths: Array<Gateway.RemoteServerCode>, conte
     return res;
 };
 
-let createNamespace = function (namespace: string, proxies: Services)
-{
+let createNamespace = function (namespace: string, proxies: Services) {
     proxies[namespace] = proxies[namespace] || {};
 };
 
@@ -41,17 +36,15 @@ let createNamespace = function (namespace: string, proxies: Services)
  * @return {Object}      rpc server instance
  */
 
-export function createServer(opts: Gateway.RpcServerOpts)
-{
-    if (!opts || !opts.port || opts.port < 0 || !opts.paths)
-    {
+export function createServer(opts: Gateway.RpcServerOpts) {
+    if (!opts || !opts.port || opts.port < 0 || !opts.paths) {
         throw new Error('opts.port or opts.paths invalid.');
     }
     let services = loadRemoteServices(opts.paths, opts.context, opts.services);
     opts.services = services;
     let gateway = Gateway.createGateway(opts);
     return gateway;
-};
+}
 
 // module.exports.WSAcceptor from ('./acceptors/ws-acceptor');
 // module.exports.TcpAcceptor from ('./acceptors/tcp-acceptor');

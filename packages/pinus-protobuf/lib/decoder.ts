@@ -2,63 +2,52 @@ import * as codec from './codec';
 import * as util from './util';
 
 
-export class Decoder
-{
+export class Decoder {
     buffer: Buffer;
     offset = 0;
     protos: any;
 
 
-    constructor(protos: object)
-    {
+    constructor(protos: object) {
         this.init(protos);
-    };
+    }
 
-    init(protos: object)
-    {
+    init(protos: object) {
         this.protos = protos || {};
     }
 
-    setProtos(protos: object)
-    {
-        if (!!protos)
-        {
+    setProtos(protos: object) {
+        if (!!protos) {
             this.protos = protos;
         }
-    };
+    }
 
-    decode(route: string, buf: Buffer)
-    {
+    decode(route: string, buf: Buffer) {
         let protos = this.protos[route];
 
         this.buffer = buf;
         this.offset = 0;
 
-        if (!!protos)
-        {
+        if (!!protos) {
             return this.decodeMsg({}, protos, this.buffer.length);
         }
 
         return null;
-    };
-    decodeMsg(msg: {[key:string]: any}, protos: {[key:string]: any}, length: number)
-    {
-        while (this.offset < length)
-        {
+    }
+    decodeMsg(msg: {[key: string]: any}, protos: {[key: string]: any}, length: number) {
+        while (this.offset < length) {
             let head = this.getHead();
             let type = head.type;
             let tag = head.tag;
             let name = protos.__tags[tag];
 
-            switch (protos[name].option)
-            {
+            switch (protos[name].option) {
                 case 'optional':
                 case 'required':
                     msg[name] = this.decodeProp(protos[name].type, protos);
                     break;
                 case 'repeated':
-                    if (!msg[name])
-                    {
+                    if (!msg[name]) {
                         msg[name] = [];
                     }
                     this.decodeArray(msg[name], protos[name].type, protos);
@@ -72,15 +61,13 @@ export class Decoder
     /**
      * Test if the given msg is finished
      */
-    isFinish(msg: object, protos: {[key:string]: any})
-    {
+    isFinish(msg: object, protos: {[key: string]: any}) {
         return (!protos.__tags[this.peekHead().tag]);
     }
     /**
      * Get property head from protobuf
      */
-    getHead()
-    {
+    getHead() {
         let tag = codec.decodeUInt32(this.getBytes());
 
         return {
@@ -92,8 +79,7 @@ export class Decoder
     /**
      * Get tag head without move the offset
      */
-    peekHead()
-    {
+    peekHead() {
         let tag = codec.decodeUInt32(this.peekBytes());
 
         return {
@@ -102,10 +88,8 @@ export class Decoder
         };
     }
 
-    decodeProp(type: string, protos?: {[key:string]: any})
-    {
-        switch (type)
-        {
+    decodeProp(type: string, protos?: {[key: string]: any}) {
+        switch (type) {
             case 'uInt32':
                 return codec.decodeUInt32(this.getBytes());
             case 'int32':
@@ -128,8 +112,7 @@ export class Decoder
                 return str;
             default:
                 let message = protos && (protos.__messages[type] || this.protos['message ' + type]);
-                if (message)
-                {
+                if (message) {
                     let length = codec.decodeUInt32(this.getBytes());
                     let msg = {};
                     this.decodeMsg(msg, message, this.offset + length);
@@ -139,45 +122,37 @@ export class Decoder
         }
     }
 
-    decodeArray(array: Array<object>, type: string, protos: object)
-    {
-        if (util.isSimpleType(type))
-        {
+    decodeArray(array: Array<object>, type: string, protos: object) {
+        if (util.isSimpleType(type)) {
             let length = codec.decodeUInt32(this.getBytes());
 
-            for (let i = 0; i < length; i++)
-            {
+            for (let i = 0; i < length; i++) {
                 array.push(this.decodeProp(type));
             }
-        } else
-        {
+        } else {
             array.push(this.decodeProp(type, protos));
         }
     }
 
-    getBytes(flag?: boolean)
-    {
+    getBytes(flag?: boolean) {
         let bytes = [];
         let pos = this.offset;
         flag = flag || false;
 
-        let b : number;
-        do
-        {
+        let b: number;
+        do {
             b = this.buffer.readUInt8(pos);
             bytes.push(b);
             pos++;
         } while (b >= 128);
 
-        if (!flag)
-        {
+        if (!flag) {
             this.offset = pos;
         }
         return bytes;
     }
 
-    peekBytes()
-    {
+    peekBytes() {
         return this.getBytes(true);
     }
 }

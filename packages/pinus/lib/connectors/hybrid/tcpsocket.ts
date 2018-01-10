@@ -9,8 +9,7 @@ import * as path from 'path';
 let logger = getLogger('pinus', path.basename(__filename));
 
 
-export interface TcpSocketOptions
-{
+export interface TcpSocketOptions {
     headSize: number;
     headHandler: (data: Buffer) => number;
     closeMethod?: 'end';
@@ -33,8 +32,7 @@ let ST_CLOSED = 3;    // closed
  *                        opts.headSize size of package head
  *                        opts.headHandler(headBuffer) handler for package head. caculate and return body size from head data.
  */
-export class TcpSocket extends Stream implements IHybridSocket
-{
+export class TcpSocket extends Stream implements IHybridSocket {
     readable: boolean;
     writeable: boolean;
 
@@ -50,18 +48,15 @@ export class TcpSocket extends Stream implements IHybridSocket
     packageBuffer: Buffer;
     state: number;
 
-    constructor(socket: net.Socket, opts?: TcpSocketOptions)
-    {
+    constructor(socket: net.Socket, opts?: TcpSocketOptions) {
         // stream style interfaces.
         // TODO: need to port to stream2 after node 0.9
         super();
-        if (!socket || !opts)
-        {
+        if (!socket || !opts) {
             throw new Error('invalid socket or opts');
         }
 
-        if (!opts.headSize || typeof opts.headHandler !== 'function')
-        {
+        if (!opts.headSize || typeof opts.headHandler !== 'function') {
             throw new Error('invalid opts.headSize or opts.headHandler');
         }
 
@@ -86,77 +81,62 @@ export class TcpSocket extends Stream implements IHybridSocket
         this._socket.on('close', this.emit.bind(this, 'close'));
 
         this.state = ST_HEAD;
-    };
+    }
 
 
-    send(msg: any, options: {binary ?:boolean}, cb?: (err ?:Error) => void)
-    {
+    send(msg: any, options: {binary ?: boolean}, cb?: (err ?: Error) => void) {
         this._socket.write(msg, options as string, cb);
     }
 
-    close()
-    {
-        if (!!this.closeMethod && this.closeMethod === 'end')
-        {
+    close() {
+        if (!!this.closeMethod && this.closeMethod === 'end') {
             this._socket.end();
-        } else
-        {
-            try
-            {
+        } else {
+            try {
                 this._socket.destroy();
-            } catch (e)
-            {
+            } catch (e) {
                 logger.error('socket close with destroy error: %j', e.stack);
             }
         }
     }
 
-    ondata(chunk: Buffer)
-    {
-        if (this.state === ST_CLOSED)
-        {
+    ondata(chunk: Buffer) {
+        if (this.state === ST_CLOSED) {
             throw new Error('socket has closed');
         }
 
-        if (typeof chunk !== 'string' && !Buffer.isBuffer(chunk))
-        {
+        if (typeof chunk !== 'string' && !Buffer.isBuffer(chunk)) {
             throw new Error('invalid data');
         }
 
-        if (typeof chunk === 'string')
-        {
+        if (typeof chunk === 'string') {
             chunk = new Buffer(chunk, 'utf8');
         }
 
         let offset = 0, end = chunk.length;
 
-        while (offset < end && this.state !== ST_CLOSED)
-        {
-            if (this.state === ST_HEAD)
-            {
+        while (offset < end && this.state !== ST_CLOSED) {
+            if (this.state === ST_HEAD) {
                 offset = this.readHead(chunk, offset);
             }
 
-            if (this.state === ST_BODY)
-            {
+            if (this.state === ST_BODY) {
                 offset = this.readBody(chunk, offset);
             }
         }
 
         return true;
-    };
+    }
 
-    onend(chunk: Buffer)
-    {
-        if (chunk)
-        {
+    onend(chunk: Buffer) {
+        if (chunk) {
             this._socket.write(chunk);
         }
 
         this.state = ST_CLOSED;
         this.reset();
         this.emit('end');
-    };
+    }
 
     /**
      * Read head segment from data to socket.headBuffer.
@@ -166,8 +146,7 @@ export class TcpSocket extends Stream implements IHybridSocket
      * @param  {Number} offset offset read star from data
      * @return {Number}        new offset of data after read
      */
-    readHead(data : Buffer, offset : number)
-    {
+    readHead(data: Buffer, offset: number) {
         let hlen = this.headSize - this.headOffset;
         let dlen = data.length - offset;
         let len = Math.min(hlen, dlen);
@@ -176,24 +155,20 @@ export class TcpSocket extends Stream implements IHybridSocket
         data.copy(this.headBuffer, this.headOffset, offset, dend);
         this.headOffset += len;
 
-        if (this.headOffset === this.headSize)
-        {
+        if (this.headOffset === this.headSize) {
             // if head segment finished
             let size = this.headHandler(this.headBuffer);
-            if (size < 0)
-            {
+            if (size < 0) {
                 throw new Error('invalid body size: ' + size);
             }
             // check if header contains a valid type
-            if (checkTypeData(this.headBuffer[0]))
-            {
+            if (checkTypeData(this.headBuffer[0])) {
                 this.packageSize = size + this.headSize;
                 this.packageBuffer = new Buffer(this.packageSize);
                 this.headBuffer.copy(this.packageBuffer, 0, 0, this.headSize);
                 this.packageOffset = this.headSize;
                 this.state = ST_BODY;
-            } else
-            {
+            } else {
                 dend = data.length;
                 logger.error('close the connection with invalid head message, the remote ip is %s && port is %s && message is %j', this._socket.remoteAddress, this._socket.remotePort, data);
                 this.close();
@@ -202,7 +177,7 @@ export class TcpSocket extends Stream implements IHybridSocket
         }
 
         return dend;
-    };
+    }
 
     /**
      * Read body segment from data buffer to socket.packageBuffer;
@@ -212,8 +187,7 @@ export class TcpSocket extends Stream implements IHybridSocket
      * @param  {Number} offset offset read star from data
      * @return {Number}        new offset of data after read
      */
-    readBody(data : Buffer, offset : number)
-    {
+    readBody(data: Buffer, offset: number) {
         let blen = this.packageSize - this.packageOffset;
         let dlen = data.length - offset;
         let len = Math.min(blen, dlen);
@@ -223,8 +197,7 @@ export class TcpSocket extends Stream implements IHybridSocket
 
         this.packageOffset += len;
 
-        if (this.packageOffset === this.packageSize)
-        {
+        if (this.packageOffset === this.packageSize) {
             // if all the package finished
             let buffer = this.packageBuffer;
             this.emit('message', buffer);
@@ -232,20 +205,18 @@ export class TcpSocket extends Stream implements IHybridSocket
         }
 
         return dend;
-    };
+    }
 
-    reset()
-    {
+    reset() {
         this.headOffset = 0;
         this.packageOffset = 0;
         this.packageSize = 0;
         this.packageBuffer = null;
         this.state = ST_HEAD;
-    };
+    }
 
 }
 
-let checkTypeData = function (data : number)
-{
+let checkTypeData = function (data: number) {
     return data === Package.TYPE_HANDSHAKE || data === Package.TYPE_HANDSHAKE_ACK || data === Package.TYPE_HEARTBEAT || data === Package.TYPE_DATA || data === Package.TYPE_KICK;
 };

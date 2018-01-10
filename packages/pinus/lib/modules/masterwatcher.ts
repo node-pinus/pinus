@@ -9,18 +9,16 @@ let logger = getLogger('pinus', path.basename(__filename));
 
 
 
-export class MasterWatcherModule implements IModule
-{
+export class MasterWatcherModule implements IModule {
     app: Application;
     service: ConsoleService;
     id: string;
-    watchdog: Watchdog
+    watchdog: Watchdog;
 
     static moduleId = Constants.KEYWORDS.MASTER_WATCHER;
 
 
-    constructor(opts : {app:Application}, consoleService : ConsoleService)
-    {
+    constructor(opts: {app: Application}, consoleService: ConsoleService) {
         this.app = opts.app;
         this.service = consoleService;
         this.id = this.app.getServerId();
@@ -29,75 +27,62 @@ export class MasterWatcherModule implements IModule
         this.service.on('register', this.onServerAdd.bind(this));
         this.service.on('disconnect', this.onServerLeave.bind(this));
         this.service.on('reconnect', this.onServerReconnect.bind(this));
-    };
+    }
 
     // ----------------- bind methods -------------------------
 
-    onServerAdd(record : any)
-    {
+    onServerAdd(record: any) {
         logger.debug('masterwatcher receive add server event, with server: %j', record);
-        if (!record || record.type === 'client' || !record.serverType)
-        {
+        if (!record || record.type === 'client' || !record.serverType) {
             return;
         }
         this.watchdog.addServer(record);
-    };
+    }
 
-    onServerReconnect(record : any)
-    {
+    onServerReconnect(record: any) {
         logger.debug('masterwatcher receive reconnect server event, with server: %j', record);
-        if (!record || record.type === 'client' || !record.serverType)
-        {
+        if (!record || record.type === 'client' || !record.serverType) {
             logger.warn('onServerReconnect receive wrong message: %j', record);
             return;
         }
         this.watchdog.reconnectServer(record);
-    };
+    }
 
-    onServerLeave(id : string, type : string)
-    {
+    onServerLeave(id: string, type: string) {
         logger.debug('masterwatcher receive remove server event, with server: %s, type: %s', id, type);
-        if (!id)
-        {
+        if (!id) {
             logger.warn('onServerLeave receive server id is empty.');
             return;
         }
-        if (type !== 'client')
-        {
+        if (type !== 'client') {
             this.watchdog.removeServer(id);
         }
-    };
+    }
 
     // ----------------- module methods -------------------------
 
-    start(cb : ()=>void)
-    {
+    start(cb: () => void) {
         utils.invokeCallback(cb);
-    };
+    }
 
-    masterHandler(agent : MasterAgent, msg : any, cb : MasterCallback)
-    {
-        if (!msg)
-        {
+    masterHandler(agent: MasterAgent, msg: any, cb: MasterCallback) {
+        if (!msg) {
             logger.warn('masterwatcher receive empty message.');
             return;
         }
         let func = (masterMethods as any)[msg.action];
-        if (!func)
-        {
+        if (!func) {
             logger.info('masterwatcher unknown action: %j', msg.action);
             return;
         }
         func(this, agent, msg, cb);
-    };
+    }
 }
 
 // ----------------- monitor request methods -------------------------
 
-let subscribe = function (module : MasterWatcherModule, agent : MasterAgent, msg : any, cb : MasterCallback)
-{
-    if (!msg)
-    {
+let subscribe = function (module: MasterWatcherModule, agent: MasterAgent, msg: any, cb: MasterCallback) {
+    if (!msg) {
         utils.invokeCallback(cb, new Error('masterwatcher subscribe empty message.'));
         return;
     }
@@ -106,10 +91,8 @@ let subscribe = function (module : MasterWatcherModule, agent : MasterAgent, msg
     utils.invokeCallback(cb, null, module.watchdog.query());
 };
 
-let unsubscribe = function (module : MasterWatcherModule, agent : MasterAgent, msg : any, cb : MasterCallback)
-{
-    if (!msg)
-    {
+let unsubscribe = function (module: MasterWatcherModule, agent: MasterAgent, msg: any, cb: MasterCallback) {
+    if (!msg) {
         utils.invokeCallback(cb, new Error('masterwatcher unsubscribe empty message.'));
         return;
     }
@@ -117,15 +100,12 @@ let unsubscribe = function (module : MasterWatcherModule, agent : MasterAgent, m
     utils.invokeCallback(cb);
 };
 
-let query = function (module : MasterWatcherModule, agent : MasterAgent, msg : any, cb : MasterCallback)
-{
+let query = function (module: MasterWatcherModule, agent: MasterAgent, msg: any, cb: MasterCallback) {
     utils.invokeCallback(cb, null, module.watchdog.query());
 };
 
-let record = function (module : MasterWatcherModule, agent : MasterAgent, msg : any, cb : MasterCallback)
-{
-    if (!msg)
-    {
+let record = function (module: MasterWatcherModule, agent: MasterAgent, msg: any, cb: MasterCallback) {
+    if (!msg) {
         utils.invokeCallback(cb, new Error('masterwatcher record empty message.'));
         return;
     }

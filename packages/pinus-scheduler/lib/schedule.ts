@@ -11,14 +11,14 @@ import * as path from 'path';
 let logger = getLogger('pinus-scheduler', path.basename(__filename));
 
 let timerCount = 0;
-let map: {[key:number]: Job.Job} = {};
+let map: {[key: number]: Job.Job} = {};
 let queue = PriorityQueue.createPriorityQueue(comparator);
 
 let jobId = 0;
 let timer: any;
 
-//The accuracy of the scheduler, it will affect the performance when the schedule tasks are
-//crowded together
+// The accuracy of the scheduler, it will affect the performance when the schedule tasks are
+// crowded together
 let accuracy = 10;
 
 /**
@@ -28,8 +28,7 @@ let accuracy = 10;
  * @param jobData The data the job use
  * @return The job id, which can be canceled by cancelJob(id:number)
  */
-function scheduleJob<T>(trigger: SimpleTriggerOpts | string, jobFunc: (data?: T) => void, jobData?: T): number
-{
+function scheduleJob<T>(trigger: SimpleTriggerOpts | string, jobFunc: (data?: T) => void, jobData?: T): number {
     let job: Job.Job = Job.createJob(trigger, jobFunc, jobData);
     let excuteTime = job.excuteTime();
     let id = job.id;
@@ -41,8 +40,7 @@ function scheduleJob<T>(trigger: SimpleTriggerOpts | string, jobFunc: (data?: T)
     };
 
     let curJob = queue.peek();
-    if (!curJob || excuteTime < curJob.time)
-    {
+    if (!curJob || excuteTime < curJob.time) {
         queue.offer(element);
         setTimer(job);
 
@@ -56,11 +54,9 @@ function scheduleJob<T>(trigger: SimpleTriggerOpts | string, jobFunc: (data?: T)
 /**
  * Cancel Job
  */
-function cancelJob(id:number): boolean
-{
+function cancelJob(id: number): boolean {
     let curJob = queue.peek();
-    if (curJob && id === curJob.id)
-    { // to avoid queue.peek() is null
+    if (curJob && id === curJob.id) { // to avoid queue.peek() is null
         queue.pop();
         delete map[id];
 
@@ -77,8 +73,7 @@ function cancelJob(id:number): boolean
  * @param job The job need to schedule
  * @return void
  */
-function setTimer(job: Job.Job)
-{
+function setTimer(job: Job.Job) {
     clearTimeout(timer);
 
     timer = setTimeout(excuteJob, job.excuteTime() - Date.now());
@@ -87,33 +82,29 @@ function setTimer(job: Job.Job)
 /**
  * The function used to ran the schedule job, and setTimeout for next running job
  */
-function excuteJob()
-{
+function excuteJob() {
     let job = peekNextJob();
     let nextJob;
 
-    while (!!job && (job.excuteTime() - Date.now()) < accuracy)
-    {
+    while (!!job && (job.excuteTime() - Date.now()) < accuracy) {
         job.run();
         queue.pop();
 
         let nextTime = job.nextTime();
 
-        if (nextTime === null)
-        {
+        if (nextTime === null) {
             delete map[job.id];
-        } else
-        {
+        } else {
             queue.offer({ id: job.id, time: nextTime });
         }
         job = peekNextJob();
     }
 
-    //If all the job have been canceled
+    // If all the job have been canceled
     if (!job)
         return;
 
-    //Run next schedule
+    // Run next schedule
     setTimer(job);
 }
 
@@ -121,15 +112,13 @@ function excuteJob()
  * Return, but not remove the next valid job
  * @return Next valid job
  */
-function peekNextJob()
-{
+function peekNextJob() {
     if (queue.size() <= 0)
         return null;
 
     let job = null;
 
-    do
-    {
+    do {
         job = map[queue.peek().id];
         if (!job) queue.pop();
     } while (!job && queue.size() > 0);
@@ -141,12 +130,10 @@ function peekNextJob()
  * Return and remove the next valid job
  * @return Next valid job
  */
-function getNextJob()
-{
+function getNextJob() {
     let job = null;
 
-    while (!job && queue.size() > 0)
-    {
+    while (!job && queue.size() > 0) {
         let id = queue.pop().id;
         job = map[id];
     }
@@ -154,12 +141,11 @@ function getNextJob()
     return (!!job) ? job : null;
 }
 
-function comparator(e1: {time: number}, e2: {time: number})
-{
+function comparator(e1: {time: number}, e2: {time: number}) {
     return e1.time > e2.time;
 }
 
 export
 {
     scheduleJob, cancelJob
-}
+};

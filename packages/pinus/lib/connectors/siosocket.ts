@@ -8,15 +8,13 @@ let ST_CLOSED = 1;
 /**
  * Socket class that wraps socket.io socket to provide unified interface for up level.
  */
-export class SioSocket extends EventEmitter implements ISocket
-{
+export class SioSocket extends EventEmitter implements ISocket {
     id: number;
     socket: SocketIO.Socket;
     remoteAddress: { ip: string };
     state: number;
 
-    constructor(id: number, socket: SocketIO.Socket)
-    {
+    constructor(id: number, socket: SocketIO.Socket) {
         super();
         this.id = id;
         this.socket = socket;
@@ -30,66 +28,54 @@ export class SioSocket extends EventEmitter implements ISocket
 
         socket.on('error', this.emit.bind(this, 'error'));
 
-        socket.on('message', function (msg)
-        {
+        socket.on('message', function (msg) {
             self.emit('message', msg);
         });
 
         this.state = ST_INITED;
 
         // TODO: any other events?
-    };
+    }
 
 
 
-    send(msg: any)
-    {
-        if (this.state !== ST_INITED)
-        {
+    send(msg: any) {
+        if (this.state !== ST_INITED) {
             return;
         }
-        if (typeof msg !== 'string')
-        {
+        if (typeof msg !== 'string') {
             msg = JSON.stringify(msg);
         }
         this.socket.send(msg);
-    };
+    }
     sendRaw = this.send;
-    disconnect()
-    {
-        if (this.state === ST_CLOSED)
-        {
+    disconnect() {
+        if (this.state === ST_CLOSED) {
             return;
         }
 
         this.state = ST_CLOSED;
         this.socket.disconnect();
-    };
+    }
 
-    sendBatch(msgs: any[])
-    {
+    sendBatch(msgs: any[]) {
         this.send(encodeBatch(msgs));
-    };
+    }
 }
 
 /**
  * Encode batch msg to client
  */
-let encodeBatch = function (msgs: any[])
-{
+let encodeBatch = function (msgs: any[]) {
     let res = '[', msg;
-    for (let i = 0, l = msgs.length; i < l; i++)
-    {
-        if (i > 0)
-        {
+    for (let i = 0, l = msgs.length; i < l; i++) {
+        if (i > 0) {
             res += ',';
         }
         msg = msgs[i];
-        if (typeof msg === 'string')
-        {
+        if (typeof msg === 'string') {
             res += msg;
-        } else
-        {
+        } else {
             res += JSON.stringify(msg);
         }
     }

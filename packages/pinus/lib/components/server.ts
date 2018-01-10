@@ -13,13 +13,11 @@ import { BackendSession } from '../common/service/backendSessionService';
  *
  * @param {Object} app  current application context
  */
-export class ServerComponent  implements IComponent
-{
+export class ServerComponent  implements IComponent {
     server: Server;
-    constructor(app : Application, opts : ServerOptions)
-    {
+    constructor(app: Application, opts: ServerOptions) {
         this.server = createServer(app, opts);
-    };
+    }
     name = '__server__';
 
     /**
@@ -28,11 +26,10 @@ export class ServerComponent  implements IComponent
      * @param {Function} cb
      * @return {Void}
      */
-    start(cb : ()=>void)
-    {
+    start(cb: () => void) {
         this.server.start();
         process.nextTick(cb);
-    };
+    }
 
     /**
      * Component lifecycle callback
@@ -40,11 +37,10 @@ export class ServerComponent  implements IComponent
      * @param {Function} cb
      * @return {Void}
      */
-    afterStart(cb : ()=>void)
-    {
+    afterStart(cb: () => void) {
         this.server.afterStart();
         process.nextTick(cb);
-    };
+    }
 
     /**
      * Component lifecycle function
@@ -53,25 +49,22 @@ export class ServerComponent  implements IComponent
      * @param {Function}  cb
      * @return {Void}
      */
-    stop(force : boolean, cb : ()=>void)
-    {
+    stop(force: boolean, cb: () => void) {
         this.server.stop();
         process.nextTick(cb);
-    };
+    }
 
     /**
      * Proxy server handle
      */
-    handle(msg : any, session : FrontendOrBackendSession, cb : HandlerCallback)
-    {
+    handle(msg: any, session: FrontendOrBackendSession, cb: HandlerCallback) {
         this.server.handle(msg, session, cb);
-    };
+    }
 
     /**
      * Proxy server global handle
      */
-    globalHandle(msg : any, session : FrontendOrBackendSession, cb : HandlerCallback)
-    {
+    globalHandle(msg: any, session: FrontendOrBackendSession, cb: HandlerCallback) {
         this.server.globalHandle(msg, session, cb);
-    };
+    }
 }

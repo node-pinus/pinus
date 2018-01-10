@@ -13,14 +13,12 @@ import * as path from 'path';
 let logger = getLogger('pinus', path.basename(__filename));
 
 
-export class PushSchedulerComponent implements IComponent
-{
-    scheduler : IPushScheduler;
-    constructor(private app : Application, opts ?: IPushSchedulerOptions)
-    {
+export class PushSchedulerComponent implements IComponent {
+    scheduler: IPushScheduler;
+    constructor(private app: Application, opts ?: IPushSchedulerOptions) {
         opts = opts || {};
         this.scheduler = getScheduler(this, app, opts);
-    };
+    }
 
     name = '__pushScheduler__';
 
@@ -30,10 +28,9 @@ export class PushSchedulerComponent implements IComponent
      * @param {Function} cb
      * @return {Void}
      */
-    afterStart(cb : ()=>void)
-    {
+    afterStart(cb: () => void) {
         this.scheduler.start().then(cb);
-    };
+    }
 
     /**
      * Component lifecycle callback
@@ -41,10 +38,9 @@ export class PushSchedulerComponent implements IComponent
      * @param {Function} cb
      * @return {Void}
      */
-    stop(force : boolean, cb : ()=>void)
-    {
+    stop(force: boolean, cb: () => void) {
         this.scheduler.stop().then(cb);
-    };
+    }
 
     /**
      * Schedule how the message to send.
@@ -56,21 +52,17 @@ export class PushSchedulerComponent implements IComponent
      * @param  {Object}   opts  options
      * @param  {Function} cb
      */
-    schedule(reqId : number, route : string, msg : any, recvs : SID[], opts : ScheduleOptions, cb : (err?:Error)=>void)
-    {
-        this.scheduler.schedule(reqId, route, msg, recvs, opts, cb);     
-    };
+    schedule(reqId: number, route: string, msg: any, recvs: SID[], opts: ScheduleOptions, cb: (err?: Error) => void) {
+        this.scheduler.schedule(reqId, route, msg, recvs, opts, cb);
+    }
 }
-let getScheduler = function (pushSchedulerComp : PushSchedulerComponent, app : Application, opts : IPushSchedulerOptions) : IPushScheduler
-{
+let getScheduler = function (pushSchedulerComp: PushSchedulerComponent, app: Application, opts: IPushSchedulerOptions): IPushScheduler {
     let scheduler = opts.scheduler || DefaultScheduler;
-    if (typeof scheduler === 'function')
-    {
+    if (typeof scheduler === 'function') {
         return new scheduler(app, opts);
     }
 
-    if (Array.isArray(scheduler))
-    {
+    if (Array.isArray(scheduler)) {
         return new MultiPushScheduler(app , opts as MultiPushSchedulerOptions);
     }
 

@@ -43,24 +43,23 @@ import { TransactionCondictionFunction, TransactionHandlerFunction } from './com
 import { RpcFilter, MailStationErrorHandler } from 'pinus-rpc';
 import { ILifeCycle } from './interfaces/ILifeCycle';
 import { ModuleRecord } from './util/moduleUtil';
-import { IPlugin,ApplicationEventContructor } from './interfaces/IPlugin';
+import { IPlugin, ApplicationEventContructor } from './interfaces/IPlugin';
 import { Cron } from './server/server';
 import { ServerStartArgs } from './util/appUtil';
 import { listEs6ClassMethods } from 'pinus-rpc';
 let logger = getLogger('pinus', path.basename(__filename));
 
 
-export type ConfigureCallback =  ()=>void;
-export type AConfigureFunc1 = ()=>Promise<void> ;
-export type AConfigureFunc2 = (env : string)=>Promise<void> ;
-export type AConfigureFunc3 = (env : string, type : string)=>Promise<void>
+export type ConfigureCallback =  () => void;
+export type AConfigureFunc1 = () => Promise<void> ;
+export type AConfigureFunc2 = (env: string) => Promise<void> ;
+export type AConfigureFunc3 = (env: string, type: string) => Promise<void>;
 
-export interface ApplicationOptions
-{
+export interface ApplicationOptions {
     base ?: string;
 }
 
-export type BeforeStopHookFunction = (app:Application , shutDown : ()=>void, cancelShutDownTimer : ()=>void)=>void;
+export type BeforeStopHookFunction = (app: Application , shutDown: () => void, cancelShutDownTimer: () => void) => void;
 
 /**
  * Application states
@@ -70,11 +69,10 @@ let STATE_START = 2;  // app start
 let STATE_STARTED = 3;  // app has started
 let STATE_STOPED = 4;  // app has stoped
 
-export class Application
-{
+export class Application {
 
-    loaded : IComponent[] = [];       // loaded component list
-    components : {
+    loaded: IComponent[] = [];       // loaded component list
+    components: {
         __backendSession__ ?: BackendSessionComponent,
         __channel__ ?: ChannelComponent,
         __connection__ ?: ConnectionComponent,
@@ -88,53 +86,52 @@ export class Application
         __server__ ?: ServerComponent,
         __session__ ?: SessionComponent,
         __pushScheduler__ ?: PushSchedulerComponent,
-        [key:string] : IComponent
+        [key: string]: IComponent
     } = {};   // name -> component map
 
     sessionService ?: SessionService;
     backendSessionService ?: BackendSessionService;
     channelService ?: ChannelService;
 
-    settings : {[key:string] : any}= {};     // collection keep set/get
+    settings: {[key: string]: any}= {};     // collection keep set/get
     event = new EventEmitter();  // event object to sub/pub events
 
     // current server info
-    serverId : string;   // current server id
-    serverType : string; // current server type
-    curServer : ServerInfo;  // current server info
-    startTime : number; // current server start time
+    serverId: string;   // current server id
+    serverType: string; // current server type
+    curServer: ServerInfo;  // current server info
+    startTime: number; // current server start time
 
     // global server infos
-    master : ServerStartArgs = null;         // master server info
-    servers : {[id:string] : ServerInfo} = {};          // current global server info maps, id -> info
-    serverTypeMaps : {[type:string] : ServerInfo[]}  = {};   // current global type maps, type -> [info]
-    serverTypes : string[] = [];      // current global server type list
-    usedPlugins : IPlugin[] = [];     // current server custom lifecycle callbacks
-    clusterSeq : {[serverType:string] : number} = {};       // cluster id seqence
+    master: ServerStartArgs = null;         // master server info
+    servers: {[id: string]: ServerInfo} = {};          // current global server info maps, id -> info
+    serverTypeMaps: {[type: string]: ServerInfo[]}  = {};   // current global type maps, type -> [info]
+    serverTypes: string[] = [];      // current global server type list
+    usedPlugins: IPlugin[] = [];     // current server custom lifecycle callbacks
+    clusterSeq: {[serverType: string]: number} = {};       // cluster id seqence
     state: number;
-    base : string;
+    base: string;
 
-    startId : string;
-    type : string;
-    stopTimer : any;
+    startId: string;
+    type: string;
+    stopTimer: any;
 
     /**
      * Initialize the server.
      *
      *   - setup default configuration
      */
-    init(opts ?: ApplicationOptions)
-    {
+    init(opts ?: ApplicationOptions) {
         opts = opts || {};
         let base = opts.base || path.dirname(require.main.filename);
         this.set(Constants.RESERVED.BASE, base);
         this.base = base;
-        
+
         appUtil.defaultConfiguration(this);
 
         this.state = STATE_INITED;
         logger.info('application inited: %j', this.getServerId());
-    };
+    }
 
     /**
      * Get application base path
@@ -147,10 +144,9 @@ export class Application
      *
      * @memberOf Application
      */
-    getBase()
-    {
+    getBase() {
         return this.get(Constants.RESERVED.BASE);
-    };
+    }
 
     /**
      * Override require method in application
@@ -159,39 +155,33 @@ export class Application
      *
      * @memberOf Application
      */
-    require(ph : string)
-    {
+    require(ph: string) {
         return require(path.join(this.getBase(), ph));
-    };
+    }
 
     /**
      * Configure logger with {$base}/config/log4js.json
-     * 
+     *
      * @param {Object} logger pinus-logger instance without configuration
      *
      * @memberOf Application
      */
-    configureLogger(logger : ILogger)
-    {
-        if (process.env.POMELO_LOGGER !== 'off')
-        {
+    configureLogger(logger: ILogger) {
+        if (process.env.POMELO_LOGGER !== 'off') {
             let serverId = this.getServerId();
             let base = this.getBase();
             let env = this.get(Constants.RESERVED.ENV);
             let originPath = path.join(base, Constants.FILEPATH.LOG);
             let presentPath = path.join(base, Constants.FILEPATH.CONFIG_DIR, env, path.basename(Constants.FILEPATH.LOG));
-            if (fs.existsSync(originPath))
-            {
+            if (fs.existsSync(originPath)) {
                 logger.configure(originPath, {serverId: serverId, base: base});
-            } else if (fs.existsSync(presentPath))
-            {
+            } else if (fs.existsSync(presentPath)) {
                 logger.configure(presentPath, {serverId: serverId, base: base});
-            } else
-            {
+            } else {
                 console.error('logger file path configuration is error.');
             }
         }
-    };
+    }
 
     /**
      * add a filter to before and after filter
@@ -200,11 +190,10 @@ export class Application
      *                        A filter should have two methods: before and after.
      * @memberOf Application
      */
-	filter(filter: IHandlerFilter): void
-    {
+    filter(filter: IHandlerFilter): void {
         this.before(filter);
         this.after(filter);
-    };
+    }
 
     /**
      * Add before filter.
@@ -212,10 +201,9 @@ export class Application
      * @param {Object|Function} bf before fileter, bf(msg, session, next)
      * @memberOf Application
      */
-	before(bf: BeforeHandlerFilter): void
-    {
+    before(bf: BeforeHandlerFilter): void {
         addFilter(this, Constants.KEYWORDS.BEFORE_FILTER, bf);
-    };
+    }
 
     /**
      * Add after filter.
@@ -223,10 +211,9 @@ export class Application
      * @param {Object|Function} af after filter, `af(err, msg, session, resp, next)`
      * @memberOf Application
      */
-	after(af: AfterHandlerFilter): void
-    {
+    after(af: AfterHandlerFilter): void {
         addFilter(this, Constants.KEYWORDS.AFTER_FILTER, af);
-    };
+    }
 
     /**
      * add a global filter to before and after global filter
@@ -235,11 +222,10 @@ export class Application
      *                        A filter should have two methods: before and after.
      * @memberOf Application
      */
-    globalFilter(filter : IHandlerFilter)
-    {
+    globalFilter(filter: IHandlerFilter) {
         this.globalBefore(filter);
         this.globalAfter(filter);
-    };
+    }
 
     /**
      * Add global before filter.
@@ -247,10 +233,9 @@ export class Application
      * @param {Object|Function} bf before fileter, bf(msg, session, next)
      * @memberOf Application
      */
-    globalBefore(bf : BeforeHandlerFilter)
-    {
+    globalBefore(bf: BeforeHandlerFilter) {
         addFilter(this, Constants.KEYWORDS.GLOBAL_BEFORE_FILTER, bf);
-    };
+    }
 
     /**
      * Add global after filter.
@@ -258,10 +243,9 @@ export class Application
      * @param {Object|Function} af after filter, `af(err, msg, session, resp, next)`
      * @memberOf Application
      */
-    globalAfter(af : AfterHandlerFilter)
-    {
+    globalAfter(af: AfterHandlerFilter) {
         addFilter(this, Constants.KEYWORDS.GLOBAL_AFTER_FILTER, af);
-    };
+    }
 
     /**
      * Add rpc before filter.
@@ -269,10 +253,9 @@ export class Application
      * @param {Object|Function} bf before fileter, bf(serverId, msg, opts, next)
      * @memberOf Application
      */
-    rpcBefore(bf : RpcFilter | RpcFilter[])
-    {
+    rpcBefore(bf: RpcFilter | RpcFilter[]) {
         addFilter(this, Constants.KEYWORDS.RPC_BEFORE_FILTER, bf);
-    };
+    }
 
     /**
      * Add rpc after filter.
@@ -280,10 +263,9 @@ export class Application
      * @param {Object|Function} af after filter, `af(serverId, msg, opts, next)`
      * @memberOf Application
      */
-    rpcAfter(af : RpcFilter | RpcFilter[])
-    {
+    rpcAfter(af: RpcFilter | RpcFilter[]) {
         addFilter(this, Constants.KEYWORDS.RPC_AFTER_FILTER, af);
-    };
+    }
 
     /**
      * add a rpc filter to before and after rpc filter
@@ -292,11 +274,10 @@ export class Application
      *                        A filter should have two methods: before and after.
      * @memberOf Application
      */
-    rpcFilter(filter : RpcFilter)
-    {
+    rpcFilter(filter: RpcFilter) {
         this.rpcBefore(filter);
         this.rpcAfter(filter);
-    };
+    }
 
     /**
      * Load component
@@ -307,47 +288,41 @@ export class Application
      * @return {Object}     app instance for chain invoke
      * @memberOf Application
      */
-    load<T extends IComponent>(component : ObjectType<T>, opts ?: any) : T
-    load<T extends IComponent>(name : string, component : ObjectType<T>, opts ?: any) : T
-    
-    load<T extends IComponent>(component : T, opts ?: any) : T
-    load<T extends IComponent>(name : string, component : T, opts ?: any) : T
+    load<T extends IComponent>(component: ObjectType<T>, opts ?: any): T;
+    load<T extends IComponent>(name: string, component: ObjectType<T>, opts ?: any): T;
 
-    load<T extends IComponent>(name : string | ObjectType<T>, component ?: ObjectType<T> | any | T, opts ?: any) : T
-    {
-        if (typeof name !== 'string')
-        {
+    load<T extends IComponent>(component: T, opts ?: any): T;
+    load<T extends IComponent>(name: string, component: T, opts ?: any): T;
+
+    load<T extends IComponent>(name: string | ObjectType<T>, component ?: ObjectType<T> | any | T, opts ?: any): T {
+        if (typeof name !== 'string') {
             opts = component;
             component = name;
             name = null;
         }
 
-        if(isFunction(component))
-        {
+        if(isFunction(component)) {
             component = new component(this, opts);
         }
 
-        if (!name && typeof component.name === 'string')
-        {
+        if (!name && typeof component.name === 'string') {
             name = component.name;
         }
 
-        if (name && this.components[name as string])
-        {
+        if (name && this.components[name as string]) {
             // ignore duplicat component
             logger.warn('ignore duplicate component: %j', name);
             return;
         }
 
         this.loaded.push(component);
-        if (name)
-        {
+        if (name) {
             // components with a name would get by name throught app.components later.
             this.components[name as string] = component;
         }
 
         return component;
-    };
+    }
 
     /**
      * Load Configure json file to settings.(support different enviroment directory & compatible for old path)
@@ -358,44 +333,36 @@ export class Application
      * @return {Server|Mixed} for chaining, or the setting value
      * @memberOf Application
      */
-    loadConfigBaseApp(key : string, val : string, reload = false)
-    {
+    loadConfigBaseApp(key: string, val: string, reload = false) {
         let self = this;
         let env = this.get(Constants.RESERVED.ENV);
         let originPath = path.join(this.getBase(), val);
         let presentPath = path.join(this.getBase(), Constants.FILEPATH.CONFIG_DIR, env, path.basename(val));
-        let realPath : string;
-        if (fs.existsSync(originPath))
-        {
+        let realPath: string;
+        if (fs.existsSync(originPath)) {
             realPath = originPath;
             let file = require(originPath);
-            if (file[env])
-            {
+            if (file[env]) {
                 file = file[env];
             }
             this.set(key, file);
-        } else if (fs.existsSync(presentPath))
-        {
+        } else if (fs.existsSync(presentPath)) {
             realPath = presentPath;
             let pfile = require(presentPath);
             this.set(key, pfile);
-        } else
-        {
+        } else {
             logger.error('invalid configuration with file path: %s', key);
         }
 
-        if (!!realPath && !!reload)
-        {
-            fs.watch(realPath, function (event, filename)
-            {
-                if (event === 'change')
-                {
+        if (!!realPath && !!reload) {
+            fs.watch(realPath, function (event, filename) {
+                if (event === 'change') {
                     delete require.cache[require.resolve(realPath)];
                     self.loadConfigBaseApp(key, val);
                 }
             });
         }
-    };
+    }
 
     /**
      * Load Configure json file to settings.
@@ -405,16 +372,14 @@ export class Application
      * @return {Server|Mixed} for chaining, or the setting value
      * @memberOf Application
      */
-    loadConfig(key : string, val : string)
-    {
+    loadConfig(key: string, val: string) {
         let env = this.get(Constants.RESERVED.ENV);
         let cfg = require(val);
-        if (cfg[env])
-        {
+        if (cfg[env]) {
             cfg = cfg[env];
         }
         this.set(key, cfg);
-    };
+    }
 
     /**
      * Set the route function for the specified server type.
@@ -434,17 +399,15 @@ export class Application
      * @return {Object}     current application instance for chain invoking
      * @memberOf Application
      */
-    route(serverType : string, routeFunc : RouteFunction)
-    {
+    route(serverType: string, routeFunc: RouteFunction) {
         let routes = this.get(Constants.KEYWORDS.ROUTE);
-        if (!routes)
-        {
+        if (!routes) {
             routes = {};
             this.set(Constants.KEYWORDS.ROUTE, routes);
         }
         routes[serverType] = routeFunc;
         return this;
-    };
+    }
 
     /**
      * Set before stop function. It would perform before servers stop.
@@ -453,14 +416,12 @@ export class Application
      * @return {Void}
      * @memberOf Application
      */
-    beforeStopHook(fun : BeforeStopHookFunction)
-    {
+    beforeStopHook(fun: BeforeStopHookFunction) {
         logger.warn('this method was deprecated in pinus 0.8');
-        if (!!fun && typeof fun === 'function')
-        {
+        if (!!fun && typeof fun === 'function') {
             this.set(Constants.KEYWORDS.BEFORE_STOP_HOOK, fun);
         }
-    };
+    }
 
     /**
      * Start application. It would load the default components and start all the loaded components.
@@ -468,47 +429,37 @@ export class Application
      * @param  {Function} cb callback function
      * @memberOf Application
      */
-    start(cb ?: (err ?: Error , result ?: void)=>void)
-    {
+    start(cb ?: (err ?: Error , result ?: void) => void) {
         this.startTime = Date.now();
-        if (this.state > STATE_INITED)
-        {
+        if (this.state > STATE_INITED) {
             utils.invokeCallback(cb, new Error('application has already start.'));
             return;
         }
 
         let self = this;
-        appUtil.startByType(self, function ()
-        {
+        appUtil.startByType(self, function () {
             appUtil.loadDefaultComponents(self);
-            let startUp = function ()
-            {
-                appUtil.optComponents(self.loaded, Constants.RESERVED.START, function (err)
-                {
+            let startUp = function () {
+                appUtil.optComponents(self.loaded, Constants.RESERVED.START, function (err) {
                     self.state = STATE_START;
-                    if (err)
-                    {
+                    if (err) {
                         utils.invokeCallback(cb, err);
-                    } else
-                    {
+                    } else {
                         logger.info('%j enter after start...', self.getServerId());
                         self.afterStart(cb);
                     }
                 });
             };
 
-            appUtil.optLifecycles(self.usedPlugins, Constants.LIFECYCLE.BEFORE_STARTUP, self, function (err)
-            {
-                if (err)
-                {
+            appUtil.optLifecycles(self.usedPlugins, Constants.LIFECYCLE.BEFORE_STARTUP, self, function (err) {
+                if (err) {
                     utils.invokeCallback(cb, err);
-                } else
-                {
+                } else {
                     startUp();
                 }
             });
         });
-    };
+    }
 
     /**
      * Lifecycle callback for after start.
@@ -516,21 +467,17 @@ export class Application
      * @param  {Function} cb callback function
      * @return {Void}
      */
-    afterStart(cb ?: (err?:Error)=>void)
-    {
-        if (this.state !== STATE_START)
-        {
+    afterStart(cb ?: (err?: Error) => void) {
+        if (this.state !== STATE_START) {
             utils.invokeCallback(cb, new Error('application is not running now.'));
             return;
         }
 
         let self = this;
-        appUtil.optComponents(this.loaded, Constants.RESERVED.AFTER_START, function (err)
-        {
+        appUtil.optComponents(this.loaded, Constants.RESERVED.AFTER_START, function (err) {
             self.state = STATE_STARTED;
             let id = self.getServerId();
-            if (!err)
-            {
+            if (!err) {
                 logger.info('%j finish start', id);
             }
             appUtil.optLifecycles(self.usedPlugins, Constants.LIFECYCLE.AFTER_STARTUP, self, cb);
@@ -538,65 +485,52 @@ export class Application
             logger.info('%j startup in %s ms', id, usedTime);
             self.event.emit(events.START_SERVER, id);
         });
-    };
+    }
 
     /**
      * Stop components.
      *
      * @param  {Boolean} force whether stop the app immediately
      */
-    stop(force : boolean)
-    {
-        if (this.state > STATE_STARTED)
-        {
+    stop(force: boolean) {
+        if (this.state > STATE_STARTED) {
             logger.warn('[pinus application] application is not running now.');
             return;
         }
         this.state = STATE_STOPED;
         let self = this;
 
-        this.stopTimer = setTimeout(function ()
-        {
+        this.stopTimer = setTimeout(function () {
             process.exit(0);
         }, Constants.TIME.TIME_WAIT_STOP);
 
-        let cancelShutDownTimer = function ()
-        {
-            if (!!self.stopTimer)
-            {
+        let cancelShutDownTimer = function () {
+            if (!!self.stopTimer) {
                 clearTimeout(self.stopTimer);
             }
         };
-        let shutDown = function ()
-        {
-            appUtil.stopComps(self.loaded, 0, force, function ()
-            {
+        let shutDown = function () {
+            appUtil.stopComps(self.loaded, 0, force, function () {
                 cancelShutDownTimer();
-                if (force)
-                {
+                if (force) {
                     process.exit(0);
                 }
             });
         };
         let fun = this.get(Constants.KEYWORDS.BEFORE_STOP_HOOK);
 
-        appUtil.optLifecycles(self.usedPlugins, Constants.LIFECYCLE.BEFORE_SHUTDOWN, self, function (err)
-        {
-            if (err)
-            {
+        appUtil.optLifecycles(self.usedPlugins, Constants.LIFECYCLE.BEFORE_SHUTDOWN, self, function (err) {
+            if (err) {
                 console.error(`throw err when beforeShutdown ` , err.stack);
-            } else
-            {
-                if (!!fun)
-                {
+            } else {
+                if (!!fun) {
                     utils.invokeCallback(fun, self, shutDown, cancelShutDownTimer);
-                } else
-                {
+                } else {
                     shutDown();
                 }
             }
         }, cancelShutDownTimer);
-    };
+    }
 
     /**
      * Assign `setting` to `val`, or return `setting`'s value.
@@ -617,32 +551,30 @@ export class Application
      * @return {Server|Mixed} for chaining, or the setting value
      * @memberOf Application
      */
-    set(setting: "channelService", val: ChannelService, attach?: boolean): Application;
-    set(setting: "sessionService", val: SessionService, attach?: boolean): Application;
-    set(setting: "channelConfig", val: ChannelServiceOptions, attach?: boolean): Application;
-    set(setting: "backendSessionService", val: BackendSessionComponent, attach?: boolean): Application;
-	set(setting: Constants.KEYWORDS.BEFORE_FILTER, val : BeforeHandlerFilter[], attach?: boolean): Application;
-	set(setting: Constants.KEYWORDS.AFTER_FILTER, val : AfterHandlerFilter[], attach?: boolean): Application;
-	set(setting: Constants.KEYWORDS.GLOBAL_BEFORE_FILTER, val : BeforeHandlerFilter[], attach?: boolean): Application;
-	set(setting: Constants.KEYWORDS.GLOBAL_AFTER_FILTER, val : AfterHandlerFilter[], attach?: boolean): Application;
-	set(setting: Constants.KEYWORDS.RPC_BEFORE_FILTER, val : RpcFilter | RpcFilter[], attach?: boolean): Application;
-	set(setting: Constants.KEYWORDS.RPC_AFTER_FILTER, val :RpcFilter | RpcFilter[], attach?: boolean): Application;
-	set(setting: Constants.RESERVED.RPC_ERROR_HANDLER, val : MailStationErrorHandler, attach?: boolean): Application;
-	set(setting: Constants.KEYWORDS.ROUTE, val : RouteMaps, attach?: boolean): Application;
-	set(setting: Constants.KEYWORDS.BEFORE_STOP_HOOK, val : BeforeStopHookFunction, attach?: boolean): Application;
-	set(setting: Constants.RESERVED.BASE, val : string, attach?: boolean): Application;
-	set(setting: Constants.RESERVED.ENV, val : string, attach?: boolean): Application;
-    set(setting: Constants.KEYWORDS.MODULE, val :{[key:string]:ModuleRecord}, attach?: boolean): Application;
+    set(setting: 'channelService', val: ChannelService, attach?: boolean): Application;
+    set(setting: 'sessionService', val: SessionService, attach?: boolean): Application;
+    set(setting: 'channelConfig', val: ChannelServiceOptions, attach?: boolean): Application;
+    set(setting: 'backendSessionService', val: BackendSessionComponent, attach?: boolean): Application;
+    set(setting: Constants.KEYWORDS.BEFORE_FILTER, val: BeforeHandlerFilter[], attach?: boolean): Application;
+    set(setting: Constants.KEYWORDS.AFTER_FILTER, val: AfterHandlerFilter[], attach?: boolean): Application;
+    set(setting: Constants.KEYWORDS.GLOBAL_BEFORE_FILTER, val: BeforeHandlerFilter[], attach?: boolean): Application;
+    set(setting: Constants.KEYWORDS.GLOBAL_AFTER_FILTER, val: AfterHandlerFilter[], attach?: boolean): Application;
+    set(setting: Constants.KEYWORDS.RPC_BEFORE_FILTER, val: RpcFilter | RpcFilter[], attach?: boolean): Application;
+    set(setting: Constants.KEYWORDS.RPC_AFTER_FILTER, val: RpcFilter | RpcFilter[], attach?: boolean): Application;
+    set(setting: Constants.RESERVED.RPC_ERROR_HANDLER, val: MailStationErrorHandler, attach?: boolean): Application;
+    set(setting: Constants.KEYWORDS.ROUTE, val: RouteMaps, attach?: boolean): Application;
+    set(setting: Constants.KEYWORDS.BEFORE_STOP_HOOK, val: BeforeStopHookFunction, attach?: boolean): Application;
+    set(setting: Constants.RESERVED.BASE, val: string, attach?: boolean): Application;
+    set(setting: Constants.RESERVED.ENV, val: string, attach?: boolean): Application;
+    set(setting: Constants.KEYWORDS.MODULE, val: {[key: string]: ModuleRecord}, attach?: boolean): Application;
     set(setting: string, val: string | any, attach?: boolean): Application;
-    set(setting: string, val: string | any, attach?: boolean): Application
-    {
+    set(setting: string, val: string | any, attach?: boolean): Application {
         this.settings[setting] = val;
-        if(attach)
-        {
+        if(attach) {
             (this as any)[setting] = val;
         }
         return this;
-    };
+    }
 
     /**
      * Get property from setting
@@ -651,27 +583,26 @@ export class Application
      * @return {String} val
      * @memberOf Application
      */
-	get(setting: "channelService"): ChannelService;
-	get(setting: "sessionService"): SessionService;
-	get(setting: "channelConfig"): ChannelServiceOptions;
-	get(setting: "backendSessionService"): BackendSessionComponent;
-	get(setting: Constants.KEYWORDS.BEFORE_FILTER): BeforeHandlerFilter[];
-	get(setting: Constants.KEYWORDS.AFTER_FILTER): AfterHandlerFilter[];
-	get(setting: Constants.KEYWORDS.GLOBAL_BEFORE_FILTER): BeforeHandlerFilter[];
-	get(setting: Constants.KEYWORDS.GLOBAL_AFTER_FILTER): AfterHandlerFilter[];
-	get(setting: Constants.KEYWORDS.RPC_BEFORE_FILTER): RpcFilter | RpcFilter[];
-	get(setting: Constants.KEYWORDS.RPC_AFTER_FILTER): RpcFilter | RpcFilter[];
+    get(setting: 'channelService'): ChannelService;
+    get(setting: 'sessionService'): SessionService;
+    get(setting: 'channelConfig'): ChannelServiceOptions;
+    get(setting: 'backendSessionService'): BackendSessionComponent;
+    get(setting: Constants.KEYWORDS.BEFORE_FILTER): BeforeHandlerFilter[];
+    get(setting: Constants.KEYWORDS.AFTER_FILTER): AfterHandlerFilter[];
+    get(setting: Constants.KEYWORDS.GLOBAL_BEFORE_FILTER): BeforeHandlerFilter[];
+    get(setting: Constants.KEYWORDS.GLOBAL_AFTER_FILTER): AfterHandlerFilter[];
+    get(setting: Constants.KEYWORDS.RPC_BEFORE_FILTER): RpcFilter | RpcFilter[];
+    get(setting: Constants.KEYWORDS.RPC_AFTER_FILTER): RpcFilter | RpcFilter[];
     get(setting: Constants.RESERVED.RPC_ERROR_HANDLER): MailStationErrorHandler;
-    get(setting: Constants.KEYWORDS.ROUTE): RouteMaps
-    get(setting: Constants.KEYWORDS.BEFORE_STOP_HOOK): BeforeStopHookFunction
+    get(setting: Constants.KEYWORDS.ROUTE): RouteMaps;
+    get(setting: Constants.KEYWORDS.BEFORE_STOP_HOOK): BeforeStopHookFunction;
     get(setting: Constants.RESERVED.BASE): string;
     get(setting: Constants.RESERVED.ENV): string;
-    get(setting: Constants.KEYWORDS.MODULE): {[key:string]:ModuleRecord};
-	get(setting: string): string | any;
-	get(setting: string): string | any
-    {
+    get(setting: Constants.KEYWORDS.MODULE): {[key: string]: ModuleRecord};
+    get(setting: string): string | any;
+    get(setting: string): string | any {
         return this.settings[setting];
-    };
+    }
 
     /**
      * Check if `setting` is enabled.
@@ -680,10 +611,9 @@ export class Application
      * @return {Boolean}
      * @memberOf Application
      */
-    enabled(setting : string)
-    {
+    enabled(setting: string) {
         return !!this.get(setting);
-    };
+    }
 
     /**
      * Check if `setting` is disabled.
@@ -692,10 +622,9 @@ export class Application
      * @return {Boolean}
      * @memberOf Application
      */
-    disabled(setting : string)
-    {
+    disabled(setting: string) {
         return !this.get(setting);
-    };
+    }
 
     /**
      * Enable `setting`.
@@ -704,10 +633,9 @@ export class Application
      * @return {app} for chaining
      * @memberOf Application
      */
-    enable(setting : string)
-    {
+    enable(setting: string) {
         return this.set(setting, true);
-    };
+    }
 
     /**
      * Disable `setting`.
@@ -716,10 +644,9 @@ export class Application
      * @return {app} for chaining
      * @memberOf Application
      */
-    disable(setting : string)
-    {
+    disable(setting: string) {
         return this.set(setting, false);
-    };
+    }
 
     /**
      * Configure callback for the specified env and server type.
@@ -747,34 +674,29 @@ export class Application
      * @return {Application} for chaining
      * @memberOf Application
      */
-    
-    configure(fn : ConfigureCallback):Application;
-    configure(env : string, fn : ConfigureCallback):Application;
-    configure(env : string, type : string, fn : ConfigureCallback):Application
-    configure(env : string | ConfigureCallback, type ?: string | ConfigureCallback, fn ?: ConfigureCallback):Application
-    {
+
+    configure(fn: ConfigureCallback): Application;
+    configure(env: string, fn: ConfigureCallback): Application;
+    configure(env: string, type: string, fn: ConfigureCallback): Application;
+    configure(env: string | ConfigureCallback, type ?: string | ConfigureCallback, fn ?: ConfigureCallback): Application {
         let args = [].slice.call(arguments);
         fn = args.pop();
         env = type = Constants.RESERVED.ALL;
 
-        if (args.length > 0)
-        {
+        if (args.length > 0) {
             env = args[0];
         }
-        if (args.length > 1)
-        {
+        if (args.length > 1) {
             type = args[1];
         }
 
-        if (env === Constants.RESERVED.ALL || contains(this.settings.env, env as string))
-        {
-            if (type === Constants.RESERVED.ALL || contains(this.settings.serverType, type as string))
-            {
+        if (env === Constants.RESERVED.ALL || contains(this.settings.env, env as string)) {
+            if (type === Constants.RESERVED.ALL || contains(this.settings.serverType, type as string)) {
                 fn.call(this);
             }
         }
         return this;
-    };
+    }
 
     /**
      * Register admin modules. Admin modules is the extends point of the monitor system.
@@ -784,36 +706,31 @@ export class Application
      * @param {Object} opts construct parameter for module
      * @memberOf Application
      */
-    registerAdmin(module : IModule, opts ?: any):void;
-    registerAdmin(moduleId : string, module ?: IModule, opts ?: any):void;
+    registerAdmin(module: IModule, opts ?: any): void;
+    registerAdmin(moduleId: string, module ?: IModule, opts ?: any): void;
 
-    
-    registerAdmin(module : IModuleFactory, opts ?: any):void;
-    registerAdmin(moduleId : string, module ?: IModuleFactory, opts ?: any):void;
 
-    registerAdmin(moduleId : string | IModule | IModuleFactory, module ?: IModule | IModuleFactory, opts ?: any)
-    {
+    registerAdmin(module: IModuleFactory, opts ?: any): void;
+    registerAdmin(moduleId: string, module ?: IModuleFactory, opts ?: any): void;
+
+    registerAdmin(moduleId: string | IModule | IModuleFactory, module ?: IModule | IModuleFactory, opts ?: any) {
         let modules = this.get(Constants.KEYWORDS.MODULE);
-        if (!modules)
-        {
+        if (!modules) {
             modules = {};
             this.set(Constants.KEYWORDS.MODULE, modules);
         }
 
-        if (typeof moduleId !== 'string')
-        {
+        if (typeof moduleId !== 'string') {
             opts = module;
             module = moduleId;
-            if (module)
-            {
+            if (module) {
                 moduleId = ((module as IModuleFactory).moduleId);
                 if(!moduleId)
                     moduleId = (module as IModule).constructor.name;
             }
         }
 
-        if (!moduleId)
-        {
+        if (!moduleId) {
             return;
         }
 
@@ -822,7 +739,7 @@ export class Application
             module: module,
             opts: opts
         };
-    };
+    }
 
     /**
      * Use plugin.
@@ -831,37 +748,30 @@ export class Application
      * @param  {[type]} opts    (optional) construct parameters for the factory function
      * @memberOf Application
      */
-    use(plugin : IPlugin, opts ?: any)
-    {
+    use(plugin: IPlugin, opts ?: any) {
         opts = opts || {};
-        if (!plugin)
-        {
+        if (!plugin) {
             throw new Error(`pluin is null!]`);
-        }    
-        if (this.usedPlugins.indexOf(plugin) >= 0)
-        {
+        }
+        if (this.usedPlugins.indexOf(plugin) >= 0) {
             throw new Error(`pluin[${plugin.name} was used already!]`);
-        }    
+        }
 
-        if(plugin.components)
-        {
-            for(let componentCtor of plugin.components)
-            {
+        if(plugin.components) {
+            for(let componentCtor of plugin.components) {
                 this.load(componentCtor, opts);
             }
         }
-        if(plugin.events)
-        {
-            for(let eventCtor of plugin.events)
-            {
+        if(plugin.events) {
+            for(let eventCtor of plugin.events) {
                 this.loadEvent(eventCtor, opts);
             }
         }
-        
+
         this.usedPlugins.push(plugin);
 
         console.warn(`used Plugin : ${plugin.name}`);
-    };
+    }
 
     /**
      * Application transaction. Transcation includes conditions and handlers, if conditions are satisfied, handlers would be executed.
@@ -873,10 +783,9 @@ export class Application
      * @param {Number} retry retry times to execute handlers if conditions are successfully executed
      * @memberOf Application
      */
-    transaction(name : string, conditions : { [key: string]: TransactionCondictionFunction }, handlers : { [key: string]: TransactionHandlerFunction }, retry?: number)
-    {
+    transaction(name: string, conditions: { [key: string]: TransactionCondictionFunction }, handlers: { [key: string]: TransactionHandlerFunction }, retry?: number) {
         appManager.transaction(name, conditions, handlers, retry);
-    };
+    }
 
     /**
      * Get master server info.
@@ -884,10 +793,9 @@ export class Application
      * @return {Object} master server info, {id, host, port}
      * @memberOf Application
      */
-    getMaster()
-    {
+    getMaster() {
         return this.master;
-    };
+    }
 
     /**
      * Get current server info.
@@ -895,10 +803,9 @@ export class Application
      * @return {Object} current server info, {id, serverType, host, port}
      * @memberOf Application
      */
-    getCurServer()
-    {
+    getCurServer() {
         return this.curServer;
-    };
+    }
 
     /**
      * Get current server id.
@@ -906,17 +813,15 @@ export class Application
      * @return {String|Number} current server id from servers.json
      * @memberOf Application
      */
-    getServerId()
-    {
+    getServerId() {
         return this.serverId;
-    };
+    }
 
     /**
      * Get current server
      * @returns ServerInfo
      */
-    getCurrentServer()
-    {
+    getCurrentServer() {
         return this.curServer;
     }
 
@@ -926,10 +831,9 @@ export class Application
      * @return {String|Number} current server type from servers.json
      * @memberOf Application
      */
-    getServerType()
-    {
+    getServerType() {
         return this.serverType;
-    };
+    }
 
     /**
      * Get all the current server infos.
@@ -937,10 +841,9 @@ export class Application
      * @return {Object} server info map, key: server id, value: server info
      * @memberOf Application
      */
-    getServers()
-    {
+    getServers() {
         return this.servers;
-    };
+    }
 
     /**
      * Get all server infos from servers.json.
@@ -948,10 +851,9 @@ export class Application
      * @return {Object} server info map, key: server id, value: server info
      * @memberOf Application
      */
-    getServersFromConfig()
-    {
+    getServersFromConfig() {
         return this.get(Constants.KEYWORDS.SERVER_MAP);
-    };
+    }
 
     /**
      * Get all the server type.
@@ -959,10 +861,9 @@ export class Application
      * @return {Array} server type list
      * @memberOf Application
      */
-    getServerTypes()
-    {
+    getServerTypes() {
         return this.serverTypes;
-    };
+    }
 
     /**
      * Get server info by server id from current server cluster.
@@ -971,10 +872,9 @@ export class Application
      * @return {Object} server info or undefined
      * @memberOf Application
      */
-    getServerById(serverId : string)
-    {
+    getServerById(serverId: string) {
         return this.servers[serverId];
-    };
+    }
 
     /**
      * Get server info by server id from servers.json.
@@ -984,10 +884,9 @@ export class Application
      * @memberOf Application
      */
 
-    getServerFromConfig(serverId : string)
-    {
+    getServerFromConfig(serverId: string) {
         return this.get(Constants.KEYWORDS.SERVER_MAP)[serverId];
-    };
+    }
 
     /**
      * Get server infos by server type.
@@ -996,10 +895,9 @@ export class Application
      * @return {Array}      server info list
      * @memberOf Application
      */
-    getServersByType(serverType: string)
-    {
+    getServersByType(serverType: string) {
         return this.serverTypeMaps[serverType];
-    };
+    }
 
     /**
      * Check the server whether is a frontend server
@@ -1010,11 +908,10 @@ export class Application
      *
      * @memberOf Application
      */
-    isFrontend(server ?: any)
-    {
+    isFrontend(server ?: any) {
         server = server || this.getCurServer();
         return !!server && server.frontend === 'true';
-    };
+    }
 
     /**
      * Check the server whether is a backend server
@@ -1024,11 +921,10 @@ export class Application
      * @return {Boolean}
      * @memberOf Application
      */
-    isBackend(server : ServerInfo)
-    {
+    isBackend(server: ServerInfo) {
         server = server || this.getCurServer();
         return !!server && !server.frontend;
-    };
+    }
 
     /**
      * Check whether current server is a master server
@@ -1036,10 +932,9 @@ export class Application
      * @return {Boolean}
      * @memberOf Application
      */
-    isMaster()
-    {
+    isMaster() {
         return this.serverType === Constants.RESERVED.MASTER;
-    };
+    }
 
     /**
      * Add new server info to current application in runtime.
@@ -1047,36 +942,31 @@ export class Application
      * @param {Array} servers new server info list
      * @memberOf Application
      */
-    addServers(servers : ServerInfo[])
-    {
-        if (!servers || !servers.length)
-        {
+    addServers(servers: ServerInfo[]) {
+        if (!servers || !servers.length) {
             return;
         }
 
-        let item : ServerInfo, slist : ServerInfo[];
-        for (let i = 0, l = servers.length; i < l; i++)
-        {
+        let item: ServerInfo, slist: ServerInfo[];
+        for (let i = 0, l = servers.length; i < l; i++) {
             item = servers[i];
             // update global server map
             this.servers[item.id] = item;
 
             // update global server type map
             slist = this.serverTypeMaps[item.serverType];
-            if (!slist)
-            {
+            if (!slist) {
                 this.serverTypeMaps[item.serverType] = slist = [];
             }
             replaceServer(slist, item);
 
             // update global server type list
-            if (this.serverTypes.indexOf(item.serverType) < 0)
-            {
+            if (this.serverTypes.indexOf(item.serverType) < 0) {
                 this.serverTypes.push(item.serverType);
             }
         }
         this.event.emit(events.ADD_SERVERS, servers);
-    };
+    }
 
     /**
      * Remove server info from current application at runtime.
@@ -1084,20 +974,16 @@ export class Application
      * @param  {Array} ids server id list
      * @memberOf Application
      */
-    removeServers(ids : string[])
-    {
-        if (!ids || !ids.length)
-        {
+    removeServers(ids: string[]) {
+        if (!ids || !ids.length) {
             return;
         }
 
         let id, item, slist;
-        for (let i = 0, l = ids.length; i < l; i++)
-        {
+        for (let i = 0, l = ids.length; i < l; i++) {
             id = ids[i];
             item = this.servers[id];
-            if (!item)
-            {
+            if (!item) {
                 continue;
             }
             // clean global server map
@@ -1109,7 +995,7 @@ export class Application
             // TODO: should remove the server type if the slist is empty?
         }
         this.event.emit(events.REMOVE_SERVERS, ids);
-    };
+    }
 
     /**
      * Replace server info from current application at runtime.
@@ -1117,10 +1003,8 @@ export class Application
      * @param  {Object} server id map
      * @memberOf Application
      */
-    replaceServers(servers : {[serverId:string]:ServerInfo})
-    {
-        if (!servers)
-        {
+    replaceServers(servers: {[serverId: string]: ServerInfo}) {
+        if (!servers) {
             return;
         }
 
@@ -1128,25 +1012,22 @@ export class Application
         this.serverTypeMaps = {};
         this.serverTypes = [];
         let serverArray = [];
-        for (let id in servers)
-        {
+        for (let id in servers) {
             let server = servers[id];
             let serverType = server[Constants.RESERVED.SERVER_TYPE];
             let slist = this.serverTypeMaps[serverType];
-            if (!slist)
-            {
+            if (!slist) {
                 this.serverTypeMaps[serverType] = slist = [];
             }
             this.serverTypeMaps[serverType].push(server);
             // update global server type list
-            if (this.serverTypes.indexOf(serverType) < 0)
-            {
+            if (this.serverTypes.indexOf(serverType) < 0) {
                 this.serverTypes.push(serverType);
             }
             serverArray.push(server);
         }
         this.event.emit(events.REPLACE_SERVERS, serverArray);
-    };
+    }
 
     /**
      * Add crons from current application at runtime.
@@ -1154,15 +1035,13 @@ export class Application
      * @param  {Array} crons new crons would be added in application
      * @memberOf Application
      */
-    addCrons(crons : Cron[])
-    {
-        if (!crons || !crons.length)
-        {
+    addCrons(crons: Cron[]) {
+        if (!crons || !crons.length) {
             logger.warn('crons is not defined.');
             return;
         }
         this.event.emit(events.ADD_CRONS, crons);
-    };
+    }
 
     /**
      * Remove crons from current application at runtime.
@@ -1170,22 +1049,20 @@ export class Application
      * @param  {Array} crons old crons would be removed in application
      * @memberOf Application
      */
-    removeCrons(crons : Cron[])
-    {
-        if (!crons || !crons.length)
-        {
+    removeCrons(crons: Cron[]) {
+        if (!crons || !crons.length) {
             logger.warn('ids is not defined.');
             return;
         }
         this.event.emit(events.REMOVE_CRONS, crons);
-    };
+    }
 
     astart = utils.promisify(this.start);
     aconfigure: AConfigureFunc1 | AConfigureFunc2 | AConfigureFunc3 = utils.promisify(this.configure) as any;
 
     rpc ?: any;
     sysrpc ?: any;
-    
+
     /**
      * Proxy for rpc client rpcInvoke.
      *
@@ -1193,36 +1070,30 @@ export class Application
      * @param {Object}   msg      rpc message: {serverType: serverType, service: serviceName, method: methodName, args: arguments}
      * @param {Function} cb      callback function
      */
-    rpcInvoke ?: (serverId : FRONTENDID, msg : any, cb : Function)=>void;
+    rpcInvoke ?: (serverId: FRONTENDID, msg: any, cb: Function) => void;
 
-    
+
     /**
      * 加载一个事件侦听
-     * @param Event 
-     * @param opts 
+     * @param Event
+     * @param opts
      */
-    loadEvent(Event : ApplicationEventContructor, opts : any)
-    {
+    loadEvent(Event: ApplicationEventContructor, opts: any) {
         let eventInstance = new Event(opts);
 
-        for(let evt in AppEvents)
-        {
+        for(let evt in AppEvents) {
             let name = AppEvents[evt];
             let method = (eventInstance as any)[name];
-            if(method)
-            {
+            if(method) {
                 this.event.on(name, method.bind(eventInstance));
             }
         }
     }
 
 }
-let replaceServer = function (slist : ServerInfo[], serverInfo : ServerInfo)
-{
-    for (let i = 0, l = slist.length; i < l; i++)
-    {
-        if (slist[i].id === serverInfo.id)
-        {
+let replaceServer = function (slist: ServerInfo[], serverInfo: ServerInfo) {
+    for (let i = 0, l = slist.length; i < l; i++) {
+        if (slist[i].id === serverInfo.id) {
             slist[i] = serverInfo;
             return;
         }
@@ -1230,46 +1101,36 @@ let replaceServer = function (slist : ServerInfo[], serverInfo : ServerInfo)
     slist.push(serverInfo);
 };
 
-let removeServer = function (slist : ServerInfo[], id : string)
-{
-    if (!slist || !slist.length)
-    {
+let removeServer = function (slist: ServerInfo[], id: string) {
+    if (!slist || !slist.length) {
         return;
     }
 
-    for (let i = 0, l = slist.length; i < l; i++)
-    {
-        if (slist[i].id === id)
-        {
+    for (let i = 0, l = slist.length; i < l; i++) {
+        if (slist[i].id === id) {
             slist.splice(i, 1);
             return;
         }
     }
 };
 
-let contains = function (str : string, settings : string)
-{
-    if (!settings)
-    {
+let contains = function (str: string, settings: string) {
+    if (!settings) {
         return false;
     }
 
-    let ts = settings.split("|");
-    for (let i = 0, l = ts.length; i < l; i++)
-    {
-        if (str === ts[i])
-        {
+    let ts = settings.split('|');
+    for (let i = 0, l = ts.length; i < l; i++) {
+        if (str === ts[i]) {
             return true;
         }
     }
     return false;
 };
 
-let addFilter = function<T>(app : Application, type : string, filter : T)
-{
+let addFilter = function<T>(app: Application, type: string, filter: T) {
     let filters = app.get(type);
-    if (!filters)
-    {
+    if (!filters) {
         filters = [];
         app.set(type, filters);
     }

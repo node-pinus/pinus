@@ -8,27 +8,23 @@ let rpcLogger = getLogger('rpc-log', __filename);
 import * as utils from '../../util/utils';
 import {IRpcFilter} from 'pinus-rpc';
 
-export class RpcLogFilter implements IRpcFilter
-{
+export class RpcLogFilter implements IRpcFilter {
     name = 'rpcLog';
 
     /**
      * Before filter for rpc
      */
-    before(serverId: string, msg: any, opts: any, next: (target?: Error | string, message?: any, options?: any) => void)
-    {
+    before(serverId: string, msg: any, opts: any, next: (target?: Error | string, message?: any, options?: any) => void) {
         opts = opts || {};
         opts.__start_time__ = Date.now();
         next();
-    };
+    }
 
     /**
      * After filter for rpc
      */
-    after(serverId: string, msg: any, opts: any, next: (target?: Error | string, message?: any, options?: any) => void)
-    {
-        if (!!opts && !!opts.__start_time__)
-        {
+    after(serverId: string, msg: any, opts: any, next: (target?: Error | string, message?: any, options?: any) => void) {
+        if (!!opts && !!opts.__start_time__) {
             let start = opts.__start_time__;
             let end = Date.now();
             let timeUsed = end - start;
@@ -41,5 +37,5 @@ export class RpcLogFilter implements IRpcFilter
             rpcLogger.info(JSON.stringify(log));
         }
         next();
-    };
+    }
 }

@@ -15,21 +15,18 @@ import { MasterInfo } from '../index';
 import * as path from 'path';
 let logger = getLogger('pinus', path.basename(__filename));
 
-export interface MonitorOptions
-{
+export interface MonitorOptions {
     closeWatcher ?: boolean;
 }
-export class Monitor
-{
+export class Monitor {
     app: Application;
     serverInfo: ServerInfo;
     masterInfo: ServerStartArgs;
-    modules : IModule[] = [];
+    modules: IModule[] = [];
     closeWatcher: any;
     monitorConsole: ConsoleService;
 
-    constructor(app : Application, opts ?: MonitorOptions)
-    {
+    constructor(app: Application, opts ?: MonitorOptions) {
         opts = opts || {};
         this.app = app;
         this.serverInfo = app.getCurServer();
@@ -45,59 +42,48 @@ export class Monitor
             env: this.app.get(Constants.RESERVED.ENV),
             authServer: app.get('adminAuthServerMonitor') // auth server function
         });
-    };
+    }
 
-    start(cb : (err?:Error)=>void)
-    {
+    start(cb: (err?: Error) => void) {
         moduleUtil.registerDefaultModules(false, this.app, this.closeWatcher);
         this.startConsole(cb);
-    };
+    }
 
-    startConsole(cb : (err?:Error)=>void)
-    {
+    startConsole(cb: (err?: Error) => void) {
         moduleUtil.loadModules(this, this.monitorConsole);
 
         let self = this;
-        this.monitorConsole.start(function (err)
-        {
-            if (err)
-            {
+        this.monitorConsole.start(function (err) {
+            if (err) {
                 utils.invokeCallback(cb, err);
                 return;
             }
-            moduleUtil.startModules(self.modules, function (err)
-            {
+            moduleUtil.startModules(self.modules, function (err) {
                 utils.invokeCallback(cb, err);
                 return;
             });
         });
 
-        this.monitorConsole.on('error', function (err)
-        {
-            if (!!err)
-            {
+        this.monitorConsole.on('error', function (err) {
+            if (!!err) {
                 logger.error('monitorConsole encounters with error: %j', err.stack);
                 return;
             }
         });
-    };
+    }
 
-    stop(cb:()=>void)
-    {
+    stop(cb: () => void) {
         this.monitorConsole.stop();
         this.modules = [];
-        process.nextTick(function ()
-        {
+        process.nextTick(function () {
             utils.invokeCallback(cb);
         });
-    };
+    }
 
     // monitor reconnect to master
-    reconnect(masterInfo : MasterInfo)
-    {
+    reconnect(masterInfo: MasterInfo) {
         let self = this;
-        this.stop(function ()
-        {
+        this.stop(function () {
             self.monitorConsole = admin.createMonitorConsole({
                 id: self.serverInfo.id,
                 type: self.app.getServerType(),
@@ -106,10 +92,9 @@ export class Monitor
                 info: self.serverInfo,
                 env: self.app.get(Constants.RESERVED.ENV)
             });
-            self.startConsole(function ()
-            {
+            self.startConsole(function () {
                 logger.info('restart modules for server : %j finish.', self.app.serverId);
             });
         });
-    };
+    }
 }

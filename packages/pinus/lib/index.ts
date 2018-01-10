@@ -1,4 +1,4 @@
-export * from './pinus'
+export * from './pinus';
 
 export * from './application';
 export * from './common/service/backendSessionService';

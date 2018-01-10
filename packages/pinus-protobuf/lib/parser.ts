@@ -5,38 +5,32 @@ let Parser = module.exports;
  * @param  {[Object]} protos Original protos, in a js map.
  * @return {[Object]} The presed result, a js object represent all the meta data of the given protos.
  */
-export function parse(protos: {[key:string]: any})
-{
-    let maps:{[key:string]: any} = {};
-    for (let key in protos)
-    {
+export function parse(protos: {[key: string]: any}) {
+    let maps: {[key: string]: any} = {};
+    for (let key in protos) {
         maps[key] = parseObject(protos[key]);
     }
 
     return maps;
-};
+}
 
 /**
  * [parse a single protos, return a object represent the result. The method can be invocked recursively.]
  * @param  {[Object]} obj The origin proto need to parse.
  * @return {[Object]} The parsed result, a js object.
  */
-function parseObject(obj: {[key:string]: any})
-{
-    let proto: {[key:string]: any} = {};
-    let nestProtos: {[key:string]: any} = {};
-    let tags: {[key:string]: any} = {};
+function parseObject(obj: {[key: string]: any}) {
+    let proto: {[key: string]: any} = {};
+    let nestProtos: {[key: string]: any} = {};
+    let tags: {[key: string]: any} = {};
 
-    for (let name in obj)
-    {
+    for (let name in obj) {
         let tag = obj[name];
         let params = name.split(' ');
 
-        switch (params[0])
-        {
+        switch (params[0]) {
             case 'message':
-                if (params.length !== 2)
-                {
+                if (params.length !== 2) {
                     continue;
                 }
                 nestProtos[params[1]] = parseObject(tag);
@@ -44,9 +38,8 @@ function parseObject(obj: {[key:string]: any})
             case 'required':
             case 'optional':
             case 'repeated': {
-                //params length should be 3 and tag can't be duplicated
-                if (params.length !== 3 || !!tags[tag])
-                {
+                // params length should be 3 and tag can't be duplicated
+                if (params.length !== 3 || !!tags[tag]) {
                     continue;
                 }
                 proto[params[2]] = {

@@ -13,8 +13,7 @@ let PKG_HEAD_BYTES = PKG_ID_BYTES + PKG_ROUTE_LENGTH_BYTES;
 let curId = 1;
 
 
-export interface SIOConnectorOptions
-{
+export interface SIOConnectorOptions {
     /**
      * The path to server the client file to
      * @default '/socket.io'
@@ -59,7 +58,7 @@ export interface SIOConnectorOptions
      * value where false means that the request is rejected, and err is an error code (engine.io)
      * @default null
      */
-    allowRequest?: (request:any, callback: (err: number, success: boolean) => void) => void;
+    allowRequest?: (request: any, callback: (err: number, success: boolean) => void) => void;
 
     /**
      * Transports to allow connections to (engine.io)
@@ -100,40 +99,35 @@ export interface SIOConnectorOptions
  * Connector that manager low level connection and protocol bewteen server and client.
  * Develper can provide their own connector to switch the low level prototol, such as tcp or probuf.
  */
-export class SIOConnector extends EventEmitter implements IConnector
-{
+export class SIOConnector extends EventEmitter implements IConnector {
     port: number;
     host: string;
     opts: SIOConnectorOptions;
     private server: SocketIO.Server;
 
 
-    constructor(port: number, host: string, opts: SIOConnectorOptions)
-    {
+    constructor(port: number, host: string, opts: SIOConnectorOptions) {
         super();
         this.port = port;
         this.host = host;
         this.opts = opts;
         opts.pingTimeout = opts.pingTimeout || 60;
         opts.pingInterval = opts.pingInterval || 25;
-    };
+    }
 
 
 
     /**
      * Start connector to listen the specified port
      */
-    start(cb: () => void)
-    {
+    start(cb: () => void) {
         let self = this;
         // issue https://github.com/NetEase/pinus-cn/issues/174
         let opts: SIOConnectorOptions;
-        if (!!this.opts)
-        {
+        if (!!this.opts) {
             opts = this.opts;
         }
-        else
-        {
+        else {
             opts = {
                 transports: [
                     'websocket', 'polling-xhr', 'polling-jsonp', 'polling'
@@ -145,44 +139,37 @@ export class SIOConnector extends EventEmitter implements IConnector
         let sio = socket_io(httpServer, opts);
 
         let port = this.port;
-        httpServer.listen(port, function ()
-        {
+        httpServer.listen(port, function () {
             console.log('sio Server listening at port %d', port);
         });
 
-        sio.on('connection', (socket) =>
-        {
+        sio.on('connection', (socket) => {
             // this.wsocket.sockets.on('connection', function (socket) {
             let siosocket = new SioSocket(curId++, socket);
             self.emit('connection', siosocket);
-            siosocket.on('closing', function (reason)
-            {
+            siosocket.on('closing', function (reason) {
                 siosocket.send({ route: 'onKick', reason: reason });
             });
         });
 
         process.nextTick(cb);
-    };
+    }
 
     /**
      * Stop connector
      */
-    stop(force: boolean, cb: () => void)
-    {
+    stop(force: boolean, cb: () => void) {
         this.server.close();
         process.nextTick(cb);
-    };
+    }
 
-    encode(reqId: number, route: string, msg: any)
-    {
-        if (reqId)
-        {
+    encode(reqId: number, route: string, msg: any) {
+        if (reqId) {
             return composeResponse(reqId, route, msg);
-        } else
-        {
+        } else {
             return composePush(route, msg);
         }
-    };
+    }
 
     /**
      * Decode client message package.
@@ -196,8 +183,7 @@ export class SIOConnector extends EventEmitter implements IConnector
      * @param  {String} data socket.io package from client
      * @return {Object}      message object
      */
-    decode(msg: any)
-    {
+    decode(msg: any) {
         let index = 0;
 
         let id = parseIntField(msg, index, PKG_ID_BYTES);
@@ -213,30 +199,25 @@ export class SIOConnector extends EventEmitter implements IConnector
             route: route,
             body: JSON.parse(body)
         };
-    };
+    }
 
 }
 
-let composeResponse = function (msgId: number, route: string, msgBody: any)
-{
+let composeResponse = function (msgId: number, route: string, msgBody: any) {
     return {
         id: msgId,
         body: msgBody
     };
 };
 
-let composePush = function (route: string, msgBody: any)
-{
+let composePush = function (route: string, msgBody: any) {
     return JSON.stringify({ route: route, body: msgBody });
 };
 
-let parseIntField = function (str: string, offset: number, len: number)
-{
+let parseIntField = function (str: string, offset: number, len: number) {
     let res = 0;
-    for (let i = 0; i < len; i++)
-    {
-        if (i > 0)
-        {
+    for (let i = 0; i < len; i++) {
+        if (i > 0) {
             res <<= 8;
         }
         res |= str.charCodeAt(offset + i) & 0xff;

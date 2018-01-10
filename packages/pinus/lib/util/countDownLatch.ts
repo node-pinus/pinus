@@ -1,55 +1,46 @@
 
-export interface CountDownLatchOptions
-{
+export interface CountDownLatchOptions {
     timeout ?: number;
 }
 
-export type CountDownLatchCallback = (isTimeout ?:boolean)=>void;
+export type CountDownLatchCallback = (isTimeout ?: boolean) => void;
 
 /**
  * Count down to zero or timeout and invoke cb finally.
  */
-export class CountDownLatch
-{
+export class CountDownLatch {
     count: number;
     cb: CountDownLatchCallback;
     timerId: any;
-    constructor(count : number, opts : CountDownLatchOptions, cb : CountDownLatchCallback)
-    {
+    constructor(count: number, opts: CountDownLatchOptions, cb: CountDownLatchCallback) {
         this.count = count;
         this.cb = cb;
         let self = this;
-        if (opts.timeout)
-        {
-            this.timerId = setTimeout(function ()
-            {
+        if (opts.timeout) {
+            this.timerId = setTimeout(function () {
                 self.cb(true);
             }, opts.timeout);
         }
-    };
+    }
 
     /**
      * Call when a task finish to count down.
      *
      * @api public
      */
-    done()
-    {
-        if (this.count <= 0)
-        {
+    done() {
+        if (this.count <= 0) {
             throw new Error('illegal state.');
         }
 
         this.count--;
-        if (this.count === 0)
-        {
-            if (this.timerId)
-            {
+        if (this.count === 0) {
+            if (this.timerId) {
                 clearTimeout(this.timerId);
             }
             this.cb();
         }
-    };
+    }
 }
 
 /**
@@ -61,10 +52,9 @@ export class CountDownLatch
  *
  * @api public
  */
-export function createCountDownLatch(count : number, cb ?: CountDownLatchCallback):CountDownLatch;
-export function createCountDownLatch(count : number, opts :  CountDownLatchOptions, cb ?: CountDownLatchCallback):CountDownLatch;
-export function createCountDownLatch(count : number, opts ?: CountDownLatchCallback | CountDownLatchOptions, cb ?: CountDownLatchCallback)
- {
+export function createCountDownLatch(count: number, cb ?: CountDownLatchCallback): CountDownLatch;
+export function createCountDownLatch(count: number, opts:  CountDownLatchOptions, cb ?: CountDownLatchCallback): CountDownLatch;
+export function createCountDownLatch(count: number, opts ?: CountDownLatchCallback | CountDownLatchOptions, cb ?: CountDownLatchCallback) {
   if(!count || count <= 0) {
     throw new Error('count should be positive.');
   }
@@ -79,4 +69,4 @@ export function createCountDownLatch(count : number, opts ?: CountDownLatchCallb
   }
 
   return new CountDownLatch(count, opts as CountDownLatchOptions, cb);
-};
+}

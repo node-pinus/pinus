@@ -1,11 +1,10 @@
 /**
  * master server info
  */
-export interface MasterInfo
-{
-	id: string;
-	host: string;
-	port: number;
+export interface MasterInfo {
+    id: string;
+    host: string;
+    port: number;
 }
 
 /**

@@ -2,12 +2,10 @@ import { ChannelService, ChannelServiceOptions } from '../common/service/channel
 import { IComponent } from '../interfaces/IComponent';
 import { Application } from '../application';
 
-export class ChannelComponent extends ChannelService implements IComponent
-{
-  constructor(app: Application, opts : ChannelServiceOptions)
-  {
+export class ChannelComponent extends ChannelService implements IComponent {
+  constructor(app: Application, opts: ChannelServiceOptions) {
     super(app , opts);
     app.set('channelService', this, true);
-  };
+  }
   name = '__channel__';
 }

@@ -7,18 +7,16 @@ let logger = getLogger('forward-log', path.basename(__filename));
  * Remote service for backend servers.
  * Receive and handle request message forwarded from frontend server.
  */
-export default function(app : Application) {
+export default function(app: Application) {
   return new MsgRemote(app);
-};
+}
 
-export class MsgRemote
-{
+export class MsgRemote {
     app: Application;
 
-    constructor(app : Application)
-    {
+    constructor(app: Application) {
         this.app = app;
-    };
+    }
 
     /**
      * Forward message from frontend server to other server's handlers
@@ -27,22 +25,18 @@ export class MsgRemote
      * @param session {Object} session object for current request
      * @param cb {Function} callback function
      */
-    async forwardMessage(msg : any, session : BackendSession)
-    {
-        return new Promise<any>((resolve, reject) =>
-        {
+    async forwardMessage(msg: any, session: BackendSession) {
+        return new Promise<any>((resolve, reject) => {
             let server = this.app.components.__server__;
             let sessionService = this.app.components.__backendSession__;
 
-            if (!server)
-            {
+            if (!server) {
                 logger.error('server component not enable on %s', this.app.serverId);
                 reject(new Error('server component not enable'));
                 return;
             }
 
-            if (!sessionService)
-            {
+            if (!sessionService) {
                 logger.error('backend session component not enable on %s', this.app.serverId);
                 reject(new Error('backend sesssion component not enable'));
                 return;
@@ -55,14 +49,11 @@ export class MsgRemote
 
             logger.debug('backend server [%s] handle message: %j', this.app.serverId, msg);
 
-            server.handle(msg, backendSession, function (err, resp)
-            {
-                if (err)
-                {
+            server.handle(msg, backendSession, function (err, resp) {
+                if (err) {
                     reject(err);
-                }    
-                else
-                {
+                }
+                else {
                     resolve(resp);
                 }
             });
@@ -121,13 +112,13 @@ export class MsgRemote
                     if (err)
                     {
                         reject(err);
-                    }    
+                    }
                     else
                     {
                         resolve(resp);
                     }
                 });
             });
-        });    
+        });
     }*/
 }

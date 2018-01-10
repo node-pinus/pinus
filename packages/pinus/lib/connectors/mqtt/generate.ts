@@ -6,8 +6,7 @@ import * as  crypto from 'crypto';
  */
 
 /* Publish */
-export function publish(opts : any)
-{
+export function publish(opts: any) {
     opts = opts || {};
     let dup = opts.dup ? protocol.DUP_MASK : 0;
     let qos = opts.qos || 0;
@@ -20,8 +19,7 @@ export function publish(opts : any)
     /* Check required fields */
     if (typeof topic !== 'string' || topic.length <= 0) return null;
     /* if payload is a string, we'll convert it into a buffer */
-    if (typeof payload == 'string')
-    {
+    if (typeof payload === 'string') {
         payload = new Buffer(payload);
     }
     /* accepting only a buffer for payload */
@@ -44,23 +42,20 @@ export function publish(opts : any)
         .concat(packet.payload));
 
     return Buffer.concat([buf, payload]);
-};
+}
 
 /* Requires length be a number > 0 */
-let gen_length = function (length : number)
-{
-    if (typeof length !== "number") return null;
+let gen_length = function (length: number) {
+    if (typeof length !== 'number') return null;
     if (length < 0) return null;
 
     let len = [];
     let digit = 0;
 
-    do
-    {
+    do {
         digit = length % 128 | 0;
         length = length / 128 | 0;
-        if (length > 0)
-        {
+        if (length > 0) {
             digit = digit | 0x80;
         }
         len.push(digit);
@@ -69,48 +64,40 @@ let gen_length = function (length : number)
     return len;
 };
 
-let gen_string = function (str : string, without_length ?: boolean)
-{ /* based on code in (from http://farhadi.ir/downloads/utf8.js) */
+let gen_string = function (str: string, without_length ?: boolean) { /* based on code in (from http://farhadi.ir/downloads/utf8.js) */
     if (arguments.length < 2) without_length = false;
-    if (typeof str !== "string") return null;
-    if (typeof without_length !== "boolean") return null;
+    if (typeof str !== 'string') return null;
+    if (typeof without_length !== 'boolean') return null;
 
-    let string = [];
+    let str: number[] = [];
     let length = 0;
-    for (let i = 0; i < str.length; i++)
-    {
+    for (let i = 0; i < str.length; i++) {
         let code = str.charCodeAt(i);
-        if (code < 128)
-        {
-            string.push(code); ++length;
+        if (code < 128) {
+            str.push(code); ++length;
 
-        } else if (code < 2048)
-        {
-            string.push(192 + ((code >> 6))); ++length;
-            string.push(128 + ((code) & 63)); ++length;
-        } else if (code < 65536)
-        {
-            string.push(224 + ((code >> 12))); ++length;
-            string.push(128 + ((code >> 6) & 63)); ++length;
-            string.push(128 + ((code) & 63)); ++length;
-        } else if (code < 2097152)
-        {
-            string.push(240 + ((code >> 18))); ++length;
-            string.push(128 + ((code >> 12) & 63)); ++length;
-            string.push(128 + ((code >> 6) & 63)); ++length;
-            string.push(128 + ((code) & 63)); ++length;
-        } else
-        {
-            throw new Error("Can't encode character with code " + code);
+        } else if (code < 2048) {
+            str.push(192 + ((code >> 6))); ++length;
+            str.push(128 + ((code) & 63)); ++length;
+        } else if (code < 65536) {
+            str.push(224 + ((code >> 12))); ++length;
+            str.push(128 + ((code >> 6) & 63)); ++length;
+            str.push(128 + ((code) & 63)); ++length;
+        } else if (code < 2097152) {
+            str.push(240 + ((code >> 18))); ++length;
+            str.push(128 + ((code >> 12) & 63)); ++length;
+            str.push(128 + ((code >> 6) & 63)); ++length;
+            str.push(128 + ((code) & 63)); ++length;
+        } else {
+            throw new Error('Can\'t encode character with code ' + code);
         }
     }
-    return without_length ? string : gen_number(length).concat(string);
+    return without_length ? str : gen_number(length).concat(str);
 };
 
-let gen_number = function (num : number)
-{
-    let number = [num >> 8, num & 0x00FF];
-    return number;
+let gen_number = function (num: number) {
+    let nums: number[] = [num >> 8, num & 0x00FF];
+    return nums;
 };
 
 let randint = function () { return Math.floor(Math.random() * 0xFFFF); };

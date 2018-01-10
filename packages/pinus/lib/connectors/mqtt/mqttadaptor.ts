@@ -1,50 +1,42 @@
 
 import * as mqtt_connection from 'mqtt-connection';
 import { MQTTSocket } from '../mqttsocket';
-export interface MqttAdaptorOptions
-{
+export interface MqttAdaptorOptions {
     publishRoute ?: string;
     subscribeRoute ?: string;
 
 }
-export interface SubscribePacket
-{
+export interface SubscribePacket {
     messageId: number;
     subscriptions: { topic: string, qos: number }[];
 }
 
-export interface PublishPacket
-{
-    topic : string;
-    payload : any;
-    messageId : number;
-    qos : number;
+export interface PublishPacket {
+    topic: string;
+    payload: any;
+    messageId: number;
+    qos: number;
 }
 
-export class MqttAdaptor
-{
-    subReqs : {[messageId:number] : SubscribePacket} = {};
+export class MqttAdaptor {
+    subReqs: {[messageId: number]: SubscribePacket} = {};
     publishRoute: string;
     subscribeRoute: string;
-    constructor(opts ?: MqttAdaptorOptions)
-    {
+    constructor(opts ?: MqttAdaptorOptions) {
         opts = opts || {};
         this.publishRoute = opts.publishRoute;
         this.subscribeRoute = opts.subscribeRoute;
-    };
+    }
 
-    onPublish(client : MQTTSocket, packet : PublishPacket)
-    {
+    onPublish(client: MQTTSocket, packet: PublishPacket) {
         let route = this.publishRoute;
 
-        if (!route)
-        {
+        if (!route) {
             throw new Error('unspecified publish route.');
         }
 
         let payload = packet.payload;
-        if (payload instanceof Buffer)
-        {
+        if (payload instanceof Buffer) {
             payload = payload.toString('utf8');
         }
 
@@ -56,18 +48,15 @@ export class MqttAdaptor
 
         client.emit('message', req);
 
-        if (packet.qos === 1)
-        {
+        if (packet.qos === 1) {
             client.socket.puback({ messageId: packet.messageId });
         }
-    };
+    }
 
-    onSubscribe(client : MQTTSocket, packet : SubscribePacket)
-    {
+    onSubscribe(client: MQTTSocket, packet: SubscribePacket) {
         let route = this.subscribeRoute;
 
-        if (!route)
-        {
+        if (!route) {
             throw new Error('unspecified subscribe route.');
         }
 
@@ -82,10 +71,9 @@ export class MqttAdaptor
         this.subReqs[packet.messageId] = packet;
 
         client.emit('message', req);
-    };
+    }
 
-    onPubAck(client : MQTTSocket, packet : SubscribePacket)
-    {
+    onPubAck(client: MQTTSocket, packet: SubscribePacket) {
         let req = {
             id: packet.messageId,
             route: 'connector.mqttHandler.pubAck',
@@ -97,7 +85,7 @@ export class MqttAdaptor
         this.subReqs[packet.messageId] = packet;
 
         client.emit('message', req);
-    };
+    }
 
     /**
      * Publish message or subscription ack.
@@ -111,12 +99,10 @@ export class MqttAdaptor
      *
      * otherwise packet is a illegal packet.
      */
-    publish(client : MQTTSocket, packet : {id:number , body:any})
-    {
+    publish(client: MQTTSocket, packet: {id: number , body: any}) {
         let mid = packet.id;
         let subreq = this.subReqs[mid];
-        if (subreq)
-        {
+        if (subreq) {
             // is suback
             client.socket.suback({ messageId: mid, granted: packet.body });
             delete this.subReqs[mid];
@@ -124,5 +110,5 @@ export class MqttAdaptor
         }
 
         client.socket.publish(packet.body);
-    };
+    }
 }

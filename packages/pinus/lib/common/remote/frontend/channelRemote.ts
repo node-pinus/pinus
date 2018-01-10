@@ -11,17 +11,15 @@ import { Session } from '../../service/sessionService';
 import * as path from 'path';
 let logger = getLogger('pinus', path.basename(__filename));
 
-export default function(app : Application) {
+export default function(app: Application) {
   return new ChannelRemote(app);
-};
+}
 
-export class ChannelRemote
-{
+export class ChannelRemote {
     app: Application;
-    constructor(app : Application)
-    {
+    constructor(app: Application) {
         this.app = app;
-    };
+    }
 
     /**
      * Push message to client by uids.
@@ -32,12 +30,9 @@ export class ChannelRemote
      * @param  {Object}   opts  push options
      * @param  {Function} cb    callback function
      */
-    async pushMessage(route : string, msg : any, uids : UID[], opts : ScheduleOptions)
-    {
-        return new Promise<any>((resolve, reject) =>
-        {
-            if (!msg)
-            {
+    async pushMessage(route: string, msg: any, uids: UID[], opts: ScheduleOptions) {
+        return new Promise<any>((resolve, reject) => {
+            if (!msg) {
                 logger.error('Can not send empty message! route : %j, compressed msg : %j',
                     route, msg);
                 reject(new Error('can not send empty message.'));
@@ -47,30 +42,23 @@ export class ChannelRemote
             let connector = this.app.components.__connector__;
 
             let sessionService = this.app.get('sessionService');
-            let fails : UID[] = [], sids : SID[] = [], sessions : Session[], j : number, k : number;
-            for (let i = 0, l = uids.length; i < l; i++)
-            {
+            let fails: UID[] = [], sids: SID[] = [], sessions: Session[], j: number, k: number;
+            for (let i = 0, l = uids.length; i < l; i++) {
                 sessions = sessionService.getByUid(uids[i]);
-                if (!sessions)
-                {
+                if (!sessions) {
                     fails.push(uids[i]);
-                } else
-                {
-                    for (j = 0, k = sessions.length; j < k; j++)
-                    {
+                } else {
+                    for (j = 0, k = sessions.length; j < k; j++) {
                         sids.push(sessions[j].id);
                     }
                 }
             }
             logger.debug('[%s] pushMessage uids: %j, msg: %j, sids: %j', this.app.serverId, uids, msg, sids);
-            connector.send(null, route, msg, sids, opts, function (err)
-            {
-                if (err)
-                {
+            connector.send(null, route, msg, sids, opts, function (err) {
+                if (err) {
                     reject(err);
                 }
-                else
-                {
+                else {
                     resolve(fails);
                 }
             });
@@ -82,26 +70,21 @@ export class ChannelRemote
      *
      * @param  {String}    route  route string
      * @param  {Object}    msg    message
-     * @param  {Boolean}   opts   broadcast options. 
+     * @param  {Boolean}   opts   broadcast options.
      * @param  {Function}  cb     callback function
      */
-    async broadcast(route : string, msg : any, opts : ScheduleOptions)
-    {
-        return new Promise<any>((resolve, reject) =>
-        {
+    async broadcast(route: string, msg: any, opts: ScheduleOptions) {
+        return new Promise<any>((resolve, reject) => {
             let connector = this.app.components.__connector__;
 
-            connector.send(null, route, msg, null, opts, function (err , resp)
-            {
-                if (err)
-                {
+            connector.send(null, route, msg, null, opts, function (err , resp) {
+                if (err) {
                     reject(err);
                 }
-                else
-                {
+                else {
                     resolve(resp);
                 }
             });
-        });    
+        });
     }
 }

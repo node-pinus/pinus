@@ -10,8 +10,7 @@ let ST_CLOSED = 2;
 /**
  * Socket class that wraps socket and websocket to provide unified interface for up level.
  */
-export class MQTTSocket extends EventEmitter implements ISocket
-{
+export class MQTTSocket extends EventEmitter implements ISocket {
     id: number;
     socket: mqtt_connection;
     remoteAddress: { ip: string, port: number };
@@ -19,8 +18,7 @@ export class MQTTSocket extends EventEmitter implements ISocket
 
     state: number;
 
-    constructor(id : number, socket : mqtt_connection, adaptor : MqttAdaptor)
-    {
+    constructor(id: number, socket: mqtt_connection, adaptor: MqttAdaptor) {
         super();
         this.id = id;
         this.socket = socket;
@@ -36,8 +34,7 @@ export class MQTTSocket extends EventEmitter implements ISocket
         socket.on('error', this.emit.bind(this, 'disconnect'));
         socket.on('disconnect', this.emit.bind(this, 'disconnect'));
 
-        socket.on('pingreq', function (packet : any)
-        {
+        socket.on('pingreq', function (packet: any) {
             socket.pingresp();
         });
 
@@ -48,43 +45,35 @@ export class MQTTSocket extends EventEmitter implements ISocket
         this.state = ST_INITED;
 
         // TODO: any other events?
-    };
+    }
 
 
-    send(msg : any)
-    {
-        if (this.state !== ST_INITED)
-        {
+    send(msg: any) {
+        if (this.state !== ST_INITED) {
             return;
         }
-        if (msg instanceof Buffer)
-        {
+        if (msg instanceof Buffer) {
             // if encoded, send directly
             this.socket.stream.write(msg);
-        } else
-        {
+        } else {
             this.adaptor.publish(this, msg);
         }
-    };
+    }
 
     sendRaw = this.send;
-    
-    sendBatch(msgs : any[])
-    {
-        for (let i = 0, l = msgs.length; i < l; i++)
-        {
+
+    sendBatch(msgs: any[]) {
+        for (let i = 0, l = msgs.length; i < l; i++) {
             this.send(msgs[i]);
         }
-    };
+    }
 
-    disconnect()
-    {
-        if (this.state === ST_CLOSED)
-        {
+    disconnect() {
+        if (this.state === ST_CLOSED) {
             return;
         }
 
         this.state = ST_CLOSED;
         this.socket.stream.destroy();
-    };
+    }
 }

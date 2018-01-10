@@ -2,11 +2,11 @@
  * Module dependencies
  */
 
-import * as os from 'os'
-import * as util from '../utils/util'
+import * as os from 'os';
+import * as util from '../utils/util';
 import { exec } from 'child_process';
 
-let info : any = {};
+let info: any = {};
 
 /**
  * get information of operating-system
@@ -15,23 +15,19 @@ let info : any = {};
  * @api public
  */
 
-export function getSysInfo(callback: Function): void
-{
+export function getSysInfo(callback: Function): void {
     if (process.platform === 'win32') return;
-    let reData : any = getBasicInfo();
-    exec('iostat ', function (err, output)
-    {
-        if (!!err)
-        {
+    let reData: any = getBasicInfo();
+    exec('iostat ', function (err, output) {
+        if (!!err) {
             console.error('getSysInfo failed! ' + err.stack);
             callback(err, reData);
-        } else
-        {
+        } else {
             reData.iostat = format(output);
             callback(null, reData);
         }
     });
-};
+}
 
 /**
  * analysis the disk i/o data,return a map contains kb_read,kb_wrtn ect.
@@ -40,21 +36,17 @@ export function getSysInfo(callback: Function): void
  * @api private
  */
 
-function format(data: string)
-{
+function format(data: string) {
     let time = util.formatTime(new Date());
-    let output_array = data.toString().replace(/^\s+|\s+$/g, "").split(/\s+/);
+    let output_array = data.toString().replace(/^\s+|\s+$/g, '').split(/\s+/);
     let output_values = [];
-    for (let i = 0, counter = 0; i < output_array.length; i++)
-    {
-        if (!isNaN(<any>output_array[i]))
-        {
+    for (let i = 0, counter = 0; i < output_array.length; i++) {
+        if (!isNaN(<any>output_array[i])) {
             output_values[counter] = parseFloat(output_array[i]);
             counter++;
         }
     }
-    if (output_values.length > 0)
-    {
+    if (output_values.length > 0) {
         let output_hash = {
             date: time,
             disk: {
@@ -72,27 +64,25 @@ function format(data: string)
                 cpu_steal: output_values[4],
                 cpu_idle: output_values[5]
             }
-        }
+        };
         return output_hash;
     }
-};
+}
 
 /**
  * get basic information of operating-system
- * 
+ *
  * @return {Object} result
  * @api private
  */
 
-function getBasicInfo()
-{
-    let result:{[key:string]: string} = {};
-    for (let key in info)
-    {
+function getBasicInfo() {
+    let result: {[key: string]: string} = {};
+    for (let key in info) {
         result[key] = info[key]();
     }
     return result;
-};
+}
 
 info.hostname = os.hostname;
 
@@ -116,11 +106,11 @@ info.cpus = os.cpus;
 
 info.networkInterfaces = os.networkInterfaces;
 
-info.versions = function () { return process.versions };
+info.versions = function () { return process.versions; };
 
-info.arch = function () { return process.arch };
+info.arch = function () { return process.arch; };
 
-info.platform = function () { return process.platform };
+info.platform = function () { return process.platform; };
 
 info.memoryUsage = process.memoryUsage;
 

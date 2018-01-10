@@ -22,16 +22,14 @@ let ST_CLOSED = 2;
 
 let DEFAULT_TIMEOUT = 90;
 
-export interface HybridSwitcherOptions
-{
+export interface HybridSwitcherOptions {
     closeMethod ?: 'end';
     timeout ?: number;
     setNoDelay ?: boolean;
     ssl ?: TlsOptions;
 }
-export interface IHybridSwitcher
-{
-    on(evt : 'connection' , listener : (socket : IHybridSocket)=>void):void;
+export interface IHybridSwitcher {
+    on(evt: 'connection' , listener: (socket: IHybridSocket) => void): void;
 }
 
 /**
@@ -39,8 +37,7 @@ export interface IHybridSwitcher
  *
  * @param {Object} server tcp server instance from node.js net module
  */
-export class HybridSwitcher extends EventEmitter implements IHybridSwitcher
-{
+export class HybridSwitcher extends EventEmitter implements IHybridSwitcher {
     server: net.Server;
     wsprocessor: WSProcessor;
     tcpprocessor: TCPProcessor;
@@ -50,8 +47,7 @@ export class HybridSwitcher extends EventEmitter implements IHybridSwitcher
     state: number;
 
 
-    constructor(server : net.Server, opts : HybridSwitcherOptions)
-    {
+    constructor(server: net.Server, opts: HybridSwitcherOptions) {
         super();
         this.server = server;
         this.wsprocessor = new WSProcessor();
@@ -60,14 +56,11 @@ export class HybridSwitcher extends EventEmitter implements IHybridSwitcher
         this.timeout = (opts.timeout || DEFAULT_TIMEOUT) * 1000;
         this.setNoDelay = opts.setNoDelay;
 
-        if (!opts.ssl)
-        {
+        if (!opts.ssl) {
             this.server.on('connection', this.newSocket.bind(this));
-        } else
-        {
+        } else {
             this.server.on('secureConnection', this.newSocket.bind(this));
-            this.server.on('clientError', function (e, tlsSo)
-            {
+            this.server.on('clientError', function (e, tlsSo) {
                 logger.warn('an ssl error occured before handshake established: ', e);
                 tlsSo.destroy();
             });
@@ -77,17 +70,14 @@ export class HybridSwitcher extends EventEmitter implements IHybridSwitcher
         this.tcpprocessor.on('connection', this.emit.bind(this, 'connection'));
 
         this.state = ST_STARTED;
-    };
+    }
 
-    newSocket(socket : net.Socket)
-    {
-        if (this.state !== ST_STARTED)
-        {
+    newSocket(socket: net.Socket) {
+        if (this.state !== ST_STARTED) {
             return;
         }
 
-        socket.setTimeout(this.timeout, function ()
-        {
+        socket.setTimeout(this.timeout, function () {
             logger.warn('connection is timeout without communication, the remote ip is %s && port is %s',
                 socket.remoteAddress, socket.remotePort);
             socket.destroy();
@@ -95,54 +85,43 @@ export class HybridSwitcher extends EventEmitter implements IHybridSwitcher
 
         let self = this;
 
-        socket.once('data',  (data)=>
-        {
+        socket.once('data',  (data) => {
             // FIXME: handle incomplete HTTP method
-            if (isHttp(data))
-            {
+            if (isHttp(data)) {
                 this.processHttp(self.wsprocessor, socket, data);
-            } else
-            {
-                if (!!self.setNoDelay)
-                {
+            } else {
+                if (!!self.setNoDelay) {
                     socket.setNoDelay(true);
                 }
                 this.processTcp(self.tcpprocessor, socket, data);
             }
         });
-    };
+    }
 
-    close()
-    {
-        if (this.state !== ST_STARTED)
-        {
+    close() {
+        if (this.state !== ST_STARTED) {
             return;
         }
 
         this.state = ST_CLOSED;
         this.wsprocessor.close();
         this.tcpprocessor.close();
-    };
+    }
 
-    private processHttp(processor: WSProcessor, socket: net.Socket, data: Buffer)
-    {
+    private processHttp(processor: WSProcessor, socket: net.Socket, data: Buffer) {
         processor.add(socket, data);
     }
 
-    private processTcp(processor: TCPProcessor, socket: net.Socket, data: Buffer)
-    {
+    private processTcp(processor: TCPProcessor, socket: net.Socket, data: Buffer) {
         processor.add(socket, data);
     }
 
 }
-let isHttp = function (data : Buffer)
-{
+let isHttp = function (data: Buffer) {
     let head = data.toString('utf8', 0, 4);
 
-    for (let i = 0, l = HTTP_METHODS.length; i < l; i++)
-    {
-        if (head.indexOf(HTTP_METHODS[i]) === 0)
-        {
+    for (let i = 0, l = HTTP_METHODS.length; i < l; i++) {
+        if (head.indexOf(HTTP_METHODS[i]) === 0) {
             return true;
         }
     }

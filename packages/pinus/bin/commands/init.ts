@@ -3,35 +3,30 @@ import * as program from 'commander';
 import { CUR_DIR, INIT_PROJ_NOTICE, TIME_INIT, FILEREAD_ERROR } from '../utils/constants';
 import {  confirm, abort, version, prompt } from '../utils/utils';
 
-import * as fs from 'fs'
-import * as os from 'os'
-import * as path from 'path'
-import * as util from 'util'
-import * as cliff from 'cliff'
-import * as mkdirp from 'mkdirp'
+import * as fs from 'fs';
+import * as os from 'os';
+import * as path from 'path';
+import * as util from 'util';
+import * as cliff from 'cliff';
+import * as mkdirp from 'mkdirp';
 
-export default function (program: program.CommanderStatic)
-{
+export default function (program: program.CommanderStatic) {
     program.command('init [path]')
         .description('create a new application')
-        .action(function (path)
-        {
+        .action(function (path) {
             init(path || CUR_DIR);
         });
 }
 
 /**
  * Get user's choice on connector selecting
- * 
+ *
  * @param {Function} cb
  */
-function connectorType(cb: Function)
-{
-    prompt('Please select underly connector, 1 for websocket(native socket), 2 for socket.io, 3 for wss, 4 for socket.io(wss), 5 for udp, 6 for mqtt: [1]', function (msg: string)
-    {
-        console.log("selected" , msg);
-        switch (msg.trim())
-        {
+function connectorType(cb: Function) {
+    prompt('Please select underly connector, 1 for websocket(native socket), 2 for socket.io, 3 for wss, 4 for socket.io(wss), 5 for udp, 6 for mqtt: [1]', function (msg: string) {
+        console.log('selected' , msg);
+        switch (msg.trim()) {
             case '':
                 cb(1);
                 break;
@@ -57,11 +52,10 @@ function connectorType(cb: Function)
  * @param {String} path
  * @param {Function} fn
  */
-export function emptyDirectory(path : string)
-{
+export function emptyDirectory(path: string) {
     if(!fs.existsSync(path))
         return true;
-    var files = fs.readdirSync(path);
+    let files = fs.readdirSync(path);
     return (!files || !files.length);
 }
 
@@ -70,27 +64,20 @@ export function emptyDirectory(path : string)
  *
  * @param {String} path
  */
-function init(path: string)
-{
+function init(path: string) {
     console.log(INIT_PROJ_NOTICE);
-    connectorType(function (type: string)
-    {
+    connectorType(function (type: string) {
         let empty = emptyDirectory(path);
-        if (empty)
-        {
+        if (empty) {
             process.stdin.destroy();
-            console.log("start createApplication");
+            console.log('start createApplication');
             createApplicationAt(path, type);
-        } else
-        {
-            confirm('Destination is not empty, continue? (y/n) [no] ', function (force: boolean)
-            {
+        } else {
+            confirm('Destination is not empty, continue? (y/n) [no] ', function (force: boolean) {
                 process.stdin.destroy();
-                if (force)
-                {
+                if (force) {
                     createApplicationAt(path, type);
-                } else
-                {
+                } else {
                     abort(('Fail to init a project' as any).red);
                 }
             });
@@ -105,9 +92,8 @@ function init(path: string)
  * @param {String} path
  * @param {Function} fn
  */
-function mkdir(path: string)
-{
-    var err = mkdirp.sync(path, 0o755);
+function mkdir(path: string) {
+    let err = mkdirp.sync(path, 0o755);
 
     console.log(('   create : ' as any).green + path);
 
@@ -118,29 +104,23 @@ function mkdir(path: string)
  * @param {String} origin
  * @param {String} target
  */
-function copy(origin: string, target: string)
-{
-    if (!fs.existsSync(origin))
-    {
+function copy(origin: string, target: string) {
+    if (!fs.existsSync(origin)) {
         abort(origin + 'does not exist.');
     }
-    if (!fs.existsSync(target))
-    {
+    if (!fs.existsSync(target)) {
         mkdir(target);
         console.log(('   create : ' as any).green + target);
     }
-    var datalist = fs.readdirSync(origin);
-    
-    for (let i = 0; i < datalist.length; i++)
-    {
+    let datalist = fs.readdirSync(origin);
+
+    for (let i = 0; i < datalist.length; i++) {
         let oCurrent = path.resolve(origin, datalist[i]);
         let tCurrent = path.resolve(target, datalist[i]);
-        if (fs.statSync(oCurrent).isFile())
-        {
+        if (fs.statSync(oCurrent).isFile()) {
             console.log(('   create : ' as any).green + tCurrent + ' from : ' + oCurrent);
             fs.writeFileSync(tCurrent, fs.readFileSync(oCurrent, ''), '');
-        } else if (fs.statSync(oCurrent).isDirectory())
-        {
+        } else if (fs.statSync(oCurrent).isDirectory()) {
             copy(oCurrent, tCurrent);
         }
     }
@@ -151,35 +131,28 @@ function copy(origin: string, target: string)
  *
  * @param {String} ph
  */
-function createApplicationAt(ph: string, type: string)
-{
+function createApplicationAt(ph: string, type: string) {
     let name = path.basename(path.resolve(CUR_DIR, ph));
     copy(path.join(__dirname, '../../../template/'), ph);
     mkdir(path.join(ph, 'game-server/dist/logs'));
     mkdir(path.join(ph, 'shared'));
     // rmdir -r
-    let rmdir = function (dir: string)
-    {
+    let rmdir = function (dir: string) {
         let list = fs.readdirSync(dir);
-        for (let i = 0; i < list.length; i++)
-        {
+        for (let i = 0; i < list.length; i++) {
             let filename = path.join(dir, list[i]);
             let stat = fs.statSync(filename);
-            if (filename === "." || filename === "..")
-            {
-            } else if (stat.isDirectory())
-            {
+            if (filename === '.' || filename === '..') {
+            } else if (stat.isDirectory()) {
                 rmdir(filename);
-            } else
-            {
+            } else {
                 fs.unlinkSync(filename);
             }
         }
         fs.rmdirSync(dir);
     };
     let unlinkFiles: string[];
-    switch (type)
-    {
+    switch (type) {
         case '1':
             // use websocket
             unlinkFiles = ['game-server/app.ts.sio',
@@ -193,8 +166,7 @@ function createApplicationAt(ph: string, type: string)
                 'web-server/public/js/lib/pinusclient.js.wss',
                 'web-server/public/js/lib/build/build.js.wss',
                 'web-server/public/js/lib/socket.io.js'];
-            for (let i = 0; i < unlinkFiles.length; ++i)
-            {
+            for (let i = 0; i < unlinkFiles.length; ++i) {
                 let f = path.resolve(ph, unlinkFiles[i]);
                 console.log('delete : ' + f);
                 fs.unlinkSync(f);
@@ -211,8 +183,7 @@ function createApplicationAt(ph: string, type: string)
                 'web-server/public/index.html',
                 'web-server/public/js/lib/component.json',
                 'web-server/public/js/lib/pinusclient.js.wss'];
-            for (let i = 0; i < unlinkFiles.length; ++i)
-            {
+            for (let i = 0; i < unlinkFiles.length; ++i) {
                 fs.unlinkSync(path.resolve(ph, unlinkFiles[i]));
             }
 
@@ -235,8 +206,7 @@ function createApplicationAt(ph: string, type: string)
                 'web-server/public/js/lib/pinusclient.js.wss',
                 'web-server/public/js/lib/build/build.js',
                 'web-server/public/js/lib/socket.io.js'];
-            for (let i = 0; i < unlinkFiles.length; ++i)
-            {
+            for (let i = 0; i < unlinkFiles.length; ++i) {
                 fs.unlinkSync(path.resolve(ph, unlinkFiles[i]));
             }
 
@@ -254,8 +224,7 @@ function createApplicationAt(ph: string, type: string)
                 'web-server/app.js',
                 'web-server/public/index.html',
                 'web-server/public/js/lib/pinusclient.js'];
-            for (let i = 0; i < unlinkFiles.length; ++i)
-            {
+            for (let i = 0; i < unlinkFiles.length; ++i) {
                 fs.unlinkSync(path.resolve(ph, unlinkFiles[i]));
             }
 
@@ -279,8 +248,7 @@ function createApplicationAt(ph: string, type: string)
                 'web-server/public/index.html',
                 'web-server/public/js/lib/component.json',
                 'web-server/public/js/lib/pinusclient.js.wss'];
-            for (let i = 0; i < unlinkFiles.length; ++i)
-            {
+            for (let i = 0; i < unlinkFiles.length; ++i) {
                 fs.unlinkSync(path.resolve(ph, unlinkFiles[i]));
             }
 
@@ -301,8 +269,7 @@ function createApplicationAt(ph: string, type: string)
                 'web-server/public/index.html',
                 'web-server/public/js/lib/component.json',
                 'web-server/public/js/lib/pinusclient.js.wss'];
-            for (let i = 0; i < unlinkFiles.length; ++i)
-            {
+            for (let i = 0; i < unlinkFiles.length; ++i) {
                 fs.unlinkSync(path.resolve(ph, unlinkFiles[i]));
             }
 
@@ -316,8 +283,7 @@ function createApplicationAt(ph: string, type: string)
     let replaceFiles = ['game-server/app.ts',
         'game-server/package.json',
         'web-server/package.json'];
-    for (let j = 0; j < replaceFiles.length; j++)
-    {
+    for (let j = 0; j < replaceFiles.length; j++) {
         let str = fs.readFileSync(path.resolve(ph, replaceFiles[j])).toString();
         fs.writeFileSync(path.resolve(ph, replaceFiles[j]), str.replace('$', name));
     }

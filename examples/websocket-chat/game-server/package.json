@@ -4,7 +4,15 @@
     "private": false,
     "main": "./dist/app",
     "scripts": {
-        "build": "node_modules/.bin/tsc"
+        "build": "tsc",
+		"start": "yarn run build && node dist/index",
+		"lint": "node --max_old_space_size=4096 ../../../node_modules/tslint/bin/tslint --format prose -c ../../../tslint.json lib/**/*.ts test/**/*.ts",
+		"fix-lint": "node --max_old_space_size=4096 ../../../node_modules/tslint/bin/tslint --format prose -c ../../../tslint.json lib/**/*.ts test/**/*.ts --fix",
+		"test": "yarn run build",
+		"cov": "nyc mocha",
+		"ci": "yarn run test",
+		"gen-api-ref": "node ../../../node_modules/typedoc/bin/typedoc --mode file --hideGenerator --excludeExternals --ignoreCompilerErrors --out ../../../run/site/public/api-reference/pinus-loader lib/"
+
     },
     "dependencies": {
         "@types/bluebird": "^3.5.19",

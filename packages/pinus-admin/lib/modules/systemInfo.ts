@@ -15,34 +15,28 @@ let DEFAULT_INTERVAL = 5 * 60;		// in second
 let DEFAULT_DELAY = 10;						// in second
 
 
-export class SystemInfoModule implements IModule
-{
+export class SystemInfoModule implements IModule {
     static moduleId = 'systemInfo';
 
     type: ModuleType;
     interval: number;
     delay: number;
-    constructor(opts ?: {type ?: ModuleType , interval?: number; delay ?: number})
-    {
+    constructor(opts ?: {type ?: ModuleType , interval?: number; delay ?: number}) {
         opts = opts || {};
         this.type = opts.type || ModuleType.pull;
         this.interval = opts.interval || DEFAULT_INTERVAL;
         this.delay = opts.delay || DEFAULT_DELAY;
-    };
+    }
 
-    monitorHandler(agent : MonitorAgent, msg : any, cb : MonitorCallback)
-    {
-        //collect data
-        monitor.sysmonitor.getSysInfo(function (err : Error, data : any)
-        {
+    monitorHandler(agent: MonitorAgent, msg: any, cb: MonitorCallback) {
+        // collect data
+        monitor.sysmonitor.getSysInfo(function (err: Error, data: any) {
             agent.notify(SystemInfoModule.moduleId, { serverId: agent.id, body: data });
         });
-    };
+    }
 
-    masterHandler(agent : MasterAgent, msg : any, cb : MasterCallback)
-    {
-        if (!msg)
-        {
+    masterHandler(agent: MasterAgent, msg: any, cb: MasterCallback) {
+        if (!msg) {
             agent.notifyAll(SystemInfoModule.moduleId);
             return;
         }
@@ -59,17 +53,15 @@ export class SystemInfoModule implements IModule
         };
 
         let data = agent.get(SystemInfoModule.moduleId);
-        if (!data)
-        {
+        if (!data) {
             data = {};
             agent.set(SystemInfoModule.moduleId, data);
         }
 
         data[msg.serverId] = oneData;
-    };
+    }
 
-    clientHandler(agent : MasterAgent, msg : any, cb : MasterCallback)
-    {
+    clientHandler(agent: MasterAgent, msg: any, cb: MasterCallback) {
         cb(null, agent.get(SystemInfoModule.moduleId) || {});
-    };
+    }
 }

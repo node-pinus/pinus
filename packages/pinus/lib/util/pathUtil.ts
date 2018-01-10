@@ -10,11 +10,10 @@ import { DIR } from './constants';
  * @param  {String} role server role: frontend, backend
  * @return {String}      path string if the path exist else null
  */
-export function getSysRemotePath(role : string)
-{
+export function getSysRemotePath(role: string) {
     let p = path.join(__dirname, '/../common/remote/', role);
     return fs.existsSync(p) ? p : null;
-};
+}
 
 /**
  * Get user remote service path
@@ -23,24 +22,22 @@ export function getSysRemotePath(role : string)
  * @param  {String} serverType server type
  * @return {String}            path string if the path exist else null
  */
-export function getUserRemotePath(appBase : string, serverType : string)
-{
+export function getUserRemotePath(appBase: string, serverType: string) {
     let p = path.join(appBase, '/app/servers/', serverType, Constants.DIR.REMOTE);
     return fs.existsSync(p) ? p : null;
-};
+}
 
 /**
  * Get user remote cron path
- * 
+ *
  * @param  {String} appBase    application base path
  * @param  {String} serverType server type
  * @return {String}            path string if the path exist else null
  */
-export function getCronPath(appBase : string, serverType : string)
-{
+export function getCronPath(appBase: string, serverType: string) {
     let p = path.join(appBase, '/app/servers/', serverType, Constants.DIR.CRON);
     return fs.existsSync(p) ? p : null;
-};
+}
 
 /**
  * List all the subdirectory names of user remote directory
@@ -49,20 +46,17 @@ export function getCronPath(appBase : string, serverType : string)
  * @param  {String} appBase application base path
  * @return {Array}         all the subdiretory name under servers/
  */
-export function listUserRemoteDir(appBase : string)
-{
+export function listUserRemoteDir(appBase: string) {
     let base = path.join(appBase, '/app/servers/');
     let files = fs.readdirSync(base);
-    return files.filter(function (fn)
-    {
-        if (fn.charAt(0) === '.')
-        {
+    return files.filter(function (fn) {
+        if (fn.charAt(0) === '.') {
             return false;
         }
 
         return fs.statSync(path.join(base, fn)).isDirectory();
     });
-};
+}
 
 /**
  * Compose remote path record
@@ -72,10 +66,9 @@ export function listUserRemoteDir(appBase : string)
  * @param  {String} path       remote service source path
  * @return {Object}            remote path record
  */
-export function remotePathRecord(namespace : string, serverType : string, path : string) : RemoteServerCode
-{
+export function remotePathRecord(namespace: string, serverType: string, path: string): RemoteServerCode {
     return { namespace: namespace, serverType: serverType, path: path };
-};
+}
 
 /**
  * Get handler path
@@ -84,11 +77,10 @@ export function remotePathRecord(namespace : string, serverType : string, path :
  * @param  {String} serverType server type
  * @return {String}            path string if the path exist else null
  */
-export function getHandlerPath(appBase : string, serverType : string)
-{
+export function getHandlerPath(appBase: string, serverType: string) {
     let p = path.join(appBase, '/app/servers/', serverType, Constants.DIR.HANDLER);
     return fs.existsSync(p) ? p : null;
-};
+}
 
 /**
  * Get admin script root path.
@@ -96,10 +88,9 @@ export function getHandlerPath(appBase : string, serverType : string)
  * @param  {String} appBase application base path
  * @return {String}         script path string
  */
-export function getScriptPath(appBase : string)
-{
+export function getScriptPath(appBase: string) {
     return path.join(appBase, Constants.DIR.SCRIPT);
-};
+}
 
 /**
  * Get logs path.
@@ -107,25 +98,21 @@ export function getScriptPath(appBase : string)
  * @param  {String} appBase application base path
  * @return {String}         logs path string
  */
-export function getLogPath(appBase : string)
-{
+export function getLogPath(appBase: string) {
     return path.join(appBase, Constants.DIR.LOG);
-};
+}
 
-export function getPluginRemotePath(basePath : string)
-{
+export function getPluginRemotePath(basePath: string) {
     let p = path.join(basePath, DIR.REMOTE);
     return fs.existsSync(p) ? p : null;
-};
+}
 
-export function getPluginHandlerPath(basePath : string)
-{
+export function getPluginHandlerPath(basePath: string) {
     let p = path.join(basePath, DIR.HANDLER);
     return fs.existsSync(p) ? p : null;
-};
-    
-export function getPluginCronPath(basePath : string)
-{
+}
+
+export function getPluginCronPath(basePath: string) {
     let p = path.join(basePath, DIR.CRON);
     return fs.existsSync(p) ? p : null;
-};
+}

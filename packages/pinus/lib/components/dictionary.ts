@@ -9,102 +9,86 @@ import { IComponent } from '../interfaces/IComponent';
 import { listEs6ClassMethods } from 'pinus-rpc';
 import { RESERVED, ServerInfo } from '../util/constants';
 
-export interface DictionaryComponentOptions
-{
+export interface DictionaryComponentOptions {
     dict ?: string;
 }
 
-export class DictionaryComponent implements IComponent
-{
+export class DictionaryComponent implements IComponent {
     app: Application;
-    dict: {[key:string]:number} = {};
-    abbrs : {[key:string]:string} = {};
-    userDicPath : string;
-    version = "";
+    dict: {[key: string]: number} = {};
+    abbrs: {[key: string]: string} = {};
+    userDicPath: string;
+    version = '';
     name = '__dictionary__';
 
-    constructor(app : Application, opts : DictionaryComponentOptions)
-    {
+    constructor(app: Application, opts: DictionaryComponentOptions) {
         this.app = app;
 
-        //Set user dictionary
+        // Set user dictionary
         let p = path.join(app.getBase(), '/config/dictionary.json');
-        if (!!opts && !!opts.dict)
-        {
+        if (!!opts && !!opts.dict) {
             p = opts.dict;
         }
-        if (fs.existsSync(p))
-        {
+        if (fs.existsSync(p)) {
             this.userDicPath = p;
         }
-    };
+    }
 
-    afterStartAll()
-    {
-        let servers = this.app.serverTypeMaps
+    afterStartAll() {
+        let servers = this.app.serverTypeMaps;
         let routes = [];
 
-        let handlerPathss : {[serverType:string] : string[]} = {};
-        
-        //Load all the handler files
-        for (let serverType in servers)
-        {
+        let handlerPathss: {[serverType: string]: string[]} = {};
+
+        // Load all the handler files
+        for (let serverType in servers) {
             let slist = servers[serverType];
-            let server : ServerInfo;
+            let server: ServerInfo;
             handlerPathss[serverType] = [];
-            for(server of slist)
-            {
+            for(server of slist) {
                 handlerPathss[serverType] = handlerPathss[serverType].concat(server.handlerPaths);
             }
         }
 
-        //Load all the handler files
-        for (let serverType in handlerPathss)
-        {
+        // Load all the handler files
+        for (let serverType in handlerPathss) {
             let paths = handlerPathss[serverType];
-            if (!paths)
-            {
+            if (!paths) {
                 continue;
             }
-            for (let p of paths)
-            {
+            for (let p of paths) {
                 let handlers = Loader.load(p, this.app, false);
 
-                for (let name in handlers)
-                {
+                for (let name in handlers) {
                     let handler = handlers[name];
 
                     let proto = listEs6ClassMethods(handler);
-                    for (let key of proto)
-                    {
+                    for (let key of proto) {
                         routes.push(serverType + '.' + name + '.' + key);
                     }
                 }
             }
         }
 
-        //Sort the route to make sure all the routers abbr are the same in all the servers
+        // Sort the route to make sure all the routers abbr are the same in all the servers
         routes.sort();
 
-        console.warn("启动完毕，可用的路由：", JSON.stringify(routes));
+        console.warn('启动完毕，可用的路由：', JSON.stringify(routes));
 
         let abbr;
         let i;
-        for (i = 0; i < routes.length; i++)
-        {
+        for (i = 0; i < routes.length; i++) {
             abbr = i + 1;
             this.abbrs[abbr] = routes[i];
             this.dict[routes[i]] = abbr;
         }
 
-        //Load user dictionary
-        if (!!this.userDicPath)
-        {
+        // Load user dictionary
+        if (!!this.userDicPath) {
             let userDic = require(this.userDicPath);
 
             abbr = routes.length + 1;
-            for (i = 0; i < userDic.length; i++)
-            {
+            for (i = 0; i < userDic.length; i++) {
                 let route = userDic[i];
 
                 this.abbrs[abbr] = route;
@@ -115,21 +99,18 @@ export class DictionaryComponent implements IComponent
 
         this.version = crypto.createHash('md5').update(JSON.stringify(this.dict)).digest('base64');
 
-    };
+    }
 
-    getDict()
-    {
+    getDict() {
         return this.dict;
-    };
+    }
 
-    getAbbrs()
-    {
+    getAbbrs() {
         return this.abbrs;
-    };
+    }
 
-    getVersion()
-    {
+    getVersion() {
         return this.version;
-    };
+    }
 
 }

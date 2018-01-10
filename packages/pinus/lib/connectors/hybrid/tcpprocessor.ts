@@ -13,20 +13,16 @@ let HEAD_SIZE = 4;
 /**
  * websocket protocol processor
  */
-export class TCPProcessor extends EventEmitter
-{
+export class TCPProcessor extends EventEmitter {
     closeMethod: 'end';
     state: number;
-    constructor(closeMethod?: 'end')
-    {
+    constructor(closeMethod?: 'end') {
         super();
         this.closeMethod = closeMethod;
         this.state = ST_STARTED;
-    };
-    add(socket: net.Socket, data: Buffer)
-    {
-        if (this.state !== ST_STARTED)
-        {
+    }
+    add(socket: net.Socket, data: Buffer) {
+        if (this.state !== ST_STARTED) {
             return;
         }
         let tcpsocket = new TcpSocket(socket, {
@@ -36,14 +32,12 @@ export class TCPProcessor extends EventEmitter
         });
         this.emit('connection', tcpsocket);
         socket.emit('data', data);
-    };
+    }
 
-    close()
-    {
-        if (this.state !== ST_STARTED)
-        {
+    close() {
+        if (this.state !== ST_STARTED) {
             return;
         }
         this.state = ST_CLOSED;
-    };
+    }
 }

@@ -1,4 +1,4 @@
-import { getLogger } from 'pinus-logger'
+import { getLogger } from 'pinus-logger';
 let logger = getLogger('pinus-rpc', 'Coder');
 import * as OutBuffer from './buffer/outputBuffer';
 import * as InBuffer from './buffer/inputBuffer';
@@ -7,15 +7,14 @@ import * as InBuffer from './buffer/inputBuffer';
 // let InBuffer = bBuffer.inBuffer;
 
 export interface Msg {
-    namespace: string,
-    serverType: string,
-    service: string, 
-    method: string, 
-    args: Array<string>
+    namespace: string;
+    serverType: string;
+    service: string;
+    method: string;
+    args: Array<string>;
 }
 
-export function encodeClient(id: number, msg: Msg, servicesMap: {[key:number]: any})
-{
+export function encodeClient(id: number, msg: Msg, servicesMap: {[key: number]: any}) {
     // logger.debug('[encodeClient] id %s msg %j', id, msg);
     let outBuf = new OutBuffer.OutputBuffer();
     outBuf.writeUInt(id);
@@ -36,8 +35,7 @@ export function encodeClient(id: number, msg: Msg, servicesMap: {[key:number]: a
     return outBuf.getBuffer();
 }
 
-export function encodeServer(id: number, args: object)
-{
+export function encodeServer(id: number, args: object) {
     // logger.debug('[encodeServer] id %s args %j', id, args);
     let outBuf = new OutBuffer.OutputBuffer();
     outBuf.writeUInt(id);
@@ -45,8 +43,7 @@ export function encodeServer(id: number, args: object)
     return outBuf.getBuffer();
 }
 
-export function decodeServer(buf: Buffer, servicesMap: {[key:number]: any})
-{
+export function decodeServer(buf: Buffer, servicesMap: {[key: number]: any}) {
     let inBuf = new InBuffer.InputBuffer(buf);
     let id = inBuf.readUInt();
     let namespace = servicesMap[3][inBuf.readShort()];
@@ -68,11 +65,10 @@ export function decodeServer(buf: Buffer, servicesMap: {[key:number]: any})
             method: method,
             args: args
         }
-    }
+    };
 }
 
-export function decodeClient(buf: Buffer)
-{
+export function decodeClient(buf: Buffer) {
     let inBuf = new InBuffer.InputBuffer(buf);
     let id = inBuf.readUInt();
     let resp = inBuf.readObject();
@@ -80,5 +76,5 @@ export function decodeClient(buf: Buffer)
     return {
         id: id,
         resp: resp
-    }
+    };
 }

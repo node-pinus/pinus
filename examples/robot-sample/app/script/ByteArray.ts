@@ -57,7 +57,7 @@
          * @platform Web,Native
          * @language zh_CN
          */
-        public static LITTLE_ENDIAN: string = "littleEndian";
+        public static LITTLE_ENDIAN: string = 'littleEndian';
 
         /**
          * Indicates the most significant byte of the multibyte number appears first in the sequence of bytes.
@@ -73,7 +73,7 @@
          * @platform Web,Native
          * @language zh_CN
          */
-        public static BIG_ENDIAN: string = "bigEndian";
+        public static BIG_ENDIAN: string = 'bigEndian';
 
     }
 
@@ -123,7 +123,7 @@
         /**
          * @private
          */
-        protected bufferExtSize = 0;//Buffer expansion size
+        protected bufferExtSize = 0; //Buffer expansion size
 
         protected data: DataView;
 
@@ -134,7 +134,7 @@
         protected _position: number;
 
         /**
-         * 
+         *
          * 已经使用的字节偏移量
          * @protected
          * @type {number}
@@ -215,9 +215,9 @@
 
         /**
          * 可读的剩余字节数
-         * 
-         * @returns 
-         * 
+         *
+         * @returns
+         *
          * @memberOf ByteArray
          */
         public get readAvailable() {
@@ -447,14 +447,14 @@
             let pos = this._position;
             let available = this.write_position - pos;
             if (available < 0) {
-                throw new Error("1025");
+                throw new Error('1025');
                 //return;
             }
             if (length == 0) {
                 length = available;
             }
             else if (length > available) {
-                throw new Error("1025");
+                throw new Error('1025');
                 //return;
             }
             bytes.validateBuffer(offset + length);
@@ -631,7 +631,7 @@
             if (length > 0) {
                 return this.readUTFBytes(length);
             } else {
-                return "";
+                return '';
             }
         }
 
@@ -911,7 +911,7 @@
          * @platform Web,Native
          */
         public toString(): string {
-            return "[ByteArray] length:" + this.length + ", bytesAvailable:" + this.bytesAvailable;
+            return '[ByteArray] length:' + this.length + ', bytesAvailable:' + this.bytesAvailable;
         }
 
         /**
@@ -1011,7 +1011,7 @@
         private decodeUTF8(data: Uint8Array): string {
             let fatal: boolean = false;
             let pos: number = 0;
-            let result: string = "";
+            let result: string = '';
             let code_point: number;
             let utf8_code_point = 0;
             let utf8_bytes_needed = 0;
@@ -1102,7 +1102,7 @@
          *
          * @param code_point
          */
-        private encoderError(code_point : any) {
+        private encoderError(code_point: any) {
             console.error(1026, code_point);
         }
 
@@ -1113,7 +1113,7 @@
          * @param opt_code_point
          * @returns
          */
-        private decoderError(fatal : any, opt_code_point? : any): number {
+        private decoderError(fatal: any, opt_code_point?: any): number {
             if (fatal) {
                 console.error(1027);
             }
@@ -1136,7 +1136,7 @@
          * @param min
          * @param max
          */
-        private inRange(a : number, min : number, max : number) {
+        private inRange(a: number, min: number, max: number) {
             return min <= a && a <= max;
         }
 
@@ -1146,7 +1146,7 @@
          * @param n
          * @param d
          */
-        private div(n : number, d : number) {
+        private div(n: number, d: number) {
             return Math.floor(n / d);
         }
 
@@ -1155,7 +1155,7 @@
          *
          * @param string
          */
-        private stringToCodePoints(string : string) {
+        private stringToCodePoints(string: string) {
             /** @type {Array.<number>} */
             let cps = [];
             // Based on http://www.w3.org/TR/WebIDL/#idl-DOMString

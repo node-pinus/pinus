@@ -13,12 +13,11 @@ preload();
 /**
  * Init app for client.
  */
-var app = pinus.createApp();
+let app = pinus.createApp();
 app.set('name', 'chatofpomelo-websocket');
 
 // app configuration
-app.configure('production|development', 'connector', function ()
-{
+app.configure('production|development', 'connector', function () {
 	app.set('connectorConfig',
 		{
 			connector: pinus.connectors.hybridconnector,
@@ -28,8 +27,7 @@ app.configure('production|development', 'connector', function ()
 		});
 });
 
-app.configure('production|development', 'gate', function ()
-{
+app.configure('production|development', 'gate', function () {
 	app.set('connectorConfig',
 		{
 			connector: pinus.connectors.hybridconnector,
@@ -38,8 +36,7 @@ app.configure('production|development', 'gate', function ()
 });
 
 // app configure
-app.configure('production|development', function ()
-{
+app.configure('production|development', function () {
 	// route configures
 	app.route('chat', routeUtil.chat);
 
@@ -51,10 +48,9 @@ app.configure('development', function() {
 	// enable the system monitor modules
 	app.enable('systemMonitor');
   });
-  
-if(app.isMaster())
-{
-	app.use(createRobotPlugin({scriptFile:__dirname + "/robot/robot.js"}));
+
+if(app.isMaster()) {
+	app.use(createRobotPlugin({scriptFile: __dirname + '/robot/robot.js'}));
 }
 
 // start app

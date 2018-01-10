@@ -1,10 +1,8 @@
-import { Application } from "pinus";
+import { Application } from 'pinus';
 
 
-export class helloRemotor
-{
-    constructor(private app: Application)
-    {
+export class helloRemotor {
+    constructor(private app: Application) {
 
     }
     /**
@@ -12,13 +10,11 @@ export class helloRemotor
      * @param message rpc的参数，可以有多个
      * @returns 异步返回
      */
-    public async hello(message : string)
-    {
+    public async hello(message: string) {
         return message;
     }
 }
 
-export default function(app : Application)
-{
-    return new helloRemotor(app)
+export default function(app: Application) {
+    return new helloRemotor(app);
 }

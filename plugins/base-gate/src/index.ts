@@ -1,7 +1,6 @@
-import { baseGatePlugin } from "./baseGatePlugin";
+import { baseGatePlugin } from './baseGatePlugin';
 
 
-export function createBaseGatePlugin()
-{
+export function createBaseGatePlugin() {
     return new baseGatePlugin();
 }

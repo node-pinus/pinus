@@ -6,7 +6,7 @@ import { MailBox } from './mailboxes/mqtt-mailbox';
 // let Ws2Mailbox from ('./mailboxes/ws2-mailbox');
 // let WsMailbox from ('./mailboxes/ws-mailbox');
 
-export type MailBoxFactory =  (serverInfo: {id: string, host: string, port:number}, opts: Mailbox.MailBoxOpts)=>MailBox;
+export type MailBoxFactory =  (serverInfo: {id: string, host: string, port: number}, opts: Mailbox.MailBoxOpts) => MailBox;
 
 /**
  * default mailbox factory
@@ -15,8 +15,7 @@ export type MailBoxFactory =  (serverInfo: {id: string, host: string, port:numbe
  * @param {Object} opts construct parameters
  * @return {Object} mailbox instancef
  */
-export function createMailBox (serverInfo: {id: string, host: string, port:number}, opts: Mailbox.MailBoxOpts)
-{
+export function createMailBox (serverInfo: {id: string, host: string, port: number}, opts: Mailbox.MailBoxOpts) {
     // let mailbox = opts.mailbox || 'mqtt';
     // let Mailbox = null;
     // if (mailbox == 'ws') {
@@ -27,4 +26,4 @@ export function createMailBox (serverInfo: {id: string, host: string, port:numbe
     // 	Mailbox = MqttMailbox;
     // }
     return Mailbox.create(serverInfo, opts);
-};
+}

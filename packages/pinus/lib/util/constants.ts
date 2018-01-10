@@ -1,7 +1,7 @@
-import { RemoteServerCode } from "../index";
+import { RemoteServerCode } from '../index';
 
 
-export enum KEYWORDS{
+export enum KEYWORDS {
     BEFORE_FILTER= '__befores__',
     AFTER_FILTER= '__afters__',
     GLOBAL_BEFORE_FILTER= '__globalBefores__',
@@ -113,13 +113,12 @@ export enum TIME  {
     DEFAULT_MQTT_HEARTBEAT_TIMEOUT = 90 * 1000
 }
 
-export interface RouteRecord
-{
+export interface RouteRecord {
     route: string;
     serverType: string;
     handler: string;
     method: string;
-};
+}
 
 export type UID = string;
 export type SID = number;
@@ -128,23 +127,22 @@ export type FRONTENDID = string;
 /**
  * ServerInfo
  */
-export interface ServerInfo
-{
-	id: string;
-	serverType: string;
-	host: string;
-	port: number;
-	clientHost?: string;
+export interface ServerInfo {
+    id: string;
+    serverType: string;
+    host: string;
+    port: number;
+    clientHost?: string;
     clientPort?: number;
     frontend ?: boolean;
 
     args ?: string | string[];
     cpu ?: number;
 
-    ["max-connections"] ?: number;
-    ["auto-restart"] ?: boolean;
-    ["restart-force"] ?: boolean;
-    ["auto-restart"] ?: boolean;
+    ['max-connections'] ?: number;
+    ['auto-restart'] ?: boolean;
+    ['restart-force'] ?: boolean;
+    ['auto-restart'] ?: boolean;
     ['clusterCount'] ?: number;
 
     handlerPaths ?: string[];

@@ -1,58 +1,46 @@
 
-export function invokeCallback(cb : Function, err:Error)
-{
-    if (typeof cb === 'function')
-    {
+export function invokeCallback(cb: Function, err: Error) {
+    if (typeof cb === 'function') {
         cb.apply(null, Array.prototype.slice.call(arguments, 1));
     }
-};
+}
 
-export function applyCallback(cb : Function, args : any[])
-{
-    if (typeof cb === 'function')
-    {
+export function applyCallback(cb: Function, args: any[]) {
+    if (typeof cb === 'function') {
         cb.apply(null, args);
     }
-};
+}
 
-export function getObjectClass(obj : Object)
-{
-    if (!obj)
-    {
+export function getObjectClass(obj: Object) {
+    if (!obj) {
         return;
     }
 
     let constructor = obj.constructor;
-    if (!constructor)
-    {
+    if (!constructor) {
         return;
     }
 
-    if (constructor.name)
-    {
+    if (constructor.name) {
         return constructor.name;
     }
 
     let str = constructor.toString();
-    if (!str)
-    {
+    if (!str) {
         return;
     }
 
     let arr = null;
-    if (str.charAt(0) == '[')
-    {
+    if (str.charAt(0) === '[') {
         arr = str.match(/\[\w+\s*(\w+)\]/);
-    } else
-    {
+    } else {
         arr = str.match(/function\s*(\w+)/);
     }
 
-    if (arr && arr.length == 2)
-    {
+    if (arr && arr.length === 2) {
         return arr[1];
     }
-};
+}
 
 /**
  * Utils check float
@@ -61,8 +49,7 @@ export function getObjectClass(obj : Object)
  * @return {Boolean} true|false
  * @api public
  */
-export function checkFloat(v : any)
-{
+export function checkFloat(v: any) {
     return v === Number(v) && v % 1 !== 0;
     // return parseInt(v) !== v;
 }
@@ -74,12 +61,10 @@ export function checkFloat(v : any)
  * @return {Function} high order function
  * @api public
  */
-export function isType(type : any)
-{
-    return function (obj : any)
-    {
-        return {}.toString.call(obj) == "[object " + type + "]";
-    }
+export function isType(type: any) {
+    return function (obj: any) {
+        return {}.toString.call(obj) === '[object ' + type + ']';
+    };
 }
 
 /**
@@ -89,7 +74,7 @@ export function isType(type : any)
  * @return {Boolean} true|false
  * @api public
  */
-export let checkArray = Array.isArray || isType("Array");
+export let checkArray = Array.isArray || isType('Array');
 
 /**
  * Utils check number
@@ -98,7 +83,7 @@ export let checkArray = Array.isArray || isType("Array");
  * @return {Boolean} true|false
  * @api public
  */
-export let checkNumber = isType("Number");
+export let checkNumber = isType('Number');
 
 /**
  * Utils check function
@@ -107,7 +92,7 @@ export let checkNumber = isType("Number");
  * @return {Boolean}    true|false
  * @api public
  */
-export let checkFunction = isType("Function");
+export let checkFunction = isType('Function');
 /**
  * Utils check object
  *
@@ -115,7 +100,7 @@ export let checkFunction = isType("Function");
  * @return {Boolean}  true|false
  * @api public
  */
-export let checkObject = isType("Object");
+export let checkObject = isType('Object');
 
 /**
  * Utils check string
@@ -124,7 +109,7 @@ export let checkObject = isType("Object");
  * @return {Boolean}  true|false
  * @api public
  */
-export let checkString = isType("String");
+export let checkString = isType('String');
 
 /**
  * Utils check boolean
@@ -133,7 +118,7 @@ export let checkString = isType("String");
  * @return {Boolean}  true|false
  * @api public
  */
-export let checkBoolean = isType("Boolean");
+export let checkBoolean = isType('Boolean');
 
 /**
  * Utils check bean
@@ -142,17 +127,15 @@ export let checkBoolean = isType("Boolean");
  * @return {Boolean}  true|false
  * @api public
  */
-export let checkBean = function (obj : any)
-{
+export let checkBean = function (obj: any) {
     return obj && obj['$id'] &&
         checkFunction(obj['writeFields']) &&
         checkFunction(obj['readFields']);
-}
+};
 
-export let checkNull = function (obj : any)
-{
+export let checkNull = function (obj: any) {
     return !isNotNull(obj);
-}
+};
 
 /**
  * Utils args to array
@@ -161,18 +144,16 @@ export let checkNull = function (obj : any)
  * @return {Array}   array
  * @api public
  */
-export let to_array = function (args : any[])
-{
+export let to_array = function (args: any[]) {
     let len = args.length;
     let arr = new Array(len);
 
-    for (let i = 0; i < len; i++)
-    {
+    for (let i = 0; i < len; i++) {
         arr[i] = args[i];
     }
 
     return arr;
-}
+};
 
 /**
  * Utils check is not null
@@ -181,91 +162,75 @@ export let to_array = function (args : any[])
  * @return {Boolean}  true|false
  * @api public
  */
-export let isNotNull = function (value : any)
-{
+export let isNotNull = function (value: any) {
     if (value !== null && typeof value !== 'undefined')
         return true;
     return false;
-}
+};
 
-export let getType = function (object : any)
-{
-    if (object == null || typeof object === 'undefined')
-    {
+export let getType = function (object: any) {
+    if (object == null || typeof object === 'undefined') {
         return typeMap['null'];
     }
 
-    if (Buffer.isBuffer(object))
-    {
+    if (Buffer.isBuffer(object)) {
         return typeMap['buffer'];
     }
 
-    if (checkArray(object))
-    {
+    if (checkArray(object)) {
         return typeMap['array'];
     }
 
-    if (checkString(object))
-    {
+    if (checkString(object)) {
         return typeMap['string'];
     }
 
-    if (checkObject(object))
-    {
-        if (checkBean(object))
-        {
+    if (checkObject(object)) {
+        if (checkBean(object)) {
             return typeMap['bean'];
         }
 
         return typeMap['object'];
     }
 
-    if (checkBoolean(object))
-    {
+    if (checkBoolean(object)) {
         return typeMap['boolean'];
     }
 
-    if (checkNumber(object))
-    {
-        if (checkFloat(object))
-        {
+    if (checkNumber(object)) {
+        if (checkFloat(object)) {
             return typeMap['float'];
         }
 
-        if (isNaN(object))
-        {
+        if (isNaN(object)) {
             return typeMap['null'];
         }
 
         return typeMap['number'];
     }
-}
+};
 
 export let typeArray = ['', 'null', 'buffer', 'array', 'string', 'object', 'bean', 'boolean', 'float', 'number'];
-export let typeMap : any = {};
-for (let i = 1; i <= typeArray.length; i++)
-{
+export let typeMap: any = {};
+for (let i = 1; i <= typeArray.length; i++) {
     typeMap[typeArray[i]] = i;
 }
 
-export let getBearcat = function ()
-{
+export let getBearcat = function () {
     return require('bearcat');
-}
+};
 
 /**
  * 列出ES6的一个Class实例上的所有方法，但不包括父类的
- * @param objInstance 
+ * @param objInstance
  */
-export function listEs6ClassMethods(objInstance: {[key:string]:any})
-{
+export function listEs6ClassMethods(objInstance: {[key: string]: any}) {
     let names: string[] = [];
     let methodNames = Object.getOwnPropertyNames(Object.getPrototypeOf(objInstance)).concat(Object.getOwnPropertyNames(objInstance));
-    for (let name of methodNames)
-    {
+    for (let name of methodNames) {
         let method = objInstance[name];
         // Supposedly you'd like to skip constructor
-        if (!(method instanceof Function) || name == "constructor") continue;
+        if (!(method instanceof Function) || name === 'constructor') continue;
         names.push(name);
     }
     return names;

@@ -4,12 +4,10 @@ import { IComponent } from '../interfaces/IComponent';
 
 
 
-export class ConnectionComponent extends ConnectionService implements IComponent
-{
+export class ConnectionComponent extends ConnectionService implements IComponent {
     name = '__connection__';
 
-    constructor(app : Application)
-    {
+    constructor(app: Application) {
         super(app);
-    };
+    }
 }

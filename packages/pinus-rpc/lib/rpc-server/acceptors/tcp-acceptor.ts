@@ -7,8 +7,7 @@ import * as net from 'net';
 import * as Coder from '../../util/coder';
 
 
-export interface AcceptorPkg 
-{
+export interface AcceptorPkg {
   source: string;
   remote: string;
   id: string & number;
@@ -16,17 +15,15 @@ export interface AcceptorPkg
   msg: string;
 }
 
-export interface AcceptorOpts 
-{
-  interval: number,
-  bufferMsg: any,
-  pkgSize: any,
-  rpcLogger: any,
-  rpcDebugLog: any,
+export interface AcceptorOpts {
+  interval: number;
+  bufferMsg: any;
+  pkgSize: any;
+  rpcLogger: any;
+  rpcDebugLog: any;
 }
 
-export class TCPAcceptor extends EventEmitter
-{
+export class TCPAcceptor extends EventEmitter {
   bufferMsg: any;
   interval: number; // flush interval in ms
   pkgSize: number;
@@ -38,10 +35,9 @@ export class TCPAcceptor extends EventEmitter
   msgQueues: { [key: string]: any } = {};
   cb: (tracer: any, msg?: any, cb?: Function) => void;
   inited: boolean;
-  closed: boolean
+  closed: boolean;
 
-  constructor(opts: AcceptorOpts, cb: (tracer: Tracer, msg?: any, cb?: Function) => void)
-  {
+  constructor(opts: AcceptorOpts, cb: (tracer: Tracer, msg?: any, cb?: Function) => void) {
     super();
     this.bufferMsg = opts.bufferMsg;
     this.interval = opts.interval; // flush interval in ms
@@ -55,11 +51,9 @@ export class TCPAcceptor extends EventEmitter
     this.cb = cb;
   }
 
-  listen(port: string | number)
-  {
-    //check status
-    if (!!this.inited)
-    {
+  listen(port: string | number) {
+    // check status
+    if (!!this.inited) {
       utils.invokeCallback(this.cb, new Error('already inited.'));
       return;
     }
@@ -70,100 +64,80 @@ export class TCPAcceptor extends EventEmitter
     this.server = net.createServer();
     this.server.listen(port);
 
-    this.server.on('error', function (err: Error)
-    {
+    this.server.on('error', function (err: Error) {
       self.emit('error', err, self);
     });
 
-    this.server.on('connection', function (socket: any)
-    {
+    this.server.on('connection', function (socket: any) {
       self.sockets[socket.id] = socket;
       socket.composer = new Composer({
         maxLength: self.pkgSize
       });
 
-      socket.on('data', function (data: any)
-      {
+      socket.on('data', function (data: any) {
         socket.composer.feed(data);
       });
 
-      socket.composer.on('data', function (data: any)
-      {
+      socket.composer.on('data', function (data: any) {
         let pkg = JSON.parse(data.toString());
-        if (pkg instanceof Array)
-        {
+        if (pkg instanceof Array) {
           self.processMsgs(socket, self, pkg);
-        } else
-        {
+        } else {
           self.processMsg(socket, self, pkg);
         }
       });
 
-      socket.on('close', function ()
-      {
+      socket.on('close', function () {
         delete self.sockets[socket.id];
         delete self.msgQueues[socket.id];
       });
     });
 
-    if (this.bufferMsg)
-    {
-      this._interval = setInterval(function ()
-      {
+    if (this.bufferMsg) {
+      this._interval = setInterval(function () {
         self.flush(self);
       }, this.interval);
     }
-  };
+  }
 
-  close()
-  {
-    if (!!this.closed)
-    {
+  close() {
+    if (!!this.closed) {
       return;
     }
     this.closed = true;
-    if (this._interval)
-    {
+    if (this._interval) {
       clearInterval(this._interval);
       this._interval = null;
     }
-    try
-    {
+    try {
       this.server.close();
-    } catch (err)
-    {
+    } catch (err) {
       console.error('rpc server close error: %j', err.stack);
     }
     this.emit('closed');
-  };
+  }
 
-  cloneError(origin: { msg: any, stack: any })
-  {
+  cloneError(origin: { msg: any, stack: any }) {
     // copy the stack infos for Error instance json result is empty
     let res = {
       msg: origin.msg,
       stack: origin.stack
     };
     return res;
-  };
+  }
 
-  processMsg(socket: any, acceptor: TCPAcceptor, pkg: AcceptorPkg)
-  {
+  processMsg(socket: any, acceptor: TCPAcceptor, pkg: AcceptorPkg) {
     let tracer = new Tracer(acceptor.rpcLogger, acceptor.rpcDebugLog, pkg.remote, pkg.source, pkg.msg, pkg.id, pkg.seq);
     tracer.info('server', __filename, 'processMsg', 'tcp-acceptor receive message and try to process message');
-    acceptor.cb(tracer, pkg.msg, () =>
-    {
+    acceptor.cb(tracer, pkg.msg, () => {
       let args = Array.prototype.slice.call(arguments, 0);
-      for (let i = 0, l = args.length; i < l; i++)
-      {
-        if (args[i] instanceof Error)
-        {
+      for (let i = 0, l = args.length; i < l; i++) {
+        if (args[i] instanceof Error) {
           args[i] = this.cloneError(args[i]);
         }
       }
-      let resp:any;
-      if (tracer.isEnabled)
-      {
+      let resp: any;
+      if (tracer.isEnabled) {
         resp = {
           traceId: tracer.id,
           seqId: tracer.seq,
@@ -171,64 +145,53 @@ export class TCPAcceptor extends EventEmitter
           id: pkg.id,
           resp: Array.prototype.slice.call(args, 0)
         };
-      } else
-      {
+      } else {
         resp = {
           id: pkg.id,
           resp: Array.prototype.slice.call(args, 0)
         };
       }
-      if (acceptor.bufferMsg)
-      {
+      if (acceptor.bufferMsg) {
         this.enqueue(socket, acceptor, resp);
-      } else
-      {
+      } else {
         socket.write(socket.composer.compose(JSON.stringify(resp)));
       }
     });
-  };
+  }
 
-  processMsgs(socket: any, acceptor: TCPAcceptor, pkgs: Array<AcceptorPkg>)
-  {
-    for (let i = 0, l = pkgs.length; i < l; i++)
-    {
+  processMsgs(socket: any, acceptor: TCPAcceptor, pkgs: Array<AcceptorPkg>) {
+    for (let i = 0, l = pkgs.length; i < l; i++) {
       this.processMsg(socket, acceptor, pkgs[i]);
     }
-  };
+  }
 
-  enqueue(socket: any, acceptor: TCPAcceptor, msg: Coder.Msg)
-  {
+  enqueue(socket: any, acceptor: TCPAcceptor, msg: Coder.Msg) {
     let queue = acceptor.msgQueues[socket.id];
-    if (!queue)
-    {
+    if (!queue) {
       queue = acceptor.msgQueues[socket.id] = [];
     }
     queue.push(msg);
-  };
+  }
 
-  flush(acceptor: TCPAcceptor)
-  {
+  flush(acceptor: TCPAcceptor) {
     let sockets = acceptor.sockets,
       queues = acceptor.msgQueues,
       queue, socket;
-    for (let socketId in queues)
-    {
+    for (let socketId in queues) {
       socket = sockets[socketId];
-      if (!socket)
-      {
+      if (!socket) {
         // clear pending messages if the socket not exist any more
         delete queues[socketId];
         continue;
       }
       queue = queues[socketId];
-      if (!queue.length)
-      {
+      if (!queue.length) {
         continue;
       }
       socket.write(socket.composer.compose(JSON.stringify(queue)));
       queues[socketId] = [];
     }
-  };
+  }
 }
 
 /**
@@ -237,12 +200,10 @@ export class TCPAcceptor extends EventEmitter
  * @param opts init params
  * @param cb(tracer, msg, cb) callback function that would be invoked when new message arrives
  */
-export function create(opts: AcceptorOpts, cb: (tracer: Tracer, msg?: any, cb?: Function) => void)
-{
+export function create(opts: AcceptorOpts, cb: (tracer: Tracer, msg?: any, cb?: Function) => void) {
   return new TCPAcceptor(opts || <any>{}, cb);
-};
+}
 
-process.on('SIGINT', function ()
-{
+process.on('SIGINT', function () {
   process.exit();
 });

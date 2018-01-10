@@ -1,4 +1,4 @@
-import { getLogger } from 'pinus-logger'
+import { getLogger } from 'pinus-logger';
 import { listEs6ClassMethods } from './utils';
 let logger = getLogger('pinus-rpc', 'rpc-proxy');
 
@@ -12,43 +12,37 @@ let logger = getLogger('pinus-rpc', 'rpc-proxy');
  *           opts.attach {Object} attach parameter pass to proxyCB
  * @return {Object}      proxy instance
  */
-export function create(opts : {origin : any , proxyCB : ProxyCallback , service : string , attach : any})
-{
-    if (!opts || !opts.origin)
-    {
+export function create(opts: {origin: any , proxyCB: ProxyCallback , service: string , attach: any}) {
+    if (!opts || !opts.origin) {
         logger.warn('opts and opts.origin should not be empty.');
         return null;
     }
 
-    if (!opts.proxyCB || typeof opts.proxyCB !== 'function')
-    {
+    if (!opts.proxyCB || typeof opts.proxyCB !== 'function') {
         logger.warn('opts.proxyCB is not a function, return the origin module directly.');
         return opts.origin;
     }
 
     return genObjectProxy(opts.service, opts.origin, opts.attach, opts.proxyCB);
-};
+}
 
-let genObjectProxy = function (serviceName : string, origin : any, attach : any, proxyCB : ProxyCallback)
-{
-    //generate proxy for function field
-    let res : {[key:string] : Proxy} = {};
+let genObjectProxy = function (serviceName: string, origin: any, attach: any, proxyCB: ProxyCallback) {
+    // generate proxy for function field
+    let res: {[key: string]: Proxy} = {};
     let proto = listEs6ClassMethods(origin);
-    for (let field of proto)
-    {
+    for (let field of proto) {
         res[field] = genFunctionProxy(serviceName, field, origin, attach, proxyCB);
     }
 
     return res;
 };
 
-export interface Proxy
-{
-    (...args:any[]):Promise<any>;
-    toServer(serverId:string , ...args:any[]):Promise<any>;
+export interface Proxy {
+    (...args: any[]): Promise<any>;
+    toServer(serverId: string , ...args: any[]): Promise<any>;
 }
 
-export type ProxyCallback = (serviceName : string, methodName : string, args : any[], attach : any, isToSpecifiedServer ?: boolean)=>Promise<any>;
+export type ProxyCallback = (serviceName: string, methodName: string, args: any[], attach: any, isToSpecifiedServer ?: boolean) => Promise<any>;
 /**
  * Generate prxoy for function type field
  *
@@ -60,30 +54,24 @@ export type ProxyCallback = (serviceName : string, methodName : string, args : a
  * @param proxyCB {Functoin} proxy callback function
  * @returns function proxy
  */
-let genFunctionProxy = function (serviceName : string, methodName : string, origin : any, attach : boolean, proxyCB : ProxyCallback)
-{
-    return (function () : Proxy
-    {
-        let proxy : any = function ()
-        {
+let genFunctionProxy = function (serviceName: string, methodName: string, origin: any, attach: boolean, proxyCB: ProxyCallback) {
+    return (function (): Proxy {
+        let proxy: any = function () {
             // let args = arguments;
             let len = arguments.length;
             let args = new Array(len);
-            for (let i = 0; i < len; i++)
-            {
+            for (let i = 0; i < len; i++) {
                 args[i] = arguments[i];
             }
             // let args = Array.prototype.slice.call(arguments, 0);
             return proxyCB(serviceName, methodName, args, attach);
         };
 
-        proxy.toServer = function ()
-        {
+        proxy.toServer = function () {
             // let args = arguments;
             let len = arguments.length;
             let args = new Array(len);
-            for (let i = 0; i < len; i++)
-            {
+            for (let i = 0; i < len; i++) {
                 args[i] = arguments[i];
             }
             return proxyCB(serviceName, methodName, args, attach, true);

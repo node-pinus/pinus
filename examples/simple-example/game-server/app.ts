@@ -15,8 +15,7 @@ let app = pinus.createApp();
 app.set('name', 'pinus-example');
 
 // app configuration
-app.configure('production|development', 'connector', function ()
-{
+app.configure('production|development', 'connector', function () {
     app.set('connectorConfig',
         {
             connector: pinus.connectors.hybridconnector,

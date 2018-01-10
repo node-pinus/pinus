@@ -1,6 +1,6 @@
 import * as net from 'net';
 import * as util from 'util';
-import * as dgram from "dgram";
+import * as dgram from 'dgram';
 import * as utils from '../util/utils';
 import * as Constants from '../util/constants';
 import {UdpSocket} from './udpsocket';
@@ -18,8 +18,7 @@ let logger = getLogger('pinus', path.basename(__filename));
 
 
 
-export interface UDPConnectorOptions extends HandshakeCommandOptions , HeartbeatCommandOptions
-{
+export interface UDPConnectorOptions extends HandshakeCommandOptions , HeartbeatCommandOptions {
     udpType ?: 'udp4';
     heartbeat ?: number;
     timeout ?: number;
@@ -28,8 +27,7 @@ export interface UDPConnectorOptions extends HandshakeCommandOptions , Heartbeat
 
 let curId = 1;
 
-export class UDPConnector extends EventEmitter implements IConnector
-{
+export class UDPConnector extends EventEmitter implements IConnector {
     opts: any;
     type: SocketType;
     handshake: HandshakeCommand;
@@ -37,17 +35,15 @@ export class UDPConnector extends EventEmitter implements IConnector
     clients: { [key: string]: any };
     host: string;
     port: number;
-    tcpServer : net.Server;
-    socket:dgram.Socket;
+    tcpServer: net.Server;
+    socket: dgram.Socket;
 
-    constructor(port : number, host : string, opts : UDPConnectorOptions)
-    {
+    constructor(port: number, host: string, opts: UDPConnectorOptions) {
         super();
         this.opts = opts || {};
         this.type = opts.udpType || 'udp4';
         this.handshake = new HandshakeCommand(opts);
-        if (!opts.heartbeat)
-        {
+        if (!opts.heartbeat) {
             opts.heartbeat = Constants.TIME.DEFAULT_UDP_HEARTBEAT_TIME;
             opts.timeout = Constants.TIME.DEFAULT_UDP_HEARTBEAT_TIMEOUT;
         }
@@ -55,17 +51,14 @@ export class UDPConnector extends EventEmitter implements IConnector
         this.clients = {};
         this.host = host;
         this.port = port;
-    };
+    }
 
-    start(cb : ()=>void)
-    {
+    start(cb: () => void) {
         let self = this;
         this.tcpServer = net.createServer();
-        this.socket = dgram.createSocket(this.type, function (msg, peer)
-        {
+        this.socket = dgram.createSocket(this.type, function (msg, peer) {
             let key = genKey(peer);
-            if (!self.clients[key])
-            {
+            if (!self.clients[key]) {
                 let udpsocket = new UdpSocket(curId++, self.socket, peer);
                 self.clients[key] = udpsocket;
 
@@ -78,8 +71,7 @@ export class UDPConnector extends EventEmitter implements IConnector
                 udpsocket.on('disconnect',
                     self.heartbeat.clear.bind(self.heartbeat, udpsocket.id));
 
-                udpsocket.on('disconnect', function ()
-                {
+                udpsocket.on('disconnect', function () {
                     delete self.clients[genKey(udpsocket.peer)];
                 });
 
@@ -89,17 +81,14 @@ export class UDPConnector extends EventEmitter implements IConnector
             }
         });
 
-        this.socket.on('message', function (data : Buffer, peer : dgram.RemoteInfo)
-        {
+        this.socket.on('message', function (data: Buffer, peer: dgram.RemoteInfo) {
             let socket = self.clients[genKey(peer)];
-            if (!!socket)
-            {
+            if (!!socket) {
                 socket.emit('package', data);
             }
         });
 
-        this.socket.on('error', function (err : Error)
-        {
+        this.socket.on('error', function (err: Error) {
             logger.error('udp socket encounters with error: %j', err.stack);
             return;
         });
@@ -107,20 +96,18 @@ export class UDPConnector extends EventEmitter implements IConnector
         this.socket.bind(this.port, this.host);
         this.tcpServer.listen(this.port);
         process.nextTick(cb);
-    };
+    }
 
     decode = coder.decode;
 
     encode = coder.encode;
 
-    stop(force : boolean, cb : ()=>void)
-    {
+    stop(force: boolean, cb: () => void) {
         this.socket.close();
         process.nextTick(cb);
-    };
+    }
 }
 
-let genKey = function (peer : dgram.RemoteInfo)
-{
-    return peer.address + ":" + peer.port;
+let genKey = function (peer: dgram.RemoteInfo) {
+    return peer.address + ':' + peer.port;
 };

@@ -15,16 +15,14 @@ import { MonitorAgent } from '../monitor/monitorAgent';
 import { MasterAgent } from '../master/masterAgent';
 let logger = getLogger('pinus-admin', path.basename(__filename));
 
-export class ScriptsModule implements IModule
-{
+export class ScriptsModule implements IModule {
     app: any;
     root: string;
-    commands: {[key:string] : Function};
+    commands: {[key: string]: Function};
 
-    static moduleId = "scripts";
+    static moduleId = 'scripts';
 
-    constructor(opts : {app:string , path:string})
-    {
+    constructor(opts: {app: string , path: string}) {
         this.app = opts.app;
         this.root = opts.path;
         this.commands = {
@@ -33,10 +31,9 @@ export class ScriptsModule implements IModule
             'save': save,
             'run': run
         };
-    };
+    }
 
-    monitorHandler(agent : MonitorAgent, msg : any, cb : MonitorCallback)
-    {
+    monitorHandler(agent: MonitorAgent, msg: any, cb: MonitorCallback) {
         let context = {
             app: this.app,
             require: require,
@@ -44,48 +41,42 @@ export class ScriptsModule implements IModule
             fs: require('fs'),
             process: process,
             util: util,
-            result:undefined as any
+            result: undefined as any
         };
-        try
-        {
+        try {
             vm.createContext(context);
             vm.runInNewContext(msg.script, context);
 
             let result = context.result;
-            if (!result)
-            {
-                cb(null, "script result should be assigned to result value to script module context");
-            } else
-            {
+            if (!result) {
+                cb(null, 'script result should be assigned to result value to script module context');
+            } else {
                 cb(null, result);
             }
-        } catch (e)
-        {
+        } catch (e) {
             cb(null, e.toString());
         }
 
-        //cb(null, vm.runInContext(msg.script, context));
-    };
+        // cb(null, vm.runInContext(msg.script, context));
+    }
 
-    clientHandler(agent : MasterAgent, msg : any, cb : MasterCallback)
-    {
+    clientHandler(agent: MasterAgent, msg: any, cb: MasterCallback) {
         let fun = this.commands[msg.command];
-        if (!fun || typeof fun !== 'function')
-        {
+        if (!fun || typeof fun !== 'function') {
             cb('unknown command:' + msg.command);
             return;
         }
 
         fun(this, agent, msg, cb);
-    };
+    }
 }
 
 /**
  * List server id and scripts file name
  */
-let list = function(scriptModule : ScriptsModule, agent : MasterAgent, msg : any, cb : MasterCallback) {
-    let servers : string[] = [];
-    let scripts : string[] = [];
+let list = function(scriptModule: ScriptsModule, agent: MasterAgent, msg: any, cb: MasterCallback) {
+    let servers: string[] = [];
+    let scripts: string[] = [];
     let idMap = agent.idMap;
 
     for (let sid in idMap) {
@@ -110,7 +101,7 @@ let list = function(scriptModule : ScriptsModule, agent : MasterAgent, msg : any
 /**
  * Get the content of the script file
  */
-let get = function(scriptModule : ScriptsModule, agent : MasterAgent, msg : any, cb : MasterCallback) {
+let get = function(scriptModule: ScriptsModule, agent: MasterAgent, msg: any, cb: MasterCallback) {
     let filename = msg.filename;
     if (!filename) {
         cb('empty filename');
@@ -130,7 +121,7 @@ let get = function(scriptModule : ScriptsModule, agent : MasterAgent, msg : any,
 /**
  * Save a script file that posted from admin console
  */
-let save = function(scriptModule : ScriptsModule, agent : MasterAgent, msg : any, cb : MasterCallback) {
+let save = function(scriptModule: ScriptsModule, agent: MasterAgent, msg: any, cb: MasterCallback) {
     let filepath = path.join(scriptModule.root, msg.filename);
 
     fs.writeFile(filepath, msg.body, function(err) {
@@ -147,7 +138,7 @@ let save = function(scriptModule : ScriptsModule, agent : MasterAgent, msg : any
 /**
  * Run the script on the specified server
  */
-let run = function(scriptModule : ScriptsModule, agent : MasterAgent, msg : any, cb : MasterCallback) {
+let run = function(scriptModule: ScriptsModule, agent: MasterAgent, msg: any, cb: MasterCallback) {
     agent.request(msg.serverId, ScriptsModule.moduleId, msg, function(err, res) {
         if (err) {
             logger.error('fail to run script for ' + err.stack);

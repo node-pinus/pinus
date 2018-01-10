@@ -22,8 +22,7 @@ import { IHybridSocket } from './hybrid/IHybridSocket';
 
 let curId = 1;
 
-export interface HybridConnectorOptions extends HybridSwitcherOptions
-{
+export interface HybridConnectorOptions extends HybridSwitcherOptions {
     useDict ?: boolean;
     useProtobuf ?: boolean;
     distinctHost ?: boolean;
@@ -33,8 +32,7 @@ export interface HybridConnectorOptions extends HybridSwitcherOptions
  * Connector that manager low level connection and protocol bewteen server and client.
  * Develper can provide their own connector to switch the low level prototol, such as tcp or probuf.
  */
-export class HybridConnector extends EventEmitter implements IConnector
-{
+export class HybridConnector extends EventEmitter implements IConnector {
     opts: HybridConnectorOptions;
     port: number;
     host: string;
@@ -46,15 +44,14 @@ export class HybridConnector extends EventEmitter implements IConnector
     ssl: tls.TlsOptions;
     switcher: Switcher;
 
-    connector : IConnector;
-    dictionary : DictionaryComponent;
-    protobuf : ProtobufComponent;
-    decodeIO_protobuf : IComponent;
+    connector: IConnector;
+    dictionary: DictionaryComponent;
+    protobuf: ProtobufComponent;
+    decodeIO_protobuf: IComponent;
 
-    listeningServer : net.Server;
+    listeningServer: net.Server;
 
-    constructor(port : number, host : string, opts ?: HybridConnectorOptions)
-    {
+    constructor(port: number, host: string, opts ?: HybridConnectorOptions) {
         super();
 
         this.opts = opts || {};
@@ -68,18 +65,16 @@ export class HybridConnector extends EventEmitter implements IConnector
         this.ssl = opts.ssl;
 
         this.switcher = null;
-    };
+    }
 
     /**
      * Start connector to listen the specified port
      */
-    start(cb : ()=>void)
-    {
+    start(cb: () => void) {
         let app = pinus.app;
         let self = this;
 
-        let gensocket = function (socket : IHybridSocket)
-        {
+        let gensocket = function (socket: IHybridSocket) {
             let hybridsocket = new HybridSocket(curId++, socket);
             hybridsocket.on('handshake', self.handshake.handle.bind(self.handshake, hybridsocket));
             hybridsocket.on('heartbeat', self.heartbeat.handle.bind(self.heartbeat, hybridsocket));
@@ -93,38 +88,32 @@ export class HybridConnector extends EventEmitter implements IConnector
         this.protobuf = app.components.__protobuf__;
         this.decodeIO_protobuf = app.components.__decodeIO__protobuf__;
 
-        if (!this.ssl)
-        {
+        if (!this.ssl) {
             this.listeningServer = net.createServer();
-        } else
-        {
+        } else {
             this.listeningServer = tls.createServer(this.ssl);
         }
         this.switcher = new Switcher(this.listeningServer, self.opts);
 
-        this.switcher.on('connection', function (socket)
-        {
+        this.switcher.on('connection', function (socket) {
             gensocket(socket);
         });
 
-        if (!!this.distinctHost)
-        {
+        if (!!this.distinctHost) {
             this.listeningServer.listen(this.port, this.host);
-        } else
-        {
+        } else {
             this.listeningServer.listen(this.port);
         }
 
         process.nextTick(cb);
-    };
+    }
 
-    stop(force : boolean, cb : ()=>void)
-    {
+    stop(force: boolean, cb: () => void) {
         this.switcher.close();
         this.listeningServer.close();
 
         process.nextTick(cb);
-    };
+    }
     decode = coder.decode;
 
     encode = coder.encode;

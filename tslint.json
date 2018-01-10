@@ -3,7 +3,7 @@
     "**/dist/**"
   ],
   "rules": {
-    "jsdoc-format": true,
+    "jsdoc-format": false,
     "class-name": true,
     "comment-format": [
       true,

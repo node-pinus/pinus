@@ -7,16 +7,14 @@ import * as net from 'net';
 import * as mqtt_connection from 'mqtt-connection';
 import * as path from 'path';
 let logger = getLogger('pinus-admin', path.basename(__filename));
-export interface MqttClientOpts
-{
-    id : string;
-    reconnectDelayMax ?:number;
+export interface MqttClientOpts {
+    id: string;
+    reconnectDelayMax ?: number;
     timeout ?: number;
     keepalive ?: number;
 }
 
-export class MqttClient extends EventEmitter
-{
+export class MqttClient extends EventEmitter {
     clientId: string;
     id: string;
     reconnectDelayMax: number;
@@ -27,21 +25,20 @@ export class MqttClient extends EventEmitter
 
     requests = {};
     connectedTimes = 1;
-    host : string = null;
-    port : number = null;
-    socket : mqtt_connection = null;
+    host: string = null;
+    port: number = null;
+    socket: mqtt_connection = null;
     lastPing = -1;
     lastPong = -1;
     closed = false;
-    timeoutId : NodeJS.Timer = null;
+    timeoutId: NodeJS.Timer = null;
     connected = false;
-    reconnectId : NodeJS.Timer= null;
+    reconnectId: NodeJS.Timer= null;
     timeoutFlag = false;
-    keepaliveTimer : NodeJS.Timer = null;
+    keepaliveTimer: NodeJS.Timer = null;
     reconnectDelay = 0;
-    constructor(opts : MqttClientOpts)
-    {
-        super()
+    constructor(opts: MqttClientOpts) {
+        super();
         this.clientId = 'MQTT_ADMIN_' + Date.now();
         this.id = opts.id;
         this.reconnectDelayMax = opts.reconnectDelayMax || constants.DEFAULT_PARAM.RECONNECT_DELAY_MAX;
@@ -50,27 +47,21 @@ export class MqttClient extends EventEmitter
     }
 
 
-    connect(host ?: string, port ?: number, cb ?: Function)
-    {
-        cb = cb || function () { }
-        if (this.connected)
-        {
+    connect(host ?: string, port ?: number, cb ?: Function) {
+        cb = cb || function () { };
+        if (this.connected) {
             return cb(new Error('MqttClient has already connected.'));
         }
 
-        if (host)
-        {
+        if (host) {
             this.host = host;
-        } else
-        {
+        } else {
             host = this.host;
         }
 
-        if (port)
-        {
+        if (port) {
             this.port = port;
-        } else
-        {
+        } else {
             port = this.port;
         }
 
@@ -87,10 +78,8 @@ export class MqttClient extends EventEmitter
 
         this.addTimeout();
 
-        this.socket.on('connack', function ()
-        {
-            if (self.connected)
-            {
+        this.socket.on('connack', function () {
+            if (self.connected) {
                 return;
             }
 
@@ -98,18 +87,15 @@ export class MqttClient extends EventEmitter
 
             self.setupKeepAlive();
 
-            if (self.connectedTimes++ == 1)
-            {
+            if (self.connectedTimes++ === 1) {
                 self.emit('connect');
                 cb();
-            } else
-            {
+            } else {
                 self.emit('reconnect');
             }
         });
 
-        this.socket.on('publish', function (pkg : any)
-        {
+        this.socket.on('publish', function (pkg: any) {
             let topic = pkg.topic;
             let msg = pkg.payload.toString();
             msg = JSON.parse(msg);
@@ -118,57 +104,47 @@ export class MqttClient extends EventEmitter
             self.emit(topic, msg);
         });
 
-        this.socket.on('close', function ()
-        {
+        this.socket.on('close', function () {
             logger.error('mqtt socket is close, remote server host: %s, port: %s', host, port);
             self.onSocketClose();
         });
 
-        this.socket.on('error', function (err : Error)
-        {
+        this.socket.on('error', function (err: Error) {
             logger.error('mqtt socket is error, remote server host: %s, port: %s', host, port);
             // self.emit('error', new Error('[MqttClient] socket is error, remote server ' + host + ':' + port));
             self.onSocketClose();
         });
 
-        this.socket.on('pingresp', function ()
-        {
+        this.socket.on('pingresp', function () {
             self.lastPong = Date.now();
         });
 
-        this.socket.on('disconnect', function ()
-        {
+        this.socket.on('disconnect', function () {
             logger.error('mqtt socket is disconnect, remote server host: %s, port: %s', host, port);
             self.emit('disconnect', self.id);
             self.onSocketClose();
         });
 
-        this.socket.on('timeout', function (reconnectFlag : boolean)
-        {
-            if (reconnectFlag)
-            {
+        this.socket.on('timeout', function (reconnectFlag: boolean) {
+            if (reconnectFlag) {
                 self.reconnect();
-            } else
-            {
+            } else {
                 self.exit();
             }
-        })
+        });
     }
 
-    send(topic : string, msg : any)
-    {
+    send(topic: string, msg: any) {
         // console.log('MqttClient send %s %j ~~~', topic, msg);
         this.socket.publish({
             topic: topic,
             payload: JSON.stringify(msg)
-        })
+        });
     }
 
-    onSocketClose()
-    {
+    onSocketClose() {
         // console.log('onSocketClose ' + this.closed);
-        if (this.closed)
-        {
+        if (this.closed) {
             return;
         }
 
@@ -182,38 +158,31 @@ export class MqttClient extends EventEmitter
         delete this.socket;
         this.socket = null;
 
-        if (this.connectedTimes > 1)
-        {
+        if (this.connectedTimes > 1) {
             this.reconnect();
-        } else
-        {
+        } else {
             this.exit();
         }
     }
 
-    addTimeout(reconnectFlag ?: boolean)
-    {
+    addTimeout(reconnectFlag ?: boolean) {
         let self = this;
-        if (this.timeoutFlag)
-        {
+        if (this.timeoutFlag) {
             return;
         }
 
         this.timeoutFlag = true;
 
-        this.timeoutId = setTimeout(function ()
-        {
+        this.timeoutId = setTimeout(function () {
             self.timeoutFlag = false;
             logger.error('mqtt client connect %s:%d timeout %d s', self.host, self.port, self.timeout / 1000);
             self.socket.emit('timeout', reconnectFlag);
         }, self.timeout);
     }
 
-    reconnect()
-    {
+    reconnect() {
         let delay = this.reconnectDelay * 2 || constants.DEFAULT_PARAM.RECONNECT_DELAY;
-        if (delay > this.reconnectDelayMax)
-        {
+        if (delay > this.reconnectDelayMax) {
             delay = this.reconnectDelayMax;
         }
 
@@ -222,70 +191,57 @@ export class MqttClient extends EventEmitter
         let self = this;
 
         // logger.debug('[MqttClient] reconnect %d ...', delay);
-        this.reconnectId = setTimeout(function ()
-        {
+        this.reconnectId = setTimeout(function () {
             logger.info('reconnect delay %d s', delay / 1000);
             self.addTimeout(true);
             self.connect();
         }, delay);
     }
 
-    setupKeepAlive()
-    {
+    setupKeepAlive() {
         clearTimeout(this.reconnectId);
         clearTimeout(this.timeoutId);
 
         let self = this;
-        this.keepaliveTimer = setInterval(function ()
-        {
+        this.keepaliveTimer = setInterval(function () {
             self.checkKeepAlive();
         }, this.keepalive);
     }
 
-    checkKeepAlive()
-    {
-        if (this.closed)
-        {
+    checkKeepAlive() {
+        if (this.closed) {
             return;
         }
 
         let now = Date.now();
         let KEEP_ALIVE_TIMEOUT = this.keepalive * 2;
-        if (this.lastPing > 0)
-        {
-            if (this.lastPong < this.lastPing)
-            {
-                if (now - this.lastPing > KEEP_ALIVE_TIMEOUT)
-                {
+        if (this.lastPing > 0) {
+            if (this.lastPong < this.lastPing) {
+                if (now - this.lastPing > KEEP_ALIVE_TIMEOUT) {
                     logger.error('mqtt rpc client checkKeepAlive error timeout for %d', KEEP_ALIVE_TIMEOUT);
                     this.close();
                 }
-            } else
-            {
+            } else {
                 this.socket.pingreq();
                 this.lastPing = Date.now();
             }
-        } else
-        {
+        } else {
             this.socket.pingreq();
             this.lastPing = Date.now();
         }
     }
 
-    disconnect()
-    {
+    disconnect() {
         this.close();
     }
 
-    close()
-    {
+    close() {
         this.connected = false;
         this.closed = true;
         this.socket.disconnect();
     }
 
-    exit()
-    {
+    exit() {
         logger.info('exit ...');
         process.exit(0);
     }

@@ -1,5 +1,4 @@
-export interface IHybridSocket
-{
+export interface IHybridSocket {
 
     once(evt: 'close', listener: () => void): void;
     on(evt: 'error', listener: () => void): void;

@@ -1,11 +1,9 @@
 
-import { Application, FrontendSession, BackendSession } from "pinus";
+import { Application, FrontendSession, BackendSession } from 'pinus';
 
 // handler入口示例
-export class helloHandler
-{
-    constructor(private app: Application)
-    {
+export class helloHandler {
+    constructor(private app: Application) {
 
     }
 
@@ -15,13 +13,11 @@ export class helloHandler
      * @param session 客户端的session，如果this.app.isFrontend()则session类型是FrontendSession，否则是BackendSession
      * @returns 异步返回数据给客户端
      */
-    public async hello(msg: { data: string }, session: FrontendSession | BackendSession)
-    {
-        return {code:0};
-    };
+    public async hello(msg: { data: string }, session: FrontendSession | BackendSession) {
+        return {code: 0};
+    }
 }
 
-export default function(app : Application)
-{
-    return new helloHandler(app)
+export default function(app: Application) {
+    return new helloHandler(app);
 }

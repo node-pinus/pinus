@@ -1,23 +1,19 @@
-import { getLogger } from 'pinus-logger'
+import { getLogger } from 'pinus-logger';
 let logger = getLogger('pinus-rpc', 'failprocess');
 import { constants } from '../util/constants';
 import * as utils from '../util/utils';
 
-export function failureProcess(this:any, code: string, tracer: any, serverId: string, msg: object, opts:{failMode: string})
-{
+export function failureProcess(this: any, code: string, tracer: any, serverId: string, msg: object, opts: {failMode: string}) {
     let cb = tracer && tracer.cb;
     let mode = opts.failMode;
     let FAIL_MODE = constants.FAIL_MODE;
     let method = failfast;
 
-    if (mode == FAIL_MODE.FAILOVER)
-    {
+    if (mode === FAIL_MODE.FAILOVER) {
         method = failover;
-    } else if (mode == FAIL_MODE.FAILBACK)
-    {
+    } else if (mode === FAIL_MODE.FAILBACK) {
         method = failback;
-    } else if (mode == FAIL_MODE.FAILFAST)
-    {
+    } else if (mode === FAIL_MODE.FAILFAST) {
 
     }
     // switch (mode) {
@@ -36,7 +32,7 @@ export function failureProcess(this:any, code: string, tracer: any, serverId: st
     // 		break;
     // }
     method.call(this, code, tracer, serverId, msg, opts, cb);
-};
+}
 
 /**
  * Failover rpc failure process. This will try other servers with option retries.
@@ -50,30 +46,25 @@ export function failureProcess(this:any, code: string, tracer: any, serverId: st
  *
  * @api private
  */
-let failover = function (this:any, code: number, tracer: {servers: object}, serverId: string, msg: {serverType: string}, opts: object, cb: Function)
-{
+let failover = function (this: any, code: number, tracer: {servers: object}, serverId: string, msg: {serverType: string}, opts: object, cb: Function) {
     let servers;
     let self = this;
     let counter = 0;
     let success = true;
     let serverType = msg.serverType;
-    if (!tracer || !tracer.servers)
-    {
+    if (!tracer || !tracer.servers) {
         servers = self.serversMap[serverType];
-    } else
-    {
+    } else {
         servers = tracer.servers;
     }
 
     let index = servers.indexOf(serverId);
-    if (index >= 0)
-    {
+    if (index >= 0) {
         servers.splice(index, 1);
     }
     tracer && (tracer.servers = servers);
 
-    if (!servers.length)
-    {
+    if (!servers.length) {
         logger.error('[pinus-rpc] rpc failed with all this type of servers, with serverType: %s', serverType);
         cb(new Error('rpc failed with all this type of servers, with serverType: ' + serverType));
         return;
@@ -93,47 +84,37 @@ let failover = function (this:any, code: number, tracer: {servers: object}, serv
  *
  * @api private
  */
-let failsafe = function (this:any, code: number, tracer: {[key:string]: any}, serverId: string, msg: {serverType: string}, opts: {[key:string]: any}, cb: Function)
-{
+let failsafe = function (this: any, code: number, tracer: {[key: string]: any}, serverId: string, msg: {serverType: string}, opts: {[key: string]: any}, cb: Function) {
     let self = this;
     let retryTimes = opts.retryTimes || constants.DEFAULT_PARAM.FAILSAFE_RETRIES;
     let retryConnectTime = opts.retryConnectTime || constants.DEFAULT_PARAM.FAILSAFE_CONNECT_TIME;
 
-    if (!tracer.retryTimes)
-    {
+    if (!tracer.retryTimes) {
         tracer.retryTimes = 1;
-    } else
-    {
+    } else {
         tracer.retryTimes += 1;
     }
-    switch (code)
-    {
+    switch (code) {
         case constants.RPC_ERROR.SERVER_NOT_STARTED:
         case constants.RPC_ERROR.NO_TRAGET_SERVER:
             cb(new Error('rpc client is not started or cannot find remote server.'));
             break;
         case constants.RPC_ERROR.FAIL_CONNECT_SERVER:
-            if (tracer.retryTimes <= retryTimes)
-            {
-                setTimeout(function ()
-                {
+            if (tracer.retryTimes <= retryTimes) {
+                setTimeout(function () {
                     self.connect(tracer, serverId, cb);
                 }, retryConnectTime * tracer.retryTimes);
-            } else
-            {
+            } else {
                 cb(new Error('rpc client failed to connect to remote server: ' + serverId));
             }
             break;
         case constants.RPC_ERROR.FAIL_FIND_MAILBOX:
         case constants.RPC_ERROR.FAIL_SEND_MESSAGE:
-            if (tracer.retryTimes <= retryTimes)
-            {
-                setTimeout(function ()
-                {
+            if (tracer.retryTimes <= retryTimes) {
+                setTimeout(function () {
                     self.dispatch.call(self, tracer, serverId, msg, opts, cb);
                 }, retryConnectTime * tracer.retryTimes);
-            } else
-            {
+            } else {
                 cb(new Error('rpc client failed to send message to remote server: ' + serverId));
             }
             break;
@@ -157,8 +138,7 @@ let failsafe = function (this:any, code: number, tracer: {[key:string]: any}, se
  *
  * @api private
  */
-let failback = function (code: number, tracer: {[key:string]: any}, serverId: string, msg: {serverType: string}, opts: {[key:string]: any}, cb: Function)
-{
+let failback = function (code: number, tracer: {[key: string]: any}, serverId: string, msg: {serverType: string}, opts: {[key: string]: any}, cb: Function) {
     // todo record message in background and send the message at timing
 };
 
@@ -174,8 +154,7 @@ let failback = function (code: number, tracer: {[key:string]: any}, serverId: st
  *
  * @api private
  */
-let failfast = function (code: number, tracer: {[key:string]: any}, serverId: string, msg: {serverType: string}, opts: {[key:string]: any}, cb: Function)
-{
+let failfast = function (code: number, tracer: {[key: string]: any}, serverId: string, msg: {serverType: string}, opts: {[key: string]: any}, cb: Function) {
     logger.error('rpc failed with error, remote server: %s, msg: %j, error code: %s', serverId, msg, code);
     cb && cb(new Error('rpc failed with error code: ' + code));
 };

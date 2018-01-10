@@ -1,2 +1,2 @@
-export * from './lib/logger'
-export {Logger} from 'log4js'
+export * from './lib/logger';
+export {Logger} from 'log4js';

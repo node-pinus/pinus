@@ -9,27 +9,22 @@ import { MasterInfo } from '../index';
 
 
 
-export class MonitorComponent implements IComponent
-{
+export class MonitorComponent implements IComponent {
     monitor: Monitor;
-    constructor(app : Application, opts ?: MonitorOptions)
-    {
+    constructor(app: Application, opts ?: MonitorOptions) {
         this.monitor = new Monitor(app, opts);
-    };
+    }
 
     name = '__monitor__';
-    start(cb : ()=>void)
-    {
+    start(cb: () => void) {
         this.monitor.start(cb);
-    };
+    }
 
-    stop(force : boolean, cb : ()=>void)
-    {
+    stop(force: boolean, cb: () => void) {
         this.monitor.stop(cb);
-    };
+    }
 
-    reconnect(masterInfo : MasterInfo)
-    {
+    reconnect(masterInfo: MasterInfo) {
         this.monitor.reconnect(masterInfo);
-    };
+    }
 }

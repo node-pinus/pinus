@@ -1,7 +1,6 @@
-import { basePlugin } from "./basePlugin";
+import { basePlugin } from './basePlugin';
 
 
-export function createBasePlugin()
-{
+export function createBasePlugin() {
     return new basePlugin();
 }

@@ -50,8 +50,7 @@ import { ChannelComponent } from './components/channel';
  * @module
  */
 
-export class Pinus
-{
+export class Pinus {
     private _app: Application;
     /**
      * Framework version.
@@ -67,7 +66,7 @@ export class Pinus
     /**
      * auto loaded components
      */
-    components = 
+    components =
     {
         backendSession : BackendSessionComponent,
         channel : ChannelComponent,
@@ -87,7 +86,7 @@ export class Pinus
     /**
      * auto loaded filters
      */
-    filters = 
+    filters =
     {
         serial : SerialFilter,
         time : TimeFilter,
@@ -119,14 +118,13 @@ export class Pinus
     /**
      * pushSchedulers
      */
-    pushSchedulers = 
+    pushSchedulers =
     {
         direct : DirectPushScheduler,
         buffer : BufferPushScheduler,
     };
 
-    constructor()
-    {
+    constructor() {
     }
 
     /**
@@ -136,19 +134,17 @@ export class Pinus
      * @memberOf Pinus
      * @api public
      */
-    createApp(opts ?: ApplicationOptions)
-    {
+    createApp(opts ?: ApplicationOptions) {
         let app = new Application();
         app.init(opts);
         this._app = app;
         return app;
-    };
+    }
 
     /**
      * Get application
      */
-    get app()
-    {
+    get app() {
         return this._app;
     }
 }

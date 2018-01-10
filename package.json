@@ -7,7 +7,7 @@
 		"nyc": "^11.2.1",
 		"pinus-site-tools": "^1.0.6",
 		"ts-node": "^3.2.0",
-		"tslint": "^4.1.1",
+		"tslint": "^5.8.0",
 		"typedoc": "^0.9.0",
 		"typescript": "^2.6.2"
 	},
@@ -28,6 +28,8 @@
 		"updated": "lerna updated",
 		"li": "lerna init",
 		"build": "lerna run build",
+		"lint": "lerna run lint",
+		"fix-lint": "lerna run fix-lint",
 		"gen-api-ref": "lerna run gen-api-ref",
 		"gen-site": "pst build && yarn run gen-api-ref",
 		"authors": "git log --format='%aN <%aE>' | sort -u > AUTHORS"

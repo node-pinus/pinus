@@ -6,10 +6,9 @@ let CODE_OK = 200;
 let CODE_USE_ERROR = 500;
 let CODE_OLD_CLIENT = 501;
 
-export type HanshakeFunction = (msg : any , cb : (err ?: Error , resp ?: any)=>void , socket : ISocket)=>void;
+export type HanshakeFunction = (msg: any , cb: (err ?: Error , resp ?: any) => void , socket: ISocket) => void;
 
-export interface HandshakeCommandOptions
-{
+export interface HandshakeCommandOptions {
     handshake ?: HanshakeFunction;
     heartbeat ?: number;
     checkClient ?: boolean;
@@ -26,8 +25,7 @@ export interface HandshakeCommandOptions
  *                      opts.hearbeat heartbeat interval (level?)
  *                      opts.version required client level
  */
-export class HandshakeCommand
-{
+export class HandshakeCommand {
     userHandshake: HanshakeFunction;
     heartbeatSec: number;
     heartbeat: number;
@@ -36,13 +34,11 @@ export class HandshakeCommand
     useProtobuf: boolean;
     useCrypto: boolean;
 
-    constructor(opts : HandshakeCommandOptions)
-    {
+    constructor(opts: HandshakeCommandOptions) {
         opts = opts || {};
         this.userHandshake = opts.handshake;
 
-        if (opts.heartbeat)
-        {
+        if (opts.heartbeat) {
             this.heartbeatSec = opts.heartbeat;
             this.heartbeat = opts.heartbeat * 1000;
         }
@@ -52,34 +48,28 @@ export class HandshakeCommand
         this.useDict = opts.useDict;
         this.useProtobuf = opts.useProtobuf;
         this.useCrypto = opts.useCrypto;
-    };
+    }
 
-    handle(socket : ISocket, msg : any)
-    {
-        if (!msg.sys)
-        {
+    handle(socket: ISocket, msg: any) {
+        if (!msg.sys) {
             processError(socket, CODE_USE_ERROR);
             return;
         }
 
-        if (typeof this.checkClient === 'function')
-        {
-            if (!msg || !msg.sys || !this.checkClient(msg.sys.type, msg.sys.version))
-            {
+        if (typeof this.checkClient === 'function') {
+            if (!msg || !msg.sys || !this.checkClient(msg.sys.type, msg.sys.version)) {
                 processError(socket, CODE_OLD_CLIENT);
                 return;
             }
         }
 
-        let opts : any = {
+        let opts: any = {
             heartbeat: setupHeartbeat(this)
         };
 
-        if (this.useDict)
-        {
+        if (this.useDict) {
             let dictVersion = pinus.app.components.__dictionary__.getVersion();
-            if (!msg.sys.dictVersion || msg.sys.dictVersion !== dictVersion)
-            {
+            if (!msg.sys.dictVersion || msg.sys.dictVersion !== dictVersion) {
 
                 // may be deprecated in future
                 opts.dict = pinus.app.components.__dictionary__.getDict();
@@ -91,90 +81,73 @@ export class HandshakeCommand
             opts.useDict = true;
         }
 
-        if (this.useProtobuf)
-        {
+        if (this.useProtobuf) {
             let protoVersion = pinus.app.components.__protobuf__.getVersion();
-            if (!msg.sys.protoVersion || msg.sys.protoVersion !== protoVersion)
-            {
+            if (!msg.sys.protoVersion || msg.sys.protoVersion !== protoVersion) {
                 opts.protos = pinus.app.components.__protobuf__.getProtos();
             }
             opts.useProto = true;
         }
 
-        if (!!pinus.app.components.__decodeIO__protobuf__)
-        {
-            if (!!this.useProtobuf)
-            {
+        if (!!pinus.app.components.__decodeIO__protobuf__) {
+            if (!!this.useProtobuf) {
                 throw new Error('protobuf can not be both used in the same project.');
             }
             let component = pinus.app.components.__decodeIO__protobuf__ as any;
             let version = component.getVersion();
-            if (!msg.sys.protoVersion || msg.sys.protoVersion < version)
-            {
+            if (!msg.sys.protoVersion || msg.sys.protoVersion < version) {
                 opts.protos = component.getProtos();
             }
             opts.useProto = true;
         }
 
-        if (this.useCrypto)
-        {
+        if (this.useCrypto) {
             pinus.app.components.__connector__.setPubKey(socket.id, msg.sys.rsa);
         }
 
-        if (typeof this.userHandshake === 'function')
-        {
-            this.userHandshake(msg, function (err, resp)
-            {
-                if (err)
-                {
-                    process.nextTick(function ()
-                    {
+        if (typeof this.userHandshake === 'function') {
+            this.userHandshake(msg, function (err, resp) {
+                if (err) {
+                    process.nextTick(function () {
                         processError(socket, CODE_USE_ERROR);
                     });
                     return;
                 }
-                process.nextTick(function ()
-                {
+                process.nextTick(function () {
                     response(socket, opts, resp);
                 });
             }, socket);
             return;
         }
 
-        process.nextTick(function ()
-        {
+        process.nextTick(function () {
             response(socket, opts);
         });
-    };
+    }
 
 }
 
-let setupHeartbeat = function (self : HandshakeCommand)
-{
+let setupHeartbeat = function (self: HandshakeCommand) {
     return self.heartbeatSec;
 };
 
-let response = function (socket : ISocket, sys : any, resp ?: any)
-{
-    let res : any = {
+let response = function (socket: ISocket, sys: any, resp ?: any) {
+    let res: any = {
         code: CODE_OK,
         sys: sys
     };
-    if (resp)
-    {
+    if (resp) {
         res.user = resp;
     }
     socket.handshakeResponse(Package.encode(Package.TYPE_HANDSHAKE, new Buffer(JSON.stringify(res))));
 };
 
-let processError = function (socket : ISocket, code : number)
-{
+let processError = function (socket: ISocket, code: number) {
     let res = {
         code: code
     };
     socket.sendForce(Package.encode(Package.TYPE_HANDSHAKE, new Buffer(JSON.stringify(res))));
-    process.nextTick(function ()
-    {
+    process.nextTick(function () {
         socket.disconnect();
     });
 };

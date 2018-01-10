@@ -11,59 +11,49 @@ let logger = getLogger('pinus', path.basename(__filename));
 
 
 
-export class MonitorWatcherModule implements IModule
-{
+export class MonitorWatcherModule implements IModule {
     app: Application;
     service: any;
     id: string;
 
     static moduleId = Constants.KEYWORDS.MONITOR_WATCHER;
 
-    constructor(opts : {app:Application}, consoleService : ConsoleService)
-    {
+    constructor(opts: {app: Application}, consoleService: ConsoleService) {
         this.app = opts.app;
         this.service = consoleService;
         this.id = this.app.getServerId();
 
         this.app.event.on(events.START_SERVER, finishStart.bind(null, this));
-    };
+    }
 
-    start(cb : ()=>void)
-    {
+    start(cb: () => void) {
         subscribeRequest(this, this.service.agent, this.id, cb);
-    };
+    }
 
-    monitorHandler(agent : MonitorAgent, msg : any, cb : MonitorCallback)
-    {
-        if (!msg || !msg.action)
-        {
+    monitorHandler(agent: MonitorAgent, msg: any, cb: MonitorCallback) {
+        if (!msg || !msg.action) {
             return;
         }
         let func = (monitorMethods as any)[msg.action];
-        if (!func)
-        {
+        if (!func) {
             logger.info('monitorwatcher unknown action: %j', msg.action);
             return;
         }
         func(this, agent, msg, cb);
-    };
+    }
 }
 
 // ----------------- monitor start method -------------------------
 
-let subscribeRequest = function (self : MonitorWatcherModule, agent : MonitorAgent, id : string, cb : MonitorCallback)
-{
+let subscribeRequest = function (self: MonitorWatcherModule, agent: MonitorAgent, id: string, cb: MonitorCallback) {
     let msg = { action: 'subscribe', id: id };
-    agent.request(Constants.KEYWORDS.MASTER_WATCHER, msg, function (err : Error, servers)
-    {
-        if (err)
-        {
+    agent.request(Constants.KEYWORDS.MASTER_WATCHER, msg, function (err: Error, servers) {
+        if (err) {
             logger.error('subscribeRequest request to master with error: %j', err.stack);
             utils.invokeCallback(cb, err);
         }
         let res = [];
-        for (let id in servers)
-        {
+        for (let id in servers) {
             res.push(servers[id]);
         }
         addServers(self, res);
@@ -73,11 +63,9 @@ let subscribeRequest = function (self : MonitorWatcherModule, agent : MonitorAge
 
 // ----------------- monitor request methods -------------------------
 
-let addServer = function (self : MonitorWatcherModule, agent : MonitorAgent, msg : any, cb : MonitorCallback)
-{
+let addServer = function (self: MonitorWatcherModule, agent: MonitorAgent, msg: any, cb: MonitorCallback) {
     logger.debug('[%s] receive addServer signal: %j', self.app.serverId, msg);
-    if (!msg || !msg.server)
-    {
+    if (!msg || !msg.server) {
         logger.warn('monitorwatcher addServer receive empty message: %j', msg);
         utils.invokeCallback(cb, Constants.SIGNAL.FAIL);
         return;
@@ -86,11 +74,9 @@ let addServer = function (self : MonitorWatcherModule, agent : MonitorAgent, msg
     utils.invokeCallback(cb, Constants.SIGNAL.OK);
 };
 
-let removeServer = function  (self : MonitorWatcherModule, agent : MonitorAgent, msg : any, cb : MonitorCallback)
-{
+let removeServer = function  (self: MonitorWatcherModule, agent: MonitorAgent, msg: any, cb: MonitorCallback) {
     logger.debug('%s receive removeServer signal: %j', self.app.serverId, msg);
-    if (!msg || !msg.id)
-    {
+    if (!msg || !msg.id) {
         logger.warn('monitorwatcher removeServer receive empty message: %j', msg);
         utils.invokeCallback(cb, Constants.SIGNAL.FAIL);
         return;
@@ -99,11 +85,9 @@ let removeServer = function  (self : MonitorWatcherModule, agent : MonitorAgent,
     utils.invokeCallback(cb, Constants.SIGNAL.OK);
 };
 
-let replaceServer = function (self : MonitorWatcherModule, agent : MonitorAgent, msg : any, cb : MonitorCallback)
-{
+let replaceServer = function (self: MonitorWatcherModule, agent: MonitorAgent, msg: any, cb: MonitorCallback) {
     logger.debug('%s receive replaceServer signal: %j', self.app.serverId, msg);
-    if (!msg || !msg.servers)
-    {
+    if (!msg || !msg.servers) {
         logger.warn('monitorwatcher replaceServer receive empty message: %j', msg);
         utils.invokeCallback(cb, Constants.SIGNAL.FAIL);
         return;
@@ -112,23 +96,18 @@ let replaceServer = function (self : MonitorWatcherModule, agent : MonitorAgent,
     utils.invokeCallback(cb, Constants.SIGNAL.OK);
 };
 
-let startOver = function (self : MonitorWatcherModule, agent : MonitorAgent, msg : any, cb : MonitorCallback)
-{
+let startOver = function (self: MonitorWatcherModule, agent: MonitorAgent, msg: any, cb: MonitorCallback) {
 
-    for(let component of self.app.loaded)
-    {
+    for(let component of self.app.loaded) {
         let fun = component[Constants.RESERVED.AFTER_STARTALL];
-        if (!!fun)
-        {
+        if (!!fun) {
             fun.call(component);
         }
     }
 
-    for(let lifecycle of self.app.usedPlugins)
-    {
+    for(let lifecycle of self.app.usedPlugins) {
         let fun = lifecycle[Constants.LIFECYCLE.AFTER_STARTALL];
-        if (!!fun)
-        {
+        if (!!fun) {
             fun.call(lifecycle, self.app);
         }
     }
@@ -139,33 +118,27 @@ let startOver = function (self : MonitorWatcherModule, agent : MonitorAgent, msg
 
 // ----------------- common methods -------------------------
 
-let addServers = function (self : MonitorWatcherModule, servers : ServerInfo[])
-{
-    if (!servers || !servers.length)
-    {
+let addServers = function (self: MonitorWatcherModule, servers: ServerInfo[]) {
+    if (!servers || !servers.length) {
         return;
     }
     self.app.addServers(servers);
 };
 
-let removeServers = function (self : MonitorWatcherModule, ids: string[])
-{
-    if (!ids || !ids.length)
-    {
+let removeServers = function (self: MonitorWatcherModule, ids: string[]) {
+    if (!ids || !ids.length) {
         return;
     }
     self.app.removeServers(ids);
 };
 
-let replaceServers = function (self : MonitorWatcherModule, servers:  {[serverId:string]:ServerInfo})
-{
+let replaceServers = function (self: MonitorWatcherModule, servers:  {[serverId: string]: ServerInfo}) {
     self.app.replaceServers(servers);
 };
 
 // ----------------- bind methods -------------------------
 
-let finishStart = function (self : MonitorWatcherModule, id : string)
-{
+let finishStart = function (self: MonitorWatcherModule, id: string) {
     let msg = { action: 'record', id: id };
     self.service.agent.notify(Constants.KEYWORDS.MASTER_WATCHER, msg);
 };
