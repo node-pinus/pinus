@@ -22,6 +22,7 @@
 	},
 	"dependencies": {
 		"@types/async": "^2.0.46",
+		"@types/bluebird": "^3.5.19",
 		"@types/crc": "^3.4.0",
 		"@types/node": "^8.5.2",
 		"@types/socket.io": "^1.4.31",
@@ -30,6 +31,7 @@
 		"@types/ws": "^3.2.1",
 		"async": "^1.5.2",
 		"bearcat-buffer": "^0.1.x",
+		"bluebird": "^3.5.1",
 		"crc": "^0.2.1",
 		"mqtt-connection": "^3.2.0",
 		"pinus-loader": "^1.2.14",

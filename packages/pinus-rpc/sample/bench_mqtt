@@ -1,4 +1,124 @@
 mqtt
+
+
+
+
+
+使用mock_data_1测试
+PS C:\pinus\packages\pinus-rpc\dist\sample> node .\bench_client.js
+1.033203125k
+rpc client start ok.
+runParallel 100000 num requests(maxParallel:1) cost 22309ms , 4482.50ops/sec
+runParallel 100000 num requests(maxParallel:2) cost 10366ms , 9646.92ops/sec
+runParallel 100000 num requests(maxParallel:4) cost 6668ms , 14997.00ops/sec
+runParallel 100000 num requests(maxParallel:8) cost 4903ms , 20395.68ops/sec
+runParallel 100000 num requests(maxParallel:16) cost 3592ms , 27839.64ops/sec
+runParallel 100000 num requests(maxParallel:32) cost 2969ms , 33681.37ops/sec
+runParallel 100000 num requests(maxParallel:64) cost 2762ms , 36205.65ops/sec
+runParallel 100000 num requests(maxParallel:128) cost 2673ms , 37411.15ops/sec
+runParallel 100000 num requests(maxParallel:256) cost 2233ms , 44782.80ops/sec
+runParallel 100000 num requests(maxParallel:512) cost 2213ms , 45187.53ops/sec
+runParallel 100000 num requests(maxParallel:1024) cost 2025ms , 49382.72ops/sec
+runParallel 100000 num requests(maxParallel:2048) cost 1914ms , 52246.60ops/sec
+runParallel 100000 num requests(maxParallel:4096) cost 2315ms , 43196.54ops/sec
+runParallel 100000 num requests(maxParallel:8192) cost 2488ms , 40192.93ops/sec
+runParallel 100000 num requests(maxParallel:10000) cost 2621ms , 38153.38ops/sec
+runParallel 100000 num requests(maxParallel:10000) cost 2669ms , 37467.22ops/sec
+runParallel 100000 num requests(maxParallel:10000) cost 2655ms , 37664.78ops/sec
+PS C:\pinus\packages\pinus-rpc\dist\sample> node .\bench_client.js
+1.033203125k
+rpc client start ok.
+runParallel 100000 num requests(maxParallel:1) cost 21287ms , 4697.70ops/sec
+runParallel 100000 num requests(maxParallel:2) cost 12682ms , 7885.19ops/sec
+runParallel 100000 num requests(maxParallel:4) cost 7641ms , 13087.29ops/sec
+runParallel 100000 num requests(maxParallel:8) cost 4984ms , 20064.21ops/sec
+runParallel 100000 num requests(maxParallel:16) cost 3652ms , 27382.26ops/sec
+runParallel 100000 num requests(maxParallel:32) cost 3043ms , 32862.31ops/sec
+runParallel 100000 num requests(maxParallel:64) cost 2704ms , 36982.25ops/sec
+runParallel 100000 num requests(maxParallel:128) cost 2604ms , 38402.46ops/sec
+runParallel 100000 num requests(maxParallel:256) cost 2244ms , 44563.28ops/sec
+runParallel 100000 num requests(maxParallel:512) cost 2201ms , 45433.89ops/sec
+runParallel 100000 num requests(maxParallel:1024) cost 2012ms , 49701.79ops/sec
+runParallel 100000 num requests(maxParallel:2048) cost 1912ms , 52301.26ops/sec
+runParallel 100000 num requests(maxParallel:4096) cost 2281ms , 43840.42ops/sec
+runParallel 100000 num requests(maxParallel:8192) cost 2493ms , 40112.31ops/sec
+runParallel 100000 num requests(maxParallel:10000) cost 2617ms , 38211.69ops/sec
+runParallel 100000 num requests(maxParallel:10000) cost 2624ms , 38109.76ops/sec
+PS C:\pinus\packages\pinus-rpc\dist\sample> node .\bench_client.js
+1.033203125k
+rpc client start ok.
+runParallel 100000 num requests(maxParallel:1) cost 20749ms , 4819.51ops/sec
+runParallel 100000 num requests(maxParallel:2) cost 12758ms , 7838.22ops/sec
+runParallel 100000 num requests(maxParallel:4) cost 7629ms , 13107.88ops/sec
+runParallel 100000 num requests(maxParallel:8) cost 4993ms , 20028.04ops/sec
+runParallel 100000 num requests(maxParallel:16) cost 3667ms , 27270.25ops/sec
+runParallel 100000 num requests(maxParallel:32) cost 3017ms , 33145.51ops/sec
+runParallel 100000 num requests(maxParallel:64) cost 2710ms , 36900.37ops/sec
+runParallel 100000 num requests(maxParallel:128) cost 2595ms , 38535.65ops/sec
+runParallel 100000 num requests(maxParallel:256) cost 2190ms , 45662.10ops/sec
+runParallel 100000 num requests(maxParallel:512) cost 2181ms , 45850.53ops/sec
+runParallel 100000 num requests(maxParallel:1024) cost 2000ms , 50000.00ops/sec
+runParallel 100000 num requests(maxParallel:2048) cost 1922ms , 52029.14ops/sec
+runParallel 100000 num requests(maxParallel:4096) cost 2301ms , 43459.37ops/sec
+runParallel 100000 num requests(maxParallel:8192) cost 2554ms , 39154.27ops/sec
+runParallel 100000 num requests(maxParallel:10000) cost 2661ms , 37579.86ops/sec
+runParallel 100000 num requests(maxParallel:10000) cost 2660ms , 37593.98ops/sec
+runParallel 100000 num requests(maxParallel:10000) cost 2663ms , 37551.63ops/sec
+PS C:\pinus\packages\pinus-rpc\dist\sample> node .\bench_client.js
+1.033203125k
+rpc client start ok.
+runSerial 100000 num requests cost 22204ms , 4503.69ops/sec
+runSerial 100000 num requests cost 21588ms , 4632.20ops/sec
+runSerial 100000 num requests cost 21499ms , 4651.38ops/sec
+
+
+
+
+
+
+
+
+使用mock_data_3测试
+PS C:\pinus\packages\pinus-rpc\dist\sample> node .\bench_client.js
+1.033203125k
+rpc client start ok.
+runParallel 100000 num requests(maxParallel:1) cost 24710ms , 4046.94ops/sec
+runParallel 100000 num requests(maxParallel:2) cost 14732ms , 6787.94ops/sec
+runParallel 100000 num requests(maxParallel:4) cost 9516ms , 10508.62ops/sec
+runParallel 100000 num requests(maxParallel:8) cost 6661ms , 15012.76ops/sec
+runParallel 100000 num requests(maxParallel:16) cost 5296ms , 18882.18ops/sec
+runParallel 100000 num requests(maxParallel:32) cost 4432ms , 22563.18ops/sec
+runParallel 100000 num requests(maxParallel:64) cost 4078ms , 24521.82ops/sec
+runParallel 100000 num requests(maxParallel:128) cost 3539ms , 28256.57ops/sec
+runParallel 100000 num requests(maxParallel:256) cost 3273ms , 30553.01ops/sec
+runParallel 100000 num requests(maxParallel:512) cost 3278ms , 30506.41ops/sec
+runParallel 100000 num requests(maxParallel:1024) cost 3361ms , 29753.05ops/sec
+runParallel 100000 num requests(maxParallel:2048) cost 3702ms , 27012.43ops/sec
+runParallel 100000 num requests(maxParallel:4096) cost 3966ms , 25214.32ops/sec
+runParallel 100000 num requests(maxParallel:8192) cost 4547ms , 21992.52ops/sec
+runParallel 100000 num requests(maxParallel:10000) cost 4718ms , 21195.42ops/sec
+runParallel 100000 num requests(maxParallel:10000) cost 4527ms , 22089.68ops/sec
+PS C:\pinus\packages\pinus-rpc\dist\sample> node .\bench_client.js
+1.033203125k
+rpc client start ok.
+runSerial 100000 num requests cost 24778ms , 4035.84ops/sec
+runSerial 100000 num requests cost 23930ms , 4178.85ops/sec
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+pomelo原始性能测试记录
 0.4931640625k
 rpc client start ok.
 run 20000 num requests cost: 3715 ops/sec 5383.58
