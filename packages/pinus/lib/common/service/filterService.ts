@@ -16,6 +16,20 @@ export class FilterService {
 
     name = 'filter';
 
+    removeBefore(filter: BeforeHandlerFilter) {
+        let index = this.befores.findIndex(v => v === filter);
+        if (index >= 0) {
+            this.befores.splice(index);
+        }
+    }
+
+    removeAfter(filter: AfterHandlerFilter) {
+        let index = this.afters.findIndex(v => v === filter);
+        if (index >= 0) {
+            this.afters.splice(index);
+        }
+    }
+
     /**
      * Add before filter into the filter chain.
      *

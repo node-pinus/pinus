@@ -47,6 +47,7 @@ import { IPlugin, ApplicationEventContructor } from './interfaces/IPlugin';
 import { Cron } from './server/server';
 import { ServerStartArgs } from './util/appUtil';
 import { listEs6ClassMethods } from 'pinus-rpc';
+import { ResponseErrorHandler } from './server/server';
 let logger = getLogger('pinus', path.basename(__filename));
 
 
@@ -566,6 +567,8 @@ export class Application {
     set(setting: Constants.KEYWORDS.BEFORE_STOP_HOOK, val: BeforeStopHookFunction, attach?: boolean): Application;
     set(setting: Constants.RESERVED.BASE, val: string, attach?: boolean): Application;
     set(setting: Constants.RESERVED.ENV, val: string, attach?: boolean): Application;
+    set(setting: Constants.RESERVED.GLOBAL_ERROR_HANDLER, val: ResponseErrorHandler, attach?: boolean): Application;
+    set(setting: Constants.RESERVED.ERROR_HANDLER, val: ResponseErrorHandler, attach?: boolean): Application;
     set(setting: Constants.KEYWORDS.MODULE, val: {[key: string]: ModuleRecord}, attach?: boolean): Application;
     set(setting: string, val: string | any, attach?: boolean): Application;
     set(setting: string, val: string | any, attach?: boolean): Application {
@@ -598,6 +601,8 @@ export class Application {
     get(setting: Constants.KEYWORDS.BEFORE_STOP_HOOK): BeforeStopHookFunction;
     get(setting: Constants.RESERVED.BASE): string;
     get(setting: Constants.RESERVED.ENV): string;
+    get(setting: Constants.RESERVED.GLOBAL_ERROR_HANDLER): ResponseErrorHandler;
+    get(setting: Constants.RESERVED.ERROR_HANDLER): ResponseErrorHandler;
     get(setting: Constants.KEYWORDS.MODULE): {[key: string]: ModuleRecord};
     get(setting: string): string | any;
     get(setting: string): string | any {
