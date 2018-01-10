@@ -9,8 +9,8 @@
   "scripts": {
     "build": "tsc",
     "start": "npm run build && node dist/index",
-    "lint": "node --max_old_space_size=4096 ../../node_modules/tslint/bin/tslint --format prose -c ../../tslint.json lib/**/*.ts test/**/*.ts",
-    "fix-lint": "node --max_old_space_size=4096 ../../node_modules/tslint/bin/tslint --format prose -c ../../tslint.json lib/**/*.ts test/**/*.ts --fix",
+    "lint": "node --max_old_space_size=4096 ../../node_modules/tslint/bin/tslint --format prose -c ../../tslint.json src/**/*.ts",
+    "fix-lint": "node --max_old_space_size=4096 ../../node_modules/tslint/bin/tslint --format prose -c ../../tslint.json src/**/*.ts --fix",
     "test": "npm run build",
     "cov": "nyc mocha",
     "ci": "npm run test",

@@ -123,7 +123,7 @@
         /**
          * @private
          */
-        protected bufferExtSize = 0; //Buffer expansion size
+        protected bufferExtSize = 0; // Buffer expansion size
 
         protected data: DataView;
 
@@ -157,11 +157,11 @@
          * @language zh_CN
          */
         public get endian() {
-            return this.$endian == EndianConst.LITTLE_ENDIAN ? Endian.LITTLE_ENDIAN : Endian.BIG_ENDIAN;
+            return this.$endian === EndianConst.LITTLE_ENDIAN ? Endian.LITTLE_ENDIAN : Endian.BIG_ENDIAN;
         }
 
         public set endian(value: string) {
-            this.$endian = value == Endian.LITTLE_ENDIAN ? EndianConst.LITTLE_ENDIAN : EndianConst.BIG_ENDIAN;
+            this.$endian = value === Endian.LITTLE_ENDIAN ? EndianConst.LITTLE_ENDIAN : EndianConst.BIG_ENDIAN;
         }
 
         protected $endian: EndianConst;
@@ -176,7 +176,7 @@
             }
             this.bufferExtSize = bufferExtSize;
             let bytes: Uint8Array, wpos = 0;
-            if (buffer) {//有数据，则可写字节数从字节尾开始
+            if (buffer) {// 有数据，则可写字节数从字节尾开始
                 let uint8: Uint8Array;
                 if (buffer instanceof Uint8Array) {
                     uint8 = buffer;
@@ -185,7 +185,7 @@
                     wpos = buffer.byteLength;
                     uint8 = new Uint8Array(buffer);
                 }
-                if (bufferExtSize == 0) {
+                if (bufferExtSize === 0) {
                     bytes = new Uint8Array(wpos);
                 }
                 else {
@@ -240,7 +240,7 @@
             let uint8 = new Uint8Array(value);
             let bufferExtSize = this.bufferExtSize;
             let bytes: Uint8Array;
-            if (bufferExtSize == 0) {
+            if (bufferExtSize === 0) {
                 bytes = new Uint8Array(wpos);
             }
             else {
@@ -335,7 +335,7 @@
             if (this.data.byteLength < value) {
                 let be = this.bufferExtSize;
                 let tmp: Uint8Array;
-                if (be == 0) {
+                if (be === 0) {
                     tmp = new Uint8Array(value);
                 }
                 else {
@@ -441,21 +441,21 @@
          * @language zh_CN
          */
         public readBytes(bytes: ByteArray, offset: number = 0, length: number = 0): void {
-            if (!bytes) {//由于bytes不返回，所以new新的无意义
+            if (!bytes) {// 由于bytes不返回，所以new新的无意义
                 return;
             }
             let pos = this._position;
             let available = this.write_position - pos;
             if (available < 0) {
                 throw new Error('1025');
-                //return;
+                // return;
             }
-            if (length == 0) {
+            if (length === 0) {
                 length = available;
             }
             else if (length > available) {
                 throw new Error('1025');
-                //return;
+                // return;
             }
             bytes.validateBuffer(offset + length);
             bytes._bytes.set(this._bytes.subarray(pos, pos + length), offset);
@@ -478,7 +478,7 @@
          */
         public readDouble(): number {
             if (this.validate(ByteArraySize.SIZE_OF_FLOAT64)) {
-                let value = this.data.getFloat64(this._position, this.$endian == EndianConst.LITTLE_ENDIAN);
+                let value = this.data.getFloat64(this._position, this.$endian === EndianConst.LITTLE_ENDIAN);
                 this.position += ByteArraySize.SIZE_OF_FLOAT64;
                 return value;
             }
@@ -500,7 +500,7 @@
          */
         public readFloat(): number {
             if (this.validate(ByteArraySize.SIZE_OF_FLOAT32)) {
-                let value = this.data.getFloat32(this._position, this.$endian == EndianConst.LITTLE_ENDIAN);
+                let value = this.data.getFloat32(this._position, this.$endian === EndianConst.LITTLE_ENDIAN);
                 this.position += ByteArraySize.SIZE_OF_FLOAT32;
                 return value;
             }
@@ -522,7 +522,7 @@
          */
         public readInt(): number {
             if (this.validate(ByteArraySize.SIZE_OF_INT32)) {
-                let value = this.data.getInt32(this._position, this.$endian == EndianConst.LITTLE_ENDIAN);
+                let value = this.data.getInt32(this._position, this.$endian === EndianConst.LITTLE_ENDIAN);
                 this.position += ByteArraySize.SIZE_OF_INT32;
                 return value;
             }
@@ -544,7 +544,7 @@
          */
         public readShort(): number {
             if (this.validate(ByteArraySize.SIZE_OF_INT16)) {
-                let value = this.data.getInt16(this._position, this.$endian == EndianConst.LITTLE_ENDIAN);
+                let value = this.data.getInt16(this._position, this.$endian === EndianConst.LITTLE_ENDIAN);
                 this.position += ByteArraySize.SIZE_OF_INT16;
                 return value;
             }
@@ -584,7 +584,7 @@
          */
         public readUnsignedInt(): number {
             if (this.validate(ByteArraySize.SIZE_OF_UINT32)) {
-                let value = this.data.getUint32(this._position, this.$endian == EndianConst.LITTLE_ENDIAN);
+                let value = this.data.getUint32(this._position, this.$endian === EndianConst.LITTLE_ENDIAN);
                 this.position += ByteArraySize.SIZE_OF_UINT32;
                 return value;
             }
@@ -606,7 +606,7 @@
          */
         public readUnsignedShort(): number {
             if (this.validate(ByteArraySize.SIZE_OF_UINT16)) {
-                let value = this.data.getUint16(this._position, this.$endian == EndianConst.LITTLE_ENDIAN);
+                let value = this.data.getUint16(this._position, this.$endian === EndianConst.LITTLE_ENDIAN);
                 this.position += ByteArraySize.SIZE_OF_UINT16;
                 return value;
             }
@@ -730,7 +730,7 @@
             }
             if (length < 0) {
                 return;
-            } else if (length == 0) {
+            } else if (length === 0) {
                 writeLength = bytes.length - offset;
             } else {
                 writeLength = Math.min(bytes.length - offset, length);
@@ -758,7 +758,7 @@
          */
         public writeDouble(value: number): void {
             this.validateBuffer(ByteArraySize.SIZE_OF_FLOAT64);
-            this.data.setFloat64(this._position, value, this.$endian == EndianConst.LITTLE_ENDIAN);
+            this.data.setFloat64(this._position, value, this.$endian === EndianConst.LITTLE_ENDIAN);
             this.position += ByteArraySize.SIZE_OF_FLOAT64;
         }
 
@@ -778,7 +778,7 @@
          */
         public writeFloat(value: number): void {
             this.validateBuffer(ByteArraySize.SIZE_OF_FLOAT32);
-            this.data.setFloat32(this._position, value, this.$endian == EndianConst.LITTLE_ENDIAN);
+            this.data.setFloat32(this._position, value, this.$endian === EndianConst.LITTLE_ENDIAN);
             this.position += ByteArraySize.SIZE_OF_FLOAT32;
         }
 
@@ -798,7 +798,7 @@
          */
         public writeInt(value: number): void {
             this.validateBuffer(ByteArraySize.SIZE_OF_INT32);
-            this.data.setInt32(this._position, value, this.$endian == EndianConst.LITTLE_ENDIAN);
+            this.data.setInt32(this._position, value, this.$endian === EndianConst.LITTLE_ENDIAN);
             this.position += ByteArraySize.SIZE_OF_INT32;
         }
 
@@ -818,7 +818,7 @@
          */
         public writeShort(value: number): void {
             this.validateBuffer(ByteArraySize.SIZE_OF_INT16);
-            this.data.setInt16(this._position, value, this.$endian == EndianConst.LITTLE_ENDIAN);
+            this.data.setInt16(this._position, value, this.$endian === EndianConst.LITTLE_ENDIAN);
             this.position += ByteArraySize.SIZE_OF_INT16;
         }
 
@@ -838,7 +838,7 @@
          */
         public writeUnsignedInt(value: number): void {
             this.validateBuffer(ByteArraySize.SIZE_OF_UINT32);
-            this.data.setUint32(this._position, value, this.$endian == EndianConst.LITTLE_ENDIAN);
+            this.data.setUint32(this._position, value, this.$endian === EndianConst.LITTLE_ENDIAN);
             this.position += ByteArraySize.SIZE_OF_UINT32;
         }
 
@@ -858,7 +858,7 @@
          */
         public writeUnsignedShort(value: number): void {
             this.validateBuffer(ByteArraySize.SIZE_OF_UINT16);
-            this.data.setUint16(this._position, value, this.$endian == EndianConst.LITTLE_ENDIAN);
+            this.data.setUint16(this._position, value, this.$endian === EndianConst.LITTLE_ENDIAN);
             this.position += ByteArraySize.SIZE_OF_UINT16;
         }
 
@@ -880,7 +880,7 @@
             let utf8bytes: ArrayLike<number> = this.encodeUTF8(value);
             let length: number = utf8bytes.length;
             this.validateBuffer(ByteArraySize.SIZE_OF_UINT16 + length);
-            this.data.setUint16(this._position, length, this.$endian == EndianConst.LITTLE_ENDIAN);
+            this.data.setUint16(this._position, length, this.$endian === EndianConst.LITTLE_ENDIAN);
             this.position += ByteArraySize.SIZE_OF_UINT16;
             this._writeUint8Array(utf8bytes, false);
         }
@@ -1022,15 +1022,15 @@
 
                 let _byte = data[pos++];
 
-                if (_byte == this.EOF_byte) {
-                    if (utf8_bytes_needed != 0) {
+                if (_byte === this.EOF_byte) {
+                    if (utf8_bytes_needed !== 0) {
                         code_point = this.decoderError(fatal);
                     } else {
                         code_point = this.EOF_code_point;
                     }
                 } else {
 
-                    if (utf8_bytes_needed == 0) {
+                    if (utf8_bytes_needed === 0) {
                         if (this.inRange(_byte, 0x00, 0x7F)) {
                             code_point = _byte;
                         } else {
@@ -1083,7 +1083,7 @@
 
                     }
                 }
-                //Decode string
+                // Decode string
                 if (code_point !== null && code_point !== this.EOF_code_point) {
                     if (code_point <= 0xFFFF) {
                         if (code_point > 0) result += String.fromCharCode(code_point);
@@ -1155,22 +1155,22 @@
          *
          * @param string
          */
-        private stringToCodePoints(string: string) {
+        private stringToCodePoints(str: string) {
             /** @type {Array.<number>} */
             let cps = [];
             // Based on http://www.w3.org/TR/WebIDL/#idl-DOMString
-            let i = 0, n = string.length;
-            while (i < string.length) {
-                let c = string.charCodeAt(i);
+            let i = 0, n = str.length;
+            while (i < str.length) {
+                let c = str.charCodeAt(i);
                 if (!this.inRange(c, 0xD800, 0xDFFF)) {
                     cps.push(c);
                 } else if (this.inRange(c, 0xDC00, 0xDFFF)) {
                     cps.push(0xFFFD);
                 } else { // (inRange(c, 0xD800, 0xDBFF))
-                    if (i == n - 1) {
+                    if (i === n - 1) {
                         cps.push(0xFFFD);
                     } else {
-                        let d = string.charCodeAt(i + 1);
+                        let d = str.charCodeAt(i + 1);
                         if (this.inRange(d, 0xDC00, 0xDFFF)) {
                             let a = c & 0x3FF;
                             let b = d & 0x3FF;

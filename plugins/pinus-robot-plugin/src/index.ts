@@ -1,13 +1,13 @@
-import { robotPlugin } from './robotPlugin';
+import { RobotPlugin } from './robotPlugin';
 import { RobotCfg } from 'pinus-robot';
 import * as fs from 'fs';
 export {PinusWSClient, PinusWSClientEvent} from './PinusWSClient';
 
-export function createRobotPlugin(robotScriptFile: string): robotPlugin;
-export function createRobotPlugin(robotScriptFile: RobotCfg): robotPlugin;
+export function createRobotPlugin(robotScriptFile: string): RobotPlugin;
+export function createRobotPlugin(robotScriptFile: RobotCfg): RobotPlugin;
 export function createRobotPlugin(conf: RobotCfg | string) {
     let config: RobotCfg;
-    if(typeof conf == 'string') {
+    if(typeof conf === 'string') {
         config = {scriptFile: conf};
     }
     else {
@@ -18,5 +18,5 @@ export function createRobotPlugin(conf: RobotCfg | string) {
     if(!fs.existsSync(config.scriptFile)) {
         throw new Error(`RobotPlugin必须指定scriptFile参数`);
     }
-    return new robotPlugin(config);
+    return new RobotPlugin(config);
 }

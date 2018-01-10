@@ -103,10 +103,10 @@ export class WSClient {
         let host = params.host;
         let port = params.port;
         //
-        //var url = 'ws://' + host;
-        //if(port) {
+        // var url = 'ws://' + host;
+        // if(port) {
         //    url +=  ':' + port;
-        //}
+        // }
 
         this.handshakeBuffer.user = params.user;
         this.handshakeCallback = params.handshakeCallback;
@@ -198,19 +198,19 @@ export class WSClient {
 
     private onClose(e: any): void {
         console.error('[Pinus] connect close:', e);
-        //this.emit(Pinus.EVENT_CLOSE,e);
+        // this.emit(Pinus.EVENT_CLOSE,e);
     }
 
     private onIOError(e: any): void {
-        //this.emit(Pinus.EVENT_IO_ERROR, e);
+        // this.emit(Pinus.EVENT_IO_ERROR, e);
         console.error('socket error: ', e);
     }
 
     private onKick(event) {
-        //this.emit(WSClient.EVENT_KICK,event);
+        // this.emit(WSClient.EVENT_KICK,event);
     }
     private onData(data) {
-        //probuff decode
+        // probuff decode
         let msg = this._message.decode(data);
 
         if (msg.id > 0) {
@@ -221,7 +221,7 @@ export class WSClient {
             }
         }
 
-        //msg.body = this.deCompose(msg);
+        // msg.body = this.deCompose(msg);
 
         this.processMessage(msg);
 
@@ -235,21 +235,21 @@ export class WSClient {
                 console.log(`EVENT: Route:${msg.route} Msg:${msg.body}`);
             }
 
-            //this.emit(msg.route, msg.body);
+            // this.emit(msg.route, msg.body);
             return;
         }
         if (WSClient.DEBUG) {
             console.log(`RESPONSE: Id:${msg.id} Msg:${msg.body}`);
         }
 
-        //if have a id then find the callback function with the request
+        // if have a id then find the callback function with the request
         let cb = this.callbacks[msg.id];
 
         delete this.callbacks[msg.id];
         if (typeof cb !== 'function') {
             return;
         }
-        if (msg.body && msg.body.code == 500) {
+        if (msg.body && msg.body.code === 500) {
             let obj: any = { 'code': 500, 'desc': '服务器内部错误', 'key': 'INTERNAL_ERROR' };
             msg.body.error = obj;
         }
@@ -290,7 +290,7 @@ export class WSClient {
             this.heartbeatTimeoutId = setTimeout(this.heartbeatTimeoutCb.bind(this, data), gap);
         } else {
             console.error('server heartbeat timeout', data);
-            //this.emit(WSClient.EVENT_HEART_BEAT_TIMEOUT,data);
+            // this.emit(WSClient.EVENT_HEART_BEAT_TIMEOUT,data);
             this._disconnect();
         }
     }
@@ -299,7 +299,7 @@ export class WSClient {
     }
     public removeAllListeners(event?, fn?) {
         // all
-        if (0 == arguments.length) {
+        if (0 === arguments.length) {
             this._callbacks = {};
             return;
         }
@@ -360,12 +360,12 @@ export class WSClient {
 
         let data = JSON.parse(Protocol.strdecode(resData));
         if (data.code === this.RES_OLD_CLIENT) {
-            //this.emit(WSClient.EVENT_IO_ERROR, 'client version not fullfill');
+            // this.emit(WSClient.EVENT_IO_ERROR, 'client version not fullfill');
             return;
         }
 
         if (data.code !== this.RES_OK) {
-            //this.emit(WSClient.EVENT_IO_ERROR, 'handshake fail');
+            // this.emit(WSClient.EVENT_IO_ERROR, 'handshake fail');
             return;
         }
 
@@ -401,9 +401,9 @@ export class WSClient {
             this.socket.send(byte.buffer);
         }
     }
-    //private deCompose(msg){
+    // private deCompose(msg){
     //    return JSON.parse(Protocol.strdecode(msg.body));
-    //}
+    // }
     private emit(event, ...args: any[]) {
         let params = [].slice.call(arguments, 1);
         let callbacks = this._callbacks[event];
@@ -490,7 +490,7 @@ class Message implements IMessage {
 
         let rot: any = Routedic.getID(route) || route;
 
-        buffer.writeByte((type << 1) | ((typeof (rot) == 'string') ? 0 : 1));
+        buffer.writeByte((type << 1) | ((typeof (rot) === 'string') ? 0 : 1));
 
         if (id) {
             // 7.x
@@ -498,33 +498,33 @@ class Message implements IMessage {
                 let tmp: number = id % 128;
                 let next: number = Math.floor(id / 128);
 
-                if (next != 0) {
+                if (next !== 0) {
                     tmp = tmp + 128;
                 }
 
                 buffer.writeByte(tmp);
 
                 id = next;
-            } while (id != 0);
+            } while (id !== 0);
 
             // 5.x
-            //				var len:Array = [];
-            //				len.push(id & 0x7f);
-            //				id >>= 7;
-            //				while(id > 0)
-            //				{
-            //					len.push(id & 0x7f | 0x80);
-            //					id >>= 7;
-            //				}
+            //                var len:Array = [];
+            //                len.push(id & 0x7f);
+            //                id >>= 7;
+            //                while(id > 0)
+            //                {
+            //                    len.push(id & 0x7f | 0x80);
+            //                    id >>= 7;
+            //                }
             //
-            //				for (var i:int = len.length - 1; i >= 0; i--)
-            //				{
-            //					buffer.writeByte(len[i]);
-            //				}
+            //                for (var i:int = len.length - 1; i >= 0; i--)
+            //                {
+            //                    buffer.writeByte(len[i]);
+            //                }
         }
 
         if (rot) {
-            if (typeof rot == 'string') {
+            if (typeof rot === 'string') {
                 buffer.writeByte(rot.length & 0xff);
                 buffer.writeUTFBytes(rot);
             }
@@ -561,14 +561,14 @@ class Message implements IMessage {
             } while (m >= 128);
 
             // 5.x
-            //				var byte:int = buffer.readUnsignedByte();
-            //				id = byte & 0x7f;
-            //				while(byte & 0x80)
-            //				{
-            //					id <<= 7;
-            //					byte = buffer.readUnsignedByte();
-            //					id |= byte & 0x7f;
-            //				}
+            //                var byte:int = buffer.readUnsignedByte();
+            //                id = byte & 0x7f;
+            //                while(byte & 0x80)
+            //                {
+            //                    id <<= 7;
+            //                    byte = buffer.readUnsignedByte();
+            //                    id |= byte & 0x7f;
+            //                }
         }
 
         // parse route
@@ -586,7 +586,7 @@ class Message implements IMessage {
             route = this.routeMap[id];
         }
 
-        if (!id && !(typeof (route) == 'string')) {
+        if (!id && !(typeof (route) === 'string')) {
             route = Routedic.getName(route);
         }
 
@@ -693,7 +693,7 @@ class Protobuf {
     }
 
     static encodeTag(type: number, tag: number): egret.ByteArray {
-        let value: number = this.TYPES[type] != undefined ? this.TYPES[type] : 2;
+        let value: number = this.TYPES[type] !== undefined ? this.TYPES[type] : 2;
 
         return this.encodeUInt32((tag << 3) | value);
     }
@@ -712,7 +712,7 @@ class Protobuf {
                 buffer.writeBytes(this.encodeSInt32(value));
                 break;
             case 'float':
-                //Float32Array
+                // Float32Array
                 let floats: egret.ByteArray = new egret.ByteArray();
                 floats.endian = egret.Endian.LITTLE_ENDIAN;
                 floats.writeFloat(value);

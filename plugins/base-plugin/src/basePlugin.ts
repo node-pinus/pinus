@@ -4,7 +4,7 @@
 /**
  * 实现一个基本的插件，插件载入时，会被自动扫描handlerPath和remoterPath指向的目录
  */
-export class basePlugin implements IPlugin {
+export class BasePlugin implements IPlugin {
     name = 'basePlugin';
 
     // 在插件里扫描handler目录

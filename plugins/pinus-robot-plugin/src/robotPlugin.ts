@@ -6,7 +6,7 @@ import * as  path from 'path';
 /**
  * 实现机器人Master服务器插件
  */
-export class robotPlugin implements IPlugin {
+export class RobotPlugin implements IPlugin {
     name = 'RobotPlugin';
 
     constructor(private conf: RobotCfg) {
@@ -21,7 +21,7 @@ export class robotPlugin implements IPlugin {
         let robot = new Robot(this.conf);
         let mode = 'master';
         let scriptFile = path.normalize(this.conf.scriptFile);
-        if(path.sep == '\\') {
+        if(path.sep === '\\') {
             scriptFile = scriptFile.replace(/\\/g , '\\\\');
         }
         // 启动机器人总管

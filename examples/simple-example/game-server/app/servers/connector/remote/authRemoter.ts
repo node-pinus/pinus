@@ -1,10 +1,10 @@
 import { Application, FrontendSession } from 'pinus';
 
 export default function (app: Application) {
-    return new authRemoter(app);
+    return new AuthRemoter(app);
 }
 
-export class authRemoter {
+export class AuthRemoter {
     constructor(private app: Application) {
 
     }

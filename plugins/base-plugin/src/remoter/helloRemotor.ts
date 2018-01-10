@@ -1,7 +1,7 @@
 import { Application } from 'pinus';
 
 
-export class helloRemotor {
+export class HelloRemotor {
     constructor(private app: Application) {
 
     }
@@ -16,5 +16,5 @@ export class helloRemotor {
 }
 
 export default function(app: Application) {
-    return new helloRemotor(app);
+    return new HelloRemotor(app);
 }

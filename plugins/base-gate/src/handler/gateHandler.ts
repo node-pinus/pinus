@@ -5,7 +5,7 @@ import { Code, ConnectorHost, common } from '../common';
 
 
 // 网关处理
-export class gateHandler {
+export class GateHandler {
     constructor(private app: Application) {
 
     }
@@ -31,7 +31,7 @@ export class gateHandler {
 
     // 查询该用哪个connector
     public async queryEntry(msg: { openid: string }, session: FrontendSession): Promise<ConnectorHost> {
-        //console.log("queryEntry" + msg.openid);
+        // console.log("queryEntry" + msg.openid);
         let openid = msg.openid;
         if (!openid) {
            return {code: Code.FAIL};
@@ -51,5 +51,5 @@ export class gateHandler {
 }
 
 export default function(app: Application) {
-    return new gateHandler(app);
+    return new GateHandler(app);
 }

@@ -2,7 +2,7 @@
 import { Application, FrontendSession, BackendSession } from 'pinus';
 
 // handler入口示例
-export class helloHandler {
+export class HelloHandler {
     constructor(private app: Application) {
 
     }
@@ -19,5 +19,5 @@ export class helloHandler {
 }
 
 export default function(app: Application) {
-    return new helloHandler(app);
+    return new HelloHandler(app);
 }

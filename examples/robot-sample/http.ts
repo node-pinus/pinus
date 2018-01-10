@@ -27,7 +27,7 @@ function startHttp() {
                 return res.end(JSON.stringify(config) + '\n');
             } else if (url.pathname === '/set') {
                 for (let key in url.query) {
-                    config['apps'][key] = (typeof config[key] == 'number') ? +url.query[key] : url.query[key];
+                    config['apps'][key] = (typeof config[key] === 'number') ? +url.query[key] : url.query[key];
                 }
                 return res.end(JSON.stringify(config) + '\n');
             } else if (url.pathname === '/restart') {

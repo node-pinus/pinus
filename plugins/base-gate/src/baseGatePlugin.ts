@@ -4,7 +4,7 @@
 /**
  * 实现一个基本的GateWay插件，插件载入时，会被自动扫描handlerPath和remoterPath指向的目录
  */
-export class baseGatePlugin implements IPlugin {
+export class BaseGatePlugin implements IPlugin {
     name = 'BaseGatePlugin';
 
     // 在插件里扫描handler目录

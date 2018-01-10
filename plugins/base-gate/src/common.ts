@@ -10,8 +10,8 @@ export interface ConnectorHost {
 }
 
 export enum Code {
-	OK = 0,
-	FAIL  = 1,
+    OK = 0,
+    FAIL  = 1,
     FA_NO_SERVER_AVAILABLE = 2,
 }
 
