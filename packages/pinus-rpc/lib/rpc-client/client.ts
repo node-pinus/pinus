@@ -10,7 +10,7 @@ import * as Proxy from '../util/proxy';
 import * as router from './router';
 import * as async from 'async';
 import { RpcServerInfo, MailStation, MailStationErrorHandler, RpcFilter } from './mailstation';
-import { ErrorCallback } from 'async';
+import {AsyncFunction, AsyncResultArrayCallback, ErrorCallback} from 'async';
 import { MailBoxFactory } from './mailbox';
 import { ConsistentHash } from '../util/consistentHash';
 import { RemoteServerCode } from '../../index';
@@ -362,21 +362,14 @@ let proxyCB = function (client: RpcClient, serviceName: string, methodName: stri
 
     return new Promise(function (resolve, reject) {
         if (isToSpecifiedServer) {
-            rpcToSpecifiedServer(client, msg, serverType, routeParam, resolve, reject);
+            rpcToSpecifiedServer(client, msg, serverType, routeParam, (err, resp) => err ? reject(err) : resolve(resp));
         }
         else {
             client.targetRouterFunction(serverType, msg, routeParam, function (err: Error, serverId: string) {
                 if (err) {
                     return reject(err);
                 }
-                client.rpcInvoke(serverId, msg, function (err: Error, resp: string) {
-                    if (err != null) {
-                        reject(err);
-                    }
-                    else {
-                        resolve(resp);
-                    }
-                });
+                client.rpcInvoke(serverId, msg,  (err: Error, resp: string) => err ? reject(err) : resolve(resp));
             });
         }
     });
@@ -446,13 +439,11 @@ function getRouteFunction(client: RpcClient): TargetRouterFunction {
  * @param msg        {Object} rpc message.
  * @param serverType {String} remote server type.
  * @param serverId   {Object} mailbox init context parameter.
- * @param resolve        {Function} ErrorCallback
- * @param reject        {Function} ErrorCallback
+ * @param cb        {Function} AsyncResultArrayCallback<{}, {}>
  *
  * @api private
  */
-let rpcToSpecifiedServer = function (client: RpcClient, msg: RpcMsg, serverType: string, serverId: string,
-                                     resolve: ErrorCallback<{}>, reject: ErrorCallback<{}>) {
+let rpcToSpecifiedServer = function (client: RpcClient, msg: RpcMsg, serverType: string, serverId: string, cb: AsyncResultArrayCallback<{}, {}>) {
     if (typeof serverId !== 'string') {
         logger.error('[pinus-rpc] serverId is not a string : %s', serverId);
         return;
@@ -466,20 +457,10 @@ let rpcToSpecifiedServer = function (client: RpcClient, msg: RpcMsg, serverType:
         }
         async.map(servers, function (server, next) {
             let serverId = server['id'];
-            client.rpcInvoke(serverId, msg, function (err: Error, resp) {
-                next(err, resp);
-            });
-        }, (err, results) => {
-            if(err) {
-                reject(err);
-            } else {
-                resolve(results);
-            }
-        });
+            client.rpcInvoke(serverId, msg, next);
+        }, cb);
     } else {
-        client.rpcInvoke(serverId, msg, (err, resp) => {
-            err ? reject(err) : resolve(resp);
-        });
+        client.rpcInvoke(serverId, msg, cb);
     }
 };
 
