@@ -3,7 +3,7 @@
   "packages": [
     "packages/*"
   ],
-  "version": "1.2.19",
+  "version": "1.2.20",
   "registry": "https://registry.npmjs.org/",
   "npmClient": "yarn",
   "useWorkspaces": true

@@ -1,6 +1,6 @@
 {
 	"name": "pinus-rpc",
-	"version": "1.2.18",
+	"version": "1.2.20",
 	"main": "./dist/index",
 	"types": "./lib/index",
 	"files": [
@@ -34,8 +34,8 @@
 		"bluebird": "^3.5.1",
 		"crc": "^0.2.1",
 		"mqtt-connection": "^3.2.0",
-		"pinus-loader": "^1.2.14",
-		"pinus-logger": "^1.2.14",
+		"pinus-loader": "^1.2.20",
+		"pinus-logger": "^1.2.20",
 		"socket.io": "^2.0.4",
 		"stream-pkg": "0.0.5",
 		"uuid": "^3.1.0",

@@ -1,6 +1,6 @@
 {
     "name": "pinus-simple-example-game-server",
-    "version": "1.2.19",
+    "version": "1.2.20",
     "private": false,
     "bin": {
         "$": "./dist/bin/app.js"
@@ -8,25 +8,24 @@
     "main": "./dist/app",
     "scripts": {
         "build": "tsc",
-		"start": "yarn run build && node dist/index",
-		"lint": "node_modules/.bin/tslint --format prose -c ../../../tslint.json **/*.ts",
-		"fix-lint": "node_modules/.bin/tslint --format prose -c ../../../tslint.json **/*.ts --fix",
-		"test": "yarn run build",
-		"cov": "nyc mocha",
-		"ci": "yarn run test",
-		"gen-api-ref": "node ../../../node_modules/typedoc/bin/typedoc --mode file --hideGenerator --excludeExternals --ignoreCompilerErrors --out ../../../run/site/public/api-reference/pinus-loader lib/"
-
+        "start": "yarn run build && node dist/index",
+        "lint": "node_modules/.bin/tslint --format prose -c ../../../tslint.json **/*.ts",
+        "fix-lint": "node_modules/.bin/tslint --format prose -c ../../../tslint.json **/*.ts --fix",
+        "test": "yarn run build",
+        "cov": "nyc mocha",
+        "ci": "yarn run test",
+        "gen-api-ref": "node ../../../node_modules/typedoc/bin/typedoc --mode file --hideGenerator --excludeExternals --ignoreCompilerErrors --out ../../../run/site/public/api-reference/pinus-loader lib/"
     },
     "dependencies": {
         "@types/bluebird": "^3.5.19",
         "@types/node": "^8.5.2",
         "bluebird": "^3.5.1",
-        "pinus": "^1.2.19",
+        "pinus": "^1.2.20",
         "reflect-metadata": "^0.1.10",
         "source-map-support": "^0.5.0"
     },
     "devDependencies": {
-		"tslint": "^5.9.0",
+        "tslint": "^5.9.0",
         "typescript": "^2.6.2"
     }
 }

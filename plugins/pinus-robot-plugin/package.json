@@ -1,6 +1,6 @@
 {
   "name": "pinus-robot-plugin",
-  "version": "1.2.19",
+  "version": "1.2.20",
   "description": "pinus robot plugin",
   "files": [
     "dist",
@@ -15,19 +15,18 @@
     "cov": "nyc mocha",
     "ci": "yarn run test",
     "gen-api-ref": "node ../../node_modules/typedoc/bin/typedoc --mode file --hideGenerator --excludeExternals --ignoreCompilerErrors --out ../../run/site/public/api-reference/pinus-monitor lib/"
-   
   },
   "main": "./dist/index",
   "types": "./src/index",
   "dependencies": {
     "@types/node": "^8.5.2",
     "@types/yargs": "^10.0.1",
-    "pinus": "^1.2.19",
+    "pinus": "^1.2.20",
     "yargs": "^10.0.3"
   },
   "devDependencies": {
-  "tslint": "^5.9.0",
-      "typescript": "^2.6.2"
+    "tslint": "^5.9.0",
+    "typescript": "^2.6.2"
   },
   "license": "MIT"
 }
