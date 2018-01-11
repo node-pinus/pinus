@@ -23,7 +23,7 @@ describe('#toobusyFilter', function () {
       }
       let start = Date.now();
       while ((Date.now() - start) < 250) {
-        for (let i = 0; i < 1e5;) i++;
+        for (let i = 0; i < 1e5; ) i++;
       }
       setTimeout(load, 0);
     }

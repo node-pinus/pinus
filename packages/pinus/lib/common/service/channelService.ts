@@ -532,7 +532,7 @@ let addToStore = function (self: ChannelService, key: string,  value: string) {
     if (!!self.store) {
         self.store.add(key, value, function (err) {
             if (!!err) {
-                logger.error('add key: %s value: %s to store, with err: %j', key, value);
+                logger.error('add key: %s value: %s to store, with err: %j', key, value, err);
             }
         });
     }
@@ -542,7 +542,7 @@ let removeFromStore = function (self: ChannelService, key: string,  value: strin
     if (!!self.store) {
         self.store.remove(key, value, function (err) {
             if (!!err) {
-                logger.error('remove key: %s value: %s from store, with err: %j', key, value);
+                logger.error('remove key: %s value: %s from store, with err: %j', key, value, err);
             }
         });
     }
@@ -552,7 +552,7 @@ let loadAllFromStore = function (self: ChannelService, key: string, cb: (err: Er
     if (!!self.store) {
         self.store.load(key, function (err, list) {
             if (!!err) {
-                logger.error('load key: %s from store, with err: %j', key);
+                logger.error('load key: %s from store, with err: %j', key, err);
                 utils.invokeCallback(cb, err);
             } else {
                 utils.invokeCallback(cb, null, list);
@@ -565,7 +565,7 @@ let removeAllFromStore = function (self: ChannelService, key: string) {
     if (!!self.store) {
         self.store.removeAll(key, function (err) {
             if (!!err) {
-                logger.error('remove key: %s all members from store, with err: %j', key);
+                logger.error('remove key: %s all members from store, with err: %j', key, err);
             }
         });
     }

@@ -1,6 +1,6 @@
 {
 	"name": "pinus-rpc",
-	"version": "1.2.18",
+	"version": "1.2.20",
 	"main": "./dist/index",
 	"types": "./lib/index",
 	"files": [
@@ -13,8 +13,8 @@
 	"scripts": {
 		"build": "tsc",
 		"start": "yarn run build && node dist/index",
-		"lint": "node --max_old_space_size=4096 ../../node_modules/tslint/bin/tslint --format prose -c ../../tslint.json lib/**/*.ts test/**/*.ts",
-		"fix-lint": "node --max_old_space_size=4096 ../../node_modules/tslint/bin/tslint --format prose -c ../../tslint.json lib/**/*.ts test/**/*.ts --fix",
+		"lint": "node_modules/.bin/tslint --format prose -c ../../tslint.json lib/**/*.ts test/**/*.ts",
+		"fix-lint": "node_modules/.bin/tslint --format prose -c ../../tslint.json lib/**/*.ts test/**/*.ts --fix",
 		"test": "yarn run build",
 		"cov": "nyc mocha",
 		"ci": "yarn run test",
@@ -22,6 +22,7 @@
 	},
 	"dependencies": {
 		"@types/async": "^2.0.46",
+		"@types/bluebird": "^3.5.19",
 		"@types/crc": "^3.4.0",
 		"@types/node": "^8.5.2",
 		"@types/socket.io": "^1.4.31",
@@ -30,10 +31,11 @@
 		"@types/ws": "^3.2.1",
 		"async": "^1.5.2",
 		"bearcat-buffer": "^0.1.x",
+		"bluebird": "^3.5.1",
 		"crc": "^0.2.1",
 		"mqtt-connection": "^3.2.0",
-		"pinus-loader": "^1.2.14",
-		"pinus-logger": "^1.2.14",
+		"pinus-loader": "^1.2.20",
+		"pinus-logger": "^1.2.20",
 		"socket.io": "^2.0.4",
 		"stream-pkg": "0.0.5",
 		"uuid": "^3.1.0",
@@ -42,6 +44,7 @@
 	"devDependencies": {
 		"mocha": "^4.1.0",
 		"should": "^13.2.0",
+		"tslint": "^5.9.0",
 		"typescript": "^2.6.2"
 	}
 }

@@ -9,7 +9,7 @@ import * as utils from '../util/utils';
 import * as Proxy from '../util/proxy';
 import * as router from './router';
 import * as async from 'async';
-import {RpcServerInfo, MailStation, MailStationErrorHandler, RpcFilter} from './mailstation';
+import { RpcServerInfo, MailStation, MailStationErrorHandler, RpcFilter } from './mailstation';
 import { ErrorCallback } from 'async';
 import { MailBoxFactory } from './mailbox';
 import { ConsistentHash } from '../util/consistentHash';
@@ -22,12 +22,12 @@ let STATE_INITED = 1; // client has inited
 let STATE_STARTED = 2; // client has started
 let STATE_CLOSED = 3; // client has closed
 
-export type RouterFunction = (session: {[key: string]: any}, msg: RpcMsg, context: RouteContext, cb: (err: Error, serverId?: string) => void) => void;
-export type Router = RouterFunction | {route: RouterFunction};
+export type RouterFunction = (session: { [key: string]: any }, msg: RpcMsg, context: RouteContext, cb: (err: Error, serverId?: string) => void) => void;
+export type Router = RouterFunction | { route: RouterFunction };
 
 export type RouteServers = RpcServerInfo[];
 export interface RouteContextClass {
-    getServersByType ?: (serverType: string) => RouteServers;
+    getServersByType?: (serverType: string) => RouteServers;
 }
 
 export type RouteContext = RouteServers | RouteContextClass;
@@ -48,11 +48,11 @@ export interface RpcClientOpts {
     routerType?: string;
     rpcDebugLog?: boolean;
     clientId?: string;
-    servers?: {serverType: Array<RpcServerInfo>};
+    servers?: { serverType: Array<RpcServerInfo> };
     mailboxFactory?: MailBoxFactory;
     rpcLogger?: Logger;
-    station ?: MailStation;
-    hashFieldIndex ?: number;
+    station?: MailStation;
+    hashFieldIndex?: number;
 }
 
 export interface RpcMsg {
@@ -63,6 +63,7 @@ export interface RpcMsg {
     args: any[];
 }
 
+export type TargetRouterFunction = (serverType: string, msg: RpcMsg, routeParam: object, cb: (err: Error, serverId: string) => void) => void;
 
 /**
  * RPC Client Class
@@ -78,8 +79,10 @@ export class RpcClient {
     _station: MailStation;
     state: number;
 
-    wrrParam ?: {[serverType: string]: {index: number, weight: number}};
-    chParam ?:  {[serverType: string]: {consistentHash: ConsistentHash}};
+    targetRouterFunction: TargetRouterFunction;
+
+    wrrParam?: { [serverType: string]: { index: number, weight: number } };
+    chParam?: { [serverType: string]: { consistentHash: ConsistentHash } };
 
     constructor(opts?: RpcClientOpts) {
         opts = opts || {};
@@ -93,6 +96,7 @@ export class RpcClient {
         }
         this.opts = opts;
         this.proxies = {};
+        this.targetRouterFunction = getRouteFunction(this);
         this._station = createStation(opts);
         this.state = STATE_INITED;
     }
@@ -191,7 +195,7 @@ export class RpcClient {
      *
      * @param  {String|Number} id server id
      */
-    removeServer(id: string|number) {
+    removeServer(id: string | number) {
         this._station.removeServer(id);
     }
 
@@ -200,7 +204,7 @@ export class RpcClient {
      *
      * @param  {Array} ids remote server id list
      */
-    removeServers(ids: Array<string|number>) {
+    removeServers(ids: Array<string | number>) {
         this._station.removeServers(ids);
     }
 
@@ -221,7 +225,7 @@ export class RpcClient {
      *    {serverType: serverType, service: serviceName, method: methodName, args: arguments}
      * @param cb {Function} cb(err, ...)
      */
-    rpcInvoke(serverId: string, msg: RpcMsg, cb: (err: Error , ...args: any[]) => void) {
+    rpcInvoke(serverId: string, msg: RpcMsg, cb: (err: Error, ...args: any[]) => void) {
         let rpcDebugLog = this.rpcDebugLog;
         let tracer: Tracer;
 
@@ -308,8 +312,8 @@ let generateProxy = function (client: RpcClient, record: RemoteServerCode, conte
     if (!record) {
         return;
     }
-    let res: {[key: string]: any}, name;
-    let modules: {[key: string]: any} = Loader.load(record.path, context, false);
+    let res: { [key: string]: any }, name;
+    let modules: { [key: string]: any } = Loader.load(record.path, context, false);
     if (modules) {
         res = {};
         for (name in modules) {
@@ -336,7 +340,7 @@ let generateProxy = function (client: RpcClient, record: RemoteServerCode, conte
  *
  * @api private
  */
-let proxyCB = function (client: RpcClient, serviceName: string, methodName: string, args: Array<any>, attach: {[key: string]: any}, isToSpecifiedServer: boolean) {
+let proxyCB = function (client: RpcClient, serviceName: string, methodName: string, args: Array<any>, attach: { [key: string]: any }, isToSpecifiedServer: boolean) {
     if (client.state !== STATE_STARTED) {
         return Promise.reject(new Error('[pinus-rpc] fail to invoke rpc proxy for client is not running'));
     }
@@ -361,9 +365,8 @@ let proxyCB = function (client: RpcClient, serviceName: string, methodName: stri
             rpcToSpecifiedServer(client, msg, serverType, routeParam, resolve, reject);
         }
         else {
-            getRouteTarget(client, serverType, msg, routeParam, function (err: Error, serverId: string) {
+            client.targetRouterFunction(serverType, msg, routeParam, function (err: Error, serverId: string) {
                 if (err) {
-                    // fix by sw.  有错误不是应该reject吗? resolve err 是什么意思
                     return reject(err);
                 }
                 client.rpcInvoke(serverId, msg, function (err: Error, resp: string) {
@@ -390,9 +393,9 @@ let proxyCB = function (client: RpcClient, serviceName: string, methodName: stri
  *
  * @api private
  */
-let getRouteTarget = function (client: RpcClient, serverType: string, msg: RpcMsg, routeParam: object, cb: (err: Error, serverId: string) => void) {
+function getRouteFunction(client: RpcClient): TargetRouterFunction {
     if (!!client.routerType) {
-        let method;
+        let method: (client: RpcClient, serverType: string, msg: RpcMsg, cb: (err: Error, serverId?: string) => void) => void;
         switch (client.routerType) {
             case constants.SCHEDULE.ROUNDROBIN:
                 method = router.rr;
@@ -410,11 +413,13 @@ let getRouteTarget = function (client: RpcClient, serverType: string, msg: RpcMs
                 method = router.rd;
                 break;
         }
-        method.call(null, client, serverType, msg, function (err: Error, serverId: string) {
-            cb(err, serverId);
-        });
+        return (serverType: string, msg: RpcMsg, routeParam: object, cb: (err: Error, serverId: string) => void) => {
+            method.call(null, client, serverType, msg, function (err: Error, serverId: string) {
+                cb(err, serverId);
+            });
+        };
     } else {
-        let route, target;
+        let route: RouterFunction, target: Object;
         if (typeof client.router === 'function') {
             route = client.router;
             target = null;
@@ -425,11 +430,14 @@ let getRouteTarget = function (client: RpcClient, serverType: string, msg: RpcMs
             logger.error('[pinus-rpc] invalid route function.');
             return;
         }
-        route.call(target, routeParam, msg, client._routeContext, function (err: Error, serverId: string) {
-            cb(err, serverId);
-        });
+
+        return (serverType: string, msg: RpcMsg, routeParam: object, cb: (err: Error, serverId: string) => void) => {
+            route.call(target, routeParam, msg, client._routeContext, function (err: Error, serverId: string) {
+                cb(err, serverId);
+            });
+        };
     }
-};
+}
 
 /**
  * Rpc to specified server id or servers.
@@ -485,7 +493,7 @@ let rpcToSpecifiedServer = function (client: RpcClient, msg: RpcMsg, serverType:
  *
  * @api private
  */
-let insertProxy = function (proxies: Proxies, namespace: string, serverType: string, proxy: {[key: string]: any}) {
+let insertProxy = function (proxies: Proxies, namespace: string, serverType: string, proxy: { [key: string]: any }) {
     proxies[namespace] = proxies[namespace] || {};
     if (proxies[namespace][serverType]) {
         for (let attr in proxy) {

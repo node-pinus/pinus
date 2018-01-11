@@ -12,7 +12,7 @@ import { MasterAgent } from '../master/masterAgent';
 import { MasterCallback } from '../../index';
 let logger = getLogger('pinus-admin', path.basename(__filename));
 const readLastLines = require('read-last-lines');
-let DEFAULT_INTERVAL = 5 * 60;		// in second
+let DEFAULT_INTERVAL = 5 * 60;        // in second
 
 
 /**

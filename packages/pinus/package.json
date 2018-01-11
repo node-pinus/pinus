@@ -1,6 +1,6 @@
 {
   "name": "pinus",
-  "version": "1.2.19",
+  "version": "1.2.20",
   "homepage": "https://github.com/mybios/pinus",
   "repository": {
     "type": "git",
@@ -9,8 +9,8 @@
   "scripts": {
     "build": "tsc",
     "start": "yarn run build && node dist/index",
-    "lint": "node --max_old_space_size=4096 ../../node_modules/tslint/bin/tslint --format prose -c ../../tslint.json lib/**/*.ts test/**/*.ts",
-    "fix-lint": "node --max_old_space_size=4096 ../../node_modules/tslint/bin/tslint --format prose -c ../../tslint.json lib/**/*.ts test/**/*.ts --fix",
+    "lint": "node_modules/.bin/tslint --format prose -c ../../tslint.json lib/**/*.ts test/**/*.ts",
+    "fix-lint": "node_modules/.bin/tslint --format prose -c ../../tslint.json lib/**/*.ts test/**/*.ts --fix",
     "test": "yarn run build",
     "cov": "nyc mocha",
     "ci": "yarn run test",
@@ -55,13 +55,13 @@
     "mkdirp": "^0.5.1",
     "mqtt-connection": "^3.2.0",
     "node-bignumber": "^1.2.1",
-    "pinus-admin": "^1.2.18",
-    "pinus-loader": "^1.2.14",
-    "pinus-logger": "^1.2.14",
-    "pinus-protobuf": "^1.2.14",
-    "pinus-protocol": "^1.2.14",
-    "pinus-rpc": "^1.2.18",
-    "pinus-scheduler": "^1.2.14",
+    "pinus-admin": "^1.2.20",
+    "pinus-loader": "^1.2.20",
+    "pinus-logger": "^1.2.20",
+    "pinus-protobuf": "^1.2.20",
+    "pinus-protocol": "^1.2.20",
+    "pinus-rpc": "^1.2.20",
+    "pinus-scheduler": "^1.2.20",
     "seq-queue": "^0.0.5",
     "socket.io": "^2.0.4",
     "ws": "^3.3.3"
@@ -81,6 +81,7 @@
     "muk": ">=0.0.1",
     "nyc": "^8.4.0",
     "should": "^3.3.2",
+    "tslint": "^5.9.0",
     "typescript": "^2.6.2"
   }
 }

@@ -62,8 +62,8 @@ export class AdminClient {
         this.socket.connect(host, port);
 
         // this.socket = io.connect('http://' + host + ':' + port, {
-        // 	'force new connection': true,
-        // 	'reconnect': false
+        //     'force new connection': true,
+        //     'reconnect': false
         // });
 
         this.socket.on('connect',  () => {

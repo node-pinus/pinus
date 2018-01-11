@@ -1,6 +1,6 @@
 {
   "name": "pinus-robot",
-  "version": "1.2.18",
+  "version": "1.2.20",
   "private": false,
   "dependencies": {
     "@types/cliff": "^0.1.4",
@@ -16,8 +16,8 @@
   "scripts": {
     "build": "tsc",
     "start": "yarn run build && node dist/index",
-    "lint": "node --max_old_space_size=4096 ../../node_modules/tslint/bin/tslint --format prose -c ../../tslint.json lib/**/*.ts test/**/*.ts",
-    "fix-lint": "node --max_old_space_size=4096 ../../node_modules/tslint/bin/tslint --format prose -c ../../tslint.json lib/**/*.ts test/**/*.ts --fix",
+    "lint": "node_modules/.bin/tslint --format prose -c ../../tslint.json lib/**/*.ts test/**/*.ts",
+    "fix-lint": "node_modules/.bin/tslint --format prose -c ../../tslint.json lib/**/*.ts test/**/*.ts --fix",
     "test": "yarn run build",
     "cov": "nyc mocha",
     "ci": "yarn run test",

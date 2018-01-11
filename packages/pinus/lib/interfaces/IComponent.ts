@@ -8,6 +8,14 @@ export interface IComponent {
      * @param {Function} cb
      * @return {Void}
      */
+    beforeStart?: (cb: () => void) => void;
+
+    /**
+     * Component lifecycle callback
+     *
+     * @param {Function} cb
+     * @return {Void}
+     */
     start ?: (cb: () => void) => void;
 
     /**

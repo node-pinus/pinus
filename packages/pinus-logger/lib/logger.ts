@@ -12,37 +12,6 @@ let funcs: {[key: string]: (name: string , opts: any) => string} = {
     'opts': doOpts
 };
 
-let styles = {
-    // styles
-    'bold': [1, 22],
-    'italic': [3, 23],
-    'underline': [4, 24],
-    'inverse': [7, 27],
-    // grayscale
-    'white': [37, 39],
-    'grey': [90, 39],
-    'black': [90, 39],
-    // colors
-    'blue': [34, 39],
-    'cyan': [36, 39],
-    'green': [32, 39],
-    'magenta': [35, 39],
-    'red': [31, 39],
-    'yellow': [33, 39]
-};
-
-let colours = {
-    'all': 'grey',
-    'log': 'grey',
-    'trace': 'blue',
-    'debug': 'cyan',
-    'info': 'green',
-    'warn': 'yellow',
-    'error': 'red',
-    'fatal': 'magenta',
-    'off': 'grey'
-};
-
 function getLogger(... args: string[]) {
     let categoryName = args[0];
     let prefix =  '';
@@ -62,7 +31,7 @@ function getLogger(... args: string[]) {
         pLogger[key] = logger[key];
     }
 
-    ['log', 'debug', 'info', 'warn', 'error', 'trace', 'fatal'].forEach((item: keyof typeof colours) => {
+    ['log', 'debug', 'info', 'warn', 'error', 'trace', 'fatal'].forEach((item) => {
         pLogger[item] = function () {
             let p = '';
             if (!process.env.RAW_MESSAGE) {
@@ -81,15 +50,13 @@ function getLogger(... args: string[]) {
                 if (args.length && process.env.LOGGER_LINE) {
                     p = getLine() + ': ' + p;
                 }
-                let a = colours[item];
-                p = colorize(p, a as keyof typeof styles);
             }
 
             if (args.length) {
                 arguments[0] = p + arguments[0];
             }
             if (item === 'error' && process.env.ERROR_STACK) {
-                arguments[0] += colorize((new Error()).stack, colours[item] as keyof typeof styles);
+                arguments[0] += (new Error()).stack;
             }
             logger[item].apply(logger, arguments);
         };
@@ -137,8 +104,15 @@ function reloadConfiguration() {
     configState.lastMTime = mtime;
 }
 
+declare global {
+    interface Console {
+        debug(message?: any, ...optionalParams: any[]): void;
+    }
+}
+
 function replaceConsole() {
-    const logger = getLogger('console');
+    const logger = getLogger('logger' , 'console');
+    console.debug = logger.debug.bind(logger);
     console.log = logger.info.bind(logger);
     console.warn = logger.warn.bind(logger);
     console.error = logger.error.bind(logger);
@@ -318,20 +292,6 @@ function getLine() {
         return e.stack.split('\n')[3].split(':')[2];
     }
     return e.stack.split('\n')[3].split(':')[1];
-}
-
-function colorizeStart(style: keyof typeof styles) {
-    return style ? '\x1B[' + styles[style][0] + 'm' : '';
-}
-
-function colorizeEnd(style: keyof typeof styles) {
-    return style ? '\x1B[' + styles[style][1] + 'm' : '';
-}
-/**
- * Taken from masylum's fork (https://github.com/masylum/log4js-node)
- */
-function colorize(str: string, style: keyof typeof styles) {
-    return colorizeStart(style) + str + colorizeEnd(style);
 }
 
 export

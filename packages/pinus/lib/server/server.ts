@@ -28,6 +28,8 @@ export type ServerOptions = HandlerServiceOptions;
 
 export type FrontendOrBackendSession = FrontendSession | BackendSession;
 
+export type ResponseErrorHandler = (err: Error, msg: any, resp: any, session: FrontendOrBackendSession, cb: HandlerCallback) => void;
+
 export interface Cron {
     time: string;
     action: string;
@@ -81,7 +83,7 @@ export class Server extends EventEmitter {
         this.state = ST_STARTED;
     }
 
-    afterStart() {
+    afterStartAll() {
         scheduleCrons(this, this.crons);
     }
 
@@ -312,7 +314,7 @@ let afterFilter = function (isGlobal: boolean, server: Server, err: Error, route
  * pass err to the global error handler if specified
  */
 let handleError = function (isGlobal: boolean, server: Server, err: Error, msg: any, session: FrontendOrBackendSession, resp: any, cb: HandlerCallback) {
-    let handler;
+    let handler: ResponseErrorHandler;
     if (isGlobal) {
         handler = server.app.get(Constants.RESERVED.GLOBAL_ERROR_HANDLER);
     } else {

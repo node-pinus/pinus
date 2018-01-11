@@ -7,7 +7,7 @@
 		"nyc": "^11.2.1",
 		"pinus-site-tools": "^1.0.6",
 		"ts-node": "^3.2.0",
-		"tslint": "^5.8.0",
+		"tslint": "^5.9.0",
 		"typedoc": "^0.9.0",
 		"typescript": "^2.6.2"
 	},
@@ -15,7 +15,7 @@
 		"preinstall": "node -e \"if(process.env.npm_execpath.indexOf('yarn') === -1) throw new Error('请使用 Yarn 来代替 NPM 安装依赖，请看：https://yarnpkg.com/zh-Hans/docs/install')\"",
 		"test": "mocha",
 		"cov": "sh scripts/cov.sh",
-		"ci": "yarn run build && yarn run cov",
+		"ci": "yarn run build && yarn run lint",
 		"purge": "yarn run clean && rm -rf node_modules",
 		"reset": "yarn run purge && npm i && yarn run ci",
 		"canary": "lerna publish --canary",

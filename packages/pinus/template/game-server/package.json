@@ -16,8 +16,11 @@
         "pinus":"#",
         "bluebird": "^3.5.1",
         "source-map-support": "^0.5.0",
-        "reflect-metadata": "^0.1.10",
-        "typescript": "^2.6.1"
+        "reflect-metadata": "^0.1.10"
+    },
+    "devDependencies": {
+		"tslint": "^5.9.0",
+        "typescript": "^2.6.2"
     }
 }
 

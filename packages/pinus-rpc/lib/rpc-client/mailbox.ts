@@ -19,11 +19,11 @@ export function createMailBox (serverInfo: {id: string, host: string, port: numb
     // let mailbox = opts.mailbox || 'mqtt';
     // let Mailbox = null;
     // if (mailbox == 'ws') {
-    // 	Mailbox = WsMailbox;
+    //     Mailbox = WsMailbox;
     // } else if (mailbox == 'ws2') {
-    // 	Mailbox = Ws2Mailbox;
+    //     Mailbox = Ws2Mailbox;
     // } else if (mailbox == 'mqtt') {
-    // 	Mailbox = MqttMailbox;
+    //     Mailbox = MqttMailbox;
     // }
     return Mailbox.create(serverInfo, opts);
 }

@@ -38,8 +38,17 @@ export class ServerComponent  implements IComponent {
      * @return {Void}
      */
     afterStart(cb: () => void) {
-        this.server.afterStart();
         process.nextTick(cb);
+    }
+
+    /**
+     * Component lifecycle callback
+     *
+     * @param {Function} cb
+     * @return {Void}
+     */
+    afterStartAll() {
+        this.server.afterStartAll();
     }
 
     /**

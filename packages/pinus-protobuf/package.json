@@ -1,6 +1,6 @@
 {
   "name": "pinus-protobuf",
-  "version": "1.2.14",
+  "version": "1.2.20",
   "main": "./dist/protobuf",
   "types": "./lib/protobuf",
   "dependencies": {
@@ -14,8 +14,8 @@
   "scripts": {
     "build": "tsc",
     "start": "yarn run build && node dist/index",
-    "lint": "node --max_old_space_size=4096 ../../node_modules/tslint/bin/tslint --format prose -c ../../tslint.json lib/**/*.ts test/**/*.ts",
-    "fix-lint": "node --max_old_space_size=4096 ../../node_modules/tslint/bin/tslint --format prose -c ../../tslint.json lib/**/*.ts test/**/*.ts --fix",
+    "lint": "node_modules/.bin/tslint --format prose -c ../../tslint.json lib/**/*.ts test/**/*.ts",
+    "fix-lint": "node_modules/.bin/tslint --format prose -c ../../tslint.json lib/**/*.ts test/**/*.ts --fix",
     "test": "yarn run build",
     "cov": "nyc mocha",
     "ci": "yarn run test",
@@ -24,6 +24,7 @@
   "devDependencies": {
     "mocha": "^4.0.1",
     "should": "^13.2.0",
+    "tslint": "^5.9.0",
     "typescript": "^2.6.2"
   }
 }

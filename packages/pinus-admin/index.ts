@@ -12,9 +12,9 @@ export * from './lib/monitor/monitorAgent';
 export * from './lib/master/masterAgent';
 
 export let modules = {
-	monitorLog : MonitorLogModule,
-	nodeInfo : NodeInfoModule,
-	profiler : ProfilerModule,
-	scripts : ScriptsModule,
-	systemInfo : SystemInfoModule
+    monitorLog : MonitorLogModule,
+    nodeInfo : NodeInfoModule,
+    profiler : ProfilerModule,
+    scripts : ScriptsModule,
+    systemInfo : SystemInfoModule
 };
