@@ -13,7 +13,7 @@ export class Service {
         // console.log(msg);
         // console.log(data);
         console.log('~~~ echo  ', msg, data);
-        return msg;
+        return [msg, data + Date.now()];
         // cb(null, msg, 'aaa' + Date.now());
         // }, 15000);
     }
