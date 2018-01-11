@@ -32,7 +32,17 @@ export interface RouteContextClass {
 
 export type RouteContext = RouteServers | RouteContextClass;
 
-export type Proxies = {[namespace: string]: {[serverType: string]: {[remoterName: string]: {[attr: string]: Function}}}};
+interface IProxieFunction {
+    toServer: (server: string, ...args: any[]) => any;
+    toServers: (servers: string[], ...args: any[]) => any;
+}
+
+export type Proxies = {
+    [namespace: string]:
+        {[serverType: string]:
+                {[remoterName: string]:
+                        {[attr: string]: Function & IProxieFunction}}}
+};
 
 export interface RpcClientOpts {
     context?: any;
@@ -495,3 +505,5 @@ export function createClient(opts: RpcClientOpts) {
 // module.exports.WSMailbox from ('./mailboxes/ws-mailbox'); // socket.io
 // module.exports.WS2Mailbox from ('./mailboxes/ws2-mailbox'); // ws
 export { create as MQTTMailbox } from './mailboxes/mqtt-mailbox'; // mqtt
+
+

@@ -27,13 +27,13 @@ var ttypes = require('./gen-nodejs/tutorial_types');
 transport = thrift.TBufferedTransport()
 protocol = thrift.TBinaryProtocol()
 
-var connection = thrift.createConnection("localhost", 9090, {
+var connection = thrift.createConnection("127.0.0.1", 9090, {
   transport : transport,
   protocol : protocol
 });
 
 connection.on('error', function(err) {
-  assert(false, err);
+  console.error(false, err);
 });
 
 // Create a Calculator client with the connection

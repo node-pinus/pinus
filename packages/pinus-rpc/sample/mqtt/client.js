@@ -1,6 +1,6 @@
-var net = require'net',
-	mqttCon = require'mqtt-connection',
-	stream = net.createConnection(1883, 'localhost'),
+var net = require('net'),
+	mqttCon = require('mqtt-connection'),
+	stream = net.createConnection(1883, '127.0.0.1'),
 	conn = mqttCon(stream);
 var start = null;
 

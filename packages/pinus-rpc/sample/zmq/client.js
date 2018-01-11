@@ -1,7 +1,7 @@
 var zmq = require('zmq');
 var socket = zmq.socket('dealer');
 socket.identity = 'test';
-socket.connect('tcp://localhost:3331');
+socket.connect('tcp://127.0.0.1:3331');
 
 run();
 
