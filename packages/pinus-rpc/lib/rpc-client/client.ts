@@ -450,13 +450,21 @@ let rpcToSpecifiedServer = function (client: RpcClient, msg: RpcMsg, serverType:
     }
     if (serverId === '*') {
         // (client._routeContext as RouteContextClass).getServersByType(serverType);
-        let servers = client._station.servers;
+        let servers: string[];
+        if(client._routeContext && (client._routeContext as RouteContextClass).getServersByType) {
+            const serverinfos = (client._routeContext as RouteContextClass).getServersByType(serverType);
+            if(serverinfos) {
+                servers = serverinfos.map(v => v.id);
+            }
+        } else {
+            servers = client._station.serversMap[serverType];
+        }
+     //   console.log('servers  ', servers);
         if (!servers) {
             logger.error('[pinus-rpc] serverType %s servers not exist', serverType);
             return;
         }
-        async.map(servers, function (server, next) {
-            let serverId = server['id'];
+        async.map(servers, function (serverId, next) {
             client.rpcInvoke(serverId, msg, next);
         }, cb);
     } else {
