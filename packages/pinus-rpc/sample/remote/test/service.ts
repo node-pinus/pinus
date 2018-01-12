@@ -1,9 +1,9 @@
 // remote service
 export default function (app: any) {
-    return new service(app);
+    return new Service(app);
 }
 
-export class service {
+export class Service {
     constructor(private app: any) {
     }
     async echo(msg: string, data: number) {

@@ -18,45 +18,47 @@
 
 
 import { RpcClient, RpcMsg, RouteContext, RouteServers } from '../index';
+import { configure } from 'pinus-logger';
+configure('./config/log4js.json');
 
 // remote service interface path info list
-var records = [{
+let records = [{
   namespace: 'user',
   serverType: 'test',
   path: __dirname + '/remote/test'
 }];
 
-var context = {
+let context = {
   serverId: 'test-server-1'
 };
 
 // server info list
-var servers =
+let servers =
   [{
     id: 'test-server-1',
     serverType: 'test',
     host: '127.0.0.1',
     port: 3333
-  }]
+  }];
 // route parameter passed to route function
-var routeParam: string = null;
+let routeParam: string = null;
 
 // route context passed to route function
-var routeContext = servers;
+let routeContext = servers;
 
 
 // route function to caculate the remote server id
-var routeFunc = function (session: { [key: string]: any }, msg: RpcMsg, context: RouteServers, cb: (err: Error, serverId?: string) => void) {
+let routeFunc = function (session: { [key: string]: any }, msg: RpcMsg, context: RouteServers, cb: (err: Error, serverId?: string) => void) {
   cb(null, context[0].id);
 };
 
-var client = new RpcClient({
+let client = new RpcClient({
   routeContext: servers,
   router: routeFunc,
   context: context
 });
 
-var start: number = null;
+let start: number = null;
 client.start(async function (err) {
   console.log('rpc client start ok.');
 
@@ -64,29 +66,28 @@ client.start(async function (err) {
   client.addServers(servers);
 
   start = Date.now();
-  //runSerial();
-  //runParallels();
+  // runSerial();
+  // runParallels();
   runOnlySends();
 });
 
-var num_requests = 100000;
-var times = 0;
-var mock_data_1 = 'hello';
-var mock_data_2 = 'hello';
+let num_requests = 100000;
+let times = 0;
+let mock_data_1 = 'hello';
+let mock_data_2 = 'hello';
 
-var num_repeat = 200; // 100 200 300 400 800
+let num_repeat = 200; // 100 200 300 400 800
 
-for (var i = 0; i < num_repeat; i++) {
+for (let i = 0; i < num_repeat; i++) {
   mock_data_2 += mock_data_1;
 }
-var mock_data_1 = "abcdefg";
-var mock_data_3 = {
+let mock_data_3 = {
   a: 'run',
   b: mock_data_2 + Date.now() + '_',
   time: Date.now()
-}
+};
 
-var payload = mock_data_3;
+let payload = mock_data_3;
 
 // console.log(new Buffer(payload).length / 1024 + 'k');
 console.log(new Buffer(JSON.stringify(payload)).length / 1024 + 'k');
@@ -97,12 +98,12 @@ async function runParallels() {
     if (maxParallel > 10000) {
       maxParallel = 10000;
     }
-    var now = Date.now();
+    let now = Date.now();
     start = now;
     await runParallel(maxParallel);
 
-    var now = Date.now();
-    var cost = now - start;
+    now = Date.now();
+    let cost = now - start;
     console.log(`runParallel ${num_requests} num requests(maxParallel:${maxParallel}) cost ${cost}ms , ${(num_requests / (cost / 1000)).toFixed(2)}ops/sec`);
 
     maxParallel = maxParallel * 2;
@@ -113,7 +114,7 @@ async function runParallel(maxParallel: number) {
   let all = [];
   for (let times = 0; times < num_requests; times++) {
     all.push(rpcRequest(payload));
-    if (all.length == maxParallel) {
+    if (all.length === maxParallel) {
       await Promise.all(all);
       all.length = 0;
     }
@@ -126,9 +127,9 @@ async function runSerial() {
     return;
   }
 
-  if (times == num_requests) {
-    var now = Date.now();
-    var cost = now - start;
+  if (times === num_requests) {
+    let now = Date.now();
+    let cost = now - start;
     console.log(`runSerial ${num_requests} num requests cost ${cost}ms , ${(num_requests / (cost / 1000)).toFixed(2)}ops/sec`);
     times = 0;
     start = now;
@@ -143,8 +144,8 @@ async function runSerial() {
 }
 
 async function rpcRequest(param: any) {
-  var result = await client.proxies.user.test.service.echo(routeParam, mock_data_1, 123);
-  //console.log(count++);
+  let result = await client.proxies.user.test.service.echo(routeParam, mock_data_1, 123);
+  // console.log(count++);
 }
 
 
@@ -157,12 +158,12 @@ async function runOnlySends() {
     if (maxParallel > 10000) {
       maxParallel = 10000;
     }
-    var now = Date.now();
+    let now = Date.now();
     start = now;
     runOnlySend(maxParallel);
 
-    var now = Date.now();
-    var cost = now - start;
+    now = Date.now();
+    let cost = now - start;
     console.log(`runOnlySend ${num_requests} num requests(maxParallel:${maxParallel}) cost ${cost}ms , ${(num_requests / (cost / 1000)).toFixed(2)}ops/sec`);
 
     maxParallel = maxParallel * 2;

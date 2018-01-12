@@ -1,4 +1,6 @@
 import {createServer} from '../index';
+import { configure } from 'pinus-logger';
+configure('./config/log4js.json');
 
 // remote service path info list
 let paths = [
