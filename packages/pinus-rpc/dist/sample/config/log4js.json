@@ -1,0 +1,28 @@
+{
+  "appenders": {
+      "console": {
+          "type": "console"
+      },
+      "file": {
+          "type": "file",
+          "filename": "${opts:base}/logs/${opts:serverId}.log",
+          "maxLogSize": 1048576,
+          "layout": {
+              "type": "basic"
+          },
+          "backups": 5
+      }
+  },
+
+  "categories": {
+      "default": {
+          "appenders": [ "console", "file" ],
+          "level": "debug"
+      }
+  },
+
+  "prefix": "${opts:serverId} ",
+  "replaceConsole": true,
+  "lineDebug": false,
+  "errorStack": true
+}
