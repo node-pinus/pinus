@@ -71,6 +71,7 @@ export class MailBox extends EventEmitter {
     serverId: string;
     socket: any;
     _interval: NodeJS.Timer;
+    _errored = false;
 
     connect(tracer: Tracer, cb: (err?: Error) => void) {
         tracer && tracer.info('client', __filename, 'connect', 'mqtt-mailbox try to connect');
@@ -97,6 +98,10 @@ export class MailBox extends EventEmitter {
                 }
 
                 clearTimeout(connectTimeout);
+                if(self._errored) {
+                    cb(new Error('mqtt-mailbox errored'));
+                    return;
+                }
                 self.connected = true;
                 if (self.bufferMsg) {
                     self._interval = setInterval( () => {
@@ -122,8 +127,13 @@ export class MailBox extends EventEmitter {
             }
         });
 
-        this.socket.on('error', function (err: Error) {
+        this.socket.on('error', function (err: any) {
+            self._errored = true;
             logger.error('rpc socket %s is error, remote server %s host: %s, port: %s', self.serverId, self.id, self.host, self.port);
+            if(err.code && err.code === 'ECONNREFUSED') {
+            //    self.emit('error', constants.RPC_ERROR.FAIL_CONNECT_SERVER, tracer, self.id, null, self.opts);
+                return;
+            }
             self.emit('close', self.id);
         });
 
