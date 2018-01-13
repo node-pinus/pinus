@@ -344,11 +344,11 @@ let proxyCB = function (client: RpcClient, serviceName: string, methodName: stri
     if (client.state !== STATE_STARTED) {
         return Promise.reject(new Error('[pinus-rpc] fail to invoke rpc proxy for client is not running'));
     }
-    if (args.length < 2) {
+    if (args.length < 1) {
 
-        logger.error('[pinus-rpc] invalid rpc invoke, arguments length less than 2, namespace: %j, serverType, %j, serviceName: %j, methodName: %j',
+        logger.error('[pinus-rpc] invalid rpc invoke, arguments length less than 1, namespace: %j, serverType, %j, serviceName: %j, methodName: %j',
             attach.namespace, attach.serverType, serviceName, methodName);
-        return Promise.reject(new Error('[pinus-rpc] invalid rpc invoke, arguments length less than 2'));
+        return Promise.reject(new Error('[pinus-rpc] invalid rpc invoke, arguments length less than 1'));
     }
     let routeParam = args.shift();
     let serverType = attach.serverType;
