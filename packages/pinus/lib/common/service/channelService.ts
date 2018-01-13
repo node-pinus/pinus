@@ -166,7 +166,10 @@ export class ChannelService implements IComponent {
             utils.invokeCallback(cb);
             return;
         }
-
+        if (!cb && typeof opts === 'function') {
+            cb = opts;
+            opts = undefined;
+        }
         let count = servers.length;
         let successFlag = false;
 
@@ -190,6 +193,15 @@ export class ChannelService implements IComponent {
             };
         };
 
+        opts = { type: 'broadcast', userOptions: opts || {} };
+
+        // for compatiblity
+        opts.isBroadcast = true;
+        if (opts.userOptions) {
+            opts.binded = opts.userOptions.binded;
+            opts.filterParam = opts.userOptions.filterParam;
+        }
+
         let self = this;
         let sendMessage = function (serverId: string) {
             return (function () {
@@ -203,15 +215,6 @@ export class ChannelService implements IComponent {
                 }
             }());
         };
-
-        opts = { type: 'broadcast', userOptions: opts || {} };
-
-        // for compatiblity
-        opts.isBroadcast = true;
-        if (opts.userOptions) {
-            opts.binded = opts.userOptions.binded;
-            opts.filterParam = opts.userOptions.filterParam;
-        }
 
         for (let i = 0, l = count; i < l; i++) {
             sendMessage(servers[i].id);

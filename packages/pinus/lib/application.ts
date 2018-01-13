@@ -40,7 +40,7 @@ import { BackendSessionComponent } from './components/backendSession';
 import { ServerInfo, FRONTENDID } from './util/constants';
 import { BeforeHandlerFilter, AfterHandlerFilter, IHandlerFilter } from './interfaces/IHandlerFilter';
 import { TransactionCondictionFunction, TransactionHandlerFunction } from './common/manager/appManager';
-import { RpcFilter, MailStationErrorHandler } from 'pinus-rpc';
+import { RpcFilter, MailStationErrorHandler, RpcMsg } from 'pinus-rpc';
 import { ILifeCycle } from './interfaces/ILifeCycle';
 import { ModuleRecord } from './util/moduleUtil';
 import { IPlugin, ApplicationEventContructor } from './interfaces/IPlugin';
@@ -1088,7 +1088,7 @@ export class Application {
      * @param {Object}   msg      rpc message: {serverType: serverType, service: serviceName, method: methodName, args: arguments}
      * @param {Function} cb      callback function
      */
-    rpcInvoke ?: (serverId: FRONTENDID, msg: any, cb: Function) => void;
+    rpcInvoke ?: (serverId: FRONTENDID, msg: RpcMsg, cb: Function) => void;
 
 
     /**

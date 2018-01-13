@@ -449,7 +449,7 @@ export class Session extends EventEmitter {
     uid: UID;
     settings: {[key: string]: any};
 
-    __socket__: any;
+    __socket__: ISocket;
     private __sessionService__: SessionService;
     private __state__: number;
 
@@ -578,6 +578,19 @@ export class Session extends EventEmitter {
             self.__socket__.disconnect();
         });
     }
+    /**
+     * 是否在线
+     */
+    get isOnline(): boolean {
+        return this.__state__ !== ST_CLOSED;
+    }
+
+    /**
+     * 获取客户端的地址
+     */
+    get remoteAddress() {
+        return this.__socket__.remoteAddress;
+    }
 }
 
 /**
@@ -656,6 +669,18 @@ export class FrontendSession extends EventEmitter {
         let res = {};
         clone(this, res, EXPORTED_SESSION_FIELDS);
         return res;
+    }
+    /**
+     * 是否在线
+     */
+    get isOnline(): boolean {
+        return this.__session__.isOnline;
+    }
+    /**
+     * 获取客户端的地址
+     */
+    get remoteAddress() {
+        return this.__session__.remoteAddress;
     }
 }
 

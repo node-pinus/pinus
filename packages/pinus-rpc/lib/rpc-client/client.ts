@@ -57,7 +57,7 @@ export interface RpcClientOpts {
 
 export interface RpcMsg {
     namespace: string;
-    serverType: string;
+    serverType?: string;
     service: string;
     method: string;
     args: any[];

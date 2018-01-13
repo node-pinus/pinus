@@ -12,6 +12,7 @@ export interface ISocket {
 
     emit(evt: 'heartbeat'): void;
     emit(evt: 'message' , pkg: any): void;
+    emit(evt: 'closing' , reason: string): void;
     emit(evt: 'handshake' , pkg: any): void;
 
     state: number;
