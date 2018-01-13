@@ -73,9 +73,9 @@ export class Watchdog extends EventEmitter {
     record(id: string) {
         if (!this.isStarted && --this.count < 0) {
             let usedTime = Date.now() - this.app.startTime;
-            logger.info('all servers startup in %s ms', usedTime);
             this.notify({ action: 'startOver' });
             this.isStarted = true;
+            logger.warn('all servers startup in %s ms', usedTime);
         }
     }
 

@@ -73,7 +73,7 @@ export class DictionaryComponent implements IComponent {
         // Sort the route to make sure all the routers abbr are the same in all the servers
         routes.sort();
 
-        console.warn('启动完毕，可用的路由：', JSON.stringify(routes));
+        console.warn('after start all server, use route dictionary :\n', routes.join('\n'));
 
         let abbr;
         let i;
