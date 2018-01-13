@@ -1,4 +1,4 @@
-var WebSocketServer = require'ws'.Server,
+var WebSocketServer = require('ws').Server,
 	wss = new WebSocketServer({
 		port: 3331
 	});

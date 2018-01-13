@@ -10,7 +10,7 @@ import * as Proxy from '../util/proxy';
 import * as router from './router';
 import * as async from 'async';
 import { RpcServerInfo, MailStation, MailStationErrorHandler, RpcFilter } from './mailstation';
-import { ErrorCallback } from 'async';
+import {AsyncFunction, AsyncResultArrayCallback, ErrorCallback} from 'async';
 import { MailBoxFactory } from './mailbox';
 import { ConsistentHash } from '../util/consistentHash';
 import { RemoteServerCode } from '../../index';
@@ -32,7 +32,14 @@ export interface RouteContextClass {
 
 export type RouteContext = RouteServers | RouteContextClass;
 
-export type Proxies = { [namespace: string]: { [serverType: string]: { [remoterName: string]: { [attr: string]: Function } } } };
+
+
+export type Proxies = {
+    [namespace: string]:
+        {[serverType: string]:
+                {[remoterName: string]:
+                        {[attr: string]: Proxy.Proxy}}}
+};
 
 export interface RpcClientOpts {
     context?: any;
@@ -335,15 +342,13 @@ let generateProxy = function (client: RpcClient, record: RemoteServerCode, conte
  */
 let proxyCB = function (client: RpcClient, serviceName: string, methodName: string, args: Array<any>, attach: { [key: string]: any }, isToSpecifiedServer: boolean) {
     if (client.state !== STATE_STARTED) {
-        Promise.reject(new Error('[pinus-rpc] fail to invoke rpc proxy for client is not running'));
-        return;
+        return Promise.reject(new Error('[pinus-rpc] fail to invoke rpc proxy for client is not running'));
     }
     if (args.length < 2) {
 
         logger.error('[pinus-rpc] invalid rpc invoke, arguments length less than 2, namespace: %j, serverType, %j, serviceName: %j, methodName: %j',
             attach.namespace, attach.serverType, serviceName, methodName);
-        Promise.reject(new Error('[pinus-rpc] invalid rpc invoke, arguments length less than 2'));
-        return;
+        return Promise.reject(new Error('[pinus-rpc] invalid rpc invoke, arguments length less than 2'));
     }
     let routeParam = args.shift();
     let serverType = attach.serverType;
@@ -357,22 +362,14 @@ let proxyCB = function (client: RpcClient, serviceName: string, methodName: stri
 
     return new Promise(function (resolve, reject) {
         if (isToSpecifiedServer) {
-            rpcToSpecifiedServer(client, msg, serverType, routeParam, resolve);
+            rpcToSpecifiedServer(client, msg, serverType, routeParam, (err, resp) => err ? reject(err) : resolve(resp));
         }
         else {
             client.targetRouterFunction(serverType, msg, routeParam, function (err: Error, serverId: string) {
                 if (err) {
                     return reject(err);
                 }
-
-                client.rpcInvoke(serverId, msg, function (err: Error, resp: string) {
-                    if (err != null) {
-                        reject(err);
-                    }
-                    else {
-                        resolve(resp);
-                    }
-                });
+                client.rpcInvoke(serverId, msg,  (err: Error, resp: string) => err ? reject(err) : resolve(resp));
             });
         }
     });
@@ -383,6 +380,7 @@ let proxyCB = function (client: RpcClient, serviceName: string, methodName: stri
  *
  * @param client {Object} current client instance.
  * @param serverType {String} remote server type.
+ * @param msg  {Object} RpcMsg
  * @param routeParam {Object} mailbox init context parameter.
  * @param cb {Function} return rpc remote target server id.
  *
@@ -441,26 +439,33 @@ function getRouteFunction(client: RpcClient): TargetRouterFunction {
  * @param msg        {Object} rpc message.
  * @param serverType {String} remote server type.
  * @param serverId   {Object} mailbox init context parameter.
+ * @param cb        {Function} AsyncResultArrayCallback<{}, {}>
  *
  * @api private
  */
-let rpcToSpecifiedServer = function (client: RpcClient, msg: RpcMsg, serverType: string, serverId: string, cb: ErrorCallback<{}>) {
+let rpcToSpecifiedServer = function (client: RpcClient, msg: RpcMsg, serverType: string, serverId: string, cb: AsyncResultArrayCallback<{}, {}>) {
     if (typeof serverId !== 'string') {
         logger.error('[pinus-rpc] serverId is not a string : %s', serverId);
         return;
     }
     if (serverId === '*') {
-        let servers = (client._routeContext as RouteContextClass).getServersByType(serverType);
+        // (client._routeContext as RouteContextClass).getServersByType(serverType);
+        let servers: string[];
+        if(client._routeContext && (client._routeContext as RouteContextClass).getServersByType) {
+            const serverinfos = (client._routeContext as RouteContextClass).getServersByType(serverType);
+            if(serverinfos) {
+                servers = serverinfos.map(v => v.id);
+            }
+        } else {
+            servers = client._station.serversMap[serverType];
+        }
+     //   console.log('servers  ', servers);
         if (!servers) {
             logger.error('[pinus-rpc] serverType %s servers not exist', serverType);
             return;
         }
-
-        async.each(servers, function (server, next) {
-            let serverId = server['id'];
-            client.rpcInvoke(serverId, msg, function (err: Error) {
-                next(err);
-            });
+        async.map(servers, function (serverId, next) {
+            client.rpcInvoke(serverId, msg, next);
         }, cb);
     } else {
         client.rpcInvoke(serverId, msg, cb);
@@ -504,3 +509,5 @@ export function createClient(opts: RpcClientOpts) {
 // module.exports.WSMailbox from ('./mailboxes/ws-mailbox'); // socket.io
 // module.exports.WS2Mailbox from ('./mailboxes/ws2-mailbox'); // ws
 export { create as MQTTMailbox } from './mailboxes/mqtt-mailbox'; // mqtt
+
+

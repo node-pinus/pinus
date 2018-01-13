@@ -1,4 +1,6 @@
 // remote service
+
+
 export default function (app: any) {
     return new Service(app);
 }
@@ -10,7 +12,8 @@ export class Service {
         // setTimeout(function() {
         // console.log(msg);
         // console.log(data);
-        return msg;
+        console.log('~~~ echo  ', msg, data);
+        return [msg, data + Date.now()];
         // cb(null, msg, 'aaa' + Date.now());
         // }, 15000);
     }

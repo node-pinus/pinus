@@ -1,5 +1,5 @@
-var WebSocket = require'ws';
-var ws = new WebSocket('ws://localhost:3331');
+var WebSocket = require('ws');
+var ws = new WebSocket('ws://127.0.0.1:3331');
 
 ws.on('open', function open() {
 	start = Date.now();
@@ -33,5 +33,10 @@ function run() {
 	times++;
 
 	var payload = "hello";
-	ws.send(payload);
+	ws.send(JSON.stringify({
+        topic: "topic",
+        payload: payload,
+        qos: 1,
+        messageId: times
+    }));
 }

@@ -1,6 +1,6 @@
 var lib = process.env.POMELO_RPC_COV ? 'lib-cov' : 'lib';
 var should = require('should');
-var Proxy = require('../../' + lib + '/util/proxy');
+var Proxy = require('../../lib/util/proxy');
 
 var A = function(value) {
   this.value = value;
