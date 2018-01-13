@@ -40,7 +40,7 @@ const client = pinusrpc.createClient({routeContext: routeContext,
 
 client.start(err => {
     if(err) {
-        console.error('start client err',err);
+        console.error('start client err', err);
         return;
     }
     client.addProxies(records);

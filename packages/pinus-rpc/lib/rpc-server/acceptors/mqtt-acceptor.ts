@@ -1,4 +1,4 @@
-import { getLogger } from 'pinus-logger';
+import { getLogger, Logger } from 'pinus-logger';
 let logger = getLogger('pinus-rpc', 'mqtt-acceptor');
 import { EventEmitter } from 'events';
 import { Tracer } from '../../util/tracer';
@@ -17,10 +17,10 @@ export interface AcceptorPkg {
 }
 
 export interface AcceptorOpts {
-    interval: number;
-    bufferMsg: any;
-    rpcLogger: any;
-    rpcDebugLog: any;
+    interval?: number;
+    bufferMsg?: boolean;
+    rpcLogger?: Logger;
+    rpcDebugLog?: boolean;
 }
 
 let curId = 1;

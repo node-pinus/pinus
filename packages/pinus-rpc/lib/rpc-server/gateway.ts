@@ -8,7 +8,7 @@ import * as util from 'util';
 import * as fs from 'fs';
 import { AcceptorOpts } from './acceptors/mqtt-acceptor';
 
-export interface RpcServerOpts {
+export interface RpcServerOpts extends AcceptorOpts {
     port?: number|string;
     paths?: Array<RemoteServerCode>;
     context?: object;
