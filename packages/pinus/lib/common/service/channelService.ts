@@ -129,7 +129,7 @@ export class ChannelService implements IComponent {
         }
 
         if (!uids || uids.length === 0) {
-            utils.invokeCallback(cb, new Error('uids should not be empty'));
+            utils.invokeCallback(cb);
             return;
         }
         let groups = {}, record;
