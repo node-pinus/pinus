@@ -1,15 +1,29 @@
-import { Application, ChannelService } from 'pinus';
+import { Application, ChannelService, bindRemoterMethod, FrontendSession } from 'pinus';
 
 export default function (app: Application) {
     return new ChatRemote(app);
 }
 
+// UserRpc的命名空间自动合并
+declare global {
+    interface UserRpc {
+        chat: {
+            chatRemote: ChatRemote;
+        };
+    }
+}
+
 export class ChatRemote {
-    private channelService: ChannelService;
+
     constructor(private app: Application) {
         this.app = app;
         this.channelService = app.get('channelService');
     }
+    // 导出远程调用方法
+    add = bindRemoterMethod(this._add, this, FrontendSession);
+    kick = bindRemoterMethod(this._kick, this, FrontendSession);
+
+    private channelService: ChannelService;
 
     /**
      * Add user into chat channel.
@@ -20,7 +34,7 @@ export class ChatRemote {
      * @param {boolean} flag channel parameter
      *
      */
-    async add(uid: string, sid: string, name: string, flag: boolean) {
+    private async _add(uid: string, sid: string, name: string, flag: boolean) {
         let channel = this.channelService.getChannel(name, flag);
         let username = uid.split('*')[0];
         let param = {
@@ -44,7 +58,7 @@ export class ChatRemote {
      * @return {Array} users uids in channel
      *
      */
-    get(name: string, flag: boolean) {
+    private get(name: string, flag: boolean) {
         let users: string[] = [];
         let channel = this.channelService.getChannel(name, flag);
         if (!!channel) {
@@ -64,7 +78,7 @@ export class ChatRemote {
      * @param {String} name channel name
      *
      */
-    async kick(uid: string, sid: string, name: string) {
+    private async _kick(uid: string, sid: string, name: string) {
         let channel = this.channelService.getChannel(name, false);
         // leave channel
         if (!!channel) {

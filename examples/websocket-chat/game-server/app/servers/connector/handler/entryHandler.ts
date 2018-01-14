@@ -60,6 +60,6 @@ export class EntryHandler {
         if (!session || !session.uid) {
             return;
         }
-        this.app.rpc.chat.chatRemote.kick(session, session.uid, this.app.get('serverId'), session.get('rid'), null);
+        this.app.rpc.chat.chatRemote.kick(session, session.uid, this.app.get('serverId'), session.get('rid'));
     }
 }
