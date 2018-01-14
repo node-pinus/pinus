@@ -5,6 +5,7 @@ import * as utils from '../../util/utils';
 import { Application } from '../../application';
 import { IComponent } from '../../interfaces/IComponent';
 import { SID, FRONTENDID, ServerInfo } from '../../util/constants';
+import { ISession } from './sessionService';
 
 let EXPORTED_FIELDS = ['id', 'frontendId', 'uid', 'settings'];
 
@@ -212,6 +213,9 @@ let rpcInvoke = function(app: Application, sid: FRONTENDID, namespace: string, s
   app.rpcInvoke(sid, {namespace: namespace, service: service, method: method, args: args}, cb);
 };
 
+
+
+
 /**
  * BackendSession is the proxy for the frontend internal session passed to handlers and
  * it helps to keep the key/value pairs for the server locally.
@@ -229,11 +233,11 @@ let rpcInvoke = function(app: Application, sid: FRONTENDID, namespace: string, s
  * @class
  * @constructor
  */
-export class BackendSession {
+export class BackendSession implements ISession {
     id: number;
-    frontendId: string;
     uid: string;
-    settings: any;
+    frontendId: string;
+    settings: {[key: string]: any};
     __sessionService__: BackendSessionService;
     constructor(opts: any, service: BackendSessionService) {
         for (let f in opts) {

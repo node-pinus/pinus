@@ -49,6 +49,7 @@ export {default as events} from './util/events';
 export * from './util/constants';
 export * from './util/utils';
 export * from './util/pathUtil';
+export * from './util/rpcHelper';
 
 
 

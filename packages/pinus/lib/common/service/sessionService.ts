@@ -434,6 +434,13 @@ let send = function(service: SessionService, session: Session, msg: any) {
   return true;
 };
 
+export interface ISession {
+    id: number;
+    uid: string;
+    frontendId: string;
+    settings: {[key: string]: any};
+}
+
 /**
  * Session maintains the relationship between client connection and user information.
  * There is a session associated with each client connection. And it should bind to a
@@ -443,7 +450,7 @@ let send = function(service: SessionService, session: Session, msg: any) {
  * There is a proxy class called BackendSession in backend servers and FrontendSession
  * in frontend servers.
  */
-export class Session extends EventEmitter {
+export class Session extends EventEmitter implements ISession {
     id: SID;
     frontendId: FRONTENDID;
     uid: UID;
@@ -596,11 +603,11 @@ export class Session extends EventEmitter {
 /**
  * Frontend session for frontend server.
  */
-export class FrontendSession extends EventEmitter {
+export class FrontendSession extends EventEmitter implements ISession {
     id: number;
     uid: string;
     frontendId: string;
-    settings: any;
+    settings: { [key: string]: any; };
     private __session__: Session;
     private __sessionService__: SessionService;
 

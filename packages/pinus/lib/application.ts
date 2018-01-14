@@ -46,8 +46,10 @@ import { ModuleRecord } from './util/moduleUtil';
 import { IPlugin, ApplicationEventContructor } from './interfaces/IPlugin';
 import { Cron } from './server/server';
 import { ServerStartArgs } from './util/appUtil';
+import { RemoterProxyWithRoute, RemoterProxy } from './util/rpcHelper';
 import { listEs6ClassMethods } from 'pinus-rpc';
 import { ResponseErrorHandler } from './server/server';
+import { FrontendOrBackendSession, ScheduleOptions, UID, SID, FrontendSession, ISession } from './index';
 let logger = getLogger('pinus', path.basename(__filename));
 
 
@@ -60,8 +62,60 @@ export interface ApplicationOptions {
     base ?: string;
 }
 
-export type BeforeStopHookFunction = (app: Application , shutDown: () => void, cancelShutDownTimer: () => void) => void;
+export type BeforeStopHookFunction = (app: Application, shutDown: () => void, cancelShutDownTimer: () => void) => void;
 
+declare global {
+    // 定义用户Rpc基础类
+    interface UserRpc {
+        test(): void;
+    }
+
+    // channelRemote functions
+    type pushMessageFunction = (route: string, msg: any, uids: UID[], opts: ScheduleOptions) => Promise<UID[]>;
+    type broadcastFunction = (route: string, msg: any, opts: ScheduleOptions) => Promise<UID[]>;
+    // sessionRemote functions
+    type bindFunction = (sid: SID, uid: UID) => Promise<void>;
+    type unbindFunction = (sid: SID, uid: UID) => Promise<void>;
+    type pushFunction = (sid: SID, key: string, value: any) => Promise<void>;
+    type pushAllFunction = (sid: SID, settings: { [key: string]: any }) => Promise<void>;
+    type getBackendSessionBySidFunction = (sid: SID) => Promise<ISession>;
+    type getBackendSessionsByUidFunction = (uid: UID) => Promise<ISession[]>;
+    type kickBySidFunction = (sid: SID, reason: string) => Promise<void>;
+    type kickByUidFunction = (uid: UID, reason: string) => Promise<void>;
+
+    interface SysRpc {
+        [serverType: string]: {
+            /**
+             * 用来把客户端发到前端的handler信息转发到后端服务器
+             */
+            msgRemote: {
+                forwardMessage: (routeParam: FrontendOrBackendSession, msg: any, session: ISession) => Promise<void>;
+            },
+
+            /**
+             * 用来通知前端服务器往客户端发信息
+             */
+            channelRemote: {
+                pushMessage: RemoterProxy<pushMessageFunction>;
+                broadcast: RemoterProxy<broadcastFunction>;
+            }
+
+            /**
+             * 用来从前端服务器获取或设置Session相关的服务
+             */
+            sessionRemote: {
+                bind: RemoterProxy<bindFunction>;
+                unbind: RemoterProxy<unbindFunction>;
+                push: RemoterProxy<pushFunction>;
+                pushAll: RemoterProxy<pushAllFunction>;
+                getBackendSessionBySid: RemoterProxy<getBackendSessionBySidFunction>;
+                getBackendSessionsByUid: RemoterProxy<getBackendSessionsByUidFunction>;
+                kickBySid: RemoterProxy<kickBySidFunction>;
+                kickByUid: RemoterProxy<kickByUidFunction>;
+            }
+        };
+    }
+}
 /**
  * Application states
  */
@@ -1078,8 +1132,8 @@ export class Application {
     astart = utils.promisify(this.start);
     aconfigure: AConfigureFunc1 | AConfigureFunc2 | AConfigureFunc3 = utils.promisify(this.configure) as any;
 
-    rpc ?: any;
-    sysrpc ?: any;
+    rpc ?: UserRpc;
+    sysrpc ?: SysRpc;
 
     /**
      * Proxy for rpc client rpcInvoke.

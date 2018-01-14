@@ -2,6 +2,7 @@ import * as utils from '../../../util/utils';
 import { getLogger } from 'pinus-logger'; import { Application } from '../../../application';
 import { BackendSession } from '../../service/backendSessionService';
 import * as path from 'path';
+import { ISession } from '../../service/sessionService';
 let logger = getLogger('forward-log', path.basename(__filename));
 /**
  * Remote service for backend servers.
@@ -25,7 +26,7 @@ export class MsgRemote {
      * @param session {Object} session object for current request
      * @param cb {Function} callback function
      */
-    async forwardMessage(msg: any, session: BackendSession) {
+    async forwardMessage(msg: any, session: ISession) {
         return new Promise<any>((resolve, reject) => {
             let server = this.app.components.__server__;
             let sessionService = this.app.components.__backendSession__;

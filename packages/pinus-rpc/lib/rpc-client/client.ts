@@ -6,7 +6,6 @@ import * as Station from './mailstation';
 import { Tracer } from '../util/tracer';
 import * as Loader from 'pinus-loader';
 import * as utils from '../util/utils';
-import * as Proxy from '../util/proxy';
 import * as router from './router';
 import * as async from 'async';
 import { RpcServerInfo, MailStation, MailStationErrorHandler, RpcFilter } from './mailstation';
@@ -14,6 +13,7 @@ import {AsyncFunction, AsyncResultArrayCallback, ErrorCallback} from 'async';
 import { MailBoxFactory } from './mailbox';
 import { ConsistentHash } from '../util/consistentHash';
 import { RemoteServerCode } from '../../index';
+import { listEs6ClassMethods } from '../util/utils';
 
 /**
  * Client states
@@ -33,14 +33,31 @@ export interface RouteContextClass {
 export type RouteContext = RouteServers | RouteContextClass;
 
 
+export interface Proxy {
+    // 根据路由参数决定发往哪台服务器，第一个是路由参数，其他是rpc参数
+    (routeParam: any, ...args: any[]): Promise<any>;
+    // 根据服务器id决定发往哪个服务器，serverId如果是*，则发往所有这个rpc所属类型的服务器
+    toServer(serverId: string, ...args: any[]): Promise<any>;
+
+
+    // 根据路由参数决定发往哪台服务器，typescript友好
+    route(routeParam: any): (...args: any[]) => Promise<any>;
+    // 默认传递null作为路由参数，typescript友好
+    defaultRoute(...args: any[]) : Promise<any>;
+    // 根据服务器id决定发往哪个服务器，serverId如果是*，则发往所有这个rpc所属类型的服务器
+    to(serverId: string): (...args: any[]) => Promise<any>;
+    // 广播到所有这个rpc服务器的类型的服务器
+    broadcast(...args: any[]): Promise<any>;
+}
+
+export type ProxyCallback = (routeParam: any, serviceName: string, methodName: string, args: any[], attach: RemoteServerCode, isToSpecifiedServer?: boolean) => Promise<any>;
 
 export type Proxies = {
     [namespace: string]:
         {[serverType: string]:
                 {[remoterName: string]:
-                        {[attr: string]: Proxy.Proxy}}}
+                        {[attr: string]: Proxy}}}
 };
-
 export interface RpcClientOpts {
     context?: any;
     routeContext?: RouteContext;
@@ -96,7 +113,7 @@ export class RpcClient {
         }
         this.opts = opts;
         this.proxies = {};
-        this.targetRouterFunction = getRouteFunction(this);
+        this.targetRouterFunction = this.getRouteFunction();
         this._station = createStation(opts);
         this.state = STATE_INITED;
     }
@@ -151,7 +168,7 @@ export class RpcClient {
         if (!record) {
             return;
         }
-        let proxy = generateProxy(this, record, this._context);
+        let proxy = this.generateProxy(record, this._context);
         if (!proxy) {
             return;
         }
@@ -286,6 +303,277 @@ export class RpcClient {
     setErrorHandler(handler: MailStationErrorHandler) {
         this._station.handleError = handler;
     }
+
+    /**
+     * Generate prxoy for function type field
+     *
+     * @param client {Object} current client instance.
+     * @param serviceName {String} delegated service name.
+     * @param methodName {String} delegated method name.
+     * @param args {Object} rpc invoke arguments.
+     * @param attach {Object} attach parameter pass to proxyCB.
+     * @param isToSpecifiedServer {boolean} true means rpc route to specified remote server.
+     *
+     * @api private
+     */
+    private rpcToRoute(routeParam: any, serviceName: string, methodName: string, args: Array<any>, attach: RemoteServerCode) {
+        if (this.state !== STATE_STARTED) {
+            return Promise.reject(new Error('[pinus-rpc] fail to invoke rpc proxy for client is not running'));
+        }
+        let serverType = attach.serverType;
+        let msg = {
+            namespace: attach.namespace,
+            serverType: serverType,
+            service: serviceName,
+            method: methodName,
+            args: args
+        };
+
+        return new Promise( (resolve, reject) => {
+            this.targetRouterFunction(serverType, msg, routeParam, (err: Error, serverId: string) => {
+                if (err) {
+                    return reject(err);
+                }
+                this.rpcInvoke(serverId, msg,  (err: Error, resp: string) => err ? reject(err) : resolve(resp));
+            });
+        });
+    }
+
+
+    /**
+     * Rpc to specified server id or servers.
+     *
+     * @param client     {Object} current client instance.
+     * @param msg        {Object} rpc message.
+     * @param serverType {String} remote server type.
+     * @param serverId   {Object} mailbox init context parameter.
+     * @param cb        {Function} AsyncResultArrayCallback<{}, {}>
+     *
+     * @api private
+     */
+    private rpcToSpecifiedServer(serverId: string, serviceName: string, methodName: string, args: Array<any>, attach: RemoteServerCode) {
+        if (this.state !== STATE_STARTED) {
+            return Promise.reject(new Error('[pinus-rpc] fail to invoke rpc proxy for client is not running'));
+        }
+        let serverType = attach.serverType;
+        let msg = {
+            namespace: attach.namespace,
+            serverType: serverType,
+            service: serviceName,
+            method: methodName,
+            args: args
+        };
+
+        return new Promise((resolve, reject) => {
+            if (typeof serverId !== 'string') {
+                logger.error('[pinus-rpc] serverId is not a string : %s', serverId);
+                return;
+            }
+            let cb = (err: Error, resp: any) => err ? reject(err) : resolve(resp);
+            if (serverId === '*') {
+                // (client._routeContext as RouteContextClass).getServersByType(serverType);
+                let servers: string[];
+                if(this._routeContext && (this._routeContext as RouteContextClass).getServersByType) {
+                    const serverinfos = (this._routeContext as RouteContextClass).getServersByType(serverType);
+                    if(serverinfos) {
+                        servers = serverinfos.map(v => v.id);
+                    }
+                } else {
+                    servers = this._station.serversMap[serverType];
+                }
+            //   console.log('servers  ', servers);
+                if (!servers) {
+                    logger.error('[pinus-rpc] serverType %s servers not exist', serverType);
+                    return;
+                }
+                async.map(servers,  (serverId, next) => {
+                    this.rpcInvoke(serverId, msg, next);
+                }, cb);
+            } else {
+                this.rpcInvoke(serverId, msg, cb);
+            }
+        });
+    }
+
+    /**
+     * Generate proxies for remote servers.
+     *
+     * @param client {Object} current client instance.
+     * @param record {Object} proxy reocrd info. {namespace, serverType, path}
+     * @param context {Object} mailbox init context parameter
+     *
+     * @api private
+     */
+    private generateProxy (record: RemoteServerCode, context: object) {
+        if (!record) {
+            return;
+        }
+        let res: { [key: string]: any }, name;
+        let modules: { [key: string]: any } = Loader.load(record.path, context, false);
+        if (modules) {
+            res = {};
+            for (name in modules) {
+                res[name] = this.genObjectProxy(
+                    name,
+                    modules[name],
+                    record
+                );
+            }
+        }
+        return res;
+    }
+
+
+    /**
+     * Create proxy.
+     * @param  serviceName {String} deletgated service name
+     * @param  origin {Object} delegated object
+     * @param  attach {Object} attach parameter pass to proxyCB
+     * @return {Object}      proxy instance
+     */
+    private genObjectProxy(serviceName: string, origin: any, attach: RemoteServerCode) {
+        // generate proxy for function field
+        let res: { [key: string]: Proxy } = {};
+        let proto = listEs6ClassMethods(origin);
+        for (let field of proto) {
+            res[field] = this.genFunctionProxy(serviceName, field, origin, attach);
+        }
+
+        return res;
+    }
+
+    /**
+     * Generate prxoy for function type field
+     *
+     * @param namespace {String} current namespace
+     * @param serverType {String} server type string
+     * @param serviceName {String} delegated service name
+     * @param methodName {String} delegated method name
+     * @param origin {Object} origin object
+     * @param proxyCB {Functoin} proxy callback function
+     * @returns function proxy
+     */
+    private genFunctionProxy(serviceName: string, methodName: string, origin: any, attach: RemoteServerCode) {
+        let self = this;
+        return (function (): Proxy {
+
+            // 兼容旧的api
+            let proxy: any = function () {
+                let len = arguments.length;
+                if (len < 1) {
+
+                    logger.error('[pinus-rpc] invalid rpc invoke, arguments length less than 1, namespace: %j, serverType, %j, serviceName: %j, methodName: %j',
+                        attach.namespace, attach.serverType, serviceName, methodName);
+                    return Promise.reject(new Error('[pinus-rpc] invalid rpc invoke, arguments length less than 1'));
+                }
+
+                let routeParam = arguments[0];
+                let args = new Array(len - 1);
+                for (let i = 1; i < len; i++) {
+                    args[i - 1] = arguments[i];
+                }
+                return self.rpcToRoute(routeParam, serviceName, methodName, args, attach);
+            };
+
+            // 新的api，通过路由参数决定发往哪个服务器
+            proxy.route = (routeParam: any) => {
+                return function (...args: any[]) {
+                    return self.rpcToRoute(routeParam, serviceName, methodName, args, attach);
+                };
+            };
+            // 新的api，发往指定的服务器id
+            proxy.to = (serverId: string) => {
+                return function (...args: any[]) {
+                    return self.rpcToSpecifiedServer(serverId, serviceName, methodName, args, attach);
+                };
+            };
+            // 新的api，广播出去
+            proxy.broadcast = function (...args: any[]) {
+                    return self.rpcToSpecifiedServer('*', serviceName, methodName, args, attach);
+                };
+            // 新的api，使用默认路由调用
+            proxy.defaultRoute = function (...args: any[]) {
+                    return self.rpcToRoute(null, serviceName, methodName, args, attach);
+                };
+
+            // 兼容旧的api
+            proxy.toServer = function () {
+                let len = arguments.length;
+                if (len < 1) {
+
+                    logger.error('[pinus-rpc] invalid rpc invoke, arguments length less than 1, namespace: %j, serverType, %j, serviceName: %j, methodName: %j',
+                        attach.namespace, attach.serverType, serviceName, methodName);
+                    return Promise.reject(new Error('[pinus-rpc] invalid rpc invoke, arguments length less than 1'));
+                }
+
+                let routeParam = arguments[0];
+                let args = new Array(len - 1);
+                for (let i = 1; i < len; i++) {
+                    args[i - 1] = arguments[i];
+                }
+                return self.rpcToSpecifiedServer(routeParam, serviceName, methodName, args, attach);
+            };
+
+            return proxy;
+        })();
+    }
+    /**
+     * Calculate remote target server id for rpc client.
+     *
+     * @param client {Object} current client instance.
+     * @param serverType {String} remote server type.
+     * @param msg  {Object} RpcMsg
+     * @param routeParam {Object} mailbox init context parameter.
+     * @param cb {Function} return rpc remote target server id.
+     *
+     * @api private
+     */
+    private getRouteFunction(): TargetRouterFunction {
+        if (!!this.routerType) {
+            let method: (client: RpcClient, serverType: string, msg: RpcMsg, cb: (err: Error, serverId?: string) => void) => void;
+            switch (this.routerType) {
+                case constants.SCHEDULE.ROUNDROBIN:
+                    method = router.rr;
+                    break;
+                case constants.SCHEDULE.WEIGHT_ROUNDROBIN:
+                    method = router.wrr;
+                    break;
+                case constants.SCHEDULE.LEAST_ACTIVE:
+                    method = router.la;
+                    break;
+                case constants.SCHEDULE.CONSISTENT_HASH:
+                    method = router.ch;
+                    break;
+                default:
+                    method = router.rd;
+                    break;
+            }
+            return (serverType: string, msg: RpcMsg, routeParam: object, cb: (err: Error, serverId: string) => void) => {
+                method.call(null, this, serverType, msg, function (err: Error, serverId: string) {
+                    cb(err, serverId);
+                });
+            };
+        } else {
+            let route: RouterFunction, target: Object;
+            if (typeof this.router === 'function') {
+                route = this.router;
+                target = null;
+            } else if (typeof this.router.route === 'function') {
+                route = this.router.route;
+                target = this.router;
+            } else {
+                logger.error('[pinus-rpc] invalid route function.');
+                return;
+            }
+
+            return (serverType: string, msg: RpcMsg, routeParam: object, cb: (err: Error, serverId: string) => void) => {
+                route.call(target, routeParam, msg, this._routeContext, function (err: Error, serverId: string) {
+                    cb(err, serverId);
+                });
+            };
+        }
+    }
+
 }
 
 /**
@@ -295,182 +583,9 @@ export class RpcClient {
  *
  * @api private
  */
-let createStation = function (opts: RpcClientOpts) {
+function createStation(opts: RpcClientOpts) {
     return Station.createMailStation(opts);
-};
-
-/**
- * Generate proxies for remote servers.
- *
- * @param client {Object} current client instance.
- * @param record {Object} proxy reocrd info. {namespace, serverType, path}
- * @param context {Object} mailbox init context parameter
- *
- * @api private
- */
-let generateProxy = function (client: RpcClient, record: RemoteServerCode, context: object) {
-    if (!record) {
-        return;
-    }
-    let res: { [key: string]: any }, name;
-    let modules: { [key: string]: any } = Loader.load(record.path, context, false);
-    if (modules) {
-        res = {};
-        for (name in modules) {
-            res[name] = Proxy.create({
-                service: name,
-                origin: modules[name],
-                attach: record,
-                proxyCB: proxyCB.bind(null, client)
-            });
-        }
-    }
-    return res;
-};
-
-/**
- * Generate prxoy for function type field
- *
- * @param client {Object} current client instance.
- * @param serviceName {String} delegated service name.
- * @param methodName {String} delegated method name.
- * @param args {Object} rpc invoke arguments.
- * @param attach {Object} attach parameter pass to proxyCB.
- * @param isToSpecifiedServer {boolean} true means rpc route to specified remote server.
- *
- * @api private
- */
-let proxyCB = function (client: RpcClient, serviceName: string, methodName: string, args: Array<any>, attach: { [key: string]: any }, isToSpecifiedServer: boolean) {
-    if (client.state !== STATE_STARTED) {
-        return Promise.reject(new Error('[pinus-rpc] fail to invoke rpc proxy for client is not running'));
-    }
-    if (args.length < 1) {
-
-        logger.error('[pinus-rpc] invalid rpc invoke, arguments length less than 1, namespace: %j, serverType, %j, serviceName: %j, methodName: %j',
-            attach.namespace, attach.serverType, serviceName, methodName);
-        return Promise.reject(new Error('[pinus-rpc] invalid rpc invoke, arguments length less than 1'));
-    }
-    let routeParam = args.shift();
-    let serverType = attach.serverType;
-    let msg = {
-        namespace: attach.namespace,
-        serverType: serverType,
-        service: serviceName,
-        method: methodName,
-        args: args
-    };
-
-    return new Promise(function (resolve, reject) {
-        if (isToSpecifiedServer) {
-            rpcToSpecifiedServer(client, msg, serverType, routeParam, (err, resp) => err ? reject(err) : resolve(resp));
-        }
-        else {
-            client.targetRouterFunction(serverType, msg, routeParam, function (err: Error, serverId: string) {
-                if (err) {
-                    return reject(err);
-                }
-                client.rpcInvoke(serverId, msg,  (err: Error, resp: string) => err ? reject(err) : resolve(resp));
-            });
-        }
-    });
-};
-
-/**
- * Calculate remote target server id for rpc client.
- *
- * @param client {Object} current client instance.
- * @param serverType {String} remote server type.
- * @param msg  {Object} RpcMsg
- * @param routeParam {Object} mailbox init context parameter.
- * @param cb {Function} return rpc remote target server id.
- *
- * @api private
- */
-function getRouteFunction(client: RpcClient): TargetRouterFunction {
-    if (!!client.routerType) {
-        let method: (client: RpcClient, serverType: string, msg: RpcMsg, cb: (err: Error, serverId?: string) => void) => void;
-        switch (client.routerType) {
-            case constants.SCHEDULE.ROUNDROBIN:
-                method = router.rr;
-                break;
-            case constants.SCHEDULE.WEIGHT_ROUNDROBIN:
-                method = router.wrr;
-                break;
-            case constants.SCHEDULE.LEAST_ACTIVE:
-                method = router.la;
-                break;
-            case constants.SCHEDULE.CONSISTENT_HASH:
-                method = router.ch;
-                break;
-            default:
-                method = router.rd;
-                break;
-        }
-        return (serverType: string, msg: RpcMsg, routeParam: object, cb: (err: Error, serverId: string) => void) => {
-            method.call(null, client, serverType, msg, function (err: Error, serverId: string) {
-                cb(err, serverId);
-            });
-        };
-    } else {
-        let route: RouterFunction, target: Object;
-        if (typeof client.router === 'function') {
-            route = client.router;
-            target = null;
-        } else if (typeof client.router.route === 'function') {
-            route = client.router.route;
-            target = client.router;
-        } else {
-            logger.error('[pinus-rpc] invalid route function.');
-            return;
-        }
-
-        return (serverType: string, msg: RpcMsg, routeParam: object, cb: (err: Error, serverId: string) => void) => {
-            route.call(target, routeParam, msg, client._routeContext, function (err: Error, serverId: string) {
-                cb(err, serverId);
-            });
-        };
-    }
 }
-
-/**
- * Rpc to specified server id or servers.
- *
- * @param client     {Object} current client instance.
- * @param msg        {Object} rpc message.
- * @param serverType {String} remote server type.
- * @param serverId   {Object} mailbox init context parameter.
- * @param cb        {Function} AsyncResultArrayCallback<{}, {}>
- *
- * @api private
- */
-let rpcToSpecifiedServer = function (client: RpcClient, msg: RpcMsg, serverType: string, serverId: string, cb: AsyncResultArrayCallback<{}, {}>) {
-    if (typeof serverId !== 'string') {
-        logger.error('[pinus-rpc] serverId is not a string : %s', serverId);
-        return;
-    }
-    if (serverId === '*') {
-        // (client._routeContext as RouteContextClass).getServersByType(serverType);
-        let servers: string[];
-        if(client._routeContext && (client._routeContext as RouteContextClass).getServersByType) {
-            const serverinfos = (client._routeContext as RouteContextClass).getServersByType(serverType);
-            if(serverinfos) {
-                servers = serverinfos.map(v => v.id);
-            }
-        } else {
-            servers = client._station.serversMap[serverType];
-        }
-     //   console.log('servers  ', servers);
-        if (!servers) {
-            logger.error('[pinus-rpc] serverType %s servers not exist', serverType);
-            return;
-        }
-        async.map(servers, function (serverId, next) {
-            client.rpcInvoke(serverId, msg, next);
-        }, cb);
-    } else {
-        client.rpcInvoke(serverId, msg, cb);
-    }
-};
 
 /**
  * Add proxy into array.
@@ -482,7 +597,7 @@ let rpcToSpecifiedServer = function (client: RpcClient, msg: RpcMsg, serverType:
  *
  * @api private
  */
-let insertProxy = function (proxies: Proxies, namespace: string, serverType: string, proxy: { [key: string]: any }) {
+function insertProxy(proxies: Proxies, namespace: string, serverType: string, proxy: { [key: string]: any }) {
     proxies[namespace] = proxies[namespace] || {};
     if (proxies[namespace][serverType]) {
         for (let attr in proxy) {
@@ -491,7 +606,7 @@ let insertProxy = function (proxies: Proxies, namespace: string, serverType: str
     } else {
         proxies[namespace][serverType] = proxy;
     }
-};
+}
 
 /**
  * RPC client factory method.
