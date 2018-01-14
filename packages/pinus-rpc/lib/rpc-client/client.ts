@@ -43,7 +43,7 @@ export interface Proxy {
     // 根据路由参数决定发往哪台服务器，typescript友好
     route(routeParam: any): (...args: any[]) => Promise<any>;
     // 默认传递null作为路由参数，typescript友好
-    defaultRoute(...args: any[]) : Promise<any>;
+    defaultRoute(...args: any[]): Promise<any>;
     // 根据服务器id决定发往哪个服务器，serverId如果是*，则发往所有这个rpc所属类型的服务器
     to(serverId: string): (...args: any[]) => Promise<any>;
     // 广播到所有这个rpc服务器的类型的服务器

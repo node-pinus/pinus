@@ -1,4 +1,4 @@
-﻿
+
 export interface RemoterProxy<F> {
     defaultRoute: F;
     to(serverId: string): F;
