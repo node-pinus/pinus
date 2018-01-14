@@ -1,6 +1,7 @@
 import * as Loader from 'pinus-loader';
 import * as Gateway from './gateway';
 import { Services, Remoters } from './dispatcher';
+import { LoaderPathType } from 'pinus-loader';
 
 
 let loadRemoteServices = function (paths: Array<Gateway.RemoteServerCode>, context: object, res: Services): Services {
@@ -8,7 +9,7 @@ let loadRemoteServices = function (paths: Array<Gateway.RemoteServerCode>, conte
     let item: Gateway.RemoteServerCode, m: Remoters;
     for (let i = 0, l = paths.length; i < l; i++) {
         item = paths[i];
-        m = Loader.load(item.path, context, false);
+        m = Loader.load(item.path, context, false, true, LoaderPathType.PINUS_REMOTER);
 
         if (m) {
             createNamespace(item.namespace, res);

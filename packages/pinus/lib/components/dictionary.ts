@@ -8,6 +8,7 @@ import { Application } from '../application';
 import { IComponent } from '../interfaces/IComponent';
 import { listEs6ClassMethods } from 'pinus-rpc';
 import { RESERVED, ServerInfo } from '../util/constants';
+import { LoaderPathType } from 'pinus-loader';
 
 export interface DictionaryComponentOptions {
     dict ?: string;
@@ -57,7 +58,7 @@ export class DictionaryComponent implements IComponent {
                 continue;
             }
             for (let p of paths) {
-                let handlers = Loader.load(p, this.app, false);
+                let handlers = Loader.load(p, this.app, false, false, LoaderPathType.PINUS_HANDLER);
 
                 for (let name in handlers) {
                     let handler = handlers[name];

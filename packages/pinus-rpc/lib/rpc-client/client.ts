@@ -14,6 +14,7 @@ import { MailBoxFactory } from './mailbox';
 import { ConsistentHash } from '../util/consistentHash';
 import { RemoteServerCode } from '../../index';
 import { listEs6ClassMethods } from '../util/utils';
+import { LoaderPathType } from 'pinus-loader';
 
 /**
  * Client states
@@ -409,7 +410,7 @@ export class RpcClient {
             return;
         }
         let res: { [key: string]: any }, name;
-        let modules: { [key: string]: any } = Loader.load(record.path, context, false);
+        let modules: { [key: string]: any } = Loader.load(record.path, context, false, false, LoaderPathType.PINUS_REMOTER);
         if (modules) {
             res = {};
             for (name in modules) {

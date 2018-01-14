@@ -46,7 +46,7 @@ import { ModuleRecord } from './util/moduleUtil';
 import { IPlugin, ApplicationEventContructor } from './interfaces/IPlugin';
 import { Cron } from './server/server';
 import { ServerStartArgs } from './util/appUtil';
-import { RemoterProxyWithRoute, RemoterProxy } from './util/rpcHelper';
+import { RemoterProxyWithRoute, RemoterProxy } from './util/remoterHelper';
 import { listEs6ClassMethods } from 'pinus-rpc';
 import { ResponseErrorHandler } from './server/server';
 import { FrontendOrBackendSession, ScheduleOptions, UID, SID, FrontendSession, ISession } from './index';

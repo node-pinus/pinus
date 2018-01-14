@@ -20,6 +20,7 @@
 		"gen-api-ref": "node ../../node_modules/typedoc/bin/typedoc --mode file --hideGenerator --excludeExternals --ignoreCompilerErrors --out ../../run/site/public/api-reference/pinus-loader lib/"
 	},
 	"dependencies": {
+    	"reflect-metadata": "0.1.10",
 		"@types/node": "^8.5.2"
 	},
 	"devDependencies": {

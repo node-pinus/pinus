@@ -7,6 +7,7 @@ import {Tracer} from '../util/tracer';
 import * as util from 'util';
 import * as fs from 'fs';
 import { AcceptorOpts } from './acceptors/mqtt-acceptor';
+import { LoaderPathType } from 'pinus-loader';
 
 export interface RpcServerOpts extends AcceptorOpts {
     port?: number|string;
@@ -79,7 +80,7 @@ export class Gateway extends EventEmitter {
                     if (event === 'change') {
                         let res: {[key: string]: any} = {};
                         let item = paths[index];
-                        let m: {[key: string]: any} = Loader.load(item.path, app, true);
+                        let m: {[key: string]: any} = Loader.load(item.path, app, true, true, LoaderPathType.PINUS_REMOTER);
                         if (m) {
                             createNamespace(item.namespace, res);
                             for (let s in m) {

@@ -4,6 +4,8 @@
 
 import * as fs from 'fs';
 import * as path from 'path';
+import { getFromContainer, removeFromContainer, isUseContainer } from './container';
+import { LoaderPathType, isDefined } from './decoraters';
 
 /**
  * Load modules under the path.
@@ -21,7 +23,7 @@ import * as path from 'path';
  *                           module factory function.
  * @return {Object}          module that has loaded.
  */
-export function load(mpath: string, context: any, reload: boolean) {
+export function load(mpath: string, context: any, reload: boolean, createInstance: boolean, pathType: LoaderPathType) {
     if (!mpath) {
         throw new Error('opts or opts.path should not be empty.');
     }
@@ -36,29 +38,15 @@ export function load(mpath: string, context: any, reload: boolean) {
         throw new Error('path should be directory.');
     }
 
-    return loadPath(mpath, context, reload);
+    return loadPath(mpath, context, reload, createInstance, pathType);
 }
 
-export function loadFile(fp: string, context: any, reload: boolean) {
+export function loadFile(fp: string, reload: boolean) {
     let m  = reload ? requireUncached(fp) : require(fp);
-
-    if (!m) {
-        return;
-    }
-
-    if (typeof m.default === 'function') {
-        // if the module provides a factory function
-        // then invoke it to get a instance
-        m = m.default(context);
-    }
-    else {
-        throw new Error(`${fp} must define export default function(context){}`);
-    }
-
     return m;
 }
 
-export function loadPath(path: string, context: any, reload: boolean) {
+export function loadPath(path: string, context: any, reload: boolean, createInstance: boolean, pathType: LoaderPathType) {
     let files = fs.readdirSync(path);
     if (files.length === 0) {
         console.warn('path is empty, path:' + path);
@@ -79,14 +67,28 @@ export function loadPath(path: string, context: any, reload: boolean) {
             continue;
         }
 
-        m = loadFile(fp, context, reload);
+        m = loadFile(fp, reload);
 
         if (!m) {
             continue;
         }
+        // 兼容旧的写法
+        if (typeof m.default === 'function') {
+             let instance = m.default(context);
+             let name = instance.name || getFileName(fn, '.js'.length);
+             res[name] = instance;
+        }
 
-        let name = m.name || getFileName(fn, '.js'.length);
-        res[name] = m;
+        for (let key in m) {
+            let cls = m[key];
+            if (isDefined(cls, pathType)) {
+                if (createInstance) {
+                    res[cls.name] = getFromContainer(cls);
+                } else {
+                    res[cls.name] = cls;
+                }
+            }
+        }
     }
 
     return res;
@@ -130,6 +132,14 @@ let getFileName = function (fp: string, suffixLength: number) {
 };
 
 let requireUncached = function (module: string) {
+    if (isUseContainer()) {
+        let m = require.cache[require.resolve(module)];
+        if (m) {
+            if (typeof m.default === 'function') {
+                removeFromContainer(m.default);
+            }
+        }
+    }
     delete require.cache[require.resolve(module)];
     return require(module);
 };

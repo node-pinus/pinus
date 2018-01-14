@@ -224,14 +224,26 @@ export let getBearcat = function () {
  * 列出ES6的一个Class实例上的所有方法，但不包括父类的
  * @param objInstance
  */
-export function listEs6ClassMethods(objInstance: {[key: string]: any}) {
-    let names: string[] = [];
-    let methodNames = Object.getOwnPropertyNames(Object.getPrototypeOf(objInstance)).concat(Object.getOwnPropertyNames(objInstance));
-    for (let name of methodNames) {
-        let method = objInstance[name];
-        // Supposedly you'd like to skip constructor
-        if (!(method instanceof Function) || name === 'constructor') continue;
-        names.push(name);
+export function listEs6ClassMethods(objInstance: { [key: string]: any }) {
+    if (objInstance.prototype && objInstance.prototype.constructor === objInstance) {
+        let names: string[] = [];
+        let methodNames = Object.getOwnPropertyNames(objInstance.prototype);
+        for (let name of methodNames) {
+            let method = objInstance.prototype[name];
+            // Supposedly you'd like to skip constructor
+            if (!(method instanceof Function) || name === 'constructor') continue;
+            names.push(name);
+        }
+        return names;
+    } else {
+        let names: string[] = [];
+        let methodNames = Object.getOwnPropertyNames(Object.getPrototypeOf(objInstance)).concat(Object.getOwnPropertyNames(objInstance));
+        for (let name of methodNames) {
+            let method = objInstance[name];
+            // Supposedly you'd like to skip constructor
+            if (!(method instanceof Function) || name === 'constructor') continue;
+            names.push(name);
+        }
+        return names;
     }
-    return names;
 }

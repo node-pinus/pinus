@@ -22,4 +22,3 @@ export function bindRemoterMethod<T extends object, F extends Function, ROUTE>(m
 export function bindRemoterMethod<T extends object, F extends Function, ROUTE>(method: F, thisArg: T, routeParamType?: new (...args: any[]) => ROUTE): RemoterProxyWithRoute<ROUTE, F> {
     return method.bind(thisArg);
 }
-

@@ -17,6 +17,7 @@ import { Application } from '../application';
 import { EventEmitter } from 'events';
 import { RouteRecord } from '../util/constants';
 import { FrontendSession, BackendSession } from '../index';
+import { LoaderPathType } from 'pinus-loader';
 let logger = getLogger('pinus', path.basename(__filename));
 
 
@@ -219,7 +220,7 @@ let loadCronHandlers = function (app: Application) {
     let all: {[key: string]: any} = {};
     let p = pathUtil.getCronPath(app.getBase(), app.getServerType());
     if (p) {
-        let crons = Loader.load(p, app, false);
+        let crons = Loader.load(p, app, false, true, LoaderPathType.PINUS_CRONNER);
         for (let name in crons) {
             all[name] = crons[name];
         }
@@ -231,7 +232,7 @@ let loadCronHandlers = function (app: Application) {
                 logger.error(`插件[${plugin.name}的cronPath[${plugin.cronPath}不存在。]]`);
                 continue;
             }
-            let crons = Loader.load(plugin.cronPath, app, false);
+            let crons = Loader.load(plugin.cronPath, app, false, true, LoaderPathType.PINUS_CRONNER);
             for (let name in crons) {
                 all[name] = crons[name];
             }
