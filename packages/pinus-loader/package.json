@@ -1,6 +1,6 @@
 {
 	"name": "pinus-loader",
-	"version": "1.2.20",
+	"version": "1.3.0",
 	"main": "./dist/index",
 	"types": "./lib/index",
 	"files": [
@@ -20,8 +20,8 @@
 		"gen-api-ref": "node ../../node_modules/typedoc/bin/typedoc --mode file --hideGenerator --excludeExternals --ignoreCompilerErrors --out ../../run/site/public/api-reference/pinus-loader lib/"
 	},
 	"dependencies": {
-    	"reflect-metadata": "0.1.10",
-		"@types/node": "^8.5.2"
+		"@types/node": "^8.5.2",
+		"reflect-metadata": "0.1.10"
 	},
 	"devDependencies": {
 		"mocha": ">=0.0.1",
