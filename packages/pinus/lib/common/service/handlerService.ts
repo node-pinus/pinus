@@ -43,7 +43,7 @@ export class HandlerService {
 
         // 添加默认路径到ServerInfo中
         let info = app.getCurrentServer();
-        let handlerPath = pathUtil.getHandlerPath(app.getBase(), info.serverType);
+        let handlerPath = info.serverType ? pathUtil.getHandlerPath(app.getBase(), info.serverType) : undefined;
         info.handlerPaths = [];
         if(handlerPath) {
             info.handlerPaths.push(handlerPath);
