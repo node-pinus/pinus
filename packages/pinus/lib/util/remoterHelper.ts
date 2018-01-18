@@ -1,12 +1,35 @@
 
+/**
+ * 不带路由参数的远程调用代理
+ */
 export interface RemoterProxy<F> {
+    /**
+     * 使用默认路由参数null调用rpc
+     */
     defaultRoute: F;
+    /**
+     * 路由到serverId服务器，并返回rpc函数
+     */
     to(serverId: string): F;
+    /**
+     * 广播到所有定义了这个remoter的服务器
+     */
     broadcast: F;
 }
 
+/**
+ * 带路由参数的远程调用代理
+ */
 export interface RemoterProxyWithRoute<ROUTE, F> extends RemoterProxy<F> {
+    /**
+     * 路由到routeParam，并返回rpc调用函数
+     */
     route(routeParam: ROUTE): F;
+
+    // 兼容老的写法
+    (routeParam: ROUTE, ...args: any[]): Promise<any>;
+    toServer(serverId: string, ...args: any[]): Promise<any>;
+    toServer(serverId: '*', ...args: any[]): Promise<any[]>;
 }
 
 export function bindRemoterMethod<ROUTE, T, R, F>(method: F & (() => Promise<R>), thisArg: T, routeParamType: new (...args: any[]) => ROUTE): RemoterProxyWithRoute<ROUTE, F> & ((routeParam: ROUTE) => Promise<R>) & { toServer(serverId: string): Promise<R> };
