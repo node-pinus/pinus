@@ -5,6 +5,7 @@ let Composer: any = require('stream-pkg');
 import * as util from 'util';
 import * as net from 'net';
 import * as Coder from '../../util/coder';
+import {AcceptorOpts} from '../acceptor';
 
 
 export interface AcceptorPkg {
@@ -15,13 +16,7 @@ export interface AcceptorPkg {
   msg: string;
 }
 
-export interface AcceptorOpts {
-  interval: number;
-  bufferMsg: any;
-  pkgSize: any;
-  rpcLogger: any;
-  rpcDebugLog: any;
-}
+
 
 export class TCPAcceptor extends EventEmitter {
   bufferMsg: any;

@@ -7,6 +7,7 @@ let MqttCon: any = require('mqtt-connection');
 import * as util from 'util';
 import * as net from 'net';
 import { Socket } from 'net';
+import {AcceptorOpts, IAcceptor} from '../acceptor';
 
 export interface AcceptorPkg {
     source: string;
@@ -16,15 +17,10 @@ export interface AcceptorPkg {
     msg: string;
 }
 
-export interface AcceptorOpts {
-    interval?: number;
-    bufferMsg?: boolean;
-    rpcLogger?: Logger;
-    rpcDebugLog?: boolean;
-}
+
 
 let curId = 1;
-export class MQTTAcceptor extends EventEmitter {
+export class MQTTAcceptor extends EventEmitter implements IAcceptor {
     interval: number; // flush interval in ms
     bufferMsg: any;
     rpcLogger: any;

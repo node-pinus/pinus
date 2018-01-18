@@ -41,12 +41,11 @@ export function createServer(opts: Gateway.RpcServerOpts) {
     if (!opts || !opts.port || opts.port < 0 || !opts.paths) {
         throw new Error('opts.port or opts.paths invalid.');
     }
-    let services = loadRemoteServices(opts.paths, opts.context, opts.services);
-    opts.services = services;
-    let gateway = Gateway.createGateway(opts);
-    return gateway;
+    opts.services = loadRemoteServices(opts.paths, opts.context, opts.services);
+    return Gateway.createGateway(opts);
 }
 
 // module.exports.WSAcceptor from ('./acceptors/ws-acceptor');
 // module.exports.TcpAcceptor from ('./acceptors/tcp-acceptor');
 export { create as MqttAcceptor } from './acceptors/mqtt-acceptor';
+

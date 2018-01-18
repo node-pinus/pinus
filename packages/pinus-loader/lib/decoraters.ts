@@ -1,4 +1,4 @@
-﻿import * as reflect from 'reflect-metadata';
+﻿import 'reflect-metadata';
 export enum LoaderPathType {
     PINUS_REMOTER = 'pinus:remoter',
     PINUS_HANDLER = 'pinus:hanlder',

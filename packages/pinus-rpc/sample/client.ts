@@ -119,6 +119,7 @@ async function test() {
     console.log('~~ latency end');
     const latencyRet = await client.proxies.user.test.service.echo.toServer('test-server-3', 'latency!!', 'aaa');
     console.log('~~~ latency', latencyRet);
+    return 'test success';
 }
 
 process.on('uncaughtException', function(err) {
