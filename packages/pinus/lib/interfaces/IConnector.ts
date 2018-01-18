@@ -15,6 +15,6 @@ export interface IConnector {
 
     decode ?: IDecoder;
 
-    on(evt: 'connection' , listener: (socket: ISocket) => void): void;
+    on(evt: 'connection' , listener: (cb: (socket: ISocket) => boolean, socket: ISocket) => void): void;
 
 }
