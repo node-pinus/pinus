@@ -20,7 +20,7 @@ export function bindRemoterMethod<ROUTE, T, T1, T2, T3, T4, T5, T6, T7, R, F>(me
 export function bindRemoterMethod<ROUTE, T, T1, T2, T3, T4, T5, T6, T7, T8, R, F>(method: F & ((arg1: T1, arg2: T2, arg3: T3, arg4: T4, arg5: T5, arg6: T6, arg7: T7, arg8: T8) => Promise<R>), thisArg: T, routeParamType: new (...args: any[]) => ROUTE): RemoterProxyWithRoute<ROUTE, F> & ((routeParam: ROUTE, arg1: T1, arg2: T2, arg3: T3, arg4: T4, arg5: T5, arg6: T6, arg7: T7, arg8: T8) => Promise<R>) & { toServer(serverId: string, arg1: T1, arg2: T2, arg3: T3, arg4: T4, arg5: T5, arg6: T6, arg7: T7, arg8: T8): Promise<R> };
 export function bindRemoterMethod<T extends object, F extends Function, ROUTE>(method: F, thisArg: T): RemoterProxy<F>;
 export function bindRemoterMethod<T extends object, F extends Function, ROUTE>(method: F, thisArg: T, routeParamType?: new (...args: any[]) => ROUTE): RemoterProxyWithRoute<ROUTE, F> {
-    return method.bind(thisArg);
+    return method.bind(thisArg) as any;
 }
 
 export type RemoterClass<ROUTE, T> = {

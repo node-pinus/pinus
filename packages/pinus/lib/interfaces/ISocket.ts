@@ -2,8 +2,8 @@
 export interface ISocket {
     once(evt: 'disconnect', listener: () => void): void;
     once(evt: 'error', listener: () => void): void;
-    on(evt: 'disconnect', listener: () => void): void;
-    on(evt: 'error', listener: () => void): void;
+    on(evt: 'disconnect', listener: (reason: string) => void): void;
+    on(evt: 'error', listener: (reason: string) => void): void;
     on(evt: 'message', listener: (msg: any) => void): void;
     send(msg: any): void;
     sendRaw(msg: any): void;
