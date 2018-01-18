@@ -1,4 +1,4 @@
-import { Application, FrontendSession, bindRemoterMethod } from 'pinus';
+import { Application, FrontendSession, bindRemoterMethod, RemoterClass } from 'pinus';
 
 export default function (app: Application) {
     return new AuthRemoter(app);
@@ -8,7 +8,8 @@ export default function (app: Application) {
 declare global {
     interface UserRpc {
         connector: {
-            authRemoter: AuthRemoter;
+            // 一次性定义一个类自动合并到UserRpc中
+            authRemoter: RemoterClass<FrontendSession, AuthRemoter>;
         };
     }
 }
@@ -19,14 +20,12 @@ export class AuthRemoter {
 
     }
 
-    // 导出远程调用方法
-    auth = bindRemoterMethod(this._auth, this, FrontendSession);
     /**
      *
      * @param username
      * @param password
      */
-    async _auth(username: string , password: string) {
+    async auth(username: string , password: string) {
         return true;
     }
 
