@@ -1,5 +1,6 @@
 require('source-map-support/register');
-
+import {preload} from './preload';
+preload();
 import {createServer, createTcpAcceptor} from '../index';
 import { configure } from 'pinus-logger';
 import {getLogger} from 'pinus-logger';
@@ -19,7 +20,7 @@ function runServer(port: number) {
 
     let server = createServer({paths: paths, port: port, rpcDebugLog: true,
         rpcLogger: logger,
-      //  acceptorFactory: createTcpAcceptor
+        acceptorFactory: createTcpAcceptor
     });
     server.start();
     console.log('rpc server started.' + port);

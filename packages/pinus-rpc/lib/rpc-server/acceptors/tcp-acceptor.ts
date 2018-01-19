@@ -76,9 +76,9 @@ export class TCPAcceptor extends EventEmitter {
       socket.composer.on('data', function (data: any) {
         let pkg = JSON.parse(data.toString());
         if (pkg instanceof Array) {
-          self.processMsgs(socket, self, pkg);
+          self.processMsgs(socket, pkg);
         } else {
-          self.processMsg(socket, self, pkg);
+          self.processMsg(socket, pkg);
         }
       });
 
@@ -121,49 +121,57 @@ export class TCPAcceptor extends EventEmitter {
     return res;
   }
 
-  processMsg(socket: any, acceptor: TCPAcceptor, pkg: AcceptorPkg) {
-    let tracer = new Tracer(acceptor.rpcLogger, acceptor.rpcDebugLog, pkg.remote, pkg.source, pkg.msg, pkg.id, pkg.seq);
-    tracer.info('server', __filename, 'processMsg', 'tcp-acceptor receive message and try to process message');
-    acceptor.cb(tracer, pkg.msg, () => {
-      let args = Array.prototype.slice.call(arguments, 0);
-      for (let i = 0, l = args.length; i < l; i++) {
-        if (args[i] instanceof Error) {
-          args[i] = this.cloneError(args[i]);
-        }
+  processMsg(socket: any, pkg: AcceptorPkg) {
+      let tracer: Tracer = null;
+      if(this.rpcDebugLog){
+          tracer = new Tracer(this.rpcLogger, this.rpcDebugLog, pkg.remote, pkg.source, pkg.msg, pkg.id, pkg.seq);
+          tracer.info('server', __filename, 'processMsg', 'tcp-acceptor receive message and try to process message');
       }
-      let resp: any;
-      if (tracer.isEnabled) {
+      this.cb(tracer, pkg.msg, (... args: any[]) => {
+      // let args = Array.prototype.slice.call(arguments, 0);
+      // for (let i = 0, l = args.length; i < l; i++) {
+      //   if (args[i] instanceof Error) {
+      //     args[i] = this.cloneError(args[i]);
+      //   }
+      // }
+        let errorArg = args[0]; // first callback argument can be error object, the others are message
+        if (errorArg && errorArg instanceof Error) {
+            args[0] = this.cloneError(<any>errorArg);
+        }
+
+        let resp: any;
+      if (tracer && tracer.isEnabled) {
         resp = {
           traceId: tracer.id,
           seqId: tracer.seq,
           source: tracer.source,
           id: pkg.id,
-          resp: Array.prototype.slice.call(args, 0)
+          resp: args
         };
       } else {
         resp = {
           id: pkg.id,
-          resp: Array.prototype.slice.call(args, 0)
+          resp: args
         };
       }
-      if (acceptor.bufferMsg) {
-        this.enqueue(socket, acceptor, resp);
+      if (this.bufferMsg) {
+        this.enqueue(socket, resp);
       } else {
         socket.write(socket.composer.compose(JSON.stringify(resp)));
       }
     });
   }
 
-  processMsgs(socket: any, acceptor: TCPAcceptor, pkgs: Array<AcceptorPkg>) {
+  processMsgs(socket: any, pkgs: Array<AcceptorPkg>) {
     for (let i = 0, l = pkgs.length; i < l; i++) {
-      this.processMsg(socket, acceptor, pkgs[i]);
+      this.processMsg(socket, pkgs[i]);
     }
   }
 
-  enqueue(socket: any, acceptor: TCPAcceptor, msg: Coder.Msg) {
-    let queue = acceptor.msgQueues[socket.id];
+  enqueue(socket: any, msg: Coder.Msg) {
+    let queue = this.msgQueues[socket.id];
     if (!queue) {
-      queue = acceptor.msgQueues[socket.id] = [];
+      queue = this.msgQueues[socket.id] = [];
     }
     queue.push(msg);
   }

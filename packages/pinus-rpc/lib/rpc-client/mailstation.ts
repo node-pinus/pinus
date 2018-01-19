@@ -2,19 +2,21 @@ import { getLogger } from 'pinus-logger';
 let logger = getLogger('pinus-rpc', 'MailStation');
 import { EventEmitter } from 'events';
 // import * as blackhole from './mailboxes/blackhole';
-import {createMailBox as defaultMailboxFactory, MailBoxFactory} from './mailbox';
+import {
+    createMqttMailBox as defaultMailboxFactory, IMailBox, IMailBoxFactory, MailBoxMessage,
+    MailBoxOpts
+} from './mailbox';
 import { constants } from '../util/constants';
 import * as utils from '../util/utils';
 import * as util from 'util';
 import { Tracer } from '../util/tracer';
-import { MailBox, MailBoxMessage } from './mailboxes/mqtt-mailbox';
 
 let STATE_INITED = 1; // station has inited
 let STATE_STARTED = 2; // station has started
 let STATE_CLOSED = 3; // station has closed
 
 export interface MailStationOpts {
-    mailboxFactory?: typeof defaultMailboxFactory;
+    mailboxFactory?: IMailBoxFactory;
     pendingSize?: number;
 }
 
@@ -58,12 +60,12 @@ export class MailStation extends EventEmitter {
     connecting: {[serverId: string]: boolean} = {};
 
     // working mailbox map
-    mailboxes: {[serverId: string]: MailBox} = {};
+    mailboxes: {[serverId: string]: IMailBox} = {};
 
     state = STATE_INITED;
 
     opts: MailStationOpts;
-    mailboxFactory: MailBoxFactory;
+    mailboxFactory: IMailBoxFactory;
     pendingSize: number;
     constructor(opts?: MailStationOpts) {
         super();
@@ -414,7 +416,7 @@ let doFilter = function (tracer: Tracer, err: Error, serverId: string, msg: Mail
     doFilter(tracer, err, serverId, msg, opts, filters, index, operate, cb);
 };
 
-let lazyConnect = function (tracer: Tracer, station: {[key: string]: any}, serverId: string, factory: MailBoxFactory, cb: Function) {
+let lazyConnect = function (tracer: Tracer, station: MailStation, serverId: string, factory: IMailBoxFactory, cb: Function) {
     tracer && tracer.info('client', __filename, 'lazyConnect', 'create mailbox and try to connect to remote server');
     let server = station.servers[serverId];
     let online = station.onlines[serverId];
@@ -426,7 +428,7 @@ let lazyConnect = function (tracer: Tracer, station: {[key: string]: any}, serve
         logger.error('[pinus-rpc] server is not online: %s', serverId);
         return false;
     }
-    let mailbox = factory(server, station.opts);
+    let mailbox = factory(server, station.opts as MailBoxOpts);
     station.connecting[serverId] = true;
     station.mailboxes[serverId] = mailbox;
     station.connect(tracer, serverId, cb);
@@ -476,11 +478,11 @@ let errorHandler = function (tracer: Tracer, station: MailStation, err: Error, s
 /**
  * Mail station factory function.
  *
- * @param  {Object} opts construct paramters
+ * @param  {Object} opts? construct paramters
  *           opts.servers {Object} global server info map. {serverType: [{id, host, port, ...}, ...]}
  *           opts.mailboxFactory {Function} mailbox factory function
  * @return {Object}      mail station instance
  */
-export function createMailStation(opts?: MailStationOpts, mailboxFactory?: MailBoxFactory) {
+export function createMailStation(opts?: MailStationOpts) {
     return new MailStation(opts || {});
 }
