@@ -1,8 +1,13 @@
+import {TCPMailBox} from '../lib/rpc-client/mailboxes/tcp-mailbox';
+
 require('source-map-support/register');
 
+import {preload} from './preload';
+preload();
 import * as pinusrpc from '..';
 import {configure} from 'pinus-logger';
 import {getLogger} from 'pinus-logger';
+import {createTcpMailBox} from '../';
 configure('./config/log4js.json');
 let logger = getLogger('pinus-rpc', 'sample-client');
 
@@ -36,7 +41,9 @@ const routeFunc = function(routeParam: any, msg: any,
 };
 
 const client = pinusrpc.createClient({routeContext: routeContext,
-    router: routeFunc, context: context});
+    router: routeFunc, context: context,
+    mailboxFactory: createTcpMailBox
+});
 
 client.start(err => {
     if(err) {
@@ -119,15 +126,8 @@ async function test() {
     console.log('~~ latency end');
     const latencyRet = await client.proxies.user.test.service.echo.toServer('test-server-3', 'latency!!', 'aaa');
     console.log('~~~ latency', latencyRet);
+    return 'test success';
 }
-
-process.on('uncaughtException', function(err) {
-  console.error(err);
-});
-
-process.on('unhandledRejection', (reason, p) => {
-    console.error('unhandled Reject~~', reason, p);
-});
 
 
 process.on('rejectionHandled', p => {

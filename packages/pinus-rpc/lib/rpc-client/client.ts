@@ -10,11 +10,11 @@ import * as router from './router';
 import * as async from 'async';
 import { RpcServerInfo, MailStation, MailStationErrorHandler, RpcFilter } from './mailstation';
 import {AsyncFunction, AsyncResultArrayCallback, ErrorCallback} from 'async';
-import { MailBoxFactory } from './mailbox';
 import { ConsistentHash } from '../util/consistentHash';
 import { RemoteServerCode } from '../../index';
 import { listEs6ClassMethods } from '../util/utils';
 import { LoaderPathType } from 'pinus-loader';
+import {IMailBoxFactory} from './mailbox';
 
 /**
  * Client states
@@ -67,7 +67,7 @@ export interface RpcClientOpts {
     rpcDebugLog?: boolean;
     clientId?: string;
     servers?: { serverType: Array<RpcServerInfo> };
-    mailboxFactory?: MailBoxFactory;
+    mailboxFactory?: IMailBoxFactory;
     rpcLogger?: Logger;
     station?: MailStation;
     hashFieldIndex?: number;
@@ -81,7 +81,9 @@ export interface RpcMsg {
     args: any[];
 }
 
-export type TargetRouterFunction = (serverType: string, msg: RpcMsg, routeParam: object, cb: (err: Error, serverId: string) => void) => void;
+export interface TargetRouterFunction {
+    (serverType: string, msg: RpcMsg, routeParam: object, cb: (err: Error, serverId: string) => void): void;
+}
 
 /**
  * RPC Client Class
@@ -624,6 +626,7 @@ export function createClient(opts: RpcClientOpts) {
 
 // module.exports.WSMailbox from ('./mailboxes/ws-mailbox'); // socket.io
 // module.exports.WS2Mailbox from ('./mailboxes/ws2-mailbox'); // ws
-export { create as MQTTMailbox } from './mailboxes/mqtt-mailbox'; // mqtt
+// export { create as MQTTMailbox } from './mailboxes/mqtt-mailbox'; // mqtt
+
 
 
