@@ -18,11 +18,11 @@ let CONNECT_TIMEOUT = 2000;
 
 export class MailBox extends EventEmitter implements IMailBox {
 
-    constructor(server: {id: string, host: string, port: number}, opts: MailBoxOpts) {
+    constructor(serverInfo: {id: string, host: string, port: number}, opts: MailBoxOpts) {
         super();
-        this.id = server.id;
-        this.host = server.host;
-        this.port = server.port;
+        this.id = serverInfo.id;
+        this.host = serverInfo.host;
+        this.port = serverInfo.port;
 
 
         this.bufferMsg = opts.bufferMsg;

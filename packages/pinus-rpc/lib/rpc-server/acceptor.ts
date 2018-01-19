@@ -11,9 +11,11 @@ interface ProcessMsgCallBack {
     (err: Error|null, ... args: any[]): void;
     (... args: any[]): void;
 }
+export type AcceptorCallback = (tracer: Tracer, msg: any, cb: ProcessMsgCallBack) => void;
+
 
 export interface IAcceptorFactory {
-    (opts: Gateway.RpcServerOpts, cb: (tracer: Tracer, msg ?: MsgPkg, cb ?: Function) => void): IAcceptor;
+    (opts: Gateway.RpcServerOpts, cb: AcceptorCallback): IAcceptor;
 }
 
 export interface AcceptorOpts {
@@ -26,22 +28,17 @@ export interface AcceptorOpts {
     ping?: number;
 }
 
-export interface IAcceptorConstructor {
-    new (opts: AcceptorOpts, cb: (tracer: Tracer, msg ?: MsgPkg, cb ?: ProcessMsgCallBack) => void): IAcceptor;
-}
-
 export interface IAcceptor {
     close(): void;
     listen(port: number): void;
     on(event: 'error', cb: (err: Error, self: IAcceptor) => void): this;
     on(event: 'closed', cb: () => void): this;
-    cb: (err: Error|null, msg: MsgPkg, cb: ProcessMsgCallBack) => void;
 }
 
-export function createDefaultAcceptor(opts: AcceptorOpts, cb: (tracer: Tracer, msg ?: MsgPkg, cb ?: Function) => void): IAcceptor {
+export function createDefaultAcceptor(opts: AcceptorOpts, cb: AcceptorCallback): IAcceptor {
     return new MQTTAcceptor(opts, cb);
 }
 
-export function createTcpAcceptor(opts: AcceptorOpts, cb: (tracer: Tracer, msg ?: MsgPkg, cb ?: Function) => void): IAcceptor {
+export function createTcpAcceptor(opts: AcceptorOpts, cb: AcceptorCallback): IAcceptor {
     return new TCPAcceptor(opts, cb);
 }

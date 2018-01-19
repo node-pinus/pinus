@@ -5,7 +5,7 @@ import {Composer} from '../../util/composer';
 import * as util from 'util';
 import * as net from 'net';
 import * as Coder from '../../util/coder';
-import {AcceptorOpts, IAcceptor} from '../acceptor';
+import {AcceptorOpts, IAcceptor, AcceptorCallback} from '../acceptor';
 import { getLogger, Logger } from 'pinus-logger';
 let logger = getLogger('pinus-rpc', 'tcp-acceptor');
 
@@ -42,7 +42,7 @@ export class TCPAcceptor extends EventEmitter implements IAcceptor {
 
     socketId: number;
 
-    constructor(opts: AcceptorOpts, cb: (tracer: Tracer, msg?: any, cb?: Function) => void) {
+    constructor(opts: AcceptorOpts, cb: AcceptorCallback) {
         super();
         this.bufferMsg = opts.bufferMsg;
         this.interval = opts.interval; // flush interval in ms

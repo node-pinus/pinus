@@ -7,7 +7,7 @@ let MqttCon: any = require('mqtt-connection');
 import * as util from 'util';
 import * as net from 'net';
 import { Socket } from 'net';
-import {AcceptorOpts, IAcceptor} from '../acceptor';
+import {AcceptorOpts, IAcceptor, AcceptorCallback} from '../acceptor';
 
 export interface AcceptorPkg {
     source: string;
@@ -28,12 +28,12 @@ export class MQTTAcceptor extends EventEmitter implements IAcceptor {
     _interval: any; // interval object
     sockets: any;
     msgQueues: any;
-    cb: (tracer: any, msg ?: any, cb ?: Function) => void;
+    cb: AcceptorCallback;
     inited: boolean;
     server: net.Server;
     closed: boolean;
 
-    constructor(opts: AcceptorOpts, cb: (tracer: Tracer, msg ?: any, cb ?: Function) => void) {
+    constructor(opts: AcceptorOpts, cb: AcceptorCallback) {
         super();
         this.interval = opts.interval; // flush interval in ms
         this.bufferMsg = opts.bufferMsg;
