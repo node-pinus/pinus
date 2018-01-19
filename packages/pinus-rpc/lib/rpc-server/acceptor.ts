@@ -30,7 +30,7 @@ export interface IAcceptorConstructor {
     new (opts: AcceptorOpts, cb: (tracer: Tracer, msg ?: MsgPkg, cb ?: ProcessMsgCallBack) => void): IAcceptor;
 }
 
-export interface IAcceptor extends EventEmitter {
+export interface IAcceptor {
     close(): void;
     listen(port: number): void;
     on(event: 'error', cb: (err: Error, self: IAcceptor) => void): this;

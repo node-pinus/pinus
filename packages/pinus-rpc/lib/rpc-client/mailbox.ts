@@ -32,7 +32,7 @@ export interface MailBoxMessage {
     args: any[];
 }
 
-export interface IMailBox extends EventEmitter {
+export interface IMailBox {
     close(): void;
     send(tracer: Tracer, msg: MailBoxMessage, opts: any, cb: MailBoxTimeoutCallback): void;
     on(event: 'close', listener: (err: Error, serverid: string) => void): this;
