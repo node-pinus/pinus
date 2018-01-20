@@ -8,7 +8,7 @@ import * as Loader from 'pinus-loader';
 import * as utils from '../util/utils';
 import * as router from './router';
 import * as async from 'async';
-import { RpcServerInfo, MailStation, MailStationErrorHandler, RpcFilter } from './mailstation';
+import { RpcServerInfo, MailStation, MailStationErrorHandler, RpcFilter, MailStationOpts } from './mailstation';
 import {AsyncFunction, AsyncResultArrayCallback, ErrorCallback} from 'async';
 import { ConsistentHash } from '../util/consistentHash';
 import { RemoteServerCode } from '../../index';
@@ -59,7 +59,7 @@ export type Proxies = {
                 {[remoterName: string]:
                         {[attr: string]: Proxy}}}
 };
-export interface RpcClientOpts {
+export interface RpcClientOpts extends MailStationOpts {
     context?: any;
     routeContext?: RouteContext;
     router?: Router;
@@ -67,7 +67,6 @@ export interface RpcClientOpts {
     rpcDebugLog?: boolean;
     clientId?: string;
     servers?: { serverType: Array<RpcServerInfo> };
-    mailboxFactory?: IMailBoxFactory;
     rpcLogger?: Logger;
     station?: MailStation;
     hashFieldIndex?: number;

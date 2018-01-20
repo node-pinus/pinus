@@ -435,7 +435,7 @@ let lazyConnect = function (tracer: Tracer, station: MailStation, serverId: stri
     return true;
 };
 
-let addToPending = function (tracer: Tracer, station: {[key: string]: any}, serverId: string, args: IArguments) {
+let addToPending = function (tracer: Tracer, station: MailStation, serverId: string, args: IArguments) {
     tracer && tracer.info('client', __filename, 'addToPending', 'add pending requests to pending queue');
     let pending = station.pendings[serverId];
     if (!pending) {
@@ -449,7 +449,7 @@ let addToPending = function (tracer: Tracer, station: {[key: string]: any}, serv
     pending.push(args);
 };
 
-let flushPending = function (tracer: Tracer, station: {[key: string]: any}, serverId: string, cb?: Function) {
+let flushPending = function (tracer: Tracer, station: MailStation, serverId: string, cb?: Function) {
     tracer && tracer.info('client', __filename, 'flushPending', 'flush pending requests to dispatch method');
     let pending = station.pendings[serverId];
     let mailbox = station.mailboxes[serverId];
