@@ -5,7 +5,8 @@ import {EventEmitter} from 'events';
 import {Tracer} from '../../util/tracer';
 import * as utils from '../../util/utils';
 
-let Composer: any = require('stream-pkg');
+import  {Composer} from '../../util/composer';
+
 import * as util from 'util';
 import * as net from 'net';
 import {Msg} from '../../util/coder';
@@ -13,6 +14,7 @@ import {IMailBox, MailBoxOpts, MailBoxPkg} from '../mailbox';
 
 const DEFAULT_CALLBACK_TIMEOUT = 10 * 1000;
 const DEFAULT_INTERVAL = 50;
+const MSG_TYPE = 0;
 const PING = 1;
 const PONG = 2;
 
@@ -34,7 +36,7 @@ export class TCPMailBox extends EventEmitter implements IMailBox {
     opts: any;
     socket: any = null;
     _interval: any;
-    composer: any;
+    composer: Composer;
     ping: number;
     pong: number;
     timer: any;
@@ -74,20 +76,19 @@ export class TCPMailBox extends EventEmitter implements IMailBox {
             host: this.host
         }, (err: Error) => {
             // success to connect
-            self.connected = true;
-            if (self.bufferMsg) {
+            this.connected = true;
+            this.closed = false;
+            if (this.bufferMsg) {
                 // start flush interval
-                self._interval = setInterval(function () {
-                    self.flush(self);
-                }, self.interval);
+                this._interval = setInterval(() => {
+                    this.flush();
+                }, this.interval);
             }
             this.heartbeat();
             utils.invokeCallback(cb, err);
         });
 
-        let self = this;
-
-        this.composer.on('data', (data: Object) => {
+        this.composer.on('data', (data: Buffer) => {
             if (data[0] === PONG) {
                 // incoming::pong
                 this.heartbeat();
@@ -99,23 +100,35 @@ export class TCPMailBox extends EventEmitter implements IMailBox {
             } else {
                 this.processMsg(pkg);
             }
+            try {
+                const pkg = JSON.parse(data.toString('utf-8', 1));
+                if(pkg instanceof Array) {
+                    this.processMsgs(pkg);
+                } else {
+                    this.processMsg(pkg);
+                }
+            } catch(err) {
+                if(err) {
+                    logger.error('[pinus-rpc] tcp mailbox process data error: %j', err.stack);
+                }
+            }
         });
 
-        this.socket.on('data', function (data: object) {
-            self.composer.feed(data);
+        this.socket.on('data', (data: any) => {
+            this.composer.feed(data);
         });
 
-        this.socket.on('error', function (err: Error) {
-            if (!self.connected) {
+        this.socket.on('error', (err: Error) => {
+            if (!this.connected) {
                 utils.invokeCallback(cb, err);
                 return;
             }
-            self.emit('error', err, self);
-            self.emit('close', self.id);
+         //   this.emit('error', err, this);
+            this.emit('close', this.id);
         });
 
-        this.socket.on('end', function () {
-            self.emit('close', self.id);
+        this.socket.on('end', () => {
+            this.emit('close', this.id);
         });
         // TODO: reconnect and heartbeat
     }
@@ -133,8 +146,16 @@ export class TCPMailBox extends EventEmitter implements IMailBox {
             clearInterval(this._interval);
             this._interval = null;
         }
+        if(this.timer.keys().length) {
+            clearTimeout(this.timer['ping']);
+            this.timer['ping'] = null;
+            clearTimeout(this.timer['pong']);
+            this.timer['pong'] = null;
+        }
         if (this.socket) {
-            this.socket.end();
+            this.socket.removeAllListeners();
+            this.composer.removeAllListeners();
+            this.socket.destroy();
             this.socket = null;
         }
     }
@@ -146,7 +167,7 @@ export class TCPMailBox extends EventEmitter implements IMailBox {
      * @param opts {} attach info to send method
      * @param cb declaration decided by remote interface
      */
-    send(tracer: Tracer, msg: Msg, opts: MailBoxOpts, cb: (tracer: Tracer, msg?: any, cb?: Function) => void) {
+    send(tracer: Tracer, msg: Msg, opts: MailBoxOpts, cb: (tracer: Tracer, msg?: any, cb?: Function) => void | null) {
         tracer && tracer.info('client', __filename, 'send', 'tcp-mailbox try to send');
         if (!this.connected) {
             utils.invokeCallback(cb, new Error('not init.'));
@@ -158,9 +179,15 @@ export class TCPMailBox extends EventEmitter implements IMailBox {
             return;
         }
 
-        let id = this.curId++;
-        this.requests[id] = cb;
-        this.setCbTimeout(this, id, tracer, cb);
+        let id = 0;
+        if(cb) {
+            id = this.curId++ & 0xffffffff;
+            if(!id) {
+                id = this.curId++ & 0xffffffff;
+            }
+            this.requests[id] = cb;
+            this.setCbTimeout(id, tracer, cb);
+        }
         let pkg: any;
 
         if (tracer && tracer.isEnabled) {
@@ -180,22 +207,71 @@ export class TCPMailBox extends EventEmitter implements IMailBox {
         }
 
         if (this.bufferMsg) {
-            this.enqueue(this, pkg);
+            this.enqueue(pkg);
         } else {
-            this.socket.write(this.composer.compose(JSON.stringify(pkg)));
+            this.socket.write(this.composer.compose(MSG_TYPE, JSON.stringify(pkg), id));
         }
     }
 
-    enqueue(mailbox: TCPMailBox, msg: Msg) {
-        mailbox.queue.push(msg);
+    /*
+     * Send a new heartbeat over the connection to ensure that we're still
+     * connected and our internet connection didn't drop. We cannot use server side
+     * heartbeats for this unfortunately.
+     * @api private
+     */
+    heartbeat() {
+        if(!this.ping) return;
+
+        if(this.timer['pong']) {
+            clearTimeout(this.timer['pong']);
+            this.timer['pong'] = null;
+        }
+
+        if(!this.timer['ping']) {
+            this.timer['ping'] = setTimeout(ping, this.ping);
+        }
+
+        const self = this;
+        /**
+         * Exterminate the connection as we've timed out.
+         *
+         * @api private
+         */
+        function pong() {
+            if(self.timer['pong']) {
+                clearTimeout(self.timer['pong']);
+                self.timer['pong'] = null;
+            }
+
+            self.emit('close', self.id);
+            logger.warn('pong timeout');
+        }
+
+        /**
+         * We should send a ping message to the server.
+         *
+         * @api private
+         */
+        function ping() {
+            if(self.timer['ping']) {
+                clearTimeout(self.timer['ping']);
+                self.timer['ping'] = null;
+            }
+            self.socket.write(self.composer.compose(PING));
+            self.timer['pong'] = setTimeout(pong, self.pong);
+        }
     }
 
-    flush(mailbox: TCPMailBox) {
-        if (mailbox.closed || !mailbox.queue.length) {
+    enqueue(msg: Msg) {
+        this.queue.push(msg);
+    }
+
+    flush() {
+        if (this.closed || !this.queue.length) {
             return;
         }
-        mailbox.socket.write(mailbox.composer.compose(JSON.stringify(mailbox.queue)));
-        mailbox.queue = [];
+        this.socket.write(this.composer.compose(MSG_TYPE, JSON.stringify(this.queue), this.queue[0].id));
+        this.queue = [];
     }
 
     processMsgs(pkgs: Array<MailBoxPkg>) {
@@ -217,28 +293,30 @@ export class TCPMailBox extends EventEmitter implements IMailBox {
         }
         let args: Array<any> = [tracer, null];
 
-        pkg.resp.forEach(function (arg: any) {
+        pkg.resp.forEach((arg: any) => {
             args.push(arg);
         });
 
         cb.apply(null, args);
     }
 
-    setCbTimeout(mailbox: TCPMailBox, id: number, tracer: Tracer, cb: (tracer: Tracer, msg?: any, cb?: Function) => void) {
-        let timer = setTimeout(() => {
+    setCbTimeout(id: number, tracer: Tracer, cb: (tracer: Tracer, msg?: any, cb?: Function) => void) {
+        const timer = setTimeout(() => {
             this.clearCbTimeout(id);
-            if (!!mailbox.requests[id]) {
-                delete mailbox.requests[id];
+            if (!!this.requests[id]) {
+                delete this.requests[id];
             }
-            logger.error('rpc callback timeout, remote server host: %s, port: %s', mailbox.host, mailbox.port);
-            utils.invokeCallback(cb, new Error('rpc callback timeout'));
-        }, mailbox.timeoutValue);
-        mailbox.timeout[id] = timer;
+            logger.error('rpc callback timeout, remote server host: %s, port: %s', this.host, this.port);
+            if(cb) {
+                cb(tracer, new Error('rpc callback timeout'));
+            }
+        }, this.timeoutValue);
+        this.timeout[id] = timer;
     }
 
     clearCbTimeout(id: number) {
         if (!this.timeout[id]) {
-            console.warn('timer not exists, id: %s', id);
+            logger.warn('timer not exists, id: %s', id);
             return;
         }
         clearTimeout(this.timeout[id]);
