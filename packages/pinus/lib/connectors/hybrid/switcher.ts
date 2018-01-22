@@ -77,6 +77,14 @@ export class HybridSwitcher extends EventEmitter implements IHybridSwitcher {
             return;
         }
 
+        socket.on('error',  (err: Error) => {
+            logger.debug('connection error:%s, the remote ip is %s && port is %s', err.message, socket.remoteAddress, socket.remotePort);
+            socket.destroy();
+        });
+
+        socket.on('close',  () => {
+            socket.destroy();
+        });
         socket.setTimeout(this.timeout, function () {
             logger.warn('connection is timeout without communication, the remote ip is %s && port is %s',
                 socket.remoteAddress, socket.remotePort);

@@ -8,13 +8,13 @@ import * as Loader from 'pinus-loader';
 import * as utils from '../util/utils';
 import * as router from './router';
 import * as async from 'async';
-import { RpcServerInfo, MailStation, MailStationErrorHandler, RpcFilter } from './mailstation';
+import { RpcServerInfo, MailStation, MailStationErrorHandler, RpcFilter, MailStationOpts } from './mailstation';
 import {AsyncFunction, AsyncResultArrayCallback, ErrorCallback} from 'async';
-import { MailBoxFactory } from './mailbox';
 import { ConsistentHash } from '../util/consistentHash';
 import { RemoteServerCode } from '../../index';
 import { listEs6ClassMethods } from '../util/utils';
 import { LoaderPathType } from 'pinus-loader';
+import {IMailBoxFactory} from './mailbox';
 
 /**
  * Client states
@@ -59,7 +59,7 @@ export type Proxies = {
                 {[remoterName: string]:
                         {[attr: string]: Proxy}}}
 };
-export interface RpcClientOpts {
+export interface RpcClientOpts extends MailStationOpts {
     context?: any;
     routeContext?: RouteContext;
     router?: Router;
@@ -67,7 +67,6 @@ export interface RpcClientOpts {
     rpcDebugLog?: boolean;
     clientId?: string;
     servers?: { serverType: Array<RpcServerInfo> };
-    mailboxFactory?: MailBoxFactory;
     rpcLogger?: Logger;
     station?: MailStation;
     hashFieldIndex?: number;
@@ -81,7 +80,9 @@ export interface RpcMsg {
     args: any[];
 }
 
-export type TargetRouterFunction = (serverType: string, msg: RpcMsg, routeParam: object, cb: (err: Error, serverId: string) => void) => void;
+export interface TargetRouterFunction {
+    (serverType: string, msg: RpcMsg, routeParam: object, cb: (err: Error, serverId: string) => void): void;
+}
 
 /**
  * RPC Client Class
@@ -624,6 +625,7 @@ export function createClient(opts: RpcClientOpts) {
 
 // module.exports.WSMailbox from ('./mailboxes/ws-mailbox'); // socket.io
 // module.exports.WS2Mailbox from ('./mailboxes/ws2-mailbox'); // ws
-export { create as MQTTMailbox } from './mailboxes/mqtt-mailbox'; // mqtt
+// export { create as MQTTMailbox } from './mailboxes/mqtt-mailbox'; // mqtt
+
 
 

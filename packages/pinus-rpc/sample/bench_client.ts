@@ -1,5 +1,7 @@
 // import * as bluebird from "bluebird"
 
+import {preload} from './preload';
+preload();
 
 
 // // 使用bluebird输出完整的promise调用链

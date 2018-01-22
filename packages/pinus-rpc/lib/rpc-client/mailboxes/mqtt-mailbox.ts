@@ -7,38 +7,22 @@ let MqttCon: any = require('mqtt-connection');
 import * as utils from '../../util/utils';
 import * as util from 'util';
 import * as net from 'net';
+import {IMailBox, MailBoxTimeoutCallback, MailBoxMessage, MailBoxOpts, MailBoxPkg} from '../mailbox';
 
-export interface MailBoxPkg {
-    id: string & number;
-    resp: any;
-    source: string;
-    seq: number;
-}
 
-export interface MailBoxOpts {
-    bufferMsg: boolean;
-    keepalive: number;
-    interval: number;
-    timeout: number;
-    context: any;
-}
-export interface MailBoxMessage {
-    service: string;
-    method: string;
-    args: any[];
-}
 
-export type MailBoxTimeoutCallback = (tracer: Tracer , err: Error , resp ?: any) => void;
+
+
 
 let CONNECT_TIMEOUT = 2000;
 
-export class MailBox extends EventEmitter {
+export class MailBox extends EventEmitter implements IMailBox {
 
-    constructor(server: {id: string, host: string, port: number}, opts: MailBoxOpts) {
+    constructor(serverInfo: {id: string, host: string, port: number}, opts: MailBoxOpts) {
         super();
-        this.id = server.id;
-        this.host = server.host;
-        this.port = server.port;
+        this.id = serverInfo.id;
+        this.host = serverInfo.host;
+        this.port = serverInfo.port;
 
 
         this.bufferMsg = opts.bufferMsg;
@@ -325,6 +309,6 @@ export class MailBox extends EventEmitter {
 *                      opts.bufferMsg {Boolean} msg should be buffered or send immediately.
 *                      opts.interval {Boolean} msg queue flush interval if bufferMsg is true. default is 50 ms
 */
-export function create(server: {id: string, host: string, port: number}, opts: MailBoxOpts) {
+export function create(server: {id: string, host: string, port: number}, opts: MailBoxOpts): IMailBox {
     return new MailBox(server, opts || <any>{});
 }
