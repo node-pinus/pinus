@@ -74,7 +74,7 @@ export class Composer extends EventEmitter implements IComposer {
         } else {// no payload, ping pomg msg
             dataLength = 1;
             let lsize = calLengthSize(dataLength);
-            let buf = new Buffer(lsize + dataLength);
+            buf = new Buffer(lsize + dataLength);
             fillLength(buf, dataLength, lsize);
             buf[lsize] = type;
         }

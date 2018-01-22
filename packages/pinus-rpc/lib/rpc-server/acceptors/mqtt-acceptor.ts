@@ -47,9 +47,10 @@ export class MQTTAcceptor extends EventEmitter implements IAcceptor {
 
     listen(port: number|string) {
         // check status
-        if (!!this.inited) {
-            this.cb(new Error('already inited.'));
-            return;
+        if (this.inited) {
+        //    this.cb(new Error('already inited.'));
+         //   return;
+            throw new Error('already inited.');
         }
         this.inited = true;
 
@@ -58,9 +59,9 @@ export class MQTTAcceptor extends EventEmitter implements IAcceptor {
         this.server = new net.Server();
         this.server.listen(port);
 
-        this.server.on('error', function (err) {
+        this.server.on('error', (err) => {
             logger.error('rpc server is error: %j', err.stack);
-            self.emit('error', err);
+            self.emit('error', err, this);
         });
 
         this.server.on('connection', function (stream) {

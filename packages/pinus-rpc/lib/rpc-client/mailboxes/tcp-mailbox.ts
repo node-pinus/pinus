@@ -39,7 +39,7 @@ export class TCPMailBox extends EventEmitter implements IMailBox {
     composer: Composer;
     ping: number;
     pong: number;
-    timer: any;
+    timer: {ping?: NodeJS.Timer, pong?: NodeJS.Timer};
 
     constructor(server: { id: string, host: string, port: number }, opts: MailBoxOpts) {
         super();
@@ -94,12 +94,6 @@ export class TCPMailBox extends EventEmitter implements IMailBox {
                 this.heartbeat();
                 return;
             }
-            let pkg = JSON.parse(data.toString());
-            if (pkg instanceof Array) {
-                this.processMsgs(pkg);
-            } else {
-                this.processMsg(pkg);
-            }
             try {
                 const pkg = JSON.parse(data.toString('utf-8', 1));
                 if(pkg instanceof Array) {
@@ -146,7 +140,7 @@ export class TCPMailBox extends EventEmitter implements IMailBox {
             clearInterval(this._interval);
             this._interval = null;
         }
-        if(this.timer.keys().length) {
+        if(Object.keys(this.timer).length) {
             clearTimeout(this.timer['ping']);
             this.timer['ping'] = null;
             clearTimeout(this.timer['pong']);
@@ -291,13 +285,8 @@ export class TCPMailBox extends EventEmitter implements IMailBox {
         if (this.opts.rpcDebugLog) {
             tracer = new Tracer(this.opts.rpcLogger, this.opts.rpcDebugLog, this.opts.clientId, pkg.source, pkg.resp, pkg.id, pkg.seq);
         }
-        let args: Array<any> = [tracer, null];
 
-        pkg.resp.forEach((arg: any) => {
-            args.push(arg);
-        });
-
-        cb.apply(null, args);
+        cb(tracer, null, pkg.resp);
     }
 
     setCbTimeout(id: number, tracer: Tracer, cb: (tracer: Tracer, msg?: any, cb?: Function) => void) {

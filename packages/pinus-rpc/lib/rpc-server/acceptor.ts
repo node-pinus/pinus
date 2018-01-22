@@ -23,6 +23,7 @@ export interface AcceptorOpts {
     rpcDebugLog?: boolean;
     pkgSize?: number;
     tracer?: Tracer;
+    ping?: number;
 }
 
 export interface IAcceptorConstructor {
@@ -32,6 +33,8 @@ export interface IAcceptorConstructor {
 export interface IAcceptor extends EventEmitter {
     close(): void;
     listen(port: number): void;
+    on(event: 'error', cb: (err: Error, self: IAcceptor) => void): this;
+    on(event: 'closed', cb: () => void): this;
     cb: (err: Error|null, msg: MsgPkg, cb: ProcessMsgCallBack) => void;
 }
 
