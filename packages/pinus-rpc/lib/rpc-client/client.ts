@@ -82,7 +82,7 @@ export interface RpcMsg {
 }
 
 export interface TargetRouterFunction {
-    (serverType: string, msg: RpcMsg, routeParam: object, cb: (err: Error, serverId: string) => void): void
+    (serverType: string, msg: RpcMsg, routeParam: object, cb: (err: Error, serverId: string) => void): void;
 }
 
 /**
