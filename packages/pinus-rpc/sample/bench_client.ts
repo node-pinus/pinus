@@ -57,7 +57,8 @@ let routeFunc = function (session: { [key: string]: any }, msg: RpcMsg, context:
 let client = new RpcClient({
   routeContext: servers,
   router: routeFunc,
-  context: context
+  context: context,
+  pendingSize: 10000000000
 });
 
 let start: number = null;
