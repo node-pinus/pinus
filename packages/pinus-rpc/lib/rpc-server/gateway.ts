@@ -42,7 +42,7 @@ export class Gateway extends EventEmitter {
         if (!!this.opts.reloadRemotes) {
             this.watchServices(dispatcher);
         }
-        this.acceptor = acceptorFactory(opts as AcceptorOpts, function (tracer: Tracer, msg: MsgPkg, cb: Function) {
+        this.acceptor = acceptorFactory(opts as AcceptorOpts,  (tracer, msg, cb) => {
             dispatcher.route(tracer, msg, cb);
         });
     }

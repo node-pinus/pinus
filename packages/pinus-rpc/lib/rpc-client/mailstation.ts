@@ -169,7 +169,7 @@ export class MailStation extends EventEmitter {
      *
      * @param  {String|Number} id server id
      */
-    removeServer(this: any, id: string|number) {
+    removeServer(id: string|number) {
         this.onlines[id] = 0;
         let mailbox = this.mailboxes[id];
         if (mailbox) {
@@ -208,7 +208,7 @@ export class MailStation extends EventEmitter {
      *
      * @param {Array} serverInfos server info list
      */
-    replaceServers(this: any, serverInfos: Array<RpcServerInfo>) {
+    replaceServers(serverInfos: Array<RpcServerInfo>) {
         this.clearStation();
         if (!serverInfos || !serverInfos.length) {
             return;
@@ -351,7 +351,7 @@ export class MailStation extends EventEmitter {
      * @return {String}   serverId remote server id
      * @param  {Function}   cb     callback function
      */
-    connect(this: any, tracer: Tracer, serverId: string, cb: Function) {
+    connect(tracer: Tracer, serverId: string, cb: Function) {
         let self = this;
         let mailbox = self.mailboxes[serverId];
         mailbox.connect(tracer, function (err: Error) {
@@ -364,7 +364,7 @@ export class MailStation extends EventEmitter {
                 self.emit('error', constants.RPC_ERROR.FAIL_CONNECT_SERVER, tracer, serverId, null, self.opts);
                 return;
             }
-            mailbox.on('close', function (id: number) {
+            mailbox.on('close', function (id: string) {
                 let mbox = self.mailboxes[id];
                 if (!!mbox) {
                     mbox.close();

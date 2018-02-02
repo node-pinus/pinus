@@ -7,11 +7,10 @@ import {MsgPkg} from './dispatcher';
 import * as Gateway from './gateway';
 // let acceptor from ('./acceptors/ws2-acceptor');
 
-interface ProcessMsgCallBack {
+export interface ProcessMsgCallBack {
     (err: Error|null, ... args: any[]): void;
-    (... args: any[]): void;
 }
-export type AcceptorCallback = (tracer: Tracer, msg: any, cb: ProcessMsgCallBack) => void;
+export type AcceptorCallback = (tracer: Tracer, msg: MsgPkg, cb: ProcessMsgCallBack) => void;
 
 
 export interface IAcceptorFactory {

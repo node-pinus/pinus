@@ -8,13 +8,14 @@ import * as util from 'util';
 import * as net from 'net';
 import { Socket } from 'net';
 import {AcceptorOpts, IAcceptor, AcceptorCallback} from '../acceptor';
+import { MsgPkg } from '../dispatcher';
 
 export interface AcceptorPkg {
     source: string;
     remote: string;
     id: string & number;
     seq: number;
-    msg: string;
+    msg: MsgPkg;
 }
 
 

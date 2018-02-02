@@ -330,6 +330,18 @@ export class Channel {
     }
 
     /**
+     * Remove member by uid
+     * @param uid member to removed
+     */
+    removeMember(uid: UID) {
+        let member = this.getMember(uid);
+        if (member)
+            return this.leave(member.uid, member.sid);
+        else
+            return false;
+    }
+
+    /**
      * Destroy channel.
      */
     destroy() {
