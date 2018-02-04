@@ -6,9 +6,10 @@ import { ILifeCycle } from './ILifeCycle';
 import { IComponent } from './IComponent';
 import { Cron } from '../server/server';
 import { Session } from '../index';
+import { Application } from '../application';
 
 export interface ComponentContructor {
-    new(opts ?: any): IComponent;
+    new(app: Application, opts ?: any): IComponent;
 }
 
 export interface IApplicationEvent {
