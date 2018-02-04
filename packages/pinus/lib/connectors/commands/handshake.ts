@@ -7,11 +7,12 @@ let CODE_USE_ERROR = 500;
 let CODE_OLD_CLIENT = 501;
 
 export type HanshakeFunction = (msg: any , cb: (err ?: Error , resp ?: any) => void , socket: ISocket) => void;
+export type CheckClientFunction = (type: string, version: string) => boolean;
 
 export interface HandshakeCommandOptions {
     handshake ?: HanshakeFunction;
     heartbeat ?: number;
-    checkClient ?: boolean;
+    checkClient ?: CheckClientFunction;
     useDict ?: boolean;
     useProtobuf ?: boolean;
     useCrypto ?: boolean;
@@ -29,7 +30,7 @@ export class HandshakeCommand {
     userHandshake: HanshakeFunction;
     heartbeatSec: number;
     heartbeat: number;
-    checkClient: boolean;
+    checkClient: CheckClientFunction;
     useDict: boolean;
     useProtobuf: boolean;
     useCrypto: boolean;
