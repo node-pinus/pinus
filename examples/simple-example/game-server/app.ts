@@ -1,5 +1,6 @@
 import { pinus } from 'pinus';
 import { preload } from './preload';
+import { createBasePlugin } from 'pinus-base-plugin';
 
 /**
  *  替换全局Promise
@@ -24,6 +25,9 @@ app.configure('production|development', 'connector', function () {
             useProtobuf: true
         });
 });
+
+// 载入测试的组件
+app.use(createBasePlugin());
 
 // start app
 app.start();

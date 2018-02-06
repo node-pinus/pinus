@@ -1,4 +1,5 @@
 ﻿import { Application , IPlugin , getPluginHandlerPath , getPluginRemotePath} from 'pinus';
+import { TestComponent } from './components/testComponent';
 
 
 /**
@@ -6,6 +7,7 @@
  */
 export class BasePlugin implements IPlugin {
     name = 'basePlugin';
+    components = [TestComponent];
 
     // 在插件里扫描handler目录
     handlerPath = getPluginHandlerPath(__dirname);
