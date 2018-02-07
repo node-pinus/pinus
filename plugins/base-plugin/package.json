@@ -1,6 +1,6 @@
 {
   "name": "pinus-base-plugin",
-  "version": "1.3.2",
+  "version": "1.3.3",
   "description": "pinus base plugin",
   "files": [
     "dist",
@@ -20,7 +20,7 @@
   "types": "./src/index",
   "dependencies": {
     "@types/node": "^8.5.2",
-    "pinus": "^1.3.2"
+    "pinus": "^1.3.3"
   },
   "devDependencies": {
     "tslint": "^5.9.0",
