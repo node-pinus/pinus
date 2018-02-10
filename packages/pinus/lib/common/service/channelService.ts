@@ -262,8 +262,8 @@ export class Channel {
             if (res) {
                 this.records[uid] = { sid: sid, uid: uid };
                 this.userAmount = this.userAmount + 1;
+                addToStore(this.__channelService__, genKey(this.__channelService__, this.name), genValue(sid, uid));
             }
-            addToStore(this.__channelService__, genKey(this.__channelService__, this.name), genValue(sid, uid));
             return res;
         }
     }
@@ -283,9 +283,9 @@ export class Channel {
         if (res) {
             delete this.records[uid];
             this.userAmount = this.userAmount - 1;
+            removeFromStore(this.__channelService__, genKey(this.__channelService__, this.name), genValue(sid, uid));
         }
         if (this.userAmount < 0) this.userAmount = 0; // robust
-        removeFromStore(this.__channelService__, genKey(this.__channelService__, this.name), genValue(sid, uid));
         if (this.groups[sid] && this.groups[sid].length === 0) {
             delete this.groups[sid];
         }
