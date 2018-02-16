@@ -77,7 +77,7 @@ export function md5(str: string) {
 
 export function defaultAuthUser(msg: {username: string, password: string, md5: string}, env: string, cb: (user: AdminUserInfo) => void) {
     let adminUser = null;
-    let appBase = path.dirname(require.main.filename);
+    let appBase = path.dirname(process.cwd());
     let adminUserPath = path.join(appBase, '/config/adminUser.json');
     let presentPath = path.join(appBase, 'config', env, 'adminUser.json');
     if (fs.existsSync(adminUserPath)) {
@@ -127,7 +127,7 @@ export function defaultAuthServerMaster(msg: {id: string, serverType: string, to
     }
 
     let servers = null;
-    let appBase = path.dirname(require.main.filename);
+    let appBase = path.dirname(process.cwd());
     let serverPath = path.join(appBase, '/config/adminServer.json');
     let presentPath = null;
     if (env) {
@@ -160,7 +160,7 @@ export function defaultAuthServerMonitor(msg: {id: string, serverType: string}, 
     let type = msg['serverType'];
 
     let servers = null;
-    let appBase = path.dirname(require.main.filename);
+    let appBase = path.dirname(process.cwd());
     let serverPath = path.join(appBase, '/config/adminServer.json');
     let presentPath = null;
     if (env) {

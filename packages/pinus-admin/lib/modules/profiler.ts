@@ -47,7 +47,7 @@ export class ProfilerModule implements IModule {
             }
         } else {
             let snapshot = profiler.takeSnapshot();
-            let appBase = path.dirname(require.main.filename);
+            let appBase = path.dirname(process.cwd());
             let name = appBase + '/logs/' + utils.format(new Date()) + '.log';
             let log = fs.createWriteStream(name, { 'flags': 'a' });
             let data;

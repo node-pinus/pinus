@@ -1,5 +1,5 @@
 {
-	"name": "pinus",
+	"name": "pinus-workspaces",
 	"version": "0.0.1",
 	"devDependencies": {
 		"lerna": "^2.5.1",
