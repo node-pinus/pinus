@@ -91,6 +91,7 @@ export class ConnectorComponent implements IComponent {
     start(cb: () => void) {
         this.server = this.app.components.__server__;
         this.session = this.app.components.__session__;
+        this.connection = this.app.components.__connection__;
 
         // check component dependencies
         if (!this.server) {
