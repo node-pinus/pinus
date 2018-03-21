@@ -62,8 +62,12 @@ export function loadPath(path: string, context: any, reload: boolean, createInst
         fn = files[i];
         fp = path + fn;
 
-        if (!isFile(fp) || !checkFileType(fn, '.js')) {
-            // only load js file type
+        if (!isFile(fp)) {
+            // only load  file
+            continue;
+        }
+        if(!checkFileType(fn, '.js') && !checkFileType(fn, '.ts')){
+            // only load js/ts file type
             continue;
         }
 

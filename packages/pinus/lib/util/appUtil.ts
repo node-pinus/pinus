@@ -229,6 +229,14 @@ let processArgs = function (app: Application, args: ServerStartArgs) {
 let setupEnv = function (app: Application, args: {env: string}) {
     app.set(Constants.RESERVED.ENV, args.env || process.env.NODE_ENV || Constants.RESERVED.ENV_DEV, true);
 };
+let _checkCanRequire = (path:string)=>{
+    try{
+        path = require.resolve(path);
+    }catch(err){
+        return null;
+    }
+    return path;
+};
 
 /**
  * Configure custom logger.
@@ -238,9 +246,10 @@ let configLogger = function (app: Application) {
         let env = app.get(Constants.RESERVED.ENV);
         let originPath = path.join(app.getBase(), Constants.FILEPATH.LOG);
         let presentPath = path.join(app.getBase(), Constants.FILEPATH.CONFIG_DIR, env, path.basename(Constants.FILEPATH.LOG));
-        if (fs.existsSync(originPath)) {
+
+        if (_checkCanRequire(originPath)) {
             log.configure(app, originPath);
-        } else if (fs.existsSync(presentPath)) {
+        } else if (_checkCanRequire(presentPath)) {
             log.configure(app, presentPath);
         } else {
             logger.error('logger file path configuration is error.');
@@ -284,7 +293,9 @@ let parseArgs = function (args: string[]) {
  */
 let loadLifecycle = function (app: Application) {
     let filePath = path.join(app.getBase(), Constants.FILEPATH.SERVER_DIR, app.serverType, Constants.FILEPATH.LIFECYCLE);
-    if (!fs.existsSync(filePath)) {
+    try{
+        filePath = require.resolve(filePath);
+    }catch(err){
         return;
     }
 
