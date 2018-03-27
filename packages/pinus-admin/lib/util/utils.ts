@@ -2,7 +2,7 @@ import * as crypto from 'crypto';
 import * as util from 'util';
 import * as path from 'path';
 import * as fs from 'fs';
-import { ServerInfo, AdminUserInfo } from './constants';
+import {ServerInfo, AdminUserInfo, DEFAULT_ADMIN_PATH} from './constants';
 
 
 /**
@@ -75,14 +75,24 @@ export function md5(str: string) {
     return str;
 }
 
+function canBeResolve(path:string){
+    try{
+        require.resolve(path);
+    }catch (err){
+        return false;
+    }
+    return true;
+
+}
+
 export function defaultAuthUser(msg: {username: string, password: string, md5: string}, env: string, cb: (user: AdminUserInfo) => void) {
     let adminUser = null;
     let appBase = process.cwd();
-    let adminUserPath = path.join(appBase, '/config/adminUser.json');
-    let presentPath = path.join(appBase, 'config', env, 'adminUser.json');
-    if (fs.existsSync(adminUserPath)) {
+    let adminUserPath = path.join(appBase, DEFAULT_ADMIN_PATH.ADMIN_USER);
+    let presentPath = path.join(appBase, 'config', env, DEFAULT_ADMIN_PATH.ADMIN_FILENAME);
+    if (canBeResolve(adminUserPath)) {
         adminUser = require(adminUserPath);
-    } else if (fs.existsSync(presentPath)) {
+    } else if (canBeResolve(presentPath)) {
         adminUser = require(presentPath);
     } else {
         cb(null);
