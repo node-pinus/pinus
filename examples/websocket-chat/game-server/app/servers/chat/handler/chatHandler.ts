@@ -1,5 +1,5 @@
 import { ChatRemote } from '../remote/chatRemote';
-import { Application } from 'pinus';
+import {Application, BackendSession} from 'pinus';
 import { FrontendSession } from 'pinus';
 
 export default function(app: Application) {
@@ -18,7 +18,7 @@ export class ChatHandler {
      * @param  {Function} next next stemp callback
      *
      */
-    async send(msg: {content: string , target: string}, session: FrontendSession) {
+    async send(msg: {content: string , target: string}, session: BackendSession) {
         let rid = session.get('rid');
         let username = session.uid.split('*')[0];
         let channelService = this.app.get('channelService');
