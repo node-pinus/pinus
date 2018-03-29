@@ -75,8 +75,9 @@ export class HandshakeCommand {
                 // may be deprecated in future
                 opts.dict = pinus.app.components.__dictionary__.getDict();
 
-                opts.routeToCode = pinus.app.components.__dictionary__.getDict();
-                opts.codeToRoute = pinus.app.components.__dictionary__.getAbbrs();
+                // 用不到这个。
+            //    opts.routeToCode = pinus.app.components.__dictionary__.getDict();
+           //     opts.codeToRoute = pinus.app.components.__dictionary__.getAbbrs();
                 opts.dictVersion = dictVersion;
             }
             opts.useDict = true;
