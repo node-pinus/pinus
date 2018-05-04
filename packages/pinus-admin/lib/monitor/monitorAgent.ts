@@ -85,7 +85,7 @@ export class MonitorAgent extends EventEmitter {
                 cb();
             } else {
                 self.emit('close');
-                logger.error('server %j %j register master failed', self.id, self.type);
+                logger.error('server %j %j register master failed:' + JSON.stringify(msg), self.id, self.type, );
             }
         });
 

@@ -6,7 +6,7 @@ pinus-schedule is a schedule tool for nodejs, it's purpose is to provide a produ
 As a schedule tool, it support two kinds of trigger: A simple trigger which use a js object and  a Cron time trigger which use a Cron time string.
 ##Installation
 ```
-npm install pinus-schedule
+npm install pinus-scheduler
 ```
 ##Schedule simple Job
 Simple job will receive a object as a trigger, which take three attributes, a JS function as object, and an object as the parameters in the job.
