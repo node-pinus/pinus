@@ -379,10 +379,10 @@ export class Application {
 
         return component;
     }
-    _checkCanRequire(path:string){
-        try{
+    _checkCanRequire(path: string) {
+        try {
             path = require.resolve(path);
-        }catch(err){
+        } catch(err) {
             return null;
         }
         return path;
@@ -402,7 +402,7 @@ export class Application {
         let originPath = path.join(this.getBase(), val);
         let presentPath = path.join(this.getBase(), Constants.FILEPATH.CONFIG_DIR, env, path.basename(val));
         let realPath: string;
-        let tmp:string;
+        let tmp: string;
         if (self._checkCanRequire(originPath)) {
             realPath = require.resolve(originPath);
             let file = require(originPath);

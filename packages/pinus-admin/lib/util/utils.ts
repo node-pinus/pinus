@@ -75,10 +75,10 @@ export function md5(str: string) {
     return str;
 }
 
-function canBeResolve(path:string){
-    try{
+function canBeResolve(path: string) {
+    try {
         require.resolve(path);
-    }catch (err){
+    } catch (err) {
         return false;
     }
     return true;

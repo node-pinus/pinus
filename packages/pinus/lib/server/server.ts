@@ -241,10 +241,10 @@ let loadCronHandlers = function (app: Application) {
     return all;
 };
 
-function _checkCanRequire(path:string){
-    try{
+function _checkCanRequire(path: string) {
+    try {
         path = require.resolve(path);
-    }catch(err){
+    } catch(err) {
         return null;
     }
     return path;

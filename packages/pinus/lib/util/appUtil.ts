@@ -229,10 +229,10 @@ let processArgs = function (app: Application, args: ServerStartArgs) {
 let setupEnv = function (app: Application, args: {env: string}) {
     app.set(Constants.RESERVED.ENV, args.env || process.env.NODE_ENV || Constants.RESERVED.ENV_DEV, true);
 };
-let _checkCanRequire = (path:string)=>{
-    try{
+let _checkCanRequire = (path: string) => {
+    try {
         path = require.resolve(path);
-    }catch(err){
+    } catch(err) {
         return null;
     }
     return path;
@@ -293,9 +293,9 @@ let parseArgs = function (args: string[]) {
  */
 let loadLifecycle = function (app: Application) {
     let filePath = path.join(app.getBase(), Constants.FILEPATH.SERVER_DIR, app.serverType, Constants.FILEPATH.LIFECYCLE);
-    try{
+    try {
         filePath = require.resolve(filePath);
-    }catch(err){
+    } catch(err) {
         return;
     }
 

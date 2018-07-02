@@ -14,10 +14,10 @@ export interface DictionaryComponentOptions {
     dict ?: string;
 }
 
-function canResolve(path:string){
-    try{
+function canResolve(path: string) {
+    try {
         require.resolve(path);
-    }catch(err){
+    } catch(err) {
         return false;
     }
     return true;

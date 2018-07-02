@@ -31,10 +31,10 @@ export class ProtobufComponent implements IComponent {
     protobuf: Protobuf;
     name = '__protobuf__';
 
-    _canRequire(path:string):boolean{
-        try{
+    _canRequire(path: string): boolean {
+        try {
             require.resolve(path);
-        }catch(err){
+        } catch(err) {
             return false;
         }
         return true;
