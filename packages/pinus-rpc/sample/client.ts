@@ -67,7 +67,15 @@ client.start(err => {
         .catch(err => {
             console.error(' rpc end err', err);
         });
-    client.proxies.user.test.service.echo.toServer('test-server-1', 666, 'AAA');
+    client.proxies.user.test.service.echo.toServer('test-server-1', 666, 'AAA1111').then(ret=>{
+        console.log('@@111',ret);
+    });
+    client.proxies.user.test.service.echo.toServer('test-server-1', 666, 'AAA@@').then(ret=>{
+        console.log('@@222',ret);
+    });
+    client.proxies.user.test.service.echo.toServer('test-server-1', 666, 'AAA###').then(ret=>{
+        console.log('@@@333',ret);
+    });
     setTimeout(() => {
         client.proxies.user.test.service.echo.toServer('test-server-3', 222, 'DDD2', 'unused')
             .then(ret => {
