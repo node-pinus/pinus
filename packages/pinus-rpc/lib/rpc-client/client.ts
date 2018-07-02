@@ -70,9 +70,9 @@ export interface RpcClientOpts extends MailStationOpts {
     rpcLogger?: Logger;
     station?: MailStation;
     hashFieldIndex?: number;
-    bufferMsg?:boolean;
-    interval?:number;
-    timeout?:number;
+    bufferMsg?: boolean;
+    interval?: number;
+    timeout?: number;
 }
 
 export interface RpcMsg {
