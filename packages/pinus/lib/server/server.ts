@@ -228,7 +228,7 @@ let loadCronHandlers = function (app: Application) {
 
     for (let plugin of app.usedPlugins) {
         if (plugin.cronPath) {
-            if (!fs.existsSync(plugin.cronPath)) {
+            if (!_checkCanRequire(plugin.cronPath)) {
                 logger.error(`插件[${plugin.name}的cronPath[${plugin.cronPath}不存在。]]`);
                 continue;
             }
@@ -241,15 +241,24 @@ let loadCronHandlers = function (app: Application) {
     return all;
 };
 
+function _checkCanRequire(path:string){
+    try{
+        path = require.resolve(path);
+    }catch(err){
+        return null;
+    }
+    return path;
+}
+
 /**
  * Load crons from configure file
  */
 let loadCrons = function (server: Server, app: Application) {
     let env = app.get(Constants.RESERVED.ENV);
     let p = path.join(app.getBase(), Constants.FILEPATH.CRON);
-    if (!fs.existsSync(p)) {
+    if (!_checkCanRequire(p)) {
         p = path.join(app.getBase(), Constants.FILEPATH.CONFIG_DIR, env, path.basename(Constants.FILEPATH.CRON));
-        if (!fs.existsSync(p)) {
+        if (!_checkCanRequire(p)) {
             return;
         }
     }

@@ -229,9 +229,9 @@ export class Application {
             let env = this.get(Constants.RESERVED.ENV);
             let originPath = path.join(base, Constants.FILEPATH.LOG);
             let presentPath = path.join(base, Constants.FILEPATH.CONFIG_DIR, env, path.basename(Constants.FILEPATH.LOG));
-            if (fs.existsSync(originPath)) {
+            if (this._checkCanRequire(originPath)) {
                 logger.configure(originPath, {serverId: serverId, base: base});
-            } else if (fs.existsSync(presentPath)) {
+            } else if (this._checkCanRequire(presentPath)) {
                 logger.configure(presentPath, {serverId: serverId, base: base});
             } else {
                 console.error('logger file path configuration is error.');
