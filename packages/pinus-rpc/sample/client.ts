@@ -8,7 +8,7 @@ import * as pinusrpc from '..';
 import {configure} from 'pinus-logger';
 import {getLogger} from 'pinus-logger';
 import {createTcpMailBox} from '../';
-configure('./config/log4js.json');
+//configure('./config/log4js.json');
 let logger = getLogger('pinus-rpc', 'sample-client');
 
 // remote service interface path info list
@@ -42,7 +42,10 @@ const routeFunc = function(routeParam: any, msg: any,
 
 const client = pinusrpc.createClient({routeContext: routeContext,
     router: routeFunc, context: context,
-    mailboxFactory: createTcpMailBox
+    mailboxFactory: createTcpMailBox,
+    bufferMsg:true,
+    interval:2000,
+    timeout:20000
 });
 
 client.start(err => {
