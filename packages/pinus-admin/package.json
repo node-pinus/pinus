@@ -33,6 +33,6 @@
         "mocha": ">=0.0.1",
         "should": ">=0.0.1",
         "tslint": "^5.9.1",
-        "typescript": "^2.7.1"
+        "typescript": "^2.9.2"
     }
 }

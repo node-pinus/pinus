@@ -49,3 +49,13 @@ export function bindRemoterMethod<T extends object, F extends Function, ROUTE>(m
 export type RemoterClass<ROUTE, T> = {
     [P in keyof T]?: RemoterProxyWithRoute<ROUTE, T[P]>;
 };
+
+type TestRoutify<ROUTE, T, K extends keyof T> = {[P in K]: RemoterProxyWithRoute<ROUTE, T[K]>};
+
+type FunctionKeys<T> =
+    {[K in keyof T]: T[K] extends Function ? K : never}[keyof T];
+
+
+export type DefineRoutifyMethods<ROUTE, T> = TestRoutify<ROUTE, T, FunctionKeys<T>>;
+
+

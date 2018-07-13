@@ -1,4 +1,4 @@
-import { Application, ChannelService, bindRemoterMethod, FrontendSession } from 'pinus';
+import {Application, ChannelService, DefineRoutifyMethods, FrontendSession} from 'pinus';
 
 export default function (app: Application) {
     return new ChatRemote(app);
@@ -8,7 +8,7 @@ export default function (app: Application) {
 declare global {
     interface UserRpc {
         chat: {
-            chatRemote: ChatRemote;
+            chatRemote: DefineRoutifyMethods<FrontendSession, ChatRemote>;
         };
     }
 }
@@ -19,9 +19,6 @@ export class ChatRemote {
         this.app = app;
         this.channelService = app.get('channelService');
     }
-    // 导出远程调用方法
-    add = bindRemoterMethod(this._add, this, FrontendSession);
-    kick = bindRemoterMethod(this._kick, this, FrontendSession);
 
     private channelService: ChannelService;
 
@@ -34,7 +31,7 @@ export class ChatRemote {
      * @param {boolean} flag channel parameter
      *
      */
-    private async _add(uid: string, sid: string, name: string, flag: boolean) {
+    public async add(uid: string, sid: string, name: string, flag: boolean) {
         let channel = this.channelService.getChannel(name, flag);
         let username = uid.split('*')[0];
         let param = {
@@ -78,7 +75,7 @@ export class ChatRemote {
      * @param {String} name channel name
      *
      */
-    private async _kick(uid: string, sid: string, name: string) {
+    public async kick(uid: string, sid: string, name: string) {
         let channel = this.channelService.getChannel(name, false);
         // leave channel
         if (!!channel) {
