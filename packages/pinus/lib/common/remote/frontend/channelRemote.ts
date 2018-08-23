@@ -30,7 +30,7 @@ export class ChannelRemote {
      * @param  {Object}   opts  push options
      * @param  {Function} cb    callback function
      */
-    async pushMessage(route: string, msg: any, uids: UID[], opts: ScheduleOptions) {
+    pushMessage(route: string, msg: any, uids: UID[], opts: ScheduleOptions) {
         return new Promise<any>((resolve, reject) => {
             if (!msg) {
                 logger.error('Can not send empty message! route : %j, compressed msg : %j',
@@ -73,7 +73,7 @@ export class ChannelRemote {
      * @param  {Boolean}   opts   broadcast options.
      * @param  {Function}  cb     callback function
      */
-    async broadcast(route: string, msg: any, opts: ScheduleOptions) {
+    broadcast(route: string, msg: any, opts: ScheduleOptions) {
         return new Promise<any>((resolve, reject) => {
             let connector = this.app.components.__connector__;
 
