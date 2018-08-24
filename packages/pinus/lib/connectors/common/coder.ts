@@ -81,7 +81,7 @@ let encodeBody = function (server: any, route: string, msgBody: any) {
     } else if (!!server.decodeIO_protobuf && !!server.decodeIO_protobuf.check(Constants.RESERVED.SERVER, route)) {
         msgBody = server.decodeIO_protobuf.encode(route, msgBody);
     } else {
-        msgBody = new Buffer(JSON.stringify(msgBody), 'utf8');
+        msgBody = Buffer.from(JSON.stringify(msgBody), 'utf8');
     }
     return msgBody;
 };

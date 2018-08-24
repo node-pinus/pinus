@@ -91,7 +91,7 @@ client.start(err => {
 async function test() {
     console.log('rpc client start ok.');
 
-    let m: any = new Buffer('hello');
+    let m: any = Buffer.from('hello');
     // n = 'bbb';
     let fs = require('fs');
     // m = fs.readFileSync('./skill.js').toString();

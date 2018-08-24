@@ -10,7 +10,7 @@ export class OutputBuffer {
     buf: Buffer;
     constructor(size?: number) {
         this.size = size || BUFFER_SIZE_DEFAULT;
-        this.buf = new Buffer(this.size);
+        this.buf = Buffer.alloc(this.size);
     }
 
     getData() {
@@ -181,7 +181,7 @@ export class OutputBuffer {
         }
 
         // console.log('grow minCapacity %d newCapacity %d', minCapacity, newCapacity);
-        let newBuf = new Buffer(newCapacity);
+        let newBuf = Buffer.alloc(newCapacity);
         this.buf.copy(newBuf);
         this.buf = newBuf;
     }

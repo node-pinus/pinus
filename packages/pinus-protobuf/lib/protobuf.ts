@@ -50,7 +50,7 @@ export class Protobuf {
 
     decodeStr(key: string, str: string, code: string) {
         code = code || 'base64';
-        let buffer = new Buffer(str, code);
+        let buffer = Buffer.from(str, code);
 
         return !!buffer ? this.decode(key, buffer) : buffer;
     }

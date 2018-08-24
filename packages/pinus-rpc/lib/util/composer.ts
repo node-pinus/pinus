@@ -67,7 +67,7 @@ export class Composer extends EventEmitter implements IComposer {
         if (!!data) {// id temperary no need
             dataLength = data.length + 1; // 消息id 4bytes,type:1 byte
             let lsize = calLengthSize(dataLength);
-            buf = Buffer.allocUnsafe(lsize + dataLength);
+            buf = Buffer.alloc(lsize + dataLength);
             fillLength(buf, dataLength, lsize);
             buf[lsize] = type;
             // buf.writeUInt32BE(id, lsize + 1);
@@ -75,7 +75,7 @@ export class Composer extends EventEmitter implements IComposer {
         } else {// no payload, ping pomg msg
             dataLength = 1;
             let lsize = calLengthSize(dataLength);
-            buf = Buffer.allocUnsafe(lsize + dataLength);
+            buf = Buffer.alloc(lsize + dataLength);
             fillLength(buf, dataLength, lsize);
             buf[lsize] = type;
         }
@@ -154,7 +154,7 @@ export class Composer extends EventEmitter implements IComposer {
             this.state = ST_DATA;
             this.offset = 0;
             this.left = this.length;
-            this.buf = Buffer.allocUnsafe(this.length);
+            this.buf = Buffer.alloc(this.length);
         }
         return i + offset;
     }

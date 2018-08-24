@@ -32,7 +32,7 @@ export class Encoder {
         let length = Buffer.byteLength(JSON.stringify(msg)) * 2;
 
         // Init buffer and offset
-        let buffer = new Buffer(length);
+        let buffer = Buffer.alloc(length);
         let offset = 0;
 
         if (!!protos) {
@@ -145,7 +145,7 @@ export class Encoder {
                 let message: {[key: string]: any} = protos.__messages[type] || this.protos['message ' + type];
                 if (!!message) {
                     // Use a tmp buffer to build an internal msg
-                    let tmpBuffer = new Buffer(Buffer.byteLength(JSON.stringify(value)) * 2);
+                    let tmpBuffer = Buffer.alloc(Buffer.byteLength(JSON.stringify(value)) * 2);
                     length = 0;
 
                     length = this.encodeMsg(tmpBuffer, length, message, value);

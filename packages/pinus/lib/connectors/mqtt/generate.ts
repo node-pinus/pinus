@@ -12,7 +12,7 @@ export function publish(opts: any) {
     let qos = opts.qos || 0;
     let retain = opts.retain ? protocol.RETAIN_MASK : 0;
     let topic = opts.topic;
-    let payload = opts.payload || new Buffer(0);
+    let payload = opts.payload || Buffer.alloc(0);
     let id = (typeof opts.messageId === 'undefined') ? randint() : opts.messageId;
     let packet = { header: 0, payload: [] as any[] };
 
@@ -20,7 +20,7 @@ export function publish(opts: any) {
     if (typeof topic !== 'string' || topic.length <= 0) return null;
     /* if payload is a string, we'll convert it into a buffer */
     if (typeof payload === 'string') {
-        payload = new Buffer(payload);
+        payload = Buffer.from(payload);
     }
     /* accepting only a buffer for payload */
     if (!Buffer.isBuffer(payload)) return null;
@@ -37,7 +37,7 @@ export function publish(opts: any) {
     if (qos > 0) packet.payload = packet.payload.concat(gen_number(id));
 
 
-    let buf = new Buffer([packet.header]
+    let buf = Buffer.from([packet.header]
         .concat(gen_length(packet.payload.length + payload.length))
         .concat(packet.payload));
 
