@@ -52,7 +52,7 @@
 		"url": "https://github.com/node-pinus/pinus.git"
 	},
 	"engines": {
-		"node": ">= 8.0.0"
+		"node": ">= 8.5.0"
 	},
 	"license": "MIT",
 	"private": true,

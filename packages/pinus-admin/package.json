@@ -20,6 +20,9 @@
         "ci": "yarn run test",
         "gen-api-ref": "node ../../node_modules/typedoc/bin/typedoc --mode file --hideGenerator --excludeExternals --ignoreCompilerErrors --out ../../run/site/public/api-reference/pinus-admin lib/"
     },
+    "engines": {
+        "node": ">=8.5"
+    },
     "dependencies": {
         "@types/mqtt-connection": "git+https://github.com/node-pinus/types-mqtt-connection.git",
         "@types/node": "^8.5.2",

@@ -22,6 +22,9 @@
   ],
   "main": "./dist/index",
   "types": "./src/index",
+  "engines": {
+    "node": ">=8.5"
+  },
   "dependencies": {
     "@types/bluebird": "^3.5.19",
     "@types/crc": "^3.4.0",
