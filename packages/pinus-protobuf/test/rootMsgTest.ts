@@ -1,13 +1,13 @@
 import {Protobuf} from '../lib/protobuf';
 
-var util = require('../lib/util');
-var should = require('should');
-var tc = require('./rootMsgTC');
-var fs = require('fs');
+let util = require('../lib/util');
+let should = require('should');
+let tc = require('./rootMsgTC');
+let fs = require('fs');
 fs.writeFileSync('rootMSG.json', JSON.stringify(tc));
 
 describe('msgEncoderTest', function () {
-    var protos = Protobuf.parse(require('./example.json'));
+    let protos = Protobuf.parse(require('./example.json'));
     // console.log(protos);
 
     let protobuf = new Protobuf({encoderProtos: protos, decoderProtos: protos});
@@ -15,18 +15,18 @@ describe('msgEncoderTest', function () {
     it('encodeTest', function () {
         // console.log('%j', tc);
 
-        for (var route in tc) {
-            var msg = tc[route];
+        for (let route in tc) {
+            let msg = tc[route];
 
             console.log('====================');
             console.log(route);
-            var buffer = protobuf.encode(route, msg);
+            let buffer = protobuf.encode(route, msg);
 
             console.log(msg);
             console.log(buffer.length);
             // console.log(buffer);
 
-            var decodeMsg = protobuf.decode(route, buffer);
+            let decodeMsg = protobuf.decode(route, buffer);
 
             console.log(decodeMsg);
             console.log('====================');

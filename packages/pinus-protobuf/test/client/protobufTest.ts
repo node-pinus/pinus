@@ -1,29 +1,29 @@
 import {} from 'mocha';
 import  'should';
 
-var protobuf = require('../../lib/client/protobuf');
-var protobufServer = require('../../lib/protobuf');
-var encoder = protobuf.encoder;
-var decoder = protobuf.decoder;
-var codec = protobuf.codec;
-var parser = require('../../lib/parser');
-var util = require('../../lib/util');
+let protobuf = require('../../lib/client/protobuf');
+let protobufServer = require('../../lib/protobuf');
+let encoder = protobuf.encoder;
+let decoder = protobuf.decoder;
+let codec = protobuf.codec;
+let parser = require('../../lib/parser');
+let util = require('../../lib/util');
 
-var tc = require('../testMsg');
+let tc = require('../testMsg');
 
 describe('msgEncoderTest', function () {
 
-    var protos = parser.parse(require('../example.json'));
+    let protos = parser.parse(require('../example.json'));
 
     protobuf.init({encoderProtos: protos, decoderProtos: protos});
     protobufServer.init({encoderProtos: protos, decoderProtos: protos});
 
     it('protobufTest', function () {
-        for (var route in tc) {
-            var msg = tc[route];
-            var buffer = protobuf.encode(route, msg);
+        for (let route in tc) {
+            let msg = tc[route];
+            let buffer = protobuf.encode(route, msg);
 
-            var decodeMsg = protobuf.decode(route, buffer);
+            let decodeMsg = protobuf.decode(route, buffer);
 
             util.equal(msg, decodeMsg).should.equal(true);
         }
@@ -31,9 +31,9 @@ describe('msgEncoderTest', function () {
 });
 
 function toBuffer(arr: any[]) {
-    var buffer = new Buffer(arr.length);
+    let buffer = new Buffer(arr.length);
 
-    for (var i = 0; i < arr.length; i++) {
+    for (let i = 0; i < arr.length; i++) {
         buffer.writeUInt8(arr[i], i);
     }
 

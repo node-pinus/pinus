@@ -1,24 +1,24 @@
 import {Protobuf} from '../lib/protobuf';
 
-var util = require('../lib/util');
-var should = require('should');
-var tc = require('./testMsg');
+let util = require('../lib/util');
+let should = require('should');
+let tc = require('./testMsg');
 
 
 describe('msgEncoderTest', function () {
-    var protos = Protobuf.parse(require('./example.json'));
+    let protos = Protobuf.parse(require('./example.json'));
     let protobuf = new Protobuf({encoderProtos: protos, decoderProtos: protos});
 
     it('encodeTest', function () {
-        for (var route in tc) {
-            var msg = tc[route];
-            var buffer = protobuf.encode(route, msg);
+        for (let route in tc) {
+            let msg = tc[route];
+            let buffer = protobuf.encode(route, msg);
 
             console.log(msg);
             console.log(buffer.length);
             console.log(buffer);
 
-            var decodeMsg = protobuf.decode(route, buffer);
+            let decodeMsg = protobuf.decode(route, buffer);
 
             console.log(decodeMsg);
 

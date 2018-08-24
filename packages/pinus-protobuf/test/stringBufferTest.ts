@@ -1,13 +1,13 @@
 function joinTest(num: number) {
 
     let arr: string[] = [];
-    for (var i = 0; i < num; i++)
+    for (let i = 0; i < num; i++)
         arr.push(i + '');
 
     let start = Date.now();
     let str = '';
 
-    for (var i = 0; i < num; i++) {
+    for (let i = 0; i < num; i++) {
         str += arr[i];
     }
 
@@ -16,7 +16,7 @@ function joinTest(num: number) {
 
     start = Date.now();
     arr = [];
-    for (var i = 0; i < num; i++) {
+    for (let i = 0; i < num; i++) {
         arr.push(arr[i]);
     }
     let str1 = arr.join();
@@ -32,4 +32,4 @@ it('test stringbuffer', () => {
     joinTest(100000);
     joinTest(200000);
 });
-//joinTest(500000);
+// joinTest(500000);
