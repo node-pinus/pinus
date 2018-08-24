@@ -73,7 +73,7 @@ client.start(err => {
     client.proxies.user.test.service.echo.toServer('test-server-1', 666, 'AAA@@').then(ret => {
         console.log('@@222', ret);
     });
-    client.proxies.user.test.service.echo.toServer('test-server-1', 666, 'AAA###').then(ret => {
+    client.proxies.user.test.service.echo.to('test-server-1', true)( 666, 'AAA###').then(ret => {
         console.log('@@@333', ret);
     });
     setTimeout(() => {

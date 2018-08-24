@@ -42,11 +42,11 @@ export interface Proxy {
 
 
     // 根据路由参数决定发往哪台服务器，typescript友好
-    route(routeParam: any): (...args: any[]) => Promise<any>;
+    route(routeParam: any, notify?: boolean): (...args: any[]) => Promise<any>;
     // 默认传递null作为路由参数，typescript友好
     defaultRoute(...args: any[]): Promise<any>;
     // 根据服务器id决定发往哪个服务器，serverId如果是*，则发往所有这个rpc所属类型的服务器
-    to(serverId: string): (...args: any[]) => Promise<any>;
+    to(serverId: string, notify?: boolean): (...args: any[]) => Promise<any>;
     // 广播到所有这个rpc服务器的类型的服务器
     broadcast(...args: any[]): Promise<any>;
 }
@@ -259,7 +259,7 @@ export class RpcClient {
         if (this.state !== STATE_STARTED) {
             tracer && tracer.error('client', __filename, 'rpcInvoke', 'fail to do rpc invoke for client is not running');
             logger.error('[pinus-rpc] fail to do rpc invoke for client is not running');
-            cb(new Error('[pinus-rpc] fail to do rpc invoke for client is not running'));
+            cb ? cb(new Error('[pinus-rpc] fail to do rpc invoke for client is not running')) : null;
             return;
         }
         this._station.dispatch(tracer, serverId, msg, this.opts, cb);
@@ -321,7 +321,7 @@ export class RpcClient {
      *
      * @api private
      */
-    private rpcToRoute(routeParam: any, serviceName: string, methodName: string, args: Array<any>, attach: RemoteServerCode) {
+    private rpcToRoute(routeParam: any, serviceName: string, methodName: string, args: Array<any>, attach: RemoteServerCode, notify: boolean = false) {
         if (this.state !== STATE_STARTED) {
             return Promise.reject(new Error('[pinus-rpc] fail to invoke rpc proxy for client is not running'));
         }
@@ -339,7 +339,11 @@ export class RpcClient {
                 if (err) {
                     return reject(err);
                 }
-                this.rpcInvoke(serverId, msg,  (err: Error, resp: string) => err ? reject(err) : resolve(resp));
+                let cb = notify ?  null : (err: Error, resp: string) => err ? reject(err) : resolve(resp);
+                this.rpcInvoke(serverId, msg,  cb);
+                if(notify) {
+                    resolve();
+                }
             });
         });
     }
@@ -356,7 +360,7 @@ export class RpcClient {
      *
      * @api private
      */
-    private rpcToSpecifiedServer(serverId: string, serviceName: string, methodName: string, args: Array<any>, attach: RemoteServerCode) {
+    private rpcToSpecifiedServer(serverId: string, serviceName: string, methodName: string, args: Array<any>, attach: RemoteServerCode, notify: boolean = false) {
         if (this.state !== STATE_STARTED) {
             return Promise.reject(new Error('[pinus-rpc] fail to invoke rpc proxy for client is not running'));
         }
@@ -374,7 +378,7 @@ export class RpcClient {
                 logger.error('[pinus-rpc] serverId is not a string : %s', serverId);
                 return;
             }
-            let cb = (err: Error, resp: any) => err ? reject(err) : resolve(resp);
+            let cb = notify ? null : ((err: Error, resp: any) => err ? reject(err) : resolve(resp));
             if (serverId === '*') {
                 // (client._routeContext as RouteContextClass).getServersByType(serverType);
                 let servers: string[];
@@ -392,10 +396,16 @@ export class RpcClient {
                     return;
                 }
                 async.map(servers,  (serverId, next) => {
-                    this.rpcInvoke(serverId, msg, next);
+                    this.rpcInvoke(serverId, msg, cb ? next : null);
+                    if(!cb) {
+                        next();
+                    }
                 }, cb);
             } else {
                 this.rpcInvoke(serverId, msg, cb);
+            }
+            if(notify) {
+                return resolve();
             }
         });
     }
@@ -481,15 +491,15 @@ export class RpcClient {
             };
 
             // 新的api，通过路由参数决定发往哪个服务器
-            proxy.route = (routeParam: any) => {
+            proxy.route = (routeParam: any, notify?: boolean) => {
                 return function (...args: any[]) {
-                    return self.rpcToRoute(routeParam, serviceName, methodName, args, attach);
+                    return self.rpcToRoute(routeParam, serviceName, methodName, args, attach, notify);
                 };
             };
             // 新的api，发往指定的服务器id
-            proxy.to = (serverId: string) => {
+            proxy.to = (serverId: string, notify?: boolean) => {
                 return function (...args: any[]) {
-                    return self.rpcToSpecifiedServer(serverId, serviceName, methodName, args, attach);
+                    return self.rpcToSpecifiedServer(serverId, serviceName, methodName, args, attach, notify);
                 };
             };
             // 新的api，广播出去

@@ -10,7 +10,7 @@ export interface RemoterProxy<F> {
     /**
      * 路由到serverId服务器，并返回rpc函数
      */
-    to(serverId: string): F;
+    to(serverId: string, notify?: boolean): F;
 
     /**
      * 广播到所有定义了这个remoter的服务器
@@ -25,7 +25,7 @@ export interface RemoterProxyWithRoute<ROUTE, F> extends RemoterProxy<F> {
     /**
      * 路由到routeParam，并返回rpc调用函数
      */
-    route(routeParam: ROUTE): F;
+    route(routeParam: ROUTE, notify?: boolean): F;
 
     // 兼容老的写法
     (routeParam: ROUTE, ...args: any[]): Promise<any>;
