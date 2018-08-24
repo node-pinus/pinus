@@ -478,7 +478,11 @@ let sendMessageByGroup = function (channelService: ChannelService, route: string
     let sendMessage = function (sid: FRONTENDID) {
         return (function () {
             if (sid === app.serverId) {
-                (channelService.channelRemote as any)[method](route, msg, groups[sid], opts, rpcCB(sid));
+                (channelService.channelRemote as any)[method](route, msg, groups[sid], opts).then((fails:SID[])=>{
+                    rpcCB(sid)(null,fails);
+                },(err:Error)=>{
+                    rpcCB(sid)(err,null);
+                });
             } else {
                 app.rpcInvoke(sid, {
                     namespace: namespace, service: service,
