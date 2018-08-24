@@ -1,0 +1,35 @@
+{
+  "compilerOptions": {
+    // types option has been previously configured
+    "types": [
+    // add node as an option
+    "node"
+    ],
+    "module": "commonjs",   //指定生成哪个模块系统代码
+    "target": "es2017",
+    "lib": [
+      "es2015",
+      "es2016",
+      "esnext.asynciterable"
+  ],
+    "noImplicitAny": true, //在表达式和声明上有隐含的'any'类型时报错。
+    "noImplicitThis": true,
+    "inlineSourceMap": true,     //用于debug
+
+    "rootDirs": ["."],      //仅用来控制输出的目录结构--outDir。
+    "outDir":"./dist",     //重定向输出目录。
+    "experimentalDecorators":true,
+    "emitDecoratorMetadata": true,
+    "moduleResolution": "node",
+    "watch":false            //在监视模式下运行编译器。会监视输出文件，在它们改变时重新编译。
+  },
+  "include":[
+    "./app/**/*.ts",
+    "./config/**/*.ts",
+    "./app.ts",
+    "./preload.ts"
+  ],
+  "exclude": [
+    "./dist/**/*.*"
+  ]
+}
