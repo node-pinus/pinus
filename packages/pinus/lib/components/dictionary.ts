@@ -48,6 +48,37 @@ export class DictionaryComponent implements IComponent {
         let routes = [];
 
         let handlerPathss: {[serverType: string]: string[]} = {};
+        let loadHandlerPrototype = function(path: string) {
+            let files = fs.readdirSync(path);
+            if (files.length === 0) {
+                console.warn('path is empty, path:' + path);
+                return;
+            }
+
+            if (path.charAt(path.length - 1) !== '/') {
+                path += '/';
+            }
+
+            let fp, fn, m, res: {[key: string]: any} = {};
+            for (let i = 0, l = files.length; i < l; i++) {
+                fn = files[i];
+                fp = path + fn;
+                if (!Loader.isFile(fp) || !Loader.checkFileType(fn, '.js')) {
+                    // only load js file type
+                    continue;
+                }
+
+                m = Loader.loadFile(fp, false);
+                if (!m) {
+                    continue;
+                }
+                for (let key in m) {
+                    res[key] = m[key];
+                }
+            }
+
+            return res;
+        };
 
         // Load all the handler files
         for (let serverType in servers) {
@@ -66,7 +97,7 @@ export class DictionaryComponent implements IComponent {
                 continue;
             }
             for (let p of paths) {
-                let handlers = Loader.load(p, this.app, false, false, LoaderPathType.PINUS_HANDLER);
+                let handlers = loadHandlerPrototype(p);
 
                 for (let name in handlers) {
                     let handler = handlers[name];
