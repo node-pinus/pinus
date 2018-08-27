@@ -206,7 +206,14 @@ export class ChannelService implements IComponent {
         let sendMessage = function (serverId: string) {
             return (function () {
                 if (serverId === app.serverId) {
-                    (self.channelRemote as any)[method](route, msg, opts, genCB());
+                    const callback = genCB();
+                    (self.channelRemote as any)[method](route, msg, opts)
+                        .then(function () {
+                            callback(null);
+                        })
+                        .catch(function (err: Error) {
+                            callback(err);
+                        });
                 } else {
                     app.rpcInvoke(serverId, {
                         namespace: namespace, service: service,
@@ -478,7 +485,14 @@ let sendMessageByGroup = function (channelService: ChannelService, route: string
     let sendMessage = function (sid: FRONTENDID) {
         return (function () {
             if (sid === app.serverId) {
-                (channelService.channelRemote as any)[method](route, msg, groups[sid], opts, rpcCB(sid));
+                const callback = rpcCB(sid);
+                (channelService.channelRemote as any)[method](route, msg, groups[sid], opts)
+                    .then(function (fails: any[]) {
+                        callback(null, fails);
+                    })
+                    .catch(function (err: Error) {
+                        callback(err, null);
+                    });
             } else {
                 app.rpcInvoke(sid, {
                     namespace: namespace, service: service,
