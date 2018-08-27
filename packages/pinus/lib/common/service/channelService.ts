@@ -207,7 +207,7 @@ export class ChannelService implements IComponent {
         let sendMessage = function (serverId: string) {
             return (function () {
                 if (serverId === app.serverId) {
-                    (self.channelRemote as any)[method](route, msg, opts).then(() => genCB(serverId)(null)).cache((err: any) => genCB(serverId)(err));
+                    (self.channelRemote as any)[method](route, msg, opts).then(() => genCB(serverId)(null)).catch((err: any) => genCB(serverId)(err));
                 } else {
                     app.rpcInvoke(serverId, {
                         namespace: namespace, service: service,
