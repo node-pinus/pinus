@@ -282,7 +282,7 @@ export class MailStation extends EventEmitter {
                 self.emit('error', constants.RPC_ERROR.FAIL_FIND_MAILBOX, tracer, serverId, msg, opts);
                 return;
             }
-            mailbox.send(tracer, msg, opts, function (tracer_send: Tracer, send_err: Error, args: Array<any>) {
+            mailbox.send(tracer, msg, opts, cb ? function (tracer_send: Tracer, send_err: Error, args: Array<any>) {
                 // let tracer_send = arguments[0];
                 // let send_err = arguments[1];
                 if (send_err) {
@@ -299,7 +299,7 @@ export class MailStation extends EventEmitter {
                     }
                     utils.applyCallback(cb, args);
                 });
-            });
+            } : null);
         };
 
         doFilter(tracer, null, serverId, msg, opts, this.befores, 0, 'before', send);

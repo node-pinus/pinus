@@ -93,7 +93,7 @@ let mock_data_3 = {
 let payload = mock_data_3;
 
 // console.log(new Buffer(payload).length / 1024 + 'k');
-console.log(new Buffer(JSON.stringify(payload)).length / 1024 + 'k');
+console.log(Buffer.from(JSON.stringify(payload)).length / 1024 + 'k');
 
 async function runParallels() {
   let maxParallel = 1;

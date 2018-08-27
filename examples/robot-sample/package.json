@@ -7,6 +7,9 @@
     "type": "git",
     "url": "https://github.com/node-pinus/pinus"
   },
+  "engines": {
+    "node": ">=8.5"
+  },
   "scripts": {
     "build": "tsc",
     "start": "yarn run build && node dist/app",
@@ -27,6 +30,6 @@
   },
   "devDependencies": {
     "tslint": "^5.9.1",
-    "typescript": "^2.7.1"
+    "typescript": "^2.9.2"
   }
 }

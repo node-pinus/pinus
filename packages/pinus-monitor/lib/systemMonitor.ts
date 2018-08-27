@@ -11,7 +11,7 @@ let info: any = {};
 /**
  * get information of operating-system
  *
- * @param {Function} callback
+ * @param  {Function} callback
  * @api public
  */
 

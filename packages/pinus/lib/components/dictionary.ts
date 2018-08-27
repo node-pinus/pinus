@@ -14,6 +14,14 @@ export interface DictionaryComponentOptions {
     dict ?: string;
 }
 
+function canResolve(path: string) {
+    try {
+        require.resolve(path);
+    } catch(err) {
+        return false;
+    }
+    return true;
+}
 export class DictionaryComponent implements IComponent {
     app: Application;
     dict: {[key: string]: number} = {};
@@ -26,11 +34,11 @@ export class DictionaryComponent implements IComponent {
         this.app = app;
 
         // Set user dictionary
-        let p = path.join(app.getBase(), '/config/dictionary.json');
+        let p = path.join(app.getBase(), '/config/dictionary');
         if (!!opts && !!opts.dict) {
             p = opts.dict;
         }
-        if (fs.existsSync(p)) {
+        if (canResolve(p)) {
             this.userDicPath = p;
         }
     }

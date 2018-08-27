@@ -1,4 +1,4 @@
-import { Application, FrontendSession, bindRemoterMethod, RemoterClass } from 'pinus';
+import {Application, DefineRoutifyMethods, FrontendSession, RemoterClass} from 'pinus';
 
 export default function (app: Application) {
     return new AuthRemoter(app);
@@ -9,7 +9,7 @@ declare global {
     interface UserRpc {
         connector: {
             // 一次性定义一个类自动合并到UserRpc中
-            authRemoter: RemoterClass<FrontendSession, AuthRemoter>;
+            authRemoter: DefineRoutifyMethods<FrontendSession, AuthRemoter>;
         };
     }
 }
@@ -24,11 +24,11 @@ export class AuthRemoter {
      * @param username
      * @param password
      */
-    async auth(username: string , password: string) {
+    public async auth(username: string , password: string) {
         return true;
     }
 
-    async rpcTest(username: string , password: string) {
+    public async rpcTest(username: string , password: string) {
         return true;
     }
 }

@@ -23,7 +23,7 @@ export namespace Protocol {
    */
   export function strencode(str: string) {
       // encoding defaults to 'utf8'
-      return new Buffer(str);
+      return Buffer.from(str);
   }
 
   /**
@@ -70,7 +70,7 @@ export namespace Package {
    */
   export function encode(type: number, body?: Buffer) {
     let length = body ? body.length : 0;
-    let buffer = new Buffer(PKG_HEAD_BYTES + length);
+    let buffer = Buffer.alloc(PKG_HEAD_BYTES + length);
     let index = 0;
     buffer[index++] = type & 0xff;
     buffer[index++] = (length >> 16) & 0xff;
@@ -91,13 +91,13 @@ export namespace Package {
    */
   export function decode(buffer: Buffer) {
     let offset = 0;
-    let bytes = new Buffer(buffer);
+    let bytes = Buffer.from(buffer);
     let length = 0;
     let rs = [];
     while (offset < bytes.length) {
       let type = bytes[offset++];
       length = ((bytes[offset++]) << 16 | (bytes[offset++]) << 8 | bytes[offset++]) >>> 0;
-      let body = length ? new Buffer(length) : null;
+      let body = length ? Buffer.alloc(length) : null;
       if (body) {
         copyArray(body, 0, bytes, offset, length);
       }
@@ -151,7 +151,7 @@ export namespace Message {
       msgLen += msg.length;
     }
 
-    let buffer = new Buffer(msgLen);
+    let buffer = Buffer.alloc(msgLen);
     let offset = 0;
 
     // add flag
@@ -182,7 +182,7 @@ export namespace Message {
    * @return {Object}            message object
    */
   export function decode(buffer: Buffer) {
-    let bytes = new Buffer(buffer);
+    let bytes = Buffer.from(buffer);
     let bytesLen = bytes.length || bytes.byteLength;
     let offset = 0;
     let id = 0;
@@ -213,7 +213,7 @@ export namespace Message {
       } else {
         let routeLen = bytes[offset++];
         if (routeLen) {
-          route = new Buffer(routeLen);
+          route = Buffer.alloc(routeLen);
           copyArray(route, 0, bytes, offset, routeLen);
           route = Protocol.strdecode(route);
         } else {
@@ -225,7 +225,7 @@ export namespace Message {
 
     // parse body
     let bodyLen = bytesLen - offset;
-    let body = new Buffer(bodyLen);
+    let body = Buffer.alloc(bodyLen);
 
     copyArray(body, 0, bytes, offset, bodyLen);
 

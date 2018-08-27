@@ -44,29 +44,32 @@ export class Dispatcher extends EventEmitter {
         let namespace = this.services[msg.namespace];
         if (!namespace) {
             tracer && tracer.error('server', __filename, 'route', 'no such namespace:' + msg.namespace);
-            cb(new Error('no such namespace:' + msg.namespace));
+            cb ? cb(new Error('no such namespace:' + msg.namespace)) : null;
             return;
         }
 
         let service = namespace[msg.service];
         if (!service) {
             tracer && tracer.error('server', __filename, 'route', 'no such service:' + msg.service);
-            cb(new Error('no such service:' + msg.service));
+            cb ? cb(new Error('no such service:' + msg.service)) : null;
             return;
         }
 
         let method = service[msg.method];
         if (!method) {
             tracer && tracer.error('server', __filename, 'route', 'no such method:' + msg.method);
-            cb(new Error('no such method:' + msg.method));
+            cb ? cb(new Error('no such method:' + msg.method)) : null;
             return;
         }
 
         let args = msg.args;
         let promise = method.apply(service, args);
-        if (promise === undefined || !promise || !promise.then) {
+        if(!cb) {
+            return;
+        }
+        if (!promise || !promise.then) {
             tracer && tracer.error('server', __filename, 'route', 'not async method:' + msg.method);
-            cb(new Error('not async method:' + msg.method));
+            cb ? cb(new Error('not async method:' + msg.method)) : null;
             return;
         }
         promise.then(function (value: string) {

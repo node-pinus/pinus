@@ -171,7 +171,9 @@ function configure(configOrFilename: string | Config, opts?: {[key: string]: any
 
     let config: Config;
     if (typeof configOrFilename === 'string') {
-        config = JSON.parse(fs.readFileSync(configOrFilename, 'utf8')) as Config;
+        // modified by sw
+        config = require(configOrFilename) as Config;
+    //    config = JSON.parse(fs.readFileSync(configOrFilename, 'utf8')) as Config;
     }
     else {
         config = configOrFilename;

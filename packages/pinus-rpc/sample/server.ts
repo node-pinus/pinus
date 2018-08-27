@@ -4,7 +4,7 @@ preload();
 import {createServer, createTcpAcceptor} from '../index';
 import { configure } from 'pinus-logger';
 import {getLogger} from 'pinus-logger';
-configure('./config/log4js.json');
+// configure('./config/log4js.json');
 let logger = getLogger('pinus-rpc', 'sample-server');
 
 // remote service path info list
@@ -20,7 +20,9 @@ function runServer(port: number) {
 
     let server = createServer({paths: paths, port: port, rpcDebugLog: true,
         rpcLogger: logger,
-        acceptorFactory: createTcpAcceptor
+        acceptorFactory: createTcpAcceptor,
+        bufferMsg: true,
+        interval: 2000
     });
     server.start();
     console.log('rpc server started.' + port);

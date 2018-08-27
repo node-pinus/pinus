@@ -1,4 +1,4 @@
-import { Application, FrontendSession, bindRemoterMethod, RemoterClass } from 'pinus';
+import {Application, DefineRoutifyMethods, FrontendSession, RemoterClass} from 'pinus';
 
 
 // UserRpc的命名空间自动合并
@@ -6,7 +6,7 @@ declare global {
     interface UserRpc {
         chat: {
             // 一次性定义一个类自动合并到UserRpc中
-            helloRemoter: RemoterClass<FrontendSession, HelloRemotor>;
+            helloRemoter: DefineRoutifyMethods<FrontendSession, HelloRemotor>;
         };
     }
 }
@@ -20,7 +20,7 @@ export class HelloRemotor {
      * @param message rpc的参数，可以有多个
      * @returns 异步返回
      */
-    async hello(message: string) {
+    public async hello(message: string) {
         return message;
     }
 }

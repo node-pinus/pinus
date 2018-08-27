@@ -14,6 +14,7 @@ import { IModule, MonitorCallback, MasterAgent, MasterCallback } from 'pinus-adm
 import { MonitorAgent } from 'pinus-admin';
 import { ServerInfo } from '../util/constants';
 import * as path from 'path';
+import * as os from 'os';
 let logger = getLogger('pinus', path.basename(__filename));
 
 
@@ -300,7 +301,9 @@ let checkPort = function (server: ServerInfo, cb: MasterCallback) {
 
     let p = server.port || server.clientPort;
     let host = server.host;
-    let cmd = 'netstat -tln | grep ';
+ //   let cmd = 'netstat -tln | grep ';
+    let cmd = os.type() === 'Windows_NT' ?
+        `netstat -ano | %windir%\\system32\\find.exe ` : `netstat -tln | grep `;
     if (!utils.isLocal(host)) {
         cmd = 'ssh ' + host + ' ' + cmd;
     }

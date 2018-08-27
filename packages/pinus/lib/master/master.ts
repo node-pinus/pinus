@@ -1,6 +1,7 @@
 import * as starter from './starter';
-import { getLogger } from 'pinus-logger';
+import {getLogger} from 'pinus-logger';
 import * as path from 'path';
+
 let logger = getLogger('pinus', path.basename(__filename));
 let crashLogger = getLogger('crash-log', path.basename(__filename));
 let adminLogger = getLogger('admin-log', path.basename(__filename));
@@ -9,17 +10,17 @@ import * as util from 'util';
 import * as utils from '../util/utils';
 import * as moduleUtil from '../util/moduleUtil';
 import * as Constants from '../util/constants';
-import { Application } from '../application';
-import { ConsoleService, ConsoleServiceOpts } from 'pinus-admin';
-import { IModule } from '../index';
+import {Application} from '../application';
+import {ConsoleService, ConsoleServiceOpts} from 'pinus-admin';
+import {IModule} from '../index';
 
 
 export type MasterServerOptions =
-{
-    port ?: number;
-    env ?: string;
-    closeWatcher?: boolean;
-} & Partial<ConsoleServiceOpts>;
+    {
+        port?: number;
+        env?: string;
+        closeWatcher?: boolean;
+    } & Partial<ConsoleServiceOpts>;
 
 export class MasterServer {
     app: Application;
@@ -84,24 +85,6 @@ export class MasterServer {
             let server = self.app.getServerById(id);
             let stopFlags = self.app.get(Constants.RESERVED.STOP_SERVERS) || [];
             if (!!server && (server[Constants.RESERVED.AUTO_RESTART] === true || server[Constants.RESERVED.RESTART_FORCE] === true) && stopFlags.indexOf(id) < 0) {
-                let setTimer = function (time: number) {
-                    pingTimer = setTimeout(function () {
-                        utils.ping(server.host, function (flag) {
-                            if (flag) {
-                                handle();
-                            } else {
-                                count++;
-                                if (count > 3) {
-                                    time = Constants.TIME.TIME_WAIT_MAX_PING;
-                                } else {
-                                    time = Constants.TIME.TIME_WAIT_PING * count;
-                                }
-                                setTimer(time);
-                            }
-                        });
-                    }, time);
-                };
-                setTimer(time);
                 let handle = function () {
                     clearTimeout(pingTimer);
                     utils.checkPort(server, function (status) {
@@ -121,6 +104,24 @@ export class MasterServer {
                         }, Constants.TIME.TIME_WAIT_STOP);
                     });
                 };
+                let setTimer = function (time: number) {
+                    pingTimer = setTimeout(function () {
+                        utils.ping(server.host, function (flag) {
+                            if (flag) {
+                                handle();
+                            } else {
+                                count++;
+                                if (count > 3) {
+                                    time = Constants.TIME.TIME_WAIT_MAX_PING;
+                                } else {
+                                    time = Constants.TIME.TIME_WAIT_PING * count;
+                                }
+                                setTimer(time);
+                            }
+                        });
+                    }, time);
+                };
+                setTimer(time);
             }
         });
 
