@@ -1,23 +1,24 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import { Protobuf} from 'pinus-protobuf';
+import {Protobuf} from 'pinus-protobuf';
 import * as Constants from '../util/constants';
 import * as crypto from 'crypto';
-import { getLogger } from 'pinus-logger';
-import { Application } from '../application';
-import { IComponent } from '../interfaces/IComponent';
+import {getLogger} from 'pinus-logger';
+import {Application} from '../application';
+import {IComponent} from '../interfaces/IComponent';
+
 let logger = getLogger('pinus', path.basename(__filename));
 
 export interface ProtobufComponentOptions {
-    serverProtos ?: string;
-    clientProtos ?: string;
+    serverProtos?: string;
+    clientProtos?: string;
 }
 
 
 export class ProtobufComponent implements IComponent {
     app: Application;
 
-    watchers: {[key: string]: fs.FSWatcher} = {};
+    watchers: { [key: string]: fs.FSWatcher } = {};
     serverProtos: {
         [key: string]: any;
     } = {};
@@ -34,7 +35,7 @@ export class ProtobufComponent implements IComponent {
     _canRequire(path: string): boolean {
         try {
             require.resolve(path);
-        } catch(err) {
+        } catch (err) {
             return false;
         }
         return true;
@@ -56,7 +57,7 @@ export class ProtobufComponent implements IComponent {
         this.setProtos(Constants.RESERVED.SERVER, path.join(app.getBase(), this.serverProtosPath));
         this.setProtos(Constants.RESERVED.CLIENT, path.join(app.getBase(), this.clientProtosPath));
 
-        this.protobuf = new Protobuf({ encoderProtos: this.serverProtos, decoderProtos: this.clientProtos });
+        this.protobuf = new Protobuf({encoderProtos: this.serverProtos, decoderProtos: this.clientProtos});
     }
 
 
@@ -133,6 +134,8 @@ export class ProtobufComponent implements IComponent {
             logger.warn('change proto file error! path : %j', path);
             logger.warn(e);
         }
+        this.watchers[type].close();
+        this.watchers[type] = fs.watch(path, this.onUpdate.bind(this, type, path));
     }
 
     stop(force: boolean, cb: () => void) {
