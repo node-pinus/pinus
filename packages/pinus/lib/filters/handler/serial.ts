@@ -13,7 +13,7 @@ let logger = getLogger('pinus', path.basename(__filename));
 
 
 export class SerialFilter implements IHandlerFilter {
-    constructor(private timeout: number,private timeOutResponse?:any) {
+    constructor(private timeout: number, private timeOutResponse?: any) {
     }
 
     /**
@@ -23,10 +23,10 @@ export class SerialFilter implements IHandlerFilter {
         taskManager.addTask(session.id, function (task) {
             (session as any).__serialTask__ = task;
             next(null);
-        }, ()=>{
-            logger.error('[serial filter] msg timeout, msg:' + JSON.stringify(msg)+' routeRecord:'+JSON.stringify(routeRecord));
-            if(this.timeOutResponse){
-                next(new Error('msg timeout:'+session.id+' uid:'+(session.uid?session.uid:'')),this.timeOutResponse);
+        }, () => {
+            logger.error('[serial filter] msg timeout, msg:' + JSON.stringify(msg) + ' routeRecord:' + JSON.stringify(routeRecord));
+            if(this.timeOutResponse) {
+                next(new Error('msg timeout:' + session.id + ' uid:' + (session.uid ? session.uid : '')), this.timeOutResponse);
             }
         }, this.timeout);
     }

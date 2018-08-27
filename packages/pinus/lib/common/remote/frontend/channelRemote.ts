@@ -80,10 +80,10 @@ export class ChannelRemote {
 
             connector.send(null, route, msg, null, opts, function (err, resp) {
                 if (err) {
-                    reject(err);
+                    return reject(err);
                 }
                 else {
-                    resolve(resp);
+                    return resolve(resp);
                 }
             });
         });
