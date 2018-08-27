@@ -84,6 +84,6 @@ export class SessionRemote {
      * @param  {Function} cb     callback function
      */
     kickByUid(uid: UID, reason: string) {
-        return this.app.sessionService.kick(uid, reason);
+        return this.app.sessionService.akick(uid, reason);
     }
 }
