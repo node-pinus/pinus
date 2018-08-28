@@ -1,4 +1,4 @@
-import {Application, ChannelService, DefineRoutifyMethods, FrontendSession} from 'pinus';
+import {Application, ChannelService, RemoterClass, FrontendSession} from 'pinus';
 
 export default function (app: Application) {
     return new ChatRemote(app);
@@ -8,7 +8,7 @@ export default function (app: Application) {
 declare global {
     interface UserRpc {
         chat: {
-            chatRemote: DefineRoutifyMethods<FrontendSession, ChatRemote>;
+            chatRemote: RemoterClass<FrontendSession, ChatRemote>;
         };
     }
 }
@@ -37,7 +37,7 @@ export class ChatRemote {
         let param = {
             user: username
         };
-        channel.pushMessage('onAdd' , param);
+        channel.pushMessage('onAdd', param);
 
         if (!!channel) {
             channel.add(uid, sid);
@@ -85,6 +85,6 @@ export class ChatRemote {
         let param = {
             user: username
         };
-        channel.pushMessage('onLeave' , param);
+        channel.pushMessage('onLeave', param);
     }
 }

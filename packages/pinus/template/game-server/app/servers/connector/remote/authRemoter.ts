@@ -1,4 +1,4 @@
-import {Application, DefineRoutifyMethods, FrontendSession} from 'pinus';
+import {Application, RemoterClass, FrontendSession} from 'pinus';
 
 export default function (app: Application) {
     return new AuthRemoter(app);
@@ -9,7 +9,7 @@ declare global {
     interface UserRpc {
         connector: {
             // 一次性定义一个类自动合并到UserRpc中
-            authRemoter: DefineRoutifyMethods<FrontendSession, AuthRemoter>;
+            authRemoter: RemoterClass<FrontendSession, AuthRemoter>;
         };
     }
 }
