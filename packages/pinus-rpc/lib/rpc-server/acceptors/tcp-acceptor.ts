@@ -177,7 +177,7 @@ export class TCPAcceptor extends EventEmitter implements IAcceptor {
             delete self.msgQueues[socketId];
             logger.warn('ping timeout with socket id: %s', socketId);
         }
-        this.timer[socketId] = setInterval(ping.bind(null, this, socketId), this.ping + 5e3);
+        this.timer[socketId] = setInterval(ping.bind(null, this, socketId), this.ping + 5e3) as any;
         logger.info('wait ping with socket id: %s' , socketId);
     }
 
