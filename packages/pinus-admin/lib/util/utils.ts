@@ -138,15 +138,15 @@ export function defaultAuthServerMaster(msg: {id: string, serverType: string, to
 
     let servers = null;
     let appBase = process.cwd();
-    let serverPath = path.join(appBase, '/config/adminServer.json');
+    let serverPath = path.join(appBase, '/config/adminServer');
     let presentPath = null;
     if (env) {
-        presentPath = path.join(appBase, 'config', env, 'adminServer.json');
+        presentPath = path.join(appBase, 'config', env, 'adminServer');
     }
 
-    if (fs.existsSync(serverPath)) {
+    if (canBeResolve(serverPath)) {
         servers = require(serverPath);
-    } else if (fs.existsSync(presentPath)) {
+    } else if (canBeResolve(presentPath)) {
         servers = require(presentPath);
     } else {
         cb('ok');
@@ -171,15 +171,15 @@ export function defaultAuthServerMonitor(msg: {id: string, serverType: string}, 
 
     let servers = null;
     let appBase = process.cwd();
-    let serverPath = path.join(appBase, '/config/adminServer.json');
+    let serverPath = path.join(appBase, '/config/adminServer');
     let presentPath = null;
     if (env) {
-        presentPath = path.join(appBase, 'config', env, 'adminServer.json');
+        presentPath = path.join(appBase, 'config', env, 'adminServer');
     }
 
-    if (fs.existsSync(serverPath)) {
+    if (canBeResolve(serverPath)) {
         servers = require(serverPath);
-    } else if (fs.existsSync(presentPath)) {
+    } else if (canBeResolve(presentPath)) {
         servers = require(presentPath);
     } else {
         cb('ok');
