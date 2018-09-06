@@ -199,14 +199,14 @@ export class BackendSessionService implements IComponent {
         rpcInvoke(this.app, frontendId, namespace, service, method, args, cb);
     }
 
-    aget = utils.promisify(this.get);
-    agetByUid = utils.promisify(this.getByUid);
-    akickBySid = utils.promisify(this.kickBySid);
-    akickByUid = utils.promisify(this.kickByUid);
-    abind = utils.promisify(this.bind);
-    aunbind = utils.promisify(this.unbind);
-    apush = utils.promisify(this.push);
-    apushAll = utils.promisify(this.pushAll);
+    aget = utils.promisify(this.get.bind(this));
+    agetByUid = utils.promisify(this.getByUid.bind(this));
+    akickBySid = utils.promisify(this.kickBySid.bind(this));
+    akickByUid = utils.promisify(this.kickByUid.bind(this));
+    abind = utils.promisify(this.bind.bind(this));
+    aunbind = utils.promisify(this.unbind.bind(this));
+    apush = utils.promisify(this.push.bind(this));
+    apushAll = utils.promisify(this.pushAll.bind(this));
 }
 
 let rpcInvoke = function(app: Application, sid: FRONTENDID, namespace: string, service: string, method: string, args: any, cb: Function) {
@@ -323,10 +323,10 @@ export class BackendSession implements ISession {
         this.__sessionService__.pushAll(this.frontendId, this.id, this.settings, cb);
     }
 
-    abind = utils.promisify(this.bind);
-    aunbind = utils.promisify(this.unbind);
-    apush = utils.promisify(this.push);
-    apushAll = utils.promisify(this.pushAll);
+    abind = utils.promisify(this.bind.bind(this));
+    aunbind = utils.promisify(this.unbind.bind(this));
+    apush = utils.promisify(this.push.bind(this));
+    apushAll = utils.promisify(this.pushAll.bind(this));
 
     /**
      * Export the key/values for serialization.

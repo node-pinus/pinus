@@ -569,7 +569,7 @@ export class Session extends EventEmitter implements ISession {
      * @api public
      */
     closed(reason: string) {
-        logger.debug('session on [%s] is closed with session id: %s', this.frontendId, this.id);
+        logger.debug('session on [%s] is closed with session id: %s reason:%s', this.frontendId, this.id,reason);
         if (this.__state__ === ST_CLOSED) {
             return;
         }
@@ -662,10 +662,10 @@ export class FrontendSession extends EventEmitter implements ISession {
     }
 
 
-    abind = utils.promisify(this.bind);
-    aunbind = utils.promisify(this.unbind);
-    apush = utils.promisify(this.push);
-    apushAll = utils.promisify(this.pushAll);
+    abind = utils.promisify(this.bind.bind(this));
+    aunbind = utils.promisify(this.unbind.bind(this));
+    apush = utils.promisify(this.push.bind(this));
+    apushAll = utils.promisify(this.pushAll.bind(this));
 
     /**
      * Export the key/values for serialization.
