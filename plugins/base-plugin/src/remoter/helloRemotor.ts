@@ -1,4 +1,4 @@
-import { Application, FrontendSession, bindRemoterMethod, RemoterClass } from 'pinus';
+import {Application, FrontendSession, RemoterClass} from 'pinus';
 
 
 // UserRpc的命名空间自动合并
@@ -15,16 +15,17 @@ export class HelloRemotor {
     constructor(private app: Application) {
 
     }
+
     /**
      * 一个rpc函数的实现（给后端请求）
      * @param message rpc的参数，可以有多个
      * @returns 异步返回
      */
-    async hello(message: string) {
+    public async hello(message: string) {
         return message;
     }
 }
 
-export default function(app: Application) {
+export default function (app: Application) {
     return new HelloRemotor(app);
 }

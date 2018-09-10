@@ -1,4 +1,4 @@
-import { Application, FrontendSession, bindRemoterMethod, RemoterClass } from 'pinus';
+import {Application, FrontendSession, RemoterClass} from 'pinus';
 
 export default function (app: Application) {
     return new AuthRemoter(app);
@@ -19,16 +19,17 @@ export class AuthRemoter {
     constructor(private app: Application) {
 
     }
+
     /**
      * 远程rpc方法
      * @param username
      * @param password
      */
-    async auth(username: string , password: string) {
+    public async auth(username: string, password: string) {
         return true;
     }
 
-    async rpcTest(username: string , password: string) {
+    public async rpcTest(username: string, password: string) {
         return true;
     }
 }

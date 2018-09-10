@@ -19,6 +19,9 @@
         "ci": "yarn run test",
         "gen-api-ref": "node ../../node_modules/typedoc/bin/typedoc --mode file --hideGenerator --excludeExternals --ignoreCompilerErrors --out ../../run/site/public/api-reference/pinus-logger lib/"
     },
+    "engines": {
+        "node": ">=8.5"
+    },
     "dependencies": {
         "@types/node": "^8.5.2",
         "log4js": "^2.4.1"
@@ -27,6 +30,6 @@
         "mocha": ">=0.0.1",
         "should": ">=0.0.1",
         "tslint": "^5.9.1",
-        "typescript": "^2.7.1"
+        "typescript": "^2.9.2"
     }
 }

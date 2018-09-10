@@ -16,7 +16,7 @@ import { LoaderPathType, isDefined } from './decoraters';
  * the default name if there is no name property. All loaded modules under the
  * path would be add to an empty root object with the name as the key.
  *
- * @param  {String} mpath    the path of modules. Load all the files under the
+ * @param   {String} mpath    the path of modules. Load all the files under the
  *                           path, but *not* recursively if the path contain
  *                           any sub-directory.
  * @param  {Object} context  the context parameter that would be pass to the
@@ -62,8 +62,12 @@ export function loadPath(path: string, context: any, reload: boolean, createInst
         fn = files[i];
         fp = path + fn;
 
-        if (!isFile(fp) || !checkFileType(fn, '.js')) {
-            // only load js file type
+        if (!isFile(fp)) {
+            // only load  file
+            continue;
+        }
+        if(!checkFileType(fn, '.js') && !checkFileType(fn, '.ts')) {
+            // only load js/ts file type
             continue;
         }
 

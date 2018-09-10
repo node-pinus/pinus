@@ -8,7 +8,7 @@ import * as pinusrpc from '..';
 import {configure} from 'pinus-logger';
 import {getLogger} from 'pinus-logger';
 import {createTcpMailBox} from '../';
-configure('./config/log4js.json');
+// configure('./config/log4js.json');
 let logger = getLogger('pinus-rpc', 'sample-client');
 
 // remote service interface path info list
@@ -42,7 +42,10 @@ const routeFunc = function(routeParam: any, msg: any,
 
 const client = pinusrpc.createClient({routeContext: routeContext,
     router: routeFunc, context: context,
-    mailboxFactory: createTcpMailBox
+    mailboxFactory: createTcpMailBox,
+    bufferMsg: true,
+    interval: 2000,
+    timeout: 20000
 });
 
 client.start(err => {
@@ -64,7 +67,15 @@ client.start(err => {
         .catch(err => {
             console.error(' rpc end err', err);
         });
-    client.proxies.user.test.service.echo.toServer('test-server-1', 666, 'AAA');
+    client.proxies.user.test.service.echo.toServer('test-server-1', 666, 'AAA1111').then(ret => {
+        console.log('@@111', ret);
+    });
+    client.proxies.user.test.service.echo.toServer('test-server-1', 666, 'AAA@@').then(ret => {
+        console.log('@@222', ret);
+    });
+    client.proxies.user.test.service.echo.to('test-server-1', true)( 666, 'AAA###').then(ret => {
+        console.log('@@@333', ret);
+    });
     setTimeout(() => {
         client.proxies.user.test.service.echo.toServer('test-server-3', 222, 'DDD2', 'unused')
             .then(ret => {
@@ -80,7 +91,7 @@ client.start(err => {
 async function test() {
     console.log('rpc client start ok.');
 
-    let m: any = new Buffer('hello');
+    let m: any = Buffer.from('hello');
     // n = 'bbb';
     let fs = require('fs');
     // m = fs.readFileSync('./skill.js').toString();

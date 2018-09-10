@@ -7,6 +7,10 @@ export let DEFAULT_PARAM = {
 export let TYPE_CLIENT = 'client';
 export let TYPE_MONITOR = 'monitor';
 
+export let DEFAULT_ADMIN_PATH = {
+    ADMIN_USER: '/config/adminUser.json',
+    ADMIN_FILENAME: 'adminUser.json'
+};
 
 /**
  * ServerInfo

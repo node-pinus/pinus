@@ -1,11 +1,12 @@
-import { Stream } from 'stream';
+import {Stream} from 'stream';
 import * as util from 'util';
 import * as net from 'net';
-import { Package } from 'pinus-protocol';
-import { getLogger } from 'pinus-logger';
-import { ISocket } from '../../interfaces/ISocket';
-import { IHybridSocket } from './IHybridSocket';
+import {Package} from 'pinus-protocol';
+import {getLogger} from 'pinus-logger';
+import {ISocket} from '../../interfaces/ISocket';
+import {IHybridSocket} from './IHybridSocket';
 import * as path from 'path';
+
 let logger = getLogger('pinus', path.basename(__filename));
 
 
@@ -66,7 +67,7 @@ export class TcpSocket extends Stream implements IHybridSocket {
         this._socket = socket;
         this.headSize = opts.headSize;
         this.closeMethod = opts.closeMethod;
-        this.headBuffer = new Buffer(opts.headSize);
+        this.headBuffer = Buffer.alloc(opts.headSize);
         this.headHandler = opts.headHandler;
 
         this.headOffset = 0;
@@ -84,7 +85,7 @@ export class TcpSocket extends Stream implements IHybridSocket {
     }
 
 
-    send(msg: any, options: {binary ?: boolean}, cb?: (err ?: Error) => void) {
+    send(msg: any, options: { binary?: boolean }, cb?: (err ?: Error) => void) {
         this._socket.write(msg, options as string, cb);
     }
 
@@ -110,7 +111,7 @@ export class TcpSocket extends Stream implements IHybridSocket {
         }
 
         if (typeof chunk === 'string') {
-            chunk = new Buffer(chunk, 'utf8');
+            chunk = Buffer.from(chunk, 'utf8');
         }
 
         let offset = 0, end = chunk.length;
@@ -164,7 +165,7 @@ export class TcpSocket extends Stream implements IHybridSocket {
             // check if header contains a valid type
             if (checkTypeData(this.headBuffer[0])) {
                 this.packageSize = size + this.headSize;
-                this.packageBuffer = new Buffer(this.packageSize);
+                this.packageBuffer = Buffer.alloc(this.packageSize);
                 this.headBuffer.copy(this.packageBuffer, 0, 0, this.headSize);
                 this.packageOffset = this.headSize;
                 this.state = ST_BODY;

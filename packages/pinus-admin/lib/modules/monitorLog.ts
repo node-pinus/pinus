@@ -98,7 +98,7 @@ let fetchLogs = function (root: string, msg: any, callback: (data: { logfile: st
                 try {
                     json = JSON.parse(endOut[j]);
                 } catch (e) {
-                    logger.error('the log cannot parsed to json, ' + e);
+                //    logger.error('the log cannot parsed to json, ' + e);
                     continue;
                 }
                 endLogs.push({

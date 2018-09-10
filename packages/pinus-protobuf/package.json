@@ -21,10 +21,13 @@
     "ci": "yarn run test",
     "gen-api-ref": "node ../../node_modules/typedoc/bin/typedoc --mode file --hideGenerator --excludeExternals --ignoreCompilerErrors --out ../../run/site/public/api-reference/pinus-protobuf lib/"
   },
+  "engines": {
+    "node": ">=8.5"
+  },
   "devDependencies": {
     "mocha": "^4.0.1",
     "should": "^13.2.0",
     "tslint": "^5.9.1",
-    "typescript": "^2.7.1"
+    "typescript": "^2.9.2"
   }
 }

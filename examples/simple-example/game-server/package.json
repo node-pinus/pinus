@@ -16,6 +16,9 @@
         "ci": "yarn run test",
         "gen-api-ref": "node ../../../node_modules/typedoc/bin/typedoc --mode file --hideGenerator --excludeExternals --ignoreCompilerErrors --out ../../../run/site/public/api-reference/pinus-loader lib/"
     },
+    "engines": {
+        "node": ">=8.5"
+    },
     "dependencies": {
         "@types/bluebird": "^3.5.19",
         "@types/node": "^8.5.2",
@@ -27,6 +30,6 @@
     },
     "devDependencies": {
         "tslint": "^5.9.1",
-        "typescript": "^2.7.1"
+        "typescript": "^2.9.2"
     }
 }

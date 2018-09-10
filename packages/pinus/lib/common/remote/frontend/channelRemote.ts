@@ -3,20 +3,22 @@
  * Receive push request from backend servers and push it to clients.
  */
 import * as utils from '../../../util/utils';
-import { getLogger } from 'pinus-logger';
-import { Application } from '../../../application';
-import { UID, SID } from '../../../util/constants';
-import { ScheduleOptions } from '../../../interfaces/IPushScheduler';
-import { Session } from '../../service/sessionService';
+import {getLogger} from 'pinus-logger';
+import {Application} from '../../../application';
+import {UID, SID} from '../../../util/constants';
+import {ScheduleOptions} from '../../../interfaces/IPushScheduler';
+import {Session} from '../../service/sessionService';
 import * as path from 'path';
+
 let logger = getLogger('pinus', path.basename(__filename));
 
-export default function(app: Application) {
-  return new ChannelRemote(app);
+export default function (app: Application) {
+    return new ChannelRemote(app);
 }
 
 export class ChannelRemote {
     app: Application;
+
     constructor(app: Application) {
         this.app = app;
     }
@@ -30,13 +32,12 @@ export class ChannelRemote {
      * @param  {Object}   opts  push options
      * @param  {Function} cb    callback function
      */
-    async pushMessage(route: string, msg: any, uids: UID[], opts: ScheduleOptions) {
+    pushMessage(route: string, msg: any, uids: UID[], opts: ScheduleOptions) {
         return new Promise<any>((resolve, reject) => {
             if (!msg) {
                 logger.error('Can not send empty message! route : %j, compressed msg : %j',
                     route, msg);
-                reject(new Error('can not send empty message.'));
-                return;
+                return reject(new Error('can not send empty message.'));
             }
 
             let connector = this.app.components.__connector__;
@@ -56,10 +57,10 @@ export class ChannelRemote {
             logger.debug('[%s] pushMessage uids: %j, msg: %j, sids: %j', this.app.serverId, uids, msg, sids);
             connector.send(null, route, msg, sids, opts, function (err) {
                 if (err) {
-                    reject(err);
+                    return reject(err);
                 }
                 else {
-                    resolve(fails);
+                    return resolve(fails);
                 }
             });
         });
@@ -73,16 +74,16 @@ export class ChannelRemote {
      * @param  {Boolean}   opts   broadcast options.
      * @param  {Function}  cb     callback function
      */
-    async broadcast(route: string, msg: any, opts: ScheduleOptions) {
+    broadcast(route: string, msg: any, opts: ScheduleOptions) {
         return new Promise<any>((resolve, reject) => {
             let connector = this.app.components.__connector__;
 
-            connector.send(null, route, msg, null, opts, function (err , resp) {
+            connector.send(null, route, msg, null, opts, function (err, resp) {
                 if (err) {
-                    reject(err);
+                    return reject(err);
                 }
                 else {
-                    resolve(resp);
+                    return resolve(resp);
                 }
             });
         });

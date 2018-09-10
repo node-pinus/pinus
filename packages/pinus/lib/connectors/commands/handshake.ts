@@ -75,8 +75,9 @@ export class HandshakeCommand {
                 // may be deprecated in future
                 opts.dict = pinus.app.components.__dictionary__.getDict();
 
-                opts.routeToCode = pinus.app.components.__dictionary__.getDict();
-                opts.codeToRoute = pinus.app.components.__dictionary__.getAbbrs();
+                // 用不到这个。
+            //    opts.routeToCode = pinus.app.components.__dictionary__.getDict();
+           //     opts.codeToRoute = pinus.app.components.__dictionary__.getAbbrs();
                 opts.dictVersion = dictVersion;
             }
             opts.useDict = true;
@@ -140,14 +141,14 @@ let response = function (socket: ISocket, sys: any, resp ?: any) {
     if (resp) {
         res.user = resp;
     }
-    socket.handshakeResponse(Package.encode(Package.TYPE_HANDSHAKE, new Buffer(JSON.stringify(res))));
+    socket.handshakeResponse(Package.encode(Package.TYPE_HANDSHAKE, Buffer.from(JSON.stringify(res))));
 };
 
 let processError = function (socket: ISocket, code: number) {
     let res = {
         code: code
     };
-    socket.sendForce(Package.encode(Package.TYPE_HANDSHAKE, new Buffer(JSON.stringify(res))));
+    socket.sendForce(Package.encode(Package.TYPE_HANDSHAKE, Buffer.from(JSON.stringify(res))));
     process.nextTick(function () {
         socket.disconnect();
     });

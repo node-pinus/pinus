@@ -57,9 +57,9 @@ export class UdpSocket extends EventEmitter implements ISocket {
             return;
         }
         if (msg instanceof String) {
-            msg = new Buffer(msg as string);
+            msg = Buffer.from(msg as string);
         } else if (!(msg instanceof Buffer)) {
-            msg = new Buffer(JSON.stringify(msg));
+            msg = Buffer.from(JSON.stringify(msg));
         }
         this.sendRaw(Package.encode(Package.TYPE_DATA, msg));
     }

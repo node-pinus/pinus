@@ -6,6 +6,6 @@ export function handle(socket: ISocket, reason: string) {
         let res = {
             reason: reason
         };
-        socket.sendRaw(Package.encode(Package.TYPE_KICK, new Buffer(JSON.stringify(res))));
+        socket.sendRaw(Package.encode(Package.TYPE_KICK, Buffer.from(JSON.stringify(res))));
     }
 }

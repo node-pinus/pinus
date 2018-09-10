@@ -22,6 +22,8 @@ const PING = 1;
 const PONG = 2;
 const RES_TYPE = 3;
 
+const DEFAULT_INTERVAL = 50;
+
 export class TCPAcceptor extends EventEmitter implements IAcceptor {
     bufferMsg: any;
     interval: number; // flush interval in ms
@@ -45,7 +47,7 @@ export class TCPAcceptor extends EventEmitter implements IAcceptor {
     constructor(opts: AcceptorOpts, cb: AcceptorCallback) {
         super();
         this.bufferMsg = opts.bufferMsg;
-        this.interval = opts.interval; // flush interval in ms
+        this.interval = opts.interval || DEFAULT_INTERVAL; // flush interval in ms
         this.pkgSize = opts.pkgSize;
         this.rpcLogger = opts.rpcLogger;
         this.rpcDebugLog = opts.rpcDebugLog;
@@ -175,7 +177,7 @@ export class TCPAcceptor extends EventEmitter implements IAcceptor {
             delete self.msgQueues[socketId];
             logger.warn('ping timeout with socket id: %s', socketId);
         }
-        this.timer[socketId] = setInterval(ping.bind(null, this, socketId), this.ping + 5e3);
+        this.timer[socketId] = setInterval(ping.bind(null, this, socketId), this.ping + 5e3) as any;
         logger.info('wait ping with socket id: %s' , socketId);
     }
 
@@ -264,7 +266,7 @@ export class TCPAcceptor extends EventEmitter implements IAcceptor {
             if (!queue.length) {
                 continue;
             }
-            socket.write(socket.composer.compose(JSON.stringify(queue)));
+            socket.write(socket.composer.compose(RES_TYPE, JSON.stringify(queue)));
             queues[socketId] = [];
         }
     }

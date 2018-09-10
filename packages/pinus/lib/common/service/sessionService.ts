@@ -416,12 +416,12 @@ export class SessionService {
     }
 
 
-    akick: (uid: UID, reason ?: string) => Promise<void> = utils.promisify(this.kick);
-    akickBySessionId: (sid: SID, reason ?: string) => Promise<void> = utils.promisify(this.kickBySessionId);
-    abind: (sid: SID, uid: UID) => Promise<void> = utils.promisify(this.bind);
-    aunbind: (sid: SID, uid: UID) => Promise<void> = utils.promisify(this.unbind);
-    aimport: (sid: SID, key: string, value: any) => Promise<void> = utils.promisify(this.import);
-    aimportAll: (sid: SID, settings: any) => Promise<void> = utils.promisify(this.importAll);
+    akick: (uid: UID, reason ?: string) => Promise<void> = utils.promisify(this.kick.bind(this));
+    akickBySessionId: (sid: SID, reason ?: string) => Promise<void> = utils.promisify(this.kickBySessionId.bind(this));
+    abind: (sid: SID, uid: UID) => Promise<void> = utils.promisify(this.bind.bind(this));
+    aunbind: (sid: SID, uid: UID) => Promise<void> = utils.promisify(this.unbind.bind(this));
+    aimport: (sid: SID, key: string, value: any) => Promise<void> = utils.promisify(this.import.bind(this));
+    aimportAll: (sid: SID, settings: any) => Promise<void> = utils.promisify(this.importAll.bind(this));
 }
 /**
  * Send message to the client that associated with the session.
@@ -569,10 +569,10 @@ export class Session extends EventEmitter implements ISession {
      * @api public
      */
     closed(reason: string) {
-        logger.debug('session on [%s] is closed with session id: %s', this.frontendId, this.id);
         if (this.__state__ === ST_CLOSED) {
             return;
         }
+        logger.debug('session on [%s] is closed with session id: %s reason:%s', this.frontendId, this.id,reason);
         this.__state__ = ST_CLOSED;
         this.__sessionService__.remove(this.id);
         this.emit('closed', this.toFrontendSession(), reason);
@@ -662,10 +662,10 @@ export class FrontendSession extends EventEmitter implements ISession {
     }
 
 
-    abind = utils.promisify(this.bind);
-    aunbind = utils.promisify(this.unbind);
-    apush = utils.promisify(this.push);
-    apushAll = utils.promisify(this.pushAll);
+    abind = utils.promisify(this.bind.bind(this));
+    aunbind = utils.promisify(this.unbind.bind(this));
+    apush = utils.promisify(this.push.bind(this));
+    apushAll = utils.promisify(this.pushAll.bind(this));
 
     /**
      * Export the key/values for serialization.

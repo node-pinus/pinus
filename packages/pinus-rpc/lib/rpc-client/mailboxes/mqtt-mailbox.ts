@@ -288,7 +288,7 @@ export class MailBox extends EventEmitter implements IMailBox {
             logger.error(eMsg);
             cb(tracer, new Error(eMsg));
         }, this.timeoutValue);
-        this.timeout[id] = timer;
+        this.timeout[id] = timer as any;
     }
 
     clearCbTimeout(id: number) {

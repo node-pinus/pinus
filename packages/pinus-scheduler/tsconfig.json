@@ -6,7 +6,7 @@
     "node"
     ],
     "module": "commonjs",   //指定生成哪个模块系统代码
-    "target": "es2016",
+    "target": "es2017",
     "lib": [
       "es2015",
       "es2016",
