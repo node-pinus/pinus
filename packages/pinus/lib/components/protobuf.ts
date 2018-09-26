@@ -130,12 +130,12 @@ export class ProtobufComponent implements IComponent {
             let protoStr = JSON.stringify(self.clientProtos) + JSON.stringify(self.serverProtos);
             self.version = crypto.createHash('md5').update(protoStr).digest('base64');
             logger.info('change proto file , type : %j, path : %j, version : %j', type, path, self.version);
+            this.watchers[type].close();
+            this.watchers[type] = fs.watch(path, this.onUpdate.bind(this, type, path));
         } catch (e) {
             logger.warn('change proto file error! path : %j', path);
             logger.warn(e);
         }
-        this.watchers[type].close();
-        this.watchers[type] = fs.watch(path, this.onUpdate.bind(this, type, path));
     }
 
     stop(force: boolean, cb: () => void) {
