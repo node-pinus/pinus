@@ -110,13 +110,26 @@ export class ProtobufComponent implements IComponent {
         this.watchers[type] = watcher;
     }
 
+    clearRequireCache(path: string) {
+        const moduleObj = require.cache[path];
+        if (!moduleObj) {
+            logger.warn('can not find module of truepath', path);
+            return;
+        }
+        if (moduleObj.parent) {
+            //    console.log('has parent ',moduleObj.parent);
+            moduleObj.parent.children.splice(moduleObj.parent.children.indexOf(moduleObj), 1);
+        }
+        delete require.cache[path];
+    }
+
     onUpdate(type: string, path: string, event: string) {
         if (event !== 'change') {
             return;
         }
 
         let self = this;
-        delete require.cache[path];
+        this.clearRequireCache(path);
         try {
             let protos = Protobuf.parse(require(path));
             if (type === Constants.RESERVED.SERVER) {

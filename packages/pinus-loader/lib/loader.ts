@@ -4,8 +4,8 @@
 
 import * as fs from 'fs';
 import * as path from 'path';
-import { getFromContainer, removeFromContainer, isUseContainer } from './container';
-import { LoaderPathType, isDefined } from './decoraters';
+import {getFromContainer, removeFromContainer, isUseContainer} from './container';
+import {LoaderPathType, isDefined} from './decoraters';
 
 /**
  * Load modules under the path.
@@ -42,7 +42,7 @@ export function load(mpath: string, context: any, reload: boolean, createInstanc
 }
 
 export function loadFile(fp: string, reload: boolean) {
-    let m  = reload ? requireUncached(fp) : require(fp);
+    let m = reload ? requireUncached(fp) : require(fp);
     return m;
 }
 
@@ -57,7 +57,7 @@ export function loadPath(path: string, context: any, reload: boolean, createInst
         path += '/';
     }
 
-    let fp, fn, m, res: {[key: string]: any} = {};
+    let fp, fn, m, res: { [key: string]: any } = {};
     for (let i = 0, l = files.length; i < l; i++) {
         fn = files[i];
         fp = path + fn;
@@ -66,7 +66,7 @@ export function loadPath(path: string, context: any, reload: boolean, createInst
             // only load  file
             continue;
         }
-        if(!checkFileType(fn, '.js') && !checkFileType(fn, '.ts')) {
+        if (!checkFileType(fn, '.js') && !checkFileType(fn, '.ts')) {
             // only load js/ts file type
             continue;
         }
@@ -78,9 +78,9 @@ export function loadPath(path: string, context: any, reload: boolean, createInst
         }
         // 兼容旧的写法
         if (typeof m.default === 'function') {
-             let instance = m.default(context);
-             let name = instance.name || getFileName(fn, '.js'.length);
-             res[name] = instance;
+            let instance = m.default(context);
+            let name = instance.name || getFileName(fn, '.js'.length);
+            res[name] = instance;
         }
 
         for (let key in m) {
@@ -134,6 +134,17 @@ let getFileName = function (fp: string, suffixLength: number) {
 
     return fn;
 };
+const clearRequireCache = function (path: string) {
+    const moduleObj = require.cache[path];
+    if (!moduleObj) {
+        return;
+    }
+    if (moduleObj.parent) {
+        //    console.log('has parent ',moduleObj.parent);
+        moduleObj.parent.children.splice(moduleObj.parent.children.indexOf(moduleObj), 1);
+    }
+    delete require.cache[path];
+};
 
 let requireUncached = function (module: string) {
     if (isUseContainer()) {
@@ -144,6 +155,6 @@ let requireUncached = function (module: string) {
             }
         }
     }
-    delete require.cache[require.resolve(module)];
+    clearRequireCache(require.resolve(module));
     return require(module);
 };
