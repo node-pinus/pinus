@@ -1,8 +1,8 @@
-import * as path from "path";
-import {getLogger} from "pinus-logger";
-import {ConsoleService, IModule, MasterAgent, MonitorAgent, MonitorCallback} from "pinus-admin";
-import {Application} from "../application";
-import {KEYWORDS, ServerInfo} from "../util/constants";
+import * as path from 'path';
+import {getLogger} from 'pinus-logger';
+import {ConsoleService, IModule, MasterAgent, MonitorAgent, MonitorCallback} from 'pinus-admin';
+import {Application} from '../application';
+import {KEYWORDS, ServerInfo} from '../util/constants';
 import {events} from "../index";
 
 let logger = getLogger('pinus', path.basename(__filename));
@@ -87,7 +87,7 @@ export class RestartNotifyModule implements IModule {
     start(cb: () => void) {
         //    subscribeRequest(this, this.service.agent, this.id, cb);
         this.id = this.app.getServerId();
-        if (this.app.getServerType() == 'master') {
+        if (this.app.getServerType() === 'master') {
             if (this.service.master) {
                 this.app.event.on(events.ADD_SERVERS, this._addEvent);
                 this.app.event.on(events.REMOVE_SERVERS, this._removeEvent);
