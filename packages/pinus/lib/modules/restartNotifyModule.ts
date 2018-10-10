@@ -3,7 +3,7 @@ import {getLogger} from 'pinus-logger';
 import {ConsoleService, IModule, MasterAgent, MonitorAgent, MonitorCallback} from 'pinus-admin';
 import {Application} from '../application';
 import {KEYWORDS, ServerInfo} from '../util/constants';
-import {events} from "../index";
+import {events} from '../index';
 
 let logger = getLogger('pinus', path.basename(__filename));
 
