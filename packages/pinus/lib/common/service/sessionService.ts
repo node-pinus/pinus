@@ -415,7 +415,7 @@ export class SessionService {
      *
      */
     getSessionsCount() {
-        return utils.size(this.sessions);
+        return Object.keys(this.sessions).length;
     }
 
 

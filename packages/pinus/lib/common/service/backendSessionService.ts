@@ -322,11 +322,11 @@ export class BackendSession implements ISession {
         this.__sessionService__.pushAll(this.frontendId, this.id, this.settings, cb);
     }
 
-    abind(uid: string,) {
+    abind(uid: string, ) {
         return new Promise((resolve, reject) => this.bind(uid, (err, ret) => err ? reject(err) : resolve(ret as any)));
     }
 
-    aunbind(uid: string,) {
+    aunbind(uid: string, ) {
         return new Promise((resolve, reject) => this.unbind(uid, (err, ret) => err ? reject(err) : resolve(ret as any)));
     }
 
