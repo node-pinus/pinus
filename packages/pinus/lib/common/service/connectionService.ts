@@ -1,5 +1,5 @@
-import { Application } from '../../application';
-import { UID } from '../../util/constants';
+import {Application} from '../../application';
+import {UID} from '../../util/constants';
 
 export interface UserLoginRecord {
     loginTime: number;
@@ -16,7 +16,7 @@ export class ConnectionService {
     serverId: string;
     connCount = 0;
     loginedCount = 0;
-    logined: {[uid: string]: UserLoginRecord} = {};
+    logined: { [uid: string]: UserLoginRecord } = {};
 
 
     constructor(app: Application) {
@@ -72,7 +72,7 @@ export class ConnectionService {
         if (!!this.logined[uid]) {
             this.loginedCount--;
         }
-        delete this.logined[uid];
+        this.logined[uid] = undefined;
     }
 
     /**
@@ -97,9 +97,16 @@ export class ConnectionService {
     getStatisticsInfo() {
         let list = [];
         for (let uid in this.logined) {
-            list.push(this.logined[uid]);
+            if (this.logined[uid]) {
+                list.push(this.logined[uid]);
+            }
         }
 
-        return { serverId: this.serverId, totalConnCount: this.connCount, loginedCount: this.loginedCount, loginedList: list };
+        return {
+            serverId: this.serverId,
+            totalConnCount: this.connCount,
+            loginedCount: this.loginedCount,
+            loginedList: list
+        };
     }
 }
