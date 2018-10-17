@@ -1,5 +1,5 @@
-import { Application } from 'pinus';
-import { FrontendSession } from 'pinus';
+import {Application} from 'pinus';
+import {FrontendSession} from 'pinus';
 
 export default function (app: Application) {
     return new EntryHandler(app);
@@ -18,7 +18,7 @@ export class EntryHandler {
      * @param  {Function} next    next stemp callback
      * @return {Void}
      */
-    async enter(msg: {rid: string, username: string}, session: FrontendSession) {
+    async enter(msg: { rid: string, username: string }, session: FrontendSession) {
         let self = this;
         let rid = msg.rid;
         let uid = msg.username + '*' + rid;
@@ -42,7 +42,7 @@ export class EntryHandler {
         session.on('closed', this.onUserLeave.bind(this));
 
         // put user into channel
-        let users = await self.app.rpc.chat.chatRemote.add(session, uid, self.app.get('serverId'), rid, true);
+        let users = await self.app.rpc.chat.chatRemote.add.route(session)(uid, self.app.get('serverId'), rid, true);
 
         return {
             users: users
@@ -60,6 +60,6 @@ export class EntryHandler {
         if (!session || !session.uid) {
             return;
         }
-        this.app.rpc.chat.chatRemote.kick(session, session.uid, this.app.get('serverId'), session.get('rid'));
+        this.app.rpc.chat.chatRemote.kick.route(session, true)(session.uid, this.app.get('serverId'), session.get('rid'));
     }
 }
