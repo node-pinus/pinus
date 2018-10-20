@@ -576,7 +576,7 @@ export class Session extends EventEmitter implements ISession {
         if (this.__state__ === ST_CLOSED) {
             return;
         }
-        logger.debug('session on [%s] is closed with session id: %s reason:%j', this.frontendId, this.id, reason);
+        logger.debug('session on [%s] is closed with session id: %s,uid:%s,reason:%j', this.frontendId, this.id, this.uid, reason);
         this.__state__ = ST_CLOSED;
         this.__sessionService__.remove(this.id);
         this.emit('closed', this.toFrontendSession(), reason);
