@@ -1,8 +1,8 @@
-import { EventEmitter } from 'events';
+import {EventEmitter} from 'events';
 import * as utils from '../util/utils';
 import * as util from 'util';
 import {Tracer} from '../util/tracer';
-import { ProcessMsgCallBack } from './acceptor';
+import {ProcessMsgCallBack} from './acceptor';
 
 export interface MsgPkg {
     namespace: string;
@@ -12,18 +12,19 @@ export interface MsgPkg {
 }
 
 export type RemoteMethod = (...args: any[]) => Promise<any>;
-export type Remoter = {[method: string]: RemoteMethod};
-export type Remoters = {[service: string]: Remoter};
-export type Services = {[namespace: string]: Remoters};
+export type Remoter = { [method: string]: RemoteMethod };
+export type Remoters = { [service: string]: Remoter };
+export type Services = { [namespace: string]: Remoters };
 
 export class Dispatcher extends EventEmitter {
     services: Services;
+
     constructor(services: Services) {
         super();
         let self = this;
         this.on('reload', function (services) {
-            for(let namespace in services) {
-                for(let service in services[namespace]) {
+            for (let namespace in services) {
+                for (let service in services[namespace]) {
                     self.services[namespace][service] = services[namespace][service];
                 }
             }
@@ -64,18 +65,19 @@ export class Dispatcher extends EventEmitter {
 
         let args = msg.args;
         let promise = method.apply(service, args);
-        if(!cb) {
+        if (!cb) {
             return;
         }
         if (!promise || !promise.then) {
-            tracer && tracer.error('server', __filename, 'route', 'not async method:' + msg.method);
-            cb ? cb(new Error('not async method:' + msg.method)) : null;
+            // tracer && tracer.error('server', __filename, 'route', 'not async method:' + msg.method);
+            // cb ? cb(new Error('not async method:' + msg.method)) : null;
+            cb(null, promise);
             return;
         }
         promise.then(function (value: string) {
             cb(null, value);
         }, function (reason: Error) {
-                cb(reason);
-            });
+            cb(reason);
+        });
     }
 }
