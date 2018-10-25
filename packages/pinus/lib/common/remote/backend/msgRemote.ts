@@ -1,15 +1,17 @@
 import * as utils from '../../../util/utils';
-import { getLogger } from 'pinus-logger'; import { Application } from '../../../application';
-import { BackendSession } from '../../service/backendSessionService';
+import {getLogger} from 'pinus-logger';
+import {Application} from '../../../application';
+import {BackendSession} from '../../service/backendSessionService';
 import * as path from 'path';
-import { ISession } from '../../service/sessionService';
+import {ISession} from '../../service/sessionService';
+
 let logger = getLogger('forward-log', path.basename(__filename));
 /**
  * Remote service for backend servers.
  * Receive and handle request message forwarded from frontend server.
  */
-export default function(app: Application) {
-  return new MsgRemote(app);
+export default function (app: Application) {
+    return new MsgRemote(app);
 }
 
 export class MsgRemote {
@@ -48,9 +50,10 @@ export class MsgRemote {
 
             // handle the request
 
-            logger.debug('backend server [%s] handle message: %j', this.app.serverId, msg);
+            logger.debug('session:[%s,%s,%s], handle message: %j', session.id, session.uid, session.frontendId, msg);
 
             server.handle(msg, backendSession, function (err, resp) {
+                logger.debug('session:[%s,%s,%s], handle message result,err:%j,resp:%j', session.id, session.uid, session.frontendId, err, resp);
                 if (err) {
                     reject(err);
                 }
