@@ -22,50 +22,51 @@ vscode debug configuration:
 launch.js
 ```json
 {
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "type": "node",
-            "request": "attach",
-            "name": "附到connector",
-            "address": "127.0.0.1",
-            "port": 10001,
-            "localRoot": "${workspaceFolder}/game-server",
-            "remoteRoot": "${workspaceFolder}/game-server"
-        },
-        {
-            "type": "node",
-            "request": "attach",
-            "name": "附到gate",
-            "address": "127.0.0.1",
-            "port": 10003,
-            "localRoot": "${workspaceFolder}/game-server/dist",
-            "remoteRoot": "${workspaceFolder}/game-server/dist",
-        },
-        {
-            "type": "node",
-            "request": "attach",
-            "name": "附到chat",
-            "address": "127.0.0.1",
-            "port": 10002,
-            "localRoot": "${workspaceFolder}/game-server/dist",
-            "remoteRoot": "${workspaceFolder}/game-server/dist"
-        },
-        {
-            "type": "node",
-            "request": "launch",
-            "name": "web-server",
-            "cwd":"${workspaceFolder}/web-server",
-            "program": "${workspaceFolder}/web-server/app.js"
-        },
-        {
-            "type": "node",
-            "request": "launch",
-            "name": "game-server",
-            "cwd":"${workspaceFolder}/game-server/dist",
-            "program": "${workspaceFolder}/game-server/dist/app.js"
-        }
-    ]
+  "version": "0.2.0",
+  "configurations": [
+      {
+          "type": "node",
+          "request": "attach",
+          "name": "附到connector",
+          "address": "127.0.0.1",
+          "port": 10001,
+          "localRoot": "${workspaceFolder}/game-server/dist",
+          "remoteRoot": "${workspaceFolder}/game-server/dist"
+      },
+      {
+          "type": "node",
+          "request": "attach",
+          "name": "附到gate",
+          "address": "127.0.0.1",
+          "port": 10003,
+          "localRoot": "${workspaceFolder}/game-server/dist",
+          "remoteRoot": "${workspaceFolder}/game-server/dist",
+      },
+      {
+          "type": "node",
+          "request": "attach",
+          "name": "附到chat",
+          "address": "127.0.0.1",
+          "port": 10002,
+          "localRoot": "${workspaceFolder}/game-server/dist",
+          "remoteRoot": "${workspaceFolder}/game-server/dist"
+      },
+      {
+          "type": "node",
+          "request": "launch",
+          "name": "web-server",
+          "cwd":"${workspaceFolder}/web-server",
+          "program": "${workspaceFolder}/web-server/app.js"
+      },
+      {
+          "type": "node",
+          "request": "launch",
+          "name": "game-server",
+          "env": "development",
+          "cwd":"${workspaceFolder}/game-server/dist",
+          "program": "${workspaceFolder}/game-server/dist/app.js"
+      }
+  ]
 }
 ```
 
