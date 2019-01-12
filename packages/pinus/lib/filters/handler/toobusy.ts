@@ -2,11 +2,11 @@
  * Filter for toobusy.
  * if the process is toobusy, just skip the new request
  */
-import { getLogger } from 'pinus-logger';
-import { IHandlerFilter } from '../../interfaces/IHandlerFilter';
-import { RouteRecord } from '../../util/constants';
-import { HandlerCallback } from '../../common/service/handlerService';
-import { FrontendOrBackendSession } from '../../server/server';
+import {getLogger} from 'pinus-logger';
+import {IHandlerFilter} from '../../interfaces/IHandlerFilter';
+import {RouteRecord} from '../../util/constants';
+import {HandlerCallback} from '../../common/service/handlerService';
+import {FrontendOrBackendSession} from '../../server/server';
 
 let conLogger = getLogger('con-log', __filename);
 let toobusy: any = null;
@@ -24,7 +24,7 @@ export class ToobusyFilter implements IHandlerFilter {
         }
     }
 
-    before(routeRecord: RouteRecord , msg: any, session: FrontendOrBackendSession, next: HandlerCallback) {
+    before(routeRecord: RouteRecord, msg: any, session: FrontendOrBackendSession, next: HandlerCallback) {
         if (!!toobusy && toobusy()) {
             conLogger.warn('[toobusy] reject request msg: ' + msg);
             let err = new Error('Server toobusy!');

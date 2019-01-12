@@ -20,7 +20,7 @@ export class Watchdog extends EventEmitter {
     constructor(private app: Application, private service: ConsoleService) {
         super();
 
-        this.count = utils.size(app.getServersFromConfig());
+        this.count = Object.keys(app.getServersFromConfig()).length;
 
     }
 
@@ -95,7 +95,7 @@ export class Watchdog extends EventEmitter {
         let fails: string[] = [];
         let timeouts: string[] = [];
         let requests: {[key: string]: number} = {};
-        let count = utils.size(_listeners);
+        let count = Object.keys(_listeners).length;
         if (count === 0) {
             logger.warn('master watchdog _listeners is none, msg: %j', msg);
             return;

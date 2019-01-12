@@ -127,7 +127,7 @@ export class ConsoleModule implements IModule {
 let kill = function (app: Application, agent: MasterAgent, msg: any, cb: MasterCallback) {
     let sid, record;
     let serverIds: string[] = [];
-    let count = utils.size(agent.idMap);
+    let count = Object.keys(agent.idMap).length;
     let latch = countDownLatch.createCountDownLatch(count, { timeout: Constants.TIME.TIME_WAIT_MASTER_KILL }, function (isTimeout) {
         if (!isTimeout) {
             utils.invokeCallback(cb, null, { code: 'ok' });
@@ -218,7 +218,7 @@ let restart = function (app: Application, agent: MasterAgent, msg: any, cb: Mast
     let request = function (id: string) {
         return (function () {
             agent.request(id, ConsoleModule.moduleId, { signal: msg.signal }, function (msg) {
-                if (!utils.size(msg)) {
+                if (!Object.keys(msg).length) {
                     latch.done();
                     return;
                 }
@@ -245,7 +245,7 @@ let restart = function (app: Application, agent: MasterAgent, msg: any, cb: Mast
 let list = function (app: Application, agent: MasterAgent, msg: any, cb: MasterCallback) {
     let sid, record;
     let serverInfo: any = {};
-    let count = utils.size(agent.idMap);
+    let count = Object.keys(agent.idMap).length;
     let latch = countDownLatch.createCountDownLatch(count, { timeout: Constants.TIME.TIME_WAIT_COUNTDOWN }, function () {
         utils.invokeCallback(cb, null, { msg: serverInfo });
     });
@@ -391,7 +391,7 @@ let startCluster = function (app: Application, msg: any, cb: MasterCallback) {
     let successFlag: boolean;
     let serverInfo = parseArgs(msg, ClusterInfo, cb) as any;
     utils.loadCluster(app, serverInfo, serverMap);
-    let count = utils.size(serverMap);
+    let count = Object.keys(serverMap).length;
     let latch = countDownLatch.createCountDownLatch(count,  () => {
         if (!successFlag) {
             utils.invokeCallback(cb, new Error('all servers start failed.'));

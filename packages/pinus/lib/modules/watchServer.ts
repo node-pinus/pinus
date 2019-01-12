@@ -171,7 +171,7 @@ function showServers(handle: HandleType, agent_: MonitorAgent | MasterAgent, com
         let agent = agent_ as MasterAgent;
         let sid, record;
         let serverInfo: any = {};
-        let count = utils.size(agent.idMap);
+        let count = Object.keys(agent.idMap).length;
         let latch = countDownLatch.createCountDownLatch(count, function () {
             cb(null, {
                 msg: serverInfo
