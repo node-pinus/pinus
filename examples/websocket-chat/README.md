@@ -17,6 +17,59 @@ Both of them can be installed via 'sh npm-install.sh' (it will install a local c
  * The server setting (server number, host and port, etc.) can be configured in 'game-server/config/servers.json' and 'game-server/config/master.json' files.
  * Other settings (log4js etc.) also can be configured in 'game-server/config' folder.
 
+## debug
+vscode debug configuration:
+launch.js
+```json
+{
+  "version": "0.2.0",
+  "configurations": [
+      {
+          "type": "node",
+          "request": "attach",
+          "name": "附到connector",
+          "address": "127.0.0.1",
+          "port": 10001,
+          "localRoot": "${workspaceFolder}/game-server/dist",
+          "remoteRoot": "${workspaceFolder}/game-server/dist"
+      },
+      {
+          "type": "node",
+          "request": "attach",
+          "name": "附到gate",
+          "address": "127.0.0.1",
+          "port": 10003,
+          "localRoot": "${workspaceFolder}/game-server/dist",
+          "remoteRoot": "${workspaceFolder}/game-server/dist",
+      },
+      {
+          "type": "node",
+          "request": "attach",
+          "name": "附到chat",
+          "address": "127.0.0.1",
+          "port": 10002,
+          "localRoot": "${workspaceFolder}/game-server/dist",
+          "remoteRoot": "${workspaceFolder}/game-server/dist"
+      },
+      {
+          "type": "node",
+          "request": "launch",
+          "name": "web-server",
+          "cwd":"${workspaceFolder}/web-server",
+          "program": "${workspaceFolder}/web-server/app.js"
+      },
+      {
+          "type": "node",
+          "request": "launch",
+          "name": "game-server",
+          "env": "development",
+          "cwd":"${workspaceFolder}/game-server/dist",
+          "program": "${workspaceFolder}/game-server/dist/app.js"
+      }
+  ]
+}
+```
+
 ## Deployment
 Enter chatofpomelo/game-server, and run 'pomelo start' or 'node app.js' in order to start the game server.
 Enter chatofpomelo/web-server, and run 'node app.js' in order to start the web server, and access '3001' port (which can be changed in 'app_express.js') to load game.

@@ -2,19 +2,28 @@ import * as log4js from 'log4js';
 
 import * as fs from 'fs';
 import * as util from 'util';
-import { Configuration, Levels } from 'log4js';
-import { isNullOrUndefined } from 'util';
+import {Configuration, Levels} from 'log4js';
+import {isNullOrUndefined} from 'util';
 
 
-let funcs: {[key: string]: (name: string , opts: any) => string} = {
+let funcs: { [key: string]: (name: string, opts: any) => string } = {
     'env': doEnv,
     'args': doArgs,
     'opts': doOpts
 };
 
-function getLogger(... args: string[]) {
+// 0 log  1 debug, 2 info, 3 warn, 4 error
+let logLevel = 0;
+
+// 支持动态更改日志级别
+function setPinusLogLevel(newLevel: 0 | 1 | 2 | 3 | 4 | 5) {
+    console.warn('change pinus log level:', newLevel, 'oldLevel:', logLevel);
+    logLevel = newLevel;
+}
+
+function getLogger(...args: string[]) {
     let categoryName = args[0];
-    let prefix =  '';
+    let prefix = '';
     for (let i = 1; i < args.length; i++) {
         if (i !== args.length - 1)
             prefix = prefix + args[i] + '] [';
@@ -31,8 +40,12 @@ function getLogger(... args: string[]) {
         pLogger[key] = logger[key];
     }
 
-    ['log', 'debug', 'info', 'warn', 'error', 'trace', 'fatal'].forEach((item) => {
+    ['log', 'debug', 'info', 'warn', 'error', 'trace', 'fatal'].forEach((item, idx) => {
         pLogger[item] = function () {
+            // 从根源过滤日志级别
+            if (idx < logLevel) {
+                return;
+            }
             let p = '';
             if (!process.env.RAW_MESSAGE) {
                 if (process.env.LOGGER_PREFIX) {
@@ -111,7 +124,7 @@ declare global {
 }
 
 function replaceConsole() {
-    const logger = getLogger('logger' , 'console');
+    const logger = getLogger('logger', 'console');
     console.debug = logger.debug.bind(logger);
     console.log = logger.info.bind(logger);
     console.warn = logger.warn.bind(logger);
@@ -135,7 +148,7 @@ function configureOnceOff(config: Config) {
     }
 }
 
-function configureLevels(levels:  { [name: string]: { level: string; } }) {
+function configureLevels(levels: { [name: string]: { level: string; } }) {
     if (levels) {
         for (let category in levels) {
             if (levels.hasOwnProperty(category)) {
@@ -146,7 +159,7 @@ function configureLevels(levels:  { [name: string]: { level: string; } }) {
 }
 
 export interface ILogger {
-    configure(configOrFilename: string | Config, opts?: {[key: string]: any}): void;
+    configure(configOrFilename: string | Config, opts?: { [key: string]: any }): void;
 }
 
 /**
@@ -164,7 +177,8 @@ export interface ILogger {
  */
 export type CustomConfig = { prefix?: string, errorStack?: boolean, lineDebug?: boolean, rawMessage?: boolean, reloadSecs?: number, replaceConsole?: boolean };
 export type Config = Configuration & CustomConfig;
-function configure(configOrFilename: string | Config, opts?: {[key: string]: any}) {
+
+function configure(configOrFilename: string | Config, opts?: { [key: string]: any }) {
     let filename = configOrFilename as string;
     configOrFilename = configOrFilename || process.env.LOG4JS_CONFIG;
     opts = opts || {} as Config;
@@ -173,7 +187,7 @@ function configure(configOrFilename: string | Config, opts?: {[key: string]: any
     if (typeof configOrFilename === 'string') {
         // modified by sw
         config = require(configOrFilename) as Config;
-    //    config = JSON.parse(fs.readFileSync(configOrFilename, 'utf8')) as Config;
+        //    config = JSON.parse(fs.readFileSync(configOrFilename, 'utf8')) as Config;
     }
     else {
         config = configOrFilename;
@@ -299,5 +313,6 @@ function getLine() {
 export
 {
     getLogger,
-    configure
+    configure,
+    setPinusLogLevel,
 };

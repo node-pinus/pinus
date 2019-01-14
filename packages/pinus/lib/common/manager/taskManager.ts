@@ -3,14 +3,15 @@ let sequeue = require('seq-queue');
 export interface QueueTask {
 
 }
+
 export interface Queue {
     push(fn: (task: QueueTask) => void, ontimeout: () => void, timeoutMs: number): void;
+
     close(force: boolean): void;
 }
 
 
-
-let queues: {[key: number]: Queue} = {};
+let queues: { [key: number]: Queue } = {};
 
 export let timeout = 3000;
 
@@ -45,5 +46,5 @@ export function closeQueue(key: number, force: boolean) {
     }
 
     queues[key].close(force);
-    delete queues[key];
+    queues[key] = undefined;
 }

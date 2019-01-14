@@ -1,41 +1,37 @@
 import * as os from 'os';
 import * as util from 'util';
-import { exec } from 'child_process';
-import { getLogger } from 'pinus-logger';
+import {exec} from 'child_process';
+import {getLogger} from 'pinus-logger';
 import * as Constants from './constants';
-import { pinus } from '../pinus';
-import { ServerInfo } from './constants';
-import { Application } from '../application';
+import {pinus} from '../pinus';
+import {ServerInfo} from './constants';
+import {Application} from '../application';
 import * as path from 'path';
-let logger = getLogger('pinus', path.basename(__filename));
 
+let logger = getLogger('pinus', path.basename(__filename));
 
 
 /**
  * Invoke callback with check
  */
-export function invokeCallback(cb: Function , ...args: any[]) {
+export function invokeCallback(cb: Function, ...args: any[]) {
     if (typeof cb === 'function') {
-        let len = arguments.length;
+        let len = args.length + 1;
         if (len === 1) {
             return cb();
         }
 
         if (len === 2) {
-            return cb(arguments[1]);
+            return cb(args[0]);
         }
 
         if (len === 3) {
-            return cb(arguments[1], arguments[2]);
+            return cb(args[0], args[1]);
         }
 
         if (len === 4) {
-            return cb(arguments[1], arguments[2], arguments[3]);
+            return cb(args[0], args[1], args[2]);
         }
-
-        let args = Array(len - 1);
-        for (let i = 1; i < len; i++)
-            args[i - 1] = arguments[i];
         cb.apply(null, args);
         // cb.apply(null, Array.prototype.slice.call(arguments, 1));
     }
@@ -81,7 +77,7 @@ export function startsWith(str: string, prefix: string) {
  * Compare the two arrays and return the difference.
  */
 export function arrayDiff<T extends string>(array1: Array<T>, array2: Array<T>) {
-    let o: {[key: string]: boolean} = {};
+    let o: { [key: string]: boolean } = {};
     for (let i = 0, len = array2.length; i < len; i++) {
         o[array2[i]] = true;
     }
@@ -229,7 +225,7 @@ export function checkPort(server: ServerInfo, cb: (result: string) => void) {
         }
         return cmd;
     };
-    let cmd1 = generateCommand( host, port);
+    let cmd1 = generateCommand(host, port);
     let child = exec(cmd1, function (err, stdout, stderr) {
         if (err) {
             logger.error('command %s execute with error: %j', cmd1, err.stack);
@@ -238,7 +234,7 @@ export function checkPort(server: ServerInfo, cb: (result: string) => void) {
             invokeCallback(cb, 'busy');
         } else {
             port = server.clientPort;
-            let cmd2 = generateCommand( host, port);
+            let cmd2 = generateCommand(host, port);
             exec(cmd2, function (err, stdout, stderr) {
                 if (err) {
                     logger.error('command %s execute with error: %j', cmd2, err.stack);
@@ -266,8 +262,8 @@ export function isLocal(host: string) {
  * Load cluster server.
  *
  */
-export function loadCluster(app: Application, server: ServerInfo, serverMap: {[serverId: string]: ServerInfo}) {
-    let increaseFields: {[key: string]: string} = {};
+export function loadCluster(app: Application, server: ServerInfo, serverMap: { [serverId: string]: ServerInfo }) {
+    let increaseFields: { [key: string]: string } = {};
     let host = server.host;
     let count = Number(server[Constants.RESERVED.CLUSTER_COUNT]);
     let seq = app.clusterSeq[server.serverType];
@@ -361,8 +357,9 @@ export function extendsObject(origin: any, add: any) {
     let keys = Object.keys(add);
     let i = keys.length;
     while (i--) {
-      origin[keys[i]] = add[keys[i]];
+        origin[keys[i]] = add[keys[i]];
     }
     return origin;
-  }
+}
+
 export let promisify = util.promisify;

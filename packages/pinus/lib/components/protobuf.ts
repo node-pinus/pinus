@@ -110,13 +110,26 @@ export class ProtobufComponent implements IComponent {
         this.watchers[type] = watcher;
     }
 
+    clearRequireCache(path: string) {
+        const moduleObj = require.cache[path];
+        if (!moduleObj) {
+            logger.warn('can not find module of truepath', path);
+            return;
+        }
+        if (moduleObj.parent) {
+            //    console.log('has parent ',moduleObj.parent);
+            moduleObj.parent.children.splice(moduleObj.parent.children.indexOf(moduleObj), 1);
+        }
+        delete require.cache[path];
+    }
+
     onUpdate(type: string, path: string, event: string) {
         if (event !== 'change') {
             return;
         }
 
         let self = this;
-        delete require.cache[path];
+        this.clearRequireCache(path);
         try {
             let protos = Protobuf.parse(require(path));
             if (type === Constants.RESERVED.SERVER) {
@@ -130,12 +143,12 @@ export class ProtobufComponent implements IComponent {
             let protoStr = JSON.stringify(self.clientProtos) + JSON.stringify(self.serverProtos);
             self.version = crypto.createHash('md5').update(protoStr).digest('base64');
             logger.info('change proto file , type : %j, path : %j, version : %j', type, path, self.version);
+            this.watchers[type].close();
+            this.watchers[type] = fs.watch(path, this.onUpdate.bind(this, type, path));
         } catch (e) {
             logger.warn('change proto file error! path : %j', path);
             logger.warn(e);
         }
-        this.watchers[type].close();
-        this.watchers[type] = fs.watch(path, this.onUpdate.bind(this, type, path));
     }
 
     stop(force: boolean, cb: () => void) {

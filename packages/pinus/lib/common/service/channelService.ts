@@ -441,7 +441,7 @@ let sendMessageByGroup = function (channelService: ChannelService, route: string
     let namespace = 'sys';
     let service = 'channelRemote';
     let method = 'pushMessage';
-    let count = utils.size(groups);
+    let count = Object.keys(groups).length;
     let successFlag = false;
     let failIds: SID[] = [];
 

@@ -32,6 +32,8 @@ export * from './components/backendSession';
 export * from './components/channel';
 
 
+export {RestartNotifyModule} from './modules/restartNotifyModule';
+
 export * from './server/server';
 export * from './monitor/monitor';
 export * from './pushSchedulers/direct';
@@ -51,7 +53,6 @@ export * from './util/utils';
 export * from './util/pathUtil';
 export * from './util/remoterHelper';
 export * from './util/handlerHelper';
-
 
 
 export * from './interfaces/define';
