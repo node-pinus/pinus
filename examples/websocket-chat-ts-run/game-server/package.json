@@ -5,7 +5,7 @@
     "main": "./dist/app",
     "scripts": {
         "build": "tsc",
-        "start": "yarn run build && node dist/app",
+        "start": "yarn run build && cd dist &&  node app",
         "lint": "node_modules/.bin/tslint --format prose -c ../../../tslint.json **/*.ts",
         "fix-lint": "node_modules/.bin/tslint --format prose -c ../../../tslint.json **/*.ts --fix",
         "test": "yarn run build",
