@@ -8,7 +8,7 @@
       },
     "main": "./dist/app",
     "scripts": {
-        "start": "npm run build && node dist/app",
+        "start": "npm run build && cd dist &&  node app",
         "build": "node_modules/.bin/tsc"
     },
     "dependencies":{
