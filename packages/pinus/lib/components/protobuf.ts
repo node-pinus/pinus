@@ -1,11 +1,11 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import {Protobuf} from 'pinus-protobuf';
+import { Protobuf } from 'pinus-protobuf';
 import * as Constants from '../util/constants';
 import * as crypto from 'crypto';
-import {getLogger} from 'pinus-logger';
-import {Application} from '../application';
-import {IComponent} from '../interfaces/IComponent';
+import { getLogger } from 'pinus-logger';
+import { Application } from '../application';
+import { IComponent } from '../interfaces/IComponent';
 
 let logger = getLogger('pinus', path.basename(__filename));
 
@@ -57,7 +57,7 @@ export class ProtobufComponent implements IComponent {
         this.setProtos(Constants.RESERVED.SERVER, path.join(app.getBase(), this.serverProtosPath));
         this.setProtos(Constants.RESERVED.CLIENT, path.join(app.getBase(), this.clientProtosPath));
 
-        this.protobuf = new Protobuf({encoderProtos: this.serverProtos, decoderProtos: this.clientProtos});
+        this.protobuf = new Protobuf({ encoderProtos: this.serverProtos, decoderProtos: this.clientProtos });
     }
 
 
@@ -85,11 +85,18 @@ export class ProtobufComponent implements IComponent {
         return this.version;
     }
 
+    // 手动重新加载协议文件。
+    public manualReloadProtos() {
+        let truePath = path.join(this.app.getBase(), this.serverProtosPath)
+        this.onUpdate(Constants.RESERVED.SERVER, truePath, "change")
+        truePath = path.join(this.app.getBase(), this.clientProtosPath)
+        this.onUpdate(Constants.RESERVED.CLIENT, truePath, "change")
+    }
+
     setProtos(type: string, path: string) {
         if (!this._canRequire(path)) {
             return;
         }
-
         if (type === Constants.RESERVED.SERVER) {
             this.serverProtos = Protobuf.parse(require(path));
         }
