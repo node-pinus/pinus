@@ -89,10 +89,10 @@ export class ProtobufComponent implements IComponent {
     public manualReloadProtos() {
         let truePath = path.join(this.app.getBase(), this.serverProtosPath);
         truePath = require.resolve(truePath);
-        this.onUpdate(Constants.RESERVED.SERVER, truePath, "change");
+        this.onUpdate(Constants.RESERVED.SERVER, truePath, 'change');
         truePath = path.join(this.app.getBase(), this.clientProtosPath);
         truePath = require.resolve(truePath);
-        this.onUpdate(Constants.RESERVED.CLIENT, truePath, "change");
+        this.onUpdate(Constants.RESERVED.CLIENT, truePath, 'change');
     }
 
     setProtos(type: string, path: string) {
