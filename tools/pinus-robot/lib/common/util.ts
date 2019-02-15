@@ -82,7 +82,7 @@ export let forEach = function (obj: { [key: string]: any }, f: (i: string, val: 
     }
 };
 
-export let every = function (obj: { [key: string]: any }, f: (i: string, val: any) => void) {
+export let every = function (obj: { [key: string]: any }, f: (i: string, val: any) => any) {
     for (let i in obj) {
         if (obj.hasOwnProperty(i)) {
             if (!f(i, obj[i])) {
