@@ -34,7 +34,7 @@ export interface ConnectorComponentOptions {
     blacklistFun?: BlackListFunction;
     useDict?: boolean;
     useProtobuf?: boolean;
-    forwardMsg?: boolean;
+    forwardMsg?: boolean; // if forwardMsg === false, connector will only accept request to local handler.
 }
 
 
@@ -423,9 +423,10 @@ export class ConnectorComponent implements IComponent {
             logger.error('invalid route string. route : %j', msg.route);
             return;
         }
-        if (type !== this.app.getServerType() && this.forwardMsg === false) {
-            logger.warn('illegal route. forwardMsg=false route=', msg.route);
-            // kick client requests for illegal route
+        // only stop forwarding message when forwardMsg === false;
+        if (this.forwardMsg === false && type !== this.app.getServerType()) {
+            logger.warn('illegal route. forwardMsg=false route=', msg.route, 'sessionid=', session.id);
+            // kick client requests for illegal route request.
             this.session.kickBySessionId(session.id);
             return;
         }
