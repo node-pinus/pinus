@@ -61,7 +61,7 @@ export class ConnectorComponent implements IComponent {
     useAsyncCoder: boolean;
     blacklistFun: BlackListFunction;
     connection: ConnectionService;
-    forwardMsg: boolean;
+    forwardMsg?: boolean;
 
     keys: { [id: number]: RsaKey } = {};
     blacklist: string[] = [];
