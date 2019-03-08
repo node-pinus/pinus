@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/node-pinus/pinus.svg?branch=master)](https://travis-ci.org/node-pinus/pinus)
 
-官方网站：http://pinus.io
+官方网站：[https://pinus.io](https://pinus.io)
 欢迎加Pinus官方QQ群：102530089
 
 
@@ -15,6 +15,12 @@ mkdir testProject
 cd testProject
 初始化项目
 pinus init
+
+### 与Pomelo的关系
+
+1. pinus是pomelo的TS版本，框架内部把回调改为了Promise。
+1. 框架与pomelo一样，所以可以看pomelo的相关教程。
+1. 协议与pomelo一样，所以pomelo的客户端代码可以直接对接上pinus服务端。
 
 
 ## Pinus -- a fast, scalable game server framework for node.js
