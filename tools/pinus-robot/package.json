@@ -11,7 +11,7 @@
     "socket.io": "^2.0.4",
     "socket.io-client": "^2.0.4",
     "typescript": "^2.9.2",
-    "underscore": "1.4.4"
+    "underscore": "1.9.1"
   },
   "scripts": {
     "build": "tsc",
