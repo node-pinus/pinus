@@ -3,6 +3,6 @@
   "version": "0.0.1",
   "private": false,
   "dependencies": {
-    "express": "3.21.2"
+    "express": "4.16.4"
   }
 }
