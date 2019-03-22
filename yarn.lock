@@ -1295,9 +1295,9 @@ cpy@^5.0.0:
     globby "^6.0.0"
     nested-error-stacks "^2.0.0"
 
-crc@^0.2.1:
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/crc/-/crc-0.2.1.tgz#b1f111fc3abb9b83d3a291a6820cf6e8c7ef32d7"
+crc@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/crc/-/crc-0.3.0.tgz#6848d1e2634dae9f7233b23d8ce637257406908e"
 
 crc@^3.5.0:
   version "3.5.0"
