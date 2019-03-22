@@ -2,14 +2,14 @@
 	"name": "pinus-workspaces",
 	"version": "0.0.1",
 	"devDependencies": {
-		"lerna": "^2.5.1",
-		"lerna-relinker": "^1.4.0",
-		"nyc": "^11.2.1",
-		"pinus-site-tools": "^1.0.6",
-		"ts-node": "^3.2.0",
-		"tslint": "^5.9.1",
-		"typedoc": "^0.9.0",
-		"typescript": "^2.9.2"
+		"lerna": "2.5.1",
+		"lerna-relinker": "1.5.0",
+		"nyc": "11.4.1",
+		"pinus-site-tools": "1.0.6",
+		"ts-node": "3.3.0",
+		"tslint": "5.9.1",
+		"typedoc": "0.9.0",
+		"typescript": "2.9.2"
 	},
 	"scripts": {
 		"preinstall": "node -e \"if(process.env.npm_execpath.indexOf('yarn') === -1) throw new Error('请使用 Yarn 来代替 NPM 安装依赖，请看：https://yarnpkg.com/zh-Hans/docs/install')\"",
