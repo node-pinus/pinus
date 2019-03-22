@@ -35,7 +35,7 @@
     "devDependencies": {
         "mocha": "4.1.0",
         "should": "13.2.0",
-        "tslint": "5.9.1",
+        "tslint": "5.14.0",
         "typescript": "2.9.2"
     }
 }
