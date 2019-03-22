@@ -24,7 +24,7 @@
 	},
 	"dependencies": {
 		"@types/node": "^8.5.2",
-		"reflect-metadata": "0.1.10"
+		"reflect-metadata": "0.1.13"
 	},
 	"devDependencies": {
 		"mocha": "4.1.0",
