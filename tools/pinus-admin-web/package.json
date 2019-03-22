@@ -5,7 +5,7 @@
   "dependencies": {
     "body-parser": "1.18.2",
     "compression": "1.7.1",
-    "cookie-parser": "1.4.3",
+    "cookie-parser": "1.4.4",
     "ejs": "2.5.6",
     "express": "4.14.1",
     "morgan": "1.9.0",
