@@ -73,18 +73,18 @@
     "pinus": "./dist/bin/pinus.js"
   },
   "devDependencies": {
-    "@types/async": "^2.0.46",
-    "@types/cliff": "^0.1.4",
-    "@types/commander": "^2.12.2",
-    "@types/crc": "^3.4.0",
-    "@types/eyes": "^0.1.31",
-    "@types/mkdirp": "^0.5.2",
-    "@types/ws": "^3.2.1",
-    "mocha": "^4.1.0",
-    "muk": ">=0.0.1",
-    "nyc": "^8.4.0",
-    "should": "^3.3.2",
-    "tslint": "^5.9.1",
-    "typescript": "^2.9.2"
+    "@types/async": "2.0.46",
+    "@types/cliff": "0.1.4",
+    "@types/commander": "2.12.2",
+    "@types/crc": "3.4.0",
+    "@types/eyes": "0.1.31",
+    "@types/mkdirp": "0.5.2",
+    "@types/ws": "3.2.1",
+    "mocha": "4.1.0",
+    "muk": "0.5.3",
+    "nyc": "8.4.0",
+    "should": "3.3.2",
+    "tslint": "5.9.1",
+    "typescript": "2.9.2"
   }
 }

@@ -20,8 +20,8 @@
         "reflect-metadata": "^0.1.10"
     },
     "devDependencies": {
-		"tslint": "^5.9.1",
-        "typescript": "^2.9.2"
+		"tslint": "5.14.0",
+        "typescript": "2.9.2"
     }
 }
 
