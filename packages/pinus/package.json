@@ -49,7 +49,7 @@
   "dependencies": {
     "@types/mocha": "^5.0.0",
     "@types/mqtt-connection": "git+https://github.com/node-pinus/types-mqtt-connection.git",
-    "@types/socket.io": "^1.4.31",
+    "@types/socket.io": "^2.0.0",
     "async": "^2.6.0",
     "cliff": "^0.1.10",
     "commander": "^2.12.2",
