@@ -73,7 +73,7 @@
     "pinus": "./dist/bin/pinus.js"
   },
   "devDependencies": {
-    "@types/async": "2.0.46",
+    "@types/async": "2.4.1",
     "@types/cliff": "0.1.4",
     "@types/commander": "2.12.2",
     "@types/crc": "3.4.0",
