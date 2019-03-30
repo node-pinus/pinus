@@ -49,10 +49,15 @@ export class RestartNotifyModule implements IModule {
             const masterAgent = this.service.agent as MasterAgent;
             logger.warn('notify afterStartAll ', record.id);
             process.nextTick(() => {
-                masterAgent.request(record.id, 'RestartNotifyModule', {action: 'afterStartCallback'}, (err, body) => {
+                masterAgent.request(record.id, 'RestartNotifyModule', { action: 'afterStartCallback' }, (err, body) => {
                     logger.warn('RestartNotifyModule notify RestartNotifyModule afterStart:', record.id, err, body);
                     // 通知startOver
-                    masterAgent.request(record.id, KEYWORDS.MONITOR_WATCHER, {action: 'startOver'}, (err, body) => {
+                    if (err) {
+                        // 有返回错误就不能再通知afterStartAll了  避免重复通知afterStartAll
+                        return;
+                    }
+                    // 通知执行 afterStar
+                    masterAgent.request(record.id, KEYWORDS.MONITOR_WATCHER, { action: 'startOver' }, (err, body) => {
                         logger.warn('RestartNotifyModule notify MONITOR_WATCHER start over:', record.id, err, body);
                     });
                 });
@@ -70,16 +75,11 @@ export class RestartNotifyModule implements IModule {
         this.removedServers[id] = true;
     }
 
-    private afterStartCallBack: any = null;
     private afterStartCalled = false;
 
-    afterStart() {
-        logger.debug('~~ RestartNotifyModule afterStart', this.id);
+    afterStartAll() {
+        logger.debug('~~ RestartNotifyModule afterStartAll', this.id);
         this.afterStartCalled = true;
-        if (this.afterStartCallBack) {
-            this.afterStartCallBack(1);
-            this.afterStartCallBack = null;
-        }
     }
 
     // ----------------- module methods -------------------------
@@ -87,13 +87,13 @@ export class RestartNotifyModule implements IModule {
     start(cb: () => void) {
         //    subscribeRequest(this, this.service.agent, this.id, cb);
         this.id = this.app.getServerId();
-        if (this.app.getServerType() === 'master') {
+        if (this.app.getServerType() == 'master') {
             if (this.service.master) {
                 this.app.event.on(events.ADD_SERVERS, this._addEvent);
                 this.app.event.on(events.REMOVE_SERVERS, this._removeEvent);
             }
         } else {
-            this.app.event.on(events.START_SERVER, this.afterStart.bind(this));
+            this.app.event.on(events.START_ALL, this.afterStartAll.bind(this));
         }
         cb();
     }
@@ -107,10 +107,12 @@ export class RestartNotifyModule implements IModule {
             case 'afterStartCallback': {
                 logger.warn('RestartNotifyModule afterStart notify ', this.id, msg);
                 if (this.afterStartCalled) {
+                    // 已经调用过了。返回 错误
                     cb(1 as any);
                     break;
                 }
-                this.afterStartCallBack = cb;
+                this.afterStartCalled = true;
+                cb()
                 break;
             }
             default: {
