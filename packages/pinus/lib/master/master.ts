@@ -37,7 +37,7 @@ export class MasterServer {
 
         opts.port = this.masterInfo.port;
         opts.env = this.app.get(Constants.RESERVED.ENV);
-        this.closeWatcher = opts.closeWatcher;
+        this.closeWatcher = opts.closeWatcher || false;
         this.masterConsole = admin.createMasterConsole(opts);
     }
 
