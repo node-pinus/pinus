@@ -4,7 +4,7 @@ import { ConsoleService, IModule, MasterAgent, MonitorAgent, MonitorCallback } f
 import { Application } from '../application';
 import { KEYWORDS, ServerInfo } from '../util/constants';
 import { events } from '../index';
-import { MasterWatcherModule } from "./masterwatcher";
+import { MasterWatcherModule } from './masterwatcher';
 
 let logger = getLogger('pinus', path.basename(__filename));
 
@@ -96,7 +96,7 @@ export class RestartNotifyModule implements IModule {
             if (this.service.master) {
                 this.app.event.on(events.ADD_SERVERS, this._addEvent);
                 this.app.event.on(events.REMOVE_SERVERS, this._removeEvent);
-                this._masterWatcherModule = this.service.modules[KEYWORDS.MASTER_WATCHER].module
+                this._masterWatcherModule = this.service.modules[KEYWORDS.MASTER_WATCHER].module;
             }
         } else {
             this.app.event.on(events.START_SERVER, this.afterStart.bind(this));
