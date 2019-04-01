@@ -84,7 +84,7 @@ export class Server extends EventEmitter {
         this.state = ST_STARTED;
     }
 
-    afterStartAll() {
+    afterStart() {
         scheduleCrons(this, this.crons);
     }
 

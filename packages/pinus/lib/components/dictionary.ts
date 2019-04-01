@@ -43,7 +43,8 @@ export class DictionaryComponent implements IComponent {
         }
     }
 
-    afterStartAll() {
+
+    start(cb: () => void) {
         let servers = this.app.serverTypeMaps;
         let routes = [];
 
@@ -107,7 +108,7 @@ export class DictionaryComponent implements IComponent {
         }
 
         this.version = crypto.createHash('md5').update(JSON.stringify(this.dict)).digest('base64');
-
+        process.nextTick(cb)
     }
 
     getDict() {
