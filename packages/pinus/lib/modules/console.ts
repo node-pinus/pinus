@@ -389,7 +389,7 @@ let runServer = function (app: Application, server: ServerInfo, cb: (err?: Error
                     err = String(err)
                     const checkErrCorrect = 'https://nodejs.org/en/docs/inspector'
                     const idx = err.indexOf(checkErrCorrect)
-                    if (idx == -1 || idx + checkErrCorrect.length + 10 < err.length) {
+                    if (idx === -1 || idx + checkErrCorrect.length + 10 < err.length) {
                         utils.invokeCallback(cb, new Error(err), null);
                         return;
                     }
