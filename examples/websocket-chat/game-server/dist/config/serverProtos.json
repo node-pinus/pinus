@@ -1,7 +1,9 @@
 {
-  "onChat" : {
-  	"required string msg": 1,
-  	"required string from": 2,
-  	"required string target": 3
-   }
- }
+  "onChat": {
+    "required string msg": 1,
+    "required string from": 2,
+    "required string target": 3
+  },
+  "chat.chatHandler.send": {
+  }
+}
