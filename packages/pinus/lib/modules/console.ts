@@ -15,11 +15,12 @@ import { MonitorAgent } from 'pinus-admin';
 import { ServerInfo } from '../util/constants';
 import * as path from 'path';
 import * as os from 'os';
+
 let logger = getLogger('pinus', path.basename(__filename));
 
 
 export interface ConsoleModuleOptions {
-    app ?: Application;
+    app?: Application;
 
 }
 
@@ -51,7 +52,15 @@ export class ConsoleModule implements IModule {
                 let uptime = (process.uptime() / 60).toFixed(2);
                 utils.invokeCallback(cb, {
                     serverId: serverId,
-                    body: { serverId: serverId, serverType: serverType, pid: pid, rss: rss, heapTotal: heapTotal, heapUsed: heapUsed, uptime: uptime }
+                    body: {
+                        serverId: serverId,
+                        serverType: serverType,
+                        pid: pid,
+                        rss: rss,
+                        heapTotal: heapTotal,
+                        heapUsed: heapUsed,
+                        uptime: uptime
+                    }
                 });
                 break;
             case 'kill':
@@ -124,6 +133,7 @@ export class ConsoleModule implements IModule {
         }
     }
 }
+
 let kill = function (app: Application, agent: MasterAgent, msg: any, cb: MasterCallback) {
     let sid, record;
     let serverIds: string[] = [];
@@ -225,7 +235,7 @@ let restart = function (app: Application, agent: MasterAgent, msg: any, cb: Mast
                 setTimeout(function () {
                     runServer(app, msg, function (err, status) {
                         if (!!err) {
-                            logger.error('restart ' + id + ' failed.');
+                            logger.error('restart ' + id + ' failed.', err.message, 'status:', status);
                         } else {
                             successIds.push(id);
                             successFlag = true;
@@ -250,7 +260,7 @@ let list = function (app: Application, agent: MasterAgent, msg: any, cb: MasterC
         utils.invokeCallback(cb, null, { msg: serverInfo });
     });
 
-    let callback = function (msg: {serverId: string, body: any}) {
+    let callback = function (msg: { serverId: string, body: any }) {
         serverInfo[msg.serverId] = msg.body;
         latch.done();
     };
@@ -269,12 +279,12 @@ let add = function (app: Application, agent: MasterAgent, msg: any, cb: MasterCa
     reset(ServerInfo);
 };
 
-let addCron = function  (app: Application, agent: MasterAgent, msg: any, cb: MasterCallback) {
+let addCron = function (app: Application, agent: MasterAgent, msg: any, cb: MasterCallback) {
     let cron = parseArgs(msg, CronInfo, cb);
     sendCronInfo(cron, agent, msg, CronInfo, cb);
 };
 
-let removeCron = function  (app: Application, agent: MasterAgent, msg: any, cb: MasterCallback) {
+let removeCron = function (app: Application, agent: MasterAgent, msg: any, cb: MasterCallback) {
     let cron = parseArgs(msg, RemoveCron, cb);
     sendCronInfo(cron, agent, msg, RemoveCron, cb);
 };
@@ -301,18 +311,20 @@ let checkPort = function (server: ServerInfo, cb: MasterCallback) {
 
     let p = server.port || server.clientPort;
     let host = server.host;
- //   let cmd = 'netstat -tln | grep ';
+    //   let cmd = 'netstat -tln | grep ';
     let cmd = os.type() === 'Windows_NT' ?
         `netstat -ano | %windir%\\system32\\find.exe ` : `netstat -tln | grep `;
     if (!utils.isLocal(host)) {
         cmd = 'ssh ' + host + ' ' + cmd;
     }
-
+    p = os.type() === 'Windows_NT' ? `"${p}"` as any : p
     exec(cmd + p, function (err, stdout, stderr) {
         if (stdout || stderr) {
+            logger.debug('checkport has error?', cmd + p, 'stdout:', stdout, 'stderr', stderr)
             utils.invokeCallback(cb, 'busy');
         } else {
             p = server.clientPort;
+            p = os.type() === 'Windows_NT' ? `"${p}"` as any : p
             exec(cmd + p, function (err, stdout, stderr) {
                 if (stdout || stderr) {
                     utils.invokeCallback(cb, 'busy');
@@ -325,7 +337,7 @@ let checkPort = function (server: ServerInfo, cb: MasterCallback) {
 };
 
 let parseArgs = function (msg: any, info: any, cb: (err?: string | Error, data?: any) => void) {
-    let rs: {[key: string]: string} = {};
+    let rs: { [key: string]: string } = {};
     let args = msg.args;
     for (let i = 0; i < args.length; i++) {
         if (args[i].indexOf('=') < 0) {
@@ -358,7 +370,7 @@ let sendCronInfo = function (cron: any, agent: MasterAgent, msg: any, info: any,
     reset(info);
 };
 
-let startServer = function (app: Application, msg: any, cb: (err?: Error | string , result?: any) => void) {
+let startServer = function (app: Application, msg: any, cb: (err?: Error | string, result?: any) => void) {
     let server = parseArgs(msg, ServerInfo, cb);
     if (isReady(ServerInfo)) {
         runServer(app, server as any, cb);
@@ -367,15 +379,20 @@ let startServer = function (app: Application, msg: any, cb: (err?: Error | strin
     }
 };
 
-let runServer = function (app: Application, server: ServerInfo, cb: (err?: Error , result?: any) => void) {
+let runServer = function (app: Application, server: ServerInfo, cb: (err?: Error, result?: any) => void) {
     checkPort(server, function (status) {
         if (status === 'busy') {
             utils.invokeCallback(cb, new Error('Port occupied already, check your server to add.'));
         } else {
             starter.run(app, server, function (err) {
                 if (err) {
-                    utils.invokeCallback(cb, new Error(String(err)), null);
-                    return;
+                    err = String(err)
+                    const checkErrCorrect = 'https://nodejs.org/en/docs/inspector'
+                    const idx = err.indexOf(checkErrCorrect)
+                    if (idx == -1 || idx + checkErrCorrect.length + 10 < err.length) {
+                        utils.invokeCallback(cb, new Error(err), null);
+                        return;
+                    }
                 }
             });
             process.nextTick(function () {
@@ -392,7 +409,7 @@ let startCluster = function (app: Application, msg: any, cb: MasterCallback) {
     let serverInfo = parseArgs(msg, ClusterInfo, cb) as any;
     utils.loadCluster(app, serverInfo, serverMap);
     let count = Object.keys(serverMap).length;
-    let latch = countDownLatch.createCountDownLatch(count,  () => {
+    let latch = countDownLatch.createCountDownLatch(count, () => {
         if (!successFlag) {
             utils.invokeCallback(cb, new Error('all servers start failed.'));
             return;
