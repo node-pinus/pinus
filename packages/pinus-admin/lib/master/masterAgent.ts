@@ -469,9 +469,9 @@ export class MasterAgent extends EventEmitter {
             if (status !== 'ok') {
                 this.doSend(socket, 'register', {
                     code: protocol.PRO_FAIL,
-                    msg: 'server auth failed'
+                    msg: 'server auth failed,check config `adminServer`.'
                 });
-                cb(new Error('server auth failed'));
+                cb(new Error('server auth failed,check config `adminServer`.'));
                 return;
             }
 
