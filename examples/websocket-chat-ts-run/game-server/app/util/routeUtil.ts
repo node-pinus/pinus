@@ -11,6 +11,5 @@ export function chat(session: Session, msg: any, app: Application, cb: (err: Err
     }
 
     let res = dispatch(session.get('rid'), chatServers);
-
     cb(null, res.id);
 }
