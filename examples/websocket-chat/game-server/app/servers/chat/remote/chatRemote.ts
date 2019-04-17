@@ -1,4 +1,4 @@
-import {Application, ChannelService, RemoterClass, FrontendSession} from 'pinus';
+import { Application, ChannelService, RemoterClass, FrontendSession } from 'pinus';
 
 export default function (app: Application) {
     return new ChatRemote(app);
@@ -13,6 +13,20 @@ declare global {
     }
 }
 
+// 如果有多个remote文件。需要在各自的remote文件内定义rpc的话。可以这样定义，解决定义被覆盖的问题。
+/**
+ // UserRpc的命名空间自动合并
+ declare global {
+    interface RemoterChat {
+        chatRemote: RemoterClass<FrontendSession, ChatRemote>;
+    }
+
+    interface UserRpc {
+        chat: RemoterChat;
+    }
+}
+
+ */
 export class ChatRemote {
 
     constructor(private app: Application) {
