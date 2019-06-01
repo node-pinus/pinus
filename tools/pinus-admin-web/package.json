@@ -9,7 +9,7 @@
     "ejs": "2.6.1",
     "express": "4.16.4",
     "morgan": "1.9.1",
-    "mqtt": "2.18.8",
+    "mqtt": "3.0.0",
     "mqtt-connection": "3.2.0",
     "websocket-stream": "3.3.3",
     "ws": "6.2.0"
