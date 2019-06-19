@@ -12,7 +12,7 @@
     "mqtt": "3.0.0",
     "mqtt-connection": "3.2.0",
     "websocket-stream": "3.3.3",
-    "ws": "6.2.0"
+    "ws": "7.0.1"
   },
   "devDependencies": {
     "webpack": "2.7.0"
