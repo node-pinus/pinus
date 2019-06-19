@@ -1,3 +1,7 @@
+## ts-node 运行示例
+`cd game-server && node tsrun.js`
+
+
 ## Chatofpomelo
 
 A simple chat room experiment using pomelo framework and html5.

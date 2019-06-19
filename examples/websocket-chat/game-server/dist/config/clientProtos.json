@@ -1,1 +1,6 @@
-{}
+{
+  "chat.chatHandler.send": {
+    "required string content": 1,
+    "required string target": 2
+  }
+}

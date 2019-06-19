@@ -1,7 +1,8 @@
 import {pinus} from 'pinus';
+import "./app/servers/user.rpc.define"
 import * as  routeUtil from './app/util/routeUtil';
 import {preload} from './preload';
-import {createRobotPlugin} from 'pinus-robot-plugin';
+
 
 import _pinus = require('pinus');
 
