@@ -28,7 +28,7 @@
     "yargs": "^13.0.0"
   },
   "devDependencies": {
-    "tslint": "5.14.0",
+    "tslint": "5.17.0",
     "typescript": "3.5.2"
   },
   "license": "MIT"

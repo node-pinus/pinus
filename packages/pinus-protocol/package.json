@@ -30,7 +30,7 @@
   "jscoverage": "0.6.0",
   "mocha": "6.1.4",
   "should": "13.2.0",
-  "tslint": "5.14.0",
+  "tslint": "5.17.0",
   "typescript": "3.5.2"
  }
 }
