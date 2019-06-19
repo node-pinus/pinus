@@ -7,7 +7,7 @@
 		"nyc": "11.9.0",
 		"pinus-site-tools": "1.0.6",
 		"ts-node": "8.3.0",
-		"tslint": "5.14.0",
+		"tslint": "5.17.0",
 		"typedoc": "0.14.2",
 		"typescript": "3.5.2"
 	},

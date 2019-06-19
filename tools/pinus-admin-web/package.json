@@ -16,6 +16,6 @@
   },
   "devDependencies": {
     "webpack": "2.7.0",
-    "tslint": "5.14.0"
+    "tslint": "5.17.0"
   }
 }
