@@ -1,7 +1,6 @@
 import {Agent, AgentCfg } from './agent/agent';
 import {Server, ServerCfg}  from './master/server';
 import {HTTP_SERVER} from './console/http';
-import * as util  from './common/util';
 
 export interface RobotCfg {
   clients ?: Array<string>;
