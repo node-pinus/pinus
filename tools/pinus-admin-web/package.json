@@ -10,7 +10,7 @@
     "express": "4.17.1",
     "morgan": "1.9.1",
     "mqtt": "3.0.0",
-    "mqtt-connection": "3.2.0",
+    "mqtt-connection": "4.0.0",
     "websocket-stream": "5.5.0",
     "ws": "7.0.1"
   },
