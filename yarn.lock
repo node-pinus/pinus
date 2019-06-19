@@ -1039,7 +1039,7 @@
   dependencies:
     "@types/node" "*"
 
-"@types/ws@6.0.1":
+"@types/ws@6.0.1", "@types/ws@^6.0.0":
   version "6.0.1"
   resolved "https://registry.yarnpkg.com/@types/ws/-/ws-6.0.1.tgz#ca7a3f3756aa12f62a0a62145ed14c6db25d5a28"
   integrity sha512-EzH8k1gyZ4xih/MaZTXwT2xOkPiIMSrhQ9b8wrlX88L0T02eYsddatQlwVFlEPyEqV0ChpdpNnE51QPH6NVT4Q==
@@ -1047,7 +1047,7 @@
     "@types/events" "*"
     "@types/node" "*"
 
-"@types/ws@^3.2.0", "@types/ws@^3.2.1":
+"@types/ws@^3.2.0":
   version "3.2.1"
   resolved "https://registry.yarnpkg.com/@types/ws/-/ws-3.2.1.tgz#b0c1579e58e686f83ce0a97bb9463d29705827fb"
   dependencies:
