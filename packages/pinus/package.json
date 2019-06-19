@@ -85,6 +85,6 @@
     "nyc": "8.4.0",
     "should": "3.3.2",
     "tslint": "5.14.0",
-    "typescript": "2.9.2"
+    "typescript": "3.5.2"
   }
 }
