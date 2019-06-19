@@ -20,8 +20,8 @@ export interface ServerInfo {
     serverType: string;
     host: string;
     port: number;
-    clientHost: string;
-    clientPort: number;
+    clientHost?: string;
+    clientPort?: number;
     frontend ?: boolean;
 
     pid ?: string;

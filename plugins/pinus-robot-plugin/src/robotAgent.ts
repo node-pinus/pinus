@@ -11,7 +11,7 @@ let config = {
 } as RobotCfg;
 
 let robot = new Robot(config);
-robot.runAgent(argv.scriptFile);
+robot.runAgent(argv.scriptFile as any);
 
 process.on('uncaughtException', function (err) {
     console.error(' Caught exception: ' + err.stack);
