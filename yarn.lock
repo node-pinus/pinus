@@ -3107,7 +3107,7 @@ duplexer@^0.1.1:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/duplexer/-/duplexer-0.1.1.tgz#ace6ff808c1ce66b57d1ebf97977acb02334cfc1"
 
-duplexify@^3.1.2, duplexify@^3.2.0, duplexify@^3.5.1:
+duplexify@^3.1.2, duplexify@^3.5.1:
   version "3.5.1"
   resolved "https://registry.yarnpkg.com/duplexify/-/duplexify-3.5.1.tgz#4e1516be68838bc90a49994f0b39a6e5960befcd"
   dependencies:
@@ -6794,10 +6794,6 @@ optionator@^0.8.1:
     type-check "~0.3.2"
     wordwrap "~1.0.0"
 
-options@>=0.0.5:
-  version "0.0.6"
-  resolved "https://registry.yarnpkg.com/options/-/options-0.0.6.tgz#ec22d312806bb53e731773e7cdaefcf1c643128f"
-
 ordered-read-streams@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/ordered-read-streams/-/ordered-read-streams-1.0.1.tgz#77c0cb37c41525d64166d990ffad7ec6a0e1363e"
@@ -9254,10 +9250,6 @@ uid2@0.0.3:
   resolved "https://registry.yarnpkg.com/uid2/-/uid2-0.0.3.tgz#483126e11774df2f71b8b639dcd799c376162b82"
   integrity sha1-SDEm4Rd03y9xuLY53NeZw3YWK4I=
 
-ultron@1.0.x:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/ultron/-/ultron-1.0.2.tgz#ace116ab557cd197386a4e88f4685378c8b2e4fa"
-
 ultron@~1.1.0:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/ultron/-/ultron-1.1.1.tgz#9fe1536a10a664a65266a1e3ccf85fd36302bc9c"
@@ -9522,14 +9514,16 @@ webpack@2.7.0:
     webpack-sources "^1.0.1"
     yargs "^6.0.0"
 
-websocket-stream@3.3.3:
-  version "3.3.3"
-  resolved "https://registry.yarnpkg.com/websocket-stream/-/websocket-stream-3.3.3.tgz#361da5404a337e60cfbc29b4a46368762679df0b"
+websocket-stream@5.5.0:
+  version "5.5.0"
+  resolved "https://registry.yarnpkg.com/websocket-stream/-/websocket-stream-5.5.0.tgz#9827f2846fc0d2b4dca7aab8f92980b2548b868e"
+  integrity sha512-EXy/zXb9kNHI07TIMz1oIUIrPZxQRA8aeJ5XYg5ihV8K4kD1DuA+FY6R96HfdIHzlSzS8HiISAfrm+vVQkZBug==
   dependencies:
-    duplexify "^3.2.0"
+    duplexify "^3.5.1"
     inherits "^2.0.1"
-    through2 "^2.0.0"
-    ws "^1.0.1"
+    readable-stream "^2.3.3"
+    safe-buffer "^5.1.2"
+    ws "^3.2.0"
     xtend "^4.0.0"
 
 websocket-stream@^5.1.2:
@@ -9701,13 +9695,6 @@ ws@7.0.1, ws@^7.0.0:
   integrity sha512-ILHfMbuqLJvnSgYXLgy4kMntroJpe8hT41dOVWM8bxRuw6TK4mgMp9VJUNsZTEc5Bh+Mbs0DJT4M0N+wBG9l9A==
   dependencies:
     async-limiter "^1.0.0"
-
-ws@^1.0.1:
-  version "1.1.5"
-  resolved "https://registry.yarnpkg.com/ws/-/ws-1.1.5.tgz#cbd9e6e75e09fc5d2c90015f21f0c40875e0dd51"
-  dependencies:
-    options ">=0.0.5"
-    ultron "1.0.x"
 
 ws@^3.2.0, ws@~3.3.1:
   version "3.3.3"
