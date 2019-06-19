@@ -5472,7 +5472,7 @@ lerna-relinker@1.5.0:
     inquirer "^3.0.6"
     xml2js "^0.4.17"
 
-lerna@^3.15.0:
+lerna@3.15.0:
   version "3.15.0"
   resolved "https://registry.yarnpkg.com/lerna/-/lerna-3.15.0.tgz#b044dba8138d7a1a8dd48ac1d80e7541bdde0d1f"
   integrity sha512-kRIQ3bgzkmew5/WZQ0C9WjH0IUf3ZmTNnBwTHfXgLkVY7td0lbwMQFD7zehflUn0zG4ou54o/gn+IfjF0ti/5A==
@@ -8194,19 +8194,16 @@ should-util@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/should-util/-/should-util-1.0.0.tgz#c98cda374aa6b190df8ba87c9889c2b4db620063"
 
-should@13.2.0:
-  version "13.2.0"
-  resolved "https://registry.yarnpkg.com/should/-/should-13.2.0.tgz#e4a29009fa9de21b62e07cfacdf17b9a915da820"
+should@13.2.3:
+  version "13.2.3"
+  resolved "https://registry.yarnpkg.com/should/-/should-13.2.3.tgz#96d8e5acf3e97b49d89b51feaa5ae8d07ef58f10"
+  integrity sha512-ggLesLtu2xp+ZxI+ysJTmNjh2U0TsC+rQ/pfED9bUZZ4DKefP27D+7YJVVTvKsmjLpIi9jAa7itwDGkDDmt1GQ==
   dependencies:
     should-equal "^2.0.0"
     should-format "^3.0.3"
     should-type "^1.4.0"
     should-type-adaptors "^1.0.1"
     should-util "^1.0.0"
-
-should@3.3.2:
-  version "3.3.2"
-  resolved "https://registry.yarnpkg.com/should/-/should-3.3.2.tgz#c883dd409b53bbdf1b55ec0d8fc3865f2b287e64"
 
 signal-exit@^3.0.0, signal-exit@^3.0.1, signal-exit@^3.0.2:
   version "3.0.2"
