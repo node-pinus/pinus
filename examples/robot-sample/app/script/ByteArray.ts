@@ -137,7 +137,7 @@
          *
          * 已经使用的字节偏移量
          * @protected
-         * @type {number}
+         * @type  {number}
          * @memberOf ByteArray
          */
         protected write_position: number;
@@ -1132,7 +1132,7 @@
         /**
          * @private
          *
-         * @param a
+         * @param  a
          * @param min
          * @param max
          */

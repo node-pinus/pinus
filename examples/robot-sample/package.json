@@ -13,8 +13,6 @@
   "scripts": {
     "build": "tsc",
     "start": "yarn run build && cd dist &&  node app",
-    "lint": "node_modules/.bin/tslint --format prose -c ../../tslint.json **/*.ts",
-    "fix-lint": "node_modules/.bin/tslint --format prose -c ../../tslint.json **/*.ts --fix",
     "test": "yarn run build",
     "cov": "nyc mocha",
     "ci": "yarn run test",
@@ -29,7 +27,7 @@
     "ws": "^3.2.0"
   },
   "devDependencies": {
-    "tslint": "^5.9.1",
+    "tslint": "^5.14.0",
     "typescript": "^2.9.2"
   }
 }

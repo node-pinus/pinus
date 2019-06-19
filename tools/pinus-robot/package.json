@@ -13,6 +13,9 @@
     "typescript": "^3.0.0",
     "underscore": "1.9.1"
   },
+  "devDependencies": {
+    "tslint": "5.14.0"
+  },
   "scripts": {
     "build": "tsc",
     "start": "yarn run build && node dist/index",
