@@ -21,7 +21,7 @@
 		"gen-api-ref": "node ../../node_modules/typedoc/bin/typedoc --mode file --hideGenerator --excludeExternals --ignoreCompilerErrors --out ../../run/site/public/api-reference/pinus-rpc lib/"
 	},
 	"dependencies": {
-		"@types/async": "^2.0.46",
+		"@types/async": "^3.0.0",
 		"@types/bluebird": "^3.5.19",
 		"@types/crc": "^3.4.0",
 		"@types/node": "^8.5.2",
@@ -29,7 +29,7 @@
 		"@types/socket.io-client": "^1.4.32",
 		"@types/uuid": "^3.4.3",
 		"@types/ws": "^3.2.1",
-		"async": "^2.0.0",
+		"async": "^3.0.0",
 		"bearcat-buffer": "^0.1.x",
 		"bluebird": "^3.5.1",
 		"crc": "^3.0.0",
