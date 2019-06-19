@@ -25,7 +25,7 @@
     "node": ">=8.5"
   },
   "devDependencies": {
-    "mocha": "4.1.0",
+    "mocha": "6.1.4",
     "should": "13.2.0",
     "tslint": "5.14.0",
     "typescript": "3.5.2"
