@@ -114,8 +114,9 @@ export class ChannelService implements IComponent {
      * @param {Function} cb cb(err)
      * @memberOf ChannelService
      */
-    pushMessageByUids(route: string, msg: any, uids: { uid: string, sid: string }[], cb ?: (err ?: Error, result ?: void) => void): void;
-    pushMessageByUids(route: string, msg: any, uids: { uid: string, sid: string }[], opts?: any, cb ?: (err ?: Error, result ?: void) => void) {
+     pushMessageByUids(route: string, msg: any, uids: { uid: string, sid: string }[], cb?: (err?: Error, result?: void) => void): void;
+    pushMessageByUids(route: string, msg: any, uids: { uid: string, sid: string }[], opts: any, cb?: (err?: Error, result?: void) => void): void;
+    pushMessageByUids(route: string, msg: any, uids: { uid: string, sid: string }[], opts?: any, cb?: (err?: Error, result?: void) => void) {
         if (typeof route !== 'string') {
             cb = opts;
             opts = uids;
@@ -154,8 +155,9 @@ export class ChannelService implements IComponent {
      * @param  {Function} cb         callback
      * @memberOf ChannelService
      */
-    broadcast(stype: string, route: string, msg: any, cb ?: (err ?: Error, result ?: void) => void): void;
-    broadcast(stype: string, route: string, msg: any, opts?: any, cb ?: (err ?: Error, result ?: void) => void) {
+    broadcast(stype: string, route: string, msg: any, cb?: (err?: Error, result?: void) => void): void;
+    broadcast(stype: string, route: string, msg: any, opts: any, cb?: (err?: Error, result?: void) => void): void;
+    broadcast(stype: string, route: string, msg: any, opts?: any, cb?: (err?: Error, result?: void) => void) {
         let app = this.app;
         let namespace = 'sys';
         let service = 'channelRemote';
