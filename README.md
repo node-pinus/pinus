@@ -23,6 +23,17 @@ pinus init
 1. 协议与pomelo一样，所以pomelo的客户端代码可以直接对接上pinus服务端。
 
 
+### 框架编译方法
+
+```
+git clone https://github.com/node-pinus/pinus.git
+cd pinus
+yarn
+yarn run build
+```
+
+编译好以后可以使用 yarn link 或者 npm link 软链接到自己的项目。
+
 ## Pinus -- a fast, scalable game server framework for node.js
 
 Pinus is a fast, scalable game server framework for [node.js](http://nodejs.org).
