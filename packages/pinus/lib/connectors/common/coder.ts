@@ -15,7 +15,12 @@ let encode = function (this: IConnector ,  reqId: number, route: string, msg: an
 };
 
 let decode = function (this: any ,  msg: any) {
-    msg = Message.decode(msg.body);
+    try {
+        msg = Message.decode(msg.body); // invalid msg maybe caught exception！
+    } catch (e) {
+        logger.warn('fail to decode route:', msg.route, 'body:', typeof msg.body, 'err:', e.message);
+        return null;
+    }
     let route = msg.route;
 
     // decode use dictionary
