@@ -666,11 +666,11 @@ export class FrontendSession extends EventEmitter implements ISession {
         return super.on(event, listener);
     }
 
-    abind(uid: string,) {
+    abind(uid: string, ) {
         return new Promise((resolve, reject) => this.bind(uid, (err, ret) => err ? reject(err) : resolve(ret as any)));
     }
 
-    aunbind(uid: string,) {
+    aunbind(uid: string, ) {
         return new Promise((resolve, reject) => this.unbind(uid, (err, ret) => err ? reject(err) : resolve(ret as any)));
     }
 

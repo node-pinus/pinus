@@ -1,9 +1,9 @@
 // 不写日志文件  示例配置文件。
 
 module.exports = {
-    "appenders": {
-        "displayConsole": {
-            "type": "console"
+    'appenders': {
+        'displayConsole': {
+            'type': 'console'
         },
         // "other": {
         //     "type": "file",
@@ -15,16 +15,16 @@ module.exports = {
         //     "backups": 5
         // }
     },
-    "categories": {
-        "default": {
-            "appenders": [
-                /*"other",*/"displayConsole"
+    'categories': {
+        'default': {
+            'appenders': [
+                /*"other",*/'displayConsole'
             ],
-            "level": "debug"
+            'level': 'debug'
         }
     },
-    "replaceConsole": true,
-    "prefix": "${opts:serverId} ",
-    "lineDebug": false,
-    "errorStack": true
+    'replaceConsole': true,
+    'prefix': '${opts:serverId} ',
+    'lineDebug': false,
+    'errorStack': true
 };

@@ -51,23 +51,23 @@ describe('msgEncoderTest', function () {
     }
 
     it('test JSON time', () => {
-        console.time("test JSON time");
+        console.time('test JSON time');
         let len = 0;
         for (let i = 0; i < COUNT; i++) {
             len += TestJSON();
         }
-        console.timeEnd("test JSON time");
-        console.log("JSON length total:", len);
+        console.timeEnd('test JSON time');
+        console.log('JSON length total:', len);
     });
 
     it('test Protobuf time', () => {
-        console.time("test Protobuf time")
+        console.time('test Protobuf time')
         let len = 0;
         for (let i = 0; i < COUNT; i++) {
             len += TestProtbuf();
         }
-        console.timeEnd("test Protobuf time");
-        console.log("Protobuf length total:", len);
+        console.timeEnd('test Protobuf time');
+        console.log('Protobuf length total:', len);
     });
 });
 

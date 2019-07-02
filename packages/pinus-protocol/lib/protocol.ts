@@ -102,7 +102,7 @@ export namespace Package {
       let type = bytes[offset++];
       length = ((bytes[offset++]) << 16 | (bytes[offset++]) << 8 | bytes[offset++]) >>> 0;
       if (!isValidType(type) || length > bytes.length) {
-        return { 'type': type }; //return invalid type, then disconnect!
+        return { 'type': type }; // return invalid type, then disconnect!
       }
       let body = length ? Buffer.alloc(length) : null;
       if (body) {
