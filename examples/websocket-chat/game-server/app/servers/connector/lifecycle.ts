@@ -1,4 +1,4 @@
-import { ILifeCycle, Application } from "pinus";
+import { ILifeCycle, Application } from 'pinus';
 
 export default function () {
     return new Lifecycle();

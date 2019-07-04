@@ -46,6 +46,10 @@ export namespace Package {
   export let TYPE_DATA = 4;
   export let TYPE_KICK = 5;
 
+  function isValidType(type: number): boolean {
+    return type >= TYPE_HANDSHAKE && type <= TYPE_KICK;
+  }
+
   /**
    * Package protocol encode.
    *
@@ -97,6 +101,9 @@ export namespace Package {
     while (offset < bytes.length) {
       let type = bytes[offset++];
       length = ((bytes[offset++]) << 16 | (bytes[offset++]) << 8 | bytes[offset++]) >>> 0;
+      if (!isValidType(type) || length > bytes.length) {
+        return { 'type': type }; // return invalid type, then disconnect!
+      }
       let body = length ? Buffer.alloc(length) : null;
       if (body) {
         copyArray(body, 0, bytes, offset, length);
