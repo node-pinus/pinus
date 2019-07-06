@@ -24,7 +24,7 @@ export class WSProcessor extends EventEmitter {
 
         this.wsServer.on('connection', function (socket, req) {
             // pass http headers to outside, easy get real ip via http headers
-            socket.headers = req.headers;
+            socket['headers'] = req.headers;
             // emit socket to outside
             self.emit('connection', socket);
         });
