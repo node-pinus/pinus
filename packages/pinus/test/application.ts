@@ -128,8 +128,8 @@ describe('application test', function () {
       app.load(key, comp1);
       app.load(key, comp2);
 
-      app.components[key].should.eql(comp1);
-      app.components[key].should.not.eql(comp2);
+      app.components[key].should.equal(comp1);
+      app.components[key].should.not.equal(comp2);
     });
   });
 
