@@ -8,7 +8,7 @@ let mockSession: { key: string, __startTime__?: any } = {
 };
 
 let WAIT_TIME = 100;
-describe('#serialFilter', function () {
+describe('#timeFilter', function () {
     it('should do before filter ok', function (done: MochaDone) {
         let service = new FilterService();
         let filter = new serialFilter();
@@ -43,6 +43,5 @@ describe('#serialFilter', function () {
         });
 
         setTimeout(done, WAIT_TIME);
-        done();
     });
 });
