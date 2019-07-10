@@ -2,12 +2,12 @@ import * as should from 'should';
 // import { describe, it } from "mocha-typescript"
 import { UID, SID } from '../../lib/util/constants';
 import { ScheduleOptions } from '../../lib/interfaces/IPushScheduler';
-let pinus = require('../../lib/index');
-let remote = require('../../lib/common/remote/frontend/channelRemote');
-let SessionService = require('../../lib/common/service/sessionService');
-let ChannelService = require('../../lib/common/service/channelService');
-let countDownLatch = require('../../lib/util/countDownLatch');
-let MockChannelManager = require('../manager/mockChannelManager');
+let pinus = require('../../lib/index').pinus;
+let remote = require('../../lib/common/remote/frontend/channelRemote').default;
+let SessionService = require('../../lib/common/service/sessionService').SessionService;
+let ChannelService = require('../../lib/common/service/channelService').ChannelService;
+let countDownLatch = require('../../lib/util/countDownLatch').CountDownLatch;
+let MockChannelManager = require('../manager/mockChannelManager').MockManager;
 
 
 let mockBase = process.cwd() + '/test';
@@ -17,6 +17,7 @@ let WAIT_TIME = 200;
 describe('channel remote test', function () {
   describe('#pushMessage', function () {
     it('should push message the the specified clients', function (done: MochaDone) {
+      this.timeout(5555)
       let sids = [1, 2, 3, 4, 5, 6];
       let uids = [11, 12, 13];
       let frontendId = 'frontend-server-id';
@@ -64,14 +65,15 @@ describe('channel remote test', function () {
       };
       app.set('sessionService', sessionService);
       let channelRemote = remote(app);
-      channelRemote.pushMessage(mockRoute, mockMsg, uids, { isPush: true }, function () {
-        invokeCount.should.equal(uids.length);
-        invokeUids.length.should.equal(uids.length);
-        for (let i = 0, l = uids.length; i < l; i++) {
-          invokeUids.should.containEql(uids[i]);
-        }
-        done();
+      channelRemote.pushMessage(mockRoute, mockMsg, uids, { isPush: true }).then(()=>{
+          invokeCount.should.equal(uids.length);
+          invokeUids.length.should.equal(uids.length);
+          for (let i = 0, l = uids.length; i < l; i++) {
+              invokeUids.should.containEql(uids[i]);
+          }
+          done();
       });
+
     });
   });
 
@@ -114,9 +116,9 @@ describe('channel remote test', function () {
       app.set('sessionService', sessionService);
       app.set('channelService', channelService);
       let channelRemote = remote(app);
-      channelRemote.broadcast(mockRoute, mockMsg, { type: 'broadcast' }, function () {
-        invokeCount.should.equal(1);
-        done();
+      channelRemote.broadcast(mockRoute, mockMsg, { type: 'broadcast' }).then(()=>{
+          invokeCount.should.equal(1);
+          done();
       });
     });
 
@@ -161,9 +163,9 @@ describe('channel remote test', function () {
       app.set('sessionService', sessionService);
       app.set('channelService', channelService);
       let channelRemote = remote(app);
-      channelRemote.broadcast(mockRoute, mockMsg, { type: 'broadcast', userOptions: { binded: true } }, function () {
-        invokeCount.should.equal(1);
-        done();
+      channelRemote.broadcast(mockRoute, mockMsg, { type: 'broadcast', userOptions: { binded: true } }).then(()=>{
+          invokeCount.should.equal(1);
+          done();
       });
     });
   });

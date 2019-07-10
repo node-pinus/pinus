@@ -1,7 +1,7 @@
 import * as should from 'should';
 // import { describe, it } from "mocha-typescript"
-let pinus = require('../../lib/index');
-let ChannelService = require('../../lib/common/service/channelService');
+let pinus = require('../../lib/index').pinus;
+let ChannelService = require('../../lib/common/service/channelService').ChannelService;
 
 let mockBase = process.cwd() + '/test';
 let channelName = 'test_channel';

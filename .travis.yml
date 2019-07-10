@@ -7,4 +7,5 @@ install:
   - yarn
 script:
   - yarn run ci
+  - yarn add toobusy
   - yarn run test

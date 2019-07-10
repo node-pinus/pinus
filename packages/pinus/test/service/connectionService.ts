@@ -1,6 +1,6 @@
 import * as should from 'should';
 // import { describe, it } from "mocha-typescript"
-let ConnectionService = require('../../lib/common/service/connectionService');
+let ConnectionService = require('../../lib/common/service/connectionService').ConnectionService;
 
 let mockApp = {
   settings: {
@@ -115,7 +115,7 @@ describe('connection service test', function () {
   it('should getStatisticsInfo', function (done: MochaDone) {
     let service = new ConnectionService(mockApp);
     let uid1 = 'uid1', uid2 = 'uid2';
-    let info1 = 'msg1', info2 = 'msg2';
+    let info1 = {msg:'msg1'}, info2 = {msg:'msg2'};
 
     service.increaseConnectionCount();
     service.increaseConnectionCount();
