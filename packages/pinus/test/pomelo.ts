@@ -1,4 +1,4 @@
-let pinus = require('../lib/index');
+let pinus = require('../lib/index').pinus;
 import * as should from 'should';
 let mockBase = process.cwd() + '/test';
 // import { describe, it } from "mocha-typescript"

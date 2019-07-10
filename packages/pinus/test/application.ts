@@ -59,7 +59,7 @@ describe('application test', function () {
   describe('#compoent', function () {
     it('should load the component and fire their lifecircle callback by app.start, app.afterStart, app.stop', function (done: MochaDone) {
       let startCount = 0, afterStartCount = 0, stopCount = 0;
-
+      this.timeout(8000)
       let mockComponent = {
         name : 'mockComponent',
         start: function (cb: Function) {
@@ -472,6 +472,7 @@ describe('application test', function () {
       });
 
       app.addServers(newServers);
+      app.event.removeAllListeners()
     });
 
     it('should remove server info and emit event', function (done: MochaDone) {
@@ -536,18 +537,20 @@ describe('application test', function () {
           should.exist(slist);
           contains(slist, item).should.be.true;
         }
-
+        app.event.removeAllListeners()
         done();
       });
 
       app.addServers(newServers);
       app.removeServers(delIds);
+
     });
   });
 
   describe('#beforeStopHook', function () {
     it('should be called before application stopped.', function (done: MochaDone) {
       let count = 0;
+      this.timeout(8888)
       app.init({ base: mockBase });
       app.beforeStopHook(function () {
         count++;
