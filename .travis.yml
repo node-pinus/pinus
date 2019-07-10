@@ -7,3 +7,4 @@ install:
   - yarn
 script:
   - yarn run ci
+  - yarn run test
