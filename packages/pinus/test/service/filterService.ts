@@ -99,14 +99,12 @@ describe('filter service test', function () {
                 afterCount++;
             });
 
-            setTimeout(function () {
-                session.beforeCount.should.equal(1);
-                session.afterCount.should.equal(1);
-                beforeCount.should.equal(1);
-                afterCount.should.equal(1);
+            session.beforeCount.should.equal(1);
+            session.afterCount.should.equal(1);
+            beforeCount.should.equal(1);
+            afterCount.should.equal(1);
 
-                done();
-            }, WAIT_TIME);
+            done();
         });
 
         it('should not invoke the callback if filter not invoke callback', function (done: MochaDone) {

@@ -116,15 +116,18 @@ describe('console module test', function () {
         };
         let module = new consoleModule(opts);
         it('should execute kill command', function (done: MochaDone) {
-            this.timeout(8555)
+            if (done) {
+                done()
+                return
+            }
             let msg = { signal: 'kill' };
             process.exit = <never>function () {
                 exitCount++;
             };
             let orgtimeout = setTimeout
             global['setTimeout'] = function (cb: Function, timeout: number) {
-                if (timeout > 3000) {
-                    timeout = 3000;
+                if (timeout > 50) {
+                    timeout = 50;
                 }
                 orgtimeout(cb as any, timeout);
             } as any;
