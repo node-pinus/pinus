@@ -7,10 +7,10 @@ let fs = require('fs');
 let mockBase = process.cwd() + '/test/mock-base';
 
 describe('path util test', function () {
-    it('ok',()=>{
+    it('ok', () => {
 
     })
-    if (process.platform == "win32") {
+    if (process.platform === 'win32') {
         return
     }
     describe('#getSysRemotePath', function () {
