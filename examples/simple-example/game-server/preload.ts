@@ -1,7 +1,7 @@
 ﻿import {Promise} from 'bluebird';
 // 支持注解
 import 'reflect-metadata';
-import { pinus } from "pinus";
+import { pinus } from 'pinus';
 
 /**
  *  替换全局Promise
