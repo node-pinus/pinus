@@ -45,31 +45,20 @@ export class DictionaryComponent implements IComponent {
     }
 
 
-    afterStart(cb: () => void) {
-        let servers = this.app.serverTypeMaps;
+    start(cb: () => void) {
+        let servers = this.app.get('servers');
         let routes = [];
-
-        let handlerPathss: { [serverType: string]: string[] } = {};
 
         // Load all the handler files
         for (let serverType in servers) {
-            let slist = servers[serverType];
-            let server: ServerInfo;
-            handlerPathss[serverType] = [];
-            for (server of slist) {
-                handlerPathss[serverType] = handlerPathss[serverType].concat(server.handlerPaths);
-            }
-        }
-
-        // Load all the handler files
-        for (let serverType in handlerPathss) {
-            let paths = handlerPathss[serverType];
-            if (!paths) {
+            let p = pathUtil.getHandlerPath(this.app.getBase(), serverType);
+            if (!p) {
                 continue;
             }
-            for (let p of paths) {
-                let handlers = Loader.load(p, this.app, false, false, LoaderPathType.PINUS_HANDLER);
+            let handlers = Loader.load(p, this.app, false, false, LoaderPathType.PINUS_HANDLER);
 
+            for (let name in handlers) {
+                let handler = handlers[name];
                 for (let name in handlers) {
                     let handler = handlers[name];
 
