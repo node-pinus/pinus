@@ -51,6 +51,7 @@ export class ChatRemote {
         let param = {
             user: username
         };
+        console.log('send on add', param);
         channel.pushMessage('onAdd', param);
 
         if (!!channel) {

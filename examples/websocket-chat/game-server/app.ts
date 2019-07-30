@@ -1,8 +1,8 @@
-
 import { pinus } from 'pinus';
 import * as  routeUtil from './app/util/routeUtil';
 import { preload } from './preload';
-import {createRobotPlugin} from 'pinus-robot-plugin';
+import { createRobotPlugin } from 'pinus-robot-plugin';
+
 /**
  *  替换全局Promise
  *  自动解析sourcemap
@@ -25,6 +25,10 @@ app.configure('production|development', 'connector', function () {
             useDict: true,
             useProtobuf: true
         });
+
+    app.set('serverConfig', {
+        reloadHandlers: true,
+    })
 });
 
 app.configure('production|development', 'gate', function () {
@@ -42,15 +46,24 @@ app.configure('production|development', function () {
 
     // filter configures
     app.filter(new pinus.filters.timeout());
+
+    // 热更新 handler配置
+    // app.set('serverConfig',{
+    //     reloadHandlers:true,
+    // });
+    // 热更新 remote 配置
+    // app.set('remoteConfig', {
+    //     reloadRemotes: true
+    // });
 });
 
-app.configure('development', function() {
+app.configure('development', function () {
     // enable the system monitor modules
     app.enable('systemMonitor');
-  });
+});
 
-if(app.isMaster()) {
-    app.use(createRobotPlugin({scriptFile: __dirname + '/robot/robot.js'}));
+if (app.isMaster()) {
+    app.use(createRobotPlugin({ scriptFile: __dirname + '/robot/robot.js' }));
 }
 
 // start app
