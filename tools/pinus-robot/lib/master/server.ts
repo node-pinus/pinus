@@ -104,7 +104,7 @@ export class Server {
         let web_client = new _wc.WebClient(socket, rserver);
         rserver.web_clients[web_client.id] = web_client;
         __(rserver.nodes).each(function (node, nlabel) {
-            web_client.add_node(node);
+            web_client.add_node(node as any);
         });
         setInterval(function () {
             rserver.io.sockets.in('web_clients').emit('statusreport', { status: rserver.status });
