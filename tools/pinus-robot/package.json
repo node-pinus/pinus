@@ -6,12 +6,12 @@
     "@types/cliff": "^0.1.4",
     "@types/node": "^8.5.7",
     "@types/socket.io-client": "^1.4.32",
-    "@types/underscore": "^1.8.6",
+    "@types/underscore": "^1.8.20",
     "cliff": "^0.1.10",
     "socket.io": "^2.0.4",
     "socket.io-client": "^2.0.4",
     "typescript": "^2.9.2",
-    "underscore": "1.4.4"
+    "underscore": "1.8.3"
   },
   "scripts": {
     "build": "tsc",
