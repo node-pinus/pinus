@@ -1,16 +1,16 @@
-import {createDefaultAcceptor, IAcceptor, IAcceptorFactory} from './acceptor';
+import { createDefaultAcceptor, IAcceptor, IAcceptorFactory } from './acceptor';
 import { EventEmitter } from 'events';
 import { Dispatcher, MsgPkg, Services } from './dispatcher';
 import * as Loader from 'pinus-loader';
 import * as utils from '../util/utils';
-import {Tracer} from '../util/tracer';
+import { Tracer } from '../util/tracer';
 import * as util from 'util';
 import * as fs from 'fs';
 import { AcceptorOpts } from './acceptor';
 import { LoaderPathType } from 'pinus-loader';
 
 export interface RpcServerOpts extends AcceptorOpts {
-    port?: number|string;
+    port?: number | string;
     paths?: Array<RemoteServerCode>;
     context?: object;
     services?: Services;
@@ -30,6 +30,8 @@ export class Gateway extends EventEmitter {
     stoped = false;
     services: Services;
     acceptor: IAcceptor;
+    dispatcher: Dispatcher;
+
     constructor(opts: RpcServerOpts) {
         super();
         this.opts = opts || {};
@@ -38,11 +40,11 @@ export class Gateway extends EventEmitter {
         this.stoped = false;
         let acceptorFactory = opts.acceptorFactory || createDefaultAcceptor;
         this.services = opts.services;
-        let dispatcher = new Dispatcher(this.services);
+        const dispatcher = this.dispatcher = new Dispatcher(this.services);
         if (!!this.opts.reloadRemotes) {
-            this.watchServices(dispatcher);
+            this.watchServices();
         }
-        this.acceptor = acceptorFactory(opts as AcceptorOpts,  (tracer, msg, cb) => {
+        this.acceptor = acceptorFactory(opts as AcceptorOpts, (tracer, msg, cb) => {
             dispatcher.route(tracer, msg, cb);
         });
     }
@@ -55,7 +57,8 @@ export class Gateway extends EventEmitter {
         this.stoped = true;
         try {
             this.acceptor.close();
-        } catch (err) { }
+        } catch (err) {
+        }
     }
 
     start() {
@@ -71,29 +74,41 @@ export class Gateway extends EventEmitter {
     }
 
 
-    watchServices(dispatcher: Dispatcher) {
+    watchServices() {
         let paths = this.opts.paths;
         let app = this.opts.context;
         for (let i = 0; i < paths.length; i++) {
-            (function (index) {
-                fs.watch(paths[index].path, function (event: string, name: string) {
+            ((index) => {
+                fs.watch(paths[index].path, (event: string, name: string) => {
                     if (event === 'change') {
-                        let res: {[key: string]: any} = {};
-                        let item = paths[index];
-                        let m: {[key: string]: any} = Loader.load(item.path, app, true, true, LoaderPathType.PINUS_REMOTER);
-                        if (m) {
-                            createNamespace(item.namespace, res);
-                            for (let s in m) {
-                                res[item.namespace][s] = m[s];
-                            }
-                        }
-                        dispatcher.emit('reload', res);
+                        this.reloadRemoter(app, paths[index]);
                     }
                 });
             })(i);
         }
     }
+
+    manualReloadRemoters() {
+        let paths = this.opts.paths;
+        let app = this.opts.context;
+        for (let i = 0; i < paths.length; i++) {
+            this.reloadRemoter(app, paths[i]);
+        }
+    }
+
+    private reloadRemoter(app: any, item: any) {
+        let res: { [key: string]: any } = {};
+        let m: { [key: string]: any } = Loader.load(item.path, app, true, true, LoaderPathType.PINUS_REMOTER);
+        if (m) {
+            createNamespace(item.namespace, res);
+            for (let s in m) {
+                res[item.namespace][s] = m[s];
+            }
+        }
+        this.dispatcher.emit('reload', res);
+    }
 }
+
 /**
  * create and init gateway
  *
@@ -108,6 +123,6 @@ export function createGateway(opts: RpcServerOpts) {
 }
 
 
-let createNamespace = function (namespace: string, proxies: {[key: string]: object}) {
+let createNamespace = function (namespace: string, proxies: { [key: string]: object }) {
     proxies[namespace] = proxies[namespace] || {};
 };
