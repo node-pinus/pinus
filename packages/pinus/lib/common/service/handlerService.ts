@@ -171,6 +171,11 @@ export class HandlerService {
     }
 }
 
+export function manualReloadHandlers(app:Application){
+    let p = pathUtil.getHandlerPath(app.getBase(), app.serverType);
+    const handlerMap:HandlerMap = app.components.__server__.server.handlerService.handlerMap
+    handlerMap[app.serverType] = Loader.load(p, app, true, true, LoaderPathType.PINUS_HANDLER);
+}
 
 let watchHandlers = function (app: Application, handlerMap: HandlerMap) {
     let p = pathUtil.getHandlerPath(app.getBase(), app.serverType);
