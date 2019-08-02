@@ -145,6 +145,9 @@ export class RemoteComponent implements IComponent {
 }
 
 export function manualReloadRemoters(app: Application) {
+    if (!app.components.__remote__) {
+        return
+    }
     const remote = app.components.__remote__.remote;
     if (remote['manualReloadRemoters']) {
         remote['manualReloadRemoters']();
