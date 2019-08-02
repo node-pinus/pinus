@@ -4,7 +4,7 @@
  */
 import * as fs from 'fs';
 import * as pathUtil from '../util/pathUtil';
-import { createServer , Gateway, RpcServerOpts, Remoters, Remoter, RemoteServerCode } from 'pinus-rpc';
+import { createServer, Gateway, RpcServerOpts, Remoters, Remoter, RemoteServerCode } from 'pinus-rpc';
 import { Application } from '../application';
 import { IComponent } from '../interfaces/IComponent';
 import { getLogger, Logger } from 'pinus-logger';
@@ -12,23 +12,25 @@ import { ServerInfo } from '../util/constants';
 import * as path from 'path';
 
 export interface RemoteComponentOptions extends RpcServerOpts {
-    bufferMsg ?: boolean;
-    cacheMsg ?: boolean;
-    interval ?: number;
+    bufferMsg?: boolean;
+    cacheMsg?: boolean;
+    interval?: number;
 
-    rpcDebugLog ?: boolean;
-    rpcLogger ?: Logger;
+    rpcDebugLog?: boolean;
+    rpcLogger?: Logger;
 
-    rpcServer ?: {create: (opts ?: RemoteComponentOptions) => Gateway};
+    rpcServer?: { create: (opts ?: RemoteComponentOptions) => Gateway };
 }
+
 /**
  * Remote component class
  *
  * @param {Object} app  current application context
  * @param {Object} opts construct parameters
  */
-export class RemoteComponent  implements IComponent {
+export class RemoteComponent implements IComponent {
     opts: RemoteComponentOptions;
+
     constructor(private app: Application, opts?: RemoteComponentOptions) {
         opts = opts || {};
         this.opts = opts;
@@ -51,8 +53,8 @@ export class RemoteComponent  implements IComponent {
 
         let info = this.app.getCurrentServer();
         // 添加插件中的remoter到ServerInfo中
-        for(let plugin of this.app.usedPlugins) {
-            if(plugin.remoterPath) {
+        for (let plugin of this.app.usedPlugins) {
+            if (plugin.remoterPath) {
                 opts.paths.push({
                     namespace: 'user',
                     serverType: info.serverType,
@@ -140,4 +142,13 @@ export class RemoteComponent  implements IComponent {
         }
     }
 
+}
+
+export function manualReloadRemoters(app: Application) {
+    const remote = app.components.__remote__.remote;
+    if (remote['manualReloadRemoters']) {
+        remote['manualReloadRemoters']();
+    } else {
+        console.warn("manualReloadRemoters  no method");
+    }
 }
