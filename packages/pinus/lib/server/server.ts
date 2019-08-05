@@ -171,9 +171,10 @@ export class Server extends EventEmitter {
     removeCrons(crons: Cron[]) {
         for (let i = 0, l = crons.length; i < l; i++) {
             let cron = crons[i];
-            let id = parseInt(cron.id);
+            let id = cron.id;
             if (!!this.jobs[id]) {
                 schedule.cancelJob(this.jobs[id]);
+                delete this.jobs[id];
             } else {
                 logger.warn('cron is not in application: %j', cron);
             }
