@@ -152,6 +152,6 @@ export function manualReloadRemoters(app: Application) {
     if (remote['manualReloadRemoters']) {
         remote['manualReloadRemoters']();
     } else {
-        console.warn("manualReloadRemoters  no method");
+        console.warn('manualReloadRemoters  no method');
     }
 }

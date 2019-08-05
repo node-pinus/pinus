@@ -87,7 +87,7 @@ export class Server extends EventEmitter {
 
     loadCrons(manualReload = false) {
         if (manualReload) {
-            logger.info("loadCrons remove crons", this.crons);
+            logger.info('loadCrons remove crons', this.crons);
             this.removeCrons(this.crons);
         }
         this.cronHandlers = loadCronHandlers(this.app, manualReload);
@@ -200,9 +200,9 @@ export function manualReloadCrons(app: Application) {
     if (!app.components.__server__) {
         return;
     }
-    logger.info("manualReloadCrons start");
+    logger.info('manualReloadCrons start');
     app.components.__server__.server.loadCrons(true);
-    logger.info("manualReloadCrons finish");
+    logger.info('manualReloadCrons finish');
 }
 
 let initFilter = function (isGlobal: boolean, app: Application) {
