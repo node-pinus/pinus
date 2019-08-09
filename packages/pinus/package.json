@@ -52,7 +52,7 @@
     "@types/socket.io": "^2.0.0",
     "async": "^3.0.0",
     "cliff": "^0.1.10",
-    "commander": "^2.12.2",
+    "commander": "^3.0.0",
     "crc": "^3.5.0",
     "eyes": "^0.1.8",
     "mkdirp": "^0.5.1",
