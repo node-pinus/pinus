@@ -18,6 +18,7 @@ if (mode === 'master') {
     robot.runMaster(__filename);
 } else {
     let script = (process.cwd() + envConfig.script);
+    script = script.replace(/\\/g,'/');
     robot.runAgent(script);
 }
 
