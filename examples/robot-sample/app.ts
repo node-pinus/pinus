@@ -18,7 +18,7 @@ if (mode === 'master') {
     robot.runMaster(__filename);
 } else {
     let script = (process.cwd() + envConfig.script);
-    script = script.replace(/\\/g,'/');
+    script = script.replace(/\\/g, '/');
     robot.runAgent(script);
 }
 
@@ -28,6 +28,7 @@ process.on('uncaughtException', function (err) {
     if (!!robot && !!robot.agent) {
         // robot.agent.socket.emit('crash', err.stack);
     }
-    fs.appendFile('./log/.log', err.stack, function (err) { });
+    fs.appendFile('./log/.log', err.stack, function (err) {
+    });
     /* temporary code */
 });
