@@ -5,7 +5,7 @@
 import * as crc from 'crc';
 import * as utils from '../util/utils';
 import { default as events } from '../util/events';
-import { RpcClient , createClient} from 'pinus-rpc';
+import { RpcClient, createClient } from 'pinus-rpc';
 import * as pathUtil from '../util/pathUtil';
 import * as Constants from '../util/constants';
 import { getLogger } from 'pinus-logger';
@@ -15,17 +15,18 @@ import { RpcClientOpts } from 'pinus-rpc';
 import { ServerInfo } from '../util/constants';
 import { Session } from '../index';
 import * as path from 'path';
+
 let logger = getLogger('pinus', path.basename(__filename));
 
 export interface ProxyComponentOptions extends RpcClientOpts {
-     rpcClient ?: {
-         create: (opts: RpcClientOpts) => RpcClient;
+    rpcClient?: {
+        create: (opts: RpcClientOpts) => RpcClient;
     };
-    bufferMsg ?: boolean;
-    cacheMsg ?: boolean;
-    interval ?: number;
+    bufferMsg?: boolean;
+    cacheMsg?: boolean;
+    interval?: number;
 
-    enableRpcLog ?: boolean;
+    enableRpcLog?: boolean;
 }
 
 /**
@@ -38,6 +39,7 @@ export class ProxyComponent implements IComponent {
     app: Application;
     opts: ProxyComponentOptions;
     client: RpcClient;
+
     constructor(app: Application, opts: ProxyComponentOptions) {
         opts = opts || {};
         // proxy default config
@@ -98,17 +100,17 @@ export class ProxyComponent implements IComponent {
         let self = this;
 
         Object.defineProperty(this.app, 'rpc', {
-            get : function () {
+            get: function () {
                 return self.client.proxies.user;
             }
         });
 
         Object.defineProperty(this.app, 'sysrpc', {
-            get : function () {
+            get: function () {
                 return self.client.proxies.sys;
             }
         });
-        this.app.rpcInvoke =  this.client.rpcInvoke.bind(this.client);
+        this.app.rpcInvoke = this.client.rpcInvoke.bind(this.client);
 
         this.client.start(cb);
     }
@@ -125,6 +127,15 @@ export class ProxyComponent implements IComponent {
 
         genProxies(this.client, this.app, servers);
         this.client.addServers(servers);
+    }
+
+    manualReloadProxies() {
+        let servers = [];
+        for (let k in this.client._station.servers) {
+            servers.push(this.client._station.servers[k])
+        }
+        logger.warn('manualReloadProxies servers:', servers);
+        genProxies(this.client, this.app, servers);
     }
 
     /**
@@ -160,9 +171,21 @@ export class ProxyComponent implements IComponent {
      * @param {Object}   msg      rpc message: {serverType: serverType, service: serviceName, method: methodName, args: arguments}
      * @param {Function} cb      callback function
      */
-    rpcInvoke(serverId: string, msg: any , cb: (err: Error, ...args: any[]) => void) {
+    rpcInvoke(serverId: string, msg: any, cb: (err: Error, ...args: any[]) => void) {
         this.client.rpcInvoke(serverId, msg, cb);
     }
+}
+
+export function manualReloadProxies(app: Application) {
+    if (!app.components.__proxy__) {
+        return;
+    }
+    if (app.components.__proxy__.manualReloadProxies) {
+        app.components.__proxy__.manualReloadProxies();
+    } else {
+        logger.warn('manualReloadProxies not method');
+    }
+
 }
 
 /**
@@ -172,7 +195,7 @@ export class ProxyComponent implements IComponent {
  * @param {Object} opts contructor parameters for rpc client
  * @return {Object} rpc client
  */
-let genRpcClient = function (app: Application, opts: RpcClientOpts & {rpcClient ?: {create: (opts: RpcClientOpts) => RpcClient; }}) {
+let genRpcClient = function (app: Application, opts: RpcClientOpts & { rpcClient?: { create: (opts: RpcClientOpts) => RpcClient; } }) {
     opts.context = app;
     opts.routeContext = app;
     if (!!opts.rpcClient) {
@@ -241,7 +264,7 @@ let genRouteFun = function () {
     };
 };
 
-export type RouteCallback = (err: Error , routeToServerId ?: string) => void;
+export type RouteCallback = (err: Error, routeToServerId ?: string) => void;
 
 let defaultRoute = function (session: Session, msg: any, app: Application, cb: RouteCallback) {
     let list = app.getServersByType(msg.serverType);
@@ -256,4 +279,4 @@ let defaultRoute = function (session: Session, msg: any, app: Application, cb: R
 };
 
 export type RouteFunction = (routeFrom: any, msg: any, app: Application, cb: RouteCallback) => void;
-export type RouteMaps = {[key: string]: RouteFunction};
+export type RouteMaps = { [key: string]: RouteFunction };
