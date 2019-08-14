@@ -13,7 +13,7 @@ import {SIOConnector, SIOConnectorOptions} from '../connectors/sioconnector';
 import {ConnectionService} from '../common/service/connectionService';
 import {Server} from '../server/server';
 import {ServerComponent} from './server';
-import {UID, SID} from '../util/constants';
+import {UID, SID, RESERVED} from '../util/constants';
 import {ScheduleOptions} from '../interfaces/IPushScheduler';
 import {SessionComponent} from './session';
 import {IConnector, IEncoder, IDecoder} from '../interfaces/IConnector';
@@ -437,6 +437,12 @@ export class ConnectorComponent implements IComponent {
             }
             if (!msg.id && !resp) return;
             if (!resp) resp = {};
+            if (err) {
+                resp.code = err.code;
+                if(this.app.get('env') === RESERVED.ENV_DEV) {
+                    resp.stack = err.stack;
+                }
+            }
             if (!!err && !resp.code) {
                 resp.code = 500;
             }
