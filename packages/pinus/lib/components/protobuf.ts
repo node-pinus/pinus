@@ -132,7 +132,7 @@ export class ProtobufComponent implements IComponent {
         delete require.cache[path];
     }
 
-    onUpdate(type: string, path: string, event: string, errCount = 0) {
+    onUpdate(type: string, path: string, event: string, filename?: string, errTry?: boolean) {
         if (event !== 'change') {
             return;
         }
@@ -153,12 +153,12 @@ export class ProtobufComponent implements IComponent {
             self.version = crypto.createHash('md5').update(protoStr).digest('base64');
             logger.info('change proto file , type : %j, path : %j, version : %j', type, path, self.version);
         } catch (e) {
-            logger.error('change proto file error! path : %j', path);
-            logger.warn(e);
-            if (errCount === 0) {
+            logger.error('change proto file error! path : %j', path, filename, errTry, e);
+            if (!errTry) {
+                logger.warn("setTimeout,try update proto")
                 setTimeout(() => {
                     logger.warn('try update proto again')
-                    this.onUpdate(type, path, event, errCount++)
+                    this.onUpdate(type, path, event, filename, true)
                 }, 3000)
             }
 
