@@ -155,11 +155,11 @@ export class ProtobufComponent implements IComponent {
         } catch (e) {
             logger.error('change proto file error! path : %j', path, filename, errTry, e);
             if (!errTry) {
-                logger.warn("setTimeout,try update proto")
+                logger.warn('setTimeout,try update proto');
                 setTimeout(() => {
-                    logger.warn('try update proto again')
-                    this.onUpdate(type, path, event, filename, true)
-                }, 3000)
+                    logger.warn('try update proto again');
+                    this.onUpdate(type, path, event, filename, true);
+                }, 3000);
             }
 
         }
