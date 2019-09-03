@@ -207,7 +207,8 @@ export class WSClient {
     }
 
     private onKick(event) {
-        // this.emit(WSClient.EVENT_KICK,event);
+        event = JSON.parse(Protocol.strdecode(event));
+        this.emit(WSClient.EVENT_KICK, event);
     }
     private onData(data) {
         // probuff decode
