@@ -144,7 +144,7 @@ export class ProtobufComponent implements IComponent {
             // 预防 git checkout这样的操作导致获得的数据为空的情况
             if (!protos || !Object.keys(protos).length) {
                 // retry.
-                throw new Error("protos error")
+                throw new Error("protos error");
             }
             if (type === Constants.RESERVED.SERVER) {
                 this.protobuf.setEncoderProtos(protos);
