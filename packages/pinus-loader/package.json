@@ -27,7 +27,7 @@
 		"reflect-metadata": "0.1.13"
 	},
 	"devDependencies": {
-		"mocha": "6.2.0",
+		"mocha": "6.2.1",
 		"should": "13.2.3",
 		"tslint": "5.20.0",
 		"typescript": "3.6.2"
