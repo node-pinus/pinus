@@ -23,7 +23,7 @@
         "node": ">=8.5"
     },
     "dependencies": {
-        "@types/node": "^8.5.2",
+        "@types/node": "8.5.7",
         "log4js": "^2.4.1"
     },
     "devDependencies": {

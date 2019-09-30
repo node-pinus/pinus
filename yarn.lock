@@ -74,9 +74,13 @@
   dependencies:
     "@types/node" "^8.5.2"
 
-"@types/node@*", "@types/node@^8.5.2", "@types/node@^8.5.7":
+"@types/node@*", "@types/node@8.5.7", "@types/node@^8.5.2":
   version "8.5.7"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-8.5.7.tgz#9c498c35af354dcfbca3790fb2e81129e93cf0e2"
+
+"@types/node@^8.10.54":
+  version "8.10.54"
+  resolved "https://registry.npmjs.org/@types/node/-/node-8.10.54.tgz#1c88eb253ac1210f1a5876953fb70f7cc4928402"
 
 "@types/optimist@0.0.29":
   version "0.0.29"
@@ -92,15 +96,15 @@
   version "1.4.32"
   resolved "https://registry.yarnpkg.com/@types/socket.io-client/-/socket.io-client-1.4.32.tgz#988a65a0386c274b1c22a55377fab6a30789ac14"
 
-"@types/socket.io@^1.4.31":
-  version "1.4.31"
-  resolved "https://registry.yarnpkg.com/@types/socket.io/-/socket.io-1.4.31.tgz#7a928518a35516fccd90431f94538ed3fddaba19"
+"@types/socket.io@^2.1.3":
+  version "2.1.3"
+  resolved "https://registry.npmjs.org/@types/socket.io/-/socket.io-2.1.3.tgz#32534c31695488d2eb14f1a8ff64cd7331951f7c"
   dependencies:
     "@types/node" "*"
 
-"@types/underscore@^1.8.6":
-  version "1.8.6"
-  resolved "https://registry.yarnpkg.com/@types/underscore/-/underscore-1.8.6.tgz#3f4b9c5915379b420fe7de75bd8cb58a7d9835ed"
+"@types/underscore@^1.8.20":
+  version "1.9.3"
+  resolved "https://registry.npmjs.org/@types/underscore/-/underscore-1.9.3.tgz#d7d9dc5a5ff76fa3d001b29bc7cc95ab0ccfe85e"
 
 "@types/uuid@^3.4.3":
   version "3.4.3"
@@ -6174,7 +6178,7 @@ typescript@2.4.1:
 
 typescript@^2.9.2:
   version "2.9.2"
-  resolved "http://registry.npm.taobao.org/typescript/download/typescript-2.9.2.tgz#1cbf61d05d6b96269244eb6a3bce4bd914e0f00c"
+  resolved "https://registry.npmjs.org/typescript/-/typescript-2.9.2.tgz#1cbf61d05d6b96269244eb6a3bce4bd914e0f00c"
 
 uc.micro@^1.0.1, uc.micro@^1.0.3:
   version "1.0.3"
@@ -6226,9 +6230,9 @@ unc-path-regex@^0.1.2:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/unc-path-regex/-/unc-path-regex-0.1.2.tgz#e73dd3d7b0d7c5ed86fbac6b0ae7d8c6a69d50fa"
 
-underscore@1.4.4:
-  version "1.4.4"
-  resolved "https://registry.yarnpkg.com/underscore/-/underscore-1.4.4.tgz#61a6a32010622afa07963bf325203cf12239d604"
+underscore@1.8.3:
+  version "1.8.3"
+  resolved "https://registry.npmjs.org/underscore/-/underscore-1.8.3.tgz#4f3fb53b106e6097fcf9cb4109f2a5e9bdfa5022"
 
 underscore@~1.7.0:
   version "1.7.0"

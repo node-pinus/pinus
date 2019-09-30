@@ -4,7 +4,7 @@
   "private": false,
   "dependencies": {
     "@types/cliff": "^0.1.4",
-    "@types/node": "^8.5.7",
+    "@types/node": "8.5.7",
     "@types/socket.io-client": "^1.4.32",
     "@types/underscore": "^1.8.20",
     "cliff": "^0.1.10",

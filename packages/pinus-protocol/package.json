@@ -24,7 +24,7 @@
   "node": ">=8.5"
  },
  "dependencies": {
-  "@types/node": "^8.5.2"
+  "@types/node": "^8.10.54"
  },
  "devDependencies": {
   "jscoverage": "^0.6.0",
