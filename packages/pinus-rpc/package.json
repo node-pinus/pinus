@@ -43,7 +43,7 @@
 		"ws": "^7.0.0"
 	},
 	"devDependencies": {
-		"mocha": "6.2.1",
+		"mocha": "6.2.2",
 		"should": "13.2.3",
 		"tslint": "5.20.0",
 		"typescript": "3.6.2"
