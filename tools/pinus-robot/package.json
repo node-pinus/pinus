@@ -14,7 +14,7 @@
     "underscore": "1.9.1"
   },
   "devDependencies": {
-    "tslint": "5.20.0"
+    "tslint": "5.20.1"
   },
   "scripts": {
     "build": "tsc",
