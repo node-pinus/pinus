@@ -20,7 +20,7 @@
         "reflect-metadata": "^0.1.10"
     },
     "devDependencies": {
-		"tslint": "5.20.0",
+		"tslint": "5.20.1",
         "typescript": "3.6.2"
     }
 }
