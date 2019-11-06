@@ -15,7 +15,7 @@
     "ws": "7.2.0"
   },
   "devDependencies": {
-    "webpack": "4.41.0",
+    "webpack": "4.41.2",
     "tslint": "5.20.1"
   }
 }
