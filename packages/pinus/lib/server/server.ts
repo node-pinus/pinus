@@ -3,21 +3,20 @@
  * Init and start server instance.
  */
 import { getLogger } from 'pinus-logger';
-import * as fs from 'fs';
 import * as path from 'path';
 import * as pathUtil from '../util/pathUtil';
 import * as Loader from 'pinus-loader';
+import { LoaderPathType } from 'pinus-loader';
 import * as utils from '../util/utils';
 import * as schedule from 'pinus-scheduler';
 import { default as events } from '../util/events';
 import * as Constants from '../util/constants';
+import { RouteRecord } from '../util/constants';
 import { FilterService } from '../common/service/filterService';
-import { HandlerService, HandlerServiceOptions, HandlerCallback } from '../common/service/handlerService';
+import { HandlerCallback, HandlerService, HandlerServiceOptions } from '../common/service/handlerService';
 import { Application } from '../application';
 import { EventEmitter } from 'events';
-import { RouteRecord } from '../util/constants';
-import { FrontendSession, BackendSession } from '../index';
-import { LoaderPathType } from 'pinus-loader';
+import { BackendSession, FrontendSession } from '../index';
 
 let logger = getLogger('pinus', path.basename(__filename));
 
@@ -123,7 +122,12 @@ export class Server extends EventEmitter {
 
         let routeRecord = parseRoute(msg.route);
         if (!routeRecord) {
-            utils.invokeCallback(cb, new Error(`meet unknown route message ${msg.route}`));
+            utils.invokeCallback(cb, new Error(`meet unknown route message ${ msg.route }`));
+            return;
+        }
+        if (routeRecord.method === 'constructor') {
+            logger.warn('attack session:', session, msg);
+            this.app.sessionService.kickBySessionId(session.id, 'attack');
             return;
         }
 
@@ -253,7 +257,7 @@ let loadCronHandlers = function (app: Application, manualReload = false) {
     for (let plugin of app.usedPlugins) {
         if (plugin.cronPath) {
             if (!_checkCanRequire(plugin.cronPath)) {
-                logger.error(`插件[${plugin.name}的cronPath[${plugin.cronPath}不存在。]]`);
+                logger.error(`插件[${ plugin.name }的cronPath[${ plugin.cronPath }不存在。]]`);
                 continue;
             }
             let crons = Loader.load(plugin.cronPath, app, manualReload, true, LoaderPathType.PINUS_CRONNER);
@@ -368,7 +372,7 @@ let handleError = function (isGlobal: boolean, server: Server, err: Error, msg: 
         handler = server.app.get(Constants.RESERVED.ERROR_HANDLER);
     }
     if (!handler) {
-        logger.error(`${server.app.serverId} no default error handler msg[${JSON.stringify(msg)}] to resolve unknown exception: sessionId:${JSON.stringify(session.export())} , error stack: ${err.stack}`);
+        logger.error(`${ server.app.serverId } no default error handler msg[${ JSON.stringify(msg) }] to resolve unknown exception: sessionId:${ JSON.stringify(session.export()) } , error stack: ${ err.stack }`);
         utils.invokeCallback(cb, err, resp);
     } else {
         if (handler.length === 5) {
