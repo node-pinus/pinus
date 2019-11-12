@@ -24,7 +24,7 @@
     },
     "dependencies": {
         "@types/node": "^8.5.2",
-        "log4js": "^5.0.0"
+        "log4js": "^6.0.0"
     },
     "devDependencies": {
         "mocha": "6.2.2",
