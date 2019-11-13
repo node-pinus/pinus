@@ -34,7 +34,7 @@ export function preload() {
     });
 
     // 捕获async异常
-    process.on('unhandledRejection', (reason, p) => {
+    process.on('unhandledRejection', (reason: any, p) => {
         console.error(pinus.app.getServerId(), 'Caught Unhandled Rejection at:', p, 'reason:', reason);
     });
 }
