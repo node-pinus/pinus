@@ -3176,9 +3176,10 @@ ejs@1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/ejs/-/ejs-1.0.0.tgz#c9c60a48a46ee452fb32a71c317b95e5aa1fcb3d"
 
-ejs@2.6.2:
-  version "2.6.2"
-  resolved "https://registry.yarnpkg.com/ejs/-/ejs-2.6.2.tgz#3a32c63d1cd16d11266cd4703b14fec4e74ab4f6"
+ejs@2.7.3:
+  version "2.7.3"
+  resolved "https://registry.yarnpkg.com/ejs/-/ejs-2.7.3.tgz#4f437b3992ea0e0757f0ab8d7f29e42593498927"
+  integrity sha512-NtMNsdpaCF23gvHItgT37gzrpzckzs7KB7mg+YH1GMSG/5iZRq1BeWzAhEAJVagfM7nCQDnh/C51j/L2qjZmnA==
 
 elliptic@^6.0.0:
   version "6.4.0"
