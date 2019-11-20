@@ -2,7 +2,7 @@
 	"name": "pinus-workspaces",
 	"version": "0.0.1",
 	"devDependencies": {
-		"lerna": "3.18.4",
+		"lerna": "3.18.5",
 		"lerna-relinker": "1.5.0",
 		"nyc": "14.1.1",
 		"pinus-site-tools": "1.0.6",
