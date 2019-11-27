@@ -6,7 +6,7 @@ import * as crypto from 'crypto';
 import { getLogger } from 'pinus-logger';
 import { Application } from '../application';
 import { IComponent } from '../interfaces/IComponent';
-import AppEvents from "../util/events";
+import AppEvents from '../util/events';
 
 let logger = getLogger('pinus', path.basename(__filename));
 
