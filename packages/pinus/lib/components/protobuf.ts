@@ -6,6 +6,7 @@ import * as crypto from 'crypto';
 import { getLogger } from 'pinus-logger';
 import { Application } from '../application';
 import { IComponent } from '../interfaces/IComponent';
+import AppEvents from "../util/events";
 
 let logger = getLogger('pinus', path.basename(__filename));
 
@@ -157,6 +158,8 @@ export class ProtobufComponent implements IComponent {
             let protoStr = JSON.stringify(self.clientProtos) + JSON.stringify(self.serverProtos);
             self.version = crypto.createHash('md5').update(protoStr).digest('base64');
             logger.info('change proto file , type : %j, path : %j, version : %j', type, path, self.version);
+            // 抛出 proto 变化事件。
+            self.app.event.emit(AppEvents.PROTO_CHANGED, type);
         } catch (e) {
             logger.error('change proto file error! path : %j', path, filename, errTry, e);
             if (!errTry) {
