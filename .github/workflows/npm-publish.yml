@@ -14,10 +14,8 @@ jobs:
       uses: actions/setup-node@master
       with:
         node-version: 10.0.0
-    - name: yarn install
+    - name: yarn
       uses: borales/actions-yarn@v2.0.0
-      with:
-          cmd: install # will run `yarn install` command
     - name: yarn build
       uses: borales/actions-yarn@v2.0.0
       with:
