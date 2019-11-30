@@ -15,11 +15,11 @@ jobs:
       with:
         node-version: 10.0.0
     - name: yarn
-      uses: borales/actions-yarn@v2.0.0
-    - name: yarn build
-      uses: borales/actions-yarn@v2.0.0
+      uses: mkramb/yarn-action@master
+      env:
+        NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
       with:
-          cmd: build
-      env: # More info about the environment variables in the README
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Leave this as is, it's automatically generated
-        NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }} # You need to set this in your repo settings
+        args: 'install'
+    env: # More info about the environment variables in the README
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Leave this as is, it's automatically generated
+      NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }} # You need to set this in your repo settings
