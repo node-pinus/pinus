@@ -15,13 +15,14 @@ jobs:
       with:
         node-version: 10.0.0
     - run: git checkout origin/master -B master
+    - run: git remote set-url origin https://${GITHUB_TOKEN}@github.com/node-pinus/pinus.git
     - run: git config --global user.email "mybios@qq.com"
     - run: git config --global user.name "mybios"
     - run: git config --global credential.helper store
     - run: yarn install
     #- run: yarn build
-    - run: yarn run version patch --force-publish --git-remote https://${GITHUB_TOKEN}@github.com/node-pinus/pinus.git --yes
-    - run: yarn run publish from-package --yes --force-publish --git-remote https://${GITHUB_TOKEN}@github.com/node-pinus/pinus.git --registry https//registry.npmjs.org/:_authToken=${NPM_AUTH_TOKEN}
+    - run: yarn run version patch --force-publish --yes
+    - run: yarn run publish from-package --yes --force-publish --registry https//registry.npmjs.org/:_authToken=${NPM_AUTH_TOKEN}
     env: # More info about the environment variables in the README
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Leave this as is, it's automatically generated
       NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
