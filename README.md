@@ -1,4 +1,4 @@
-Update version 1.3.12
+#### Update version 1.3.12
 
 [![Build Status](https://travis-ci.org/node-pinus/pinus.svg?branch=master)](https://travis-ci.org/node-pinus/pinus)
 
