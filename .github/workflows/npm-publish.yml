@@ -21,7 +21,7 @@ jobs:
     - run: yarn install
     - run: yarn build
     - run: git remote add -f pub https://${GITHUB_TOKEN}@github.com/node-pinus/pinus.git
-    - run: yarn run publish --cd-version patch --yes --git-remote pub --registey https//registry.npmjs.org/:_authToken=${NPM_AUTH_TOKEN}
+    - run: yarn run publish --cd-version patch --yes --git-remote pub --registry https//registry.npmjs.org/:_authToken=${NPM_AUTH_TOKEN}
     env: # More info about the environment variables in the README
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Leave this as is, it's automatically generated
       NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
