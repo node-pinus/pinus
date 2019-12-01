@@ -1,6 +1,6 @@
 {
   "name": "pinus-simple-example-web-server",
-  "version": "1.3.12",
+  "version": "1.3.13",
   "private": false,
   "dependencies": {
     "express": "3.4.8"
