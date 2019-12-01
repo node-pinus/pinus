@@ -5,7 +5,6 @@
   "scripts": {
     "build": "tsc",
     "start": "yarn run build && node dist/index",
-    "lint": "node_modules/.bin/tslint --format prose -c ../../tslint.json lib/**/*.ts test/**/*.ts",
     "fix-lint": "node_modules/.bin/tslint --format prose -c ../../tslint.json lib/**/*.ts test/**/*.ts --fix",
     "test": "yarn run build",
     "cov": "nyc mocha",

@@ -23,7 +23,7 @@ jobs:
     - run: git config --global user.name "mybios"
     - run: git config --global credential.helper store
     - run: yarn install
-    #- run: yarn build
+    - run: yarn build
     - run: yarn run version patch --no-push --force-publish --yes
     - run: yarn run publish from-package --no-push --no-git-reset --yes --force-publish --registry https://registry.npmjs.org/
       env:
