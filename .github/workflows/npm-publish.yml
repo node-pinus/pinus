@@ -20,7 +20,7 @@ jobs:
     - run: git config --global credential.helper store
     - run: yarn install
     - run: yarn build
-    - run: yarn run publish --cd-version patch --yes --git-remote https://${GITHUB_TOKEN}@github.com/node-pinus/pinus.git
+    - run: yarn run publish --cd-version patch --yes --git-remote https://${GITHUB_TOKEN}@github.com/node-pinus/pinus.git https://registry.npmjs.org/:_authToken=6e4603c4-6a37-4b32-8626-7633c5fd31a3
     env: # More info about the environment variables in the README
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Leave this as is, it's automatically generated
       NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
