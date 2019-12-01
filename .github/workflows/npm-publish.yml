@@ -14,6 +14,7 @@ jobs:
       uses: actions/setup-node@master
       with:
         node-version: 10.0.0
+    - run: git checkout origin/master -B master
     - name: yarn
       uses: mkramb/yarn-action@master
       env:
