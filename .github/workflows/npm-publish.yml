@@ -19,6 +19,7 @@ jobs:
     - run: git config --global user.name "mybios"
     - run: git config --global credential.helper store
     - run: git remote set-url origin https://${GITHUB_TOKEN}@github.com/node-pinus/pinus.git
+    - run: echo npm config set '//registry.npmjs.org/:_authToken' "${NPM_AUTH_TOKEN}"
     - run: npm config set '//registry.npmjs.org/:_authToken' "${NPM_AUTH_TOKEN}"
     - run: yarn install
     - run: yarn build
