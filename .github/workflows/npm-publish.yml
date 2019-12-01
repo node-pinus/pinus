@@ -18,10 +18,9 @@ jobs:
     - run: git config --global user.email "mybios@qq.com"
     - run: git config --global user.name "mybios"
     - run: git config --global credential.helper store
-    - run: git remote set-url origin https://${GITHUB_TOKEN}@github.com/node-pinus/pinus.git
     - run: yarn install
     - run: yarn build
-    - run: yarn run publish --cd-version patch --yes --registry https://registry.npmjs.org/:_authToken=${NPM_AUTH_TOKEN}
+    - run: yarn run publish --cd-version patch --yes --git-remote https://${GITHUB_TOKEN}@github.com/node-pinus/pinus.git --registry https://registry.npmjs.org/:_authToken=${NPM_AUTH_TOKEN}
     env: # More info about the environment variables in the README
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Leave this as is, it's automatically generated
       NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }} # You need to set this in your repo settings
