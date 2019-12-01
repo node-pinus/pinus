@@ -30,7 +30,7 @@ jobs:
           NODE_AUTH_TOKEN: ${{secrets.NPM_AUTH_TOKEN}}
     - run: git status
     - run: git push origin --tags
-    - run: git push master 
+    - run: git push origin master 
     env: # More info about the environment variables in the README
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Leave this as is, it's automatically generated
       NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
