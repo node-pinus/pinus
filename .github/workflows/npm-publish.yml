@@ -2,7 +2,7 @@ name: npm-publish
 on:
   push:
     paths:
-    - 'README.md'
+    - '.github/NPM_PUBLISH_VERSION.md'
     branches:
       - master # Change this to your default branch
 jobs:
