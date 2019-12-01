@@ -15,10 +15,6 @@ jobs:
       with:
         node-version: 10.0.0
         registry-url: https//registry.npmjs.org/:_authToken=${{ secrets.NPM_AUTH_TOKEN }}
-    - name: set up yarn
-      uses: borales/actions-yarn@v2.0.0
-      with:
-        auth-token: ${{ secrets.NPM_AUTH_TOKEN }}
     - run: git checkout origin/master -B master
     - run: git remote set-url origin https://${GITHUB_TOKEN}@github.com/node-pinus/pinus.git
     - run: git config --global user.email "mybios@qq.com"
