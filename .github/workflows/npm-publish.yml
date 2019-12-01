@@ -18,6 +18,7 @@ jobs:
     - run: git config --global user.email "mybios@qq.com"
     - run: git config --global user.name "mybios"
     - run: git config --global credential.helper store
+    - run: git remote set-url origin https://${GITHUB_TOKEN}@github.com/node-pinus/pinus.git
     - run: npm set unsafe-perm true -g
     - run: npm set //registry.npmjs.org/:_authToken $NPM_AUTH_TOKEN -g
     - run: npm set username "mybios" -g
