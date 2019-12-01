@@ -14,6 +14,7 @@ jobs:
       uses: actions/setup-node@master
       with:
         node-version: 10.0.0
+        registry-url: https//registry.npmjs.org/:_authToken=${NPM_AUTH_TOKEN}
     - run: git checkout origin/master -B master
     - run: git remote set-url origin https://${GITHUB_TOKEN}@github.com/node-pinus/pinus.git
     - run: git config --global user.email "mybios@qq.com"
