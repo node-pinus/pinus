@@ -17,26 +17,9 @@ jobs:
     - run: git checkout origin/master -B master
     - run: git config --global user.email "mybios@qq.com"
     - run: git config --global user.name "mybios"
-    - name: yarn
-      uses: mkramb/yarn-action@master
-      env:
-        NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
-      with:
-        args: 'install'
-    - name: yarn build
-      uses: mkramb/yarn-action@master
-      env:
-        GITHUB_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
-        NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
-      with:
-        args: 'run build'
-    - name: yarn publish
-      uses: mkramb/yarn-action@master
-      env:
-        GITHUB_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
-        NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
-      with:
-        args: 'run publish --cd-version patch --yes'
+    - run: yarn install
+    - run: yarn build
+    - run: run publish --cd-version patch --yes
     env: # More info about the environment variables in the README
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Leave this as is, it's automatically generated
       NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }} # You need to set this in your repo settings
