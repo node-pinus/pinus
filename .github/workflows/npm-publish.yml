@@ -19,7 +19,7 @@ jobs:
     - run: git config --global user.name "mybios"
     - run: git config --global credential.helper store
     - run: yarn install
-    - run: yarn build
+    #- run: yarn build
     - run: lerna version patch --no-git-tag-version --no-push
     - run: yarn run publish --yes --force-publish --no-git-tag-version --no-push --registry https//registry.npmjs.org/:_authToken=${NPM_AUTH_TOKEN}
     env: # More info about the environment variables in the README
