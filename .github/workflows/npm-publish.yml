@@ -17,6 +17,16 @@ jobs:
     - run: git checkout origin/master -B master
     - run: git config --global user.email "mybios@qq.com"
     - run: git config --global user.name "mybios"
+    - run: git config --global credential.helper store
+    - run: npm set unsafe-perm true -g
+    - run: npm set //registry.npmjs.org/:_authToken $NPM_AUTH_TOKEN -g
+    - run: npm set username "mybios" -g
+    - run: npm set email "mybios@qq.com" -g
+    - run: echo "git user:"
+    - run: git config user.name
+    - run: echo "npm user:"
+    - run: npm whoami
+    - run: git status
     - run: yarn install
     - run: yarn build
     - run: yarn run publish --cd-version patch --yes
