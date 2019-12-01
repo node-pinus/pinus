@@ -14,7 +14,11 @@ jobs:
       uses: actions/setup-node@master
       with:
         node-version: 10.0.0
-        registry-url: https//registry.npmjs.org/:_authToken=${NPM_AUTH_TOKEN}
+        registry-url: https//registry.npmjs.org/:_authToken=${{ secrets.NPM_AUTH_TOKEN }}
+    - name: set up yarn
+      uses: borales/actions-yarn@v2.0.0
+      with:
+        auth-token: ${{ secrets.NPM_AUTH_TOKEN }}
     - run: git checkout origin/master -B master
     - run: git remote set-url origin https://${GITHUB_TOKEN}@github.com/node-pinus/pinus.git
     - run: git config --global user.email "mybios@qq.com"
@@ -23,7 +27,7 @@ jobs:
     - run: yarn install
     #- run: yarn build
     - run: yarn run version patch --no-push --force-publish --yes
-    - run: yarn run publish from-package --no-push --no-git-reset --yes --force-publish --registry https//registry.npmjs.org/:_authToken=${NPM_AUTH_TOKEN}
+    - run: yarn run publish from-package --no-push --no-git-reset --yes --force-publish
     env: # More info about the environment variables in the README
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Leave this as is, it's automatically generated
       NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
