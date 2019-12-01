@@ -24,8 +24,8 @@ jobs:
     - run: git config --global credential.helper store
     - run: yarn install
     #- run: yarn build
-    - run: yarn run version patch -no-push --force-publish --yes
-    - run: yarn run publish from-package -no-push --no-git-reset --yes --force-publish --registry https://registry.npmjs.org/
+    - run: yarn run version patch --no-push --force-publish --yes
+    - run: yarn run publish from-package --no-push --no-git-reset --yes --force-publish --registry https://registry.npmjs.org/
       env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_AUTH_TOKEN}}
     - run: git status
