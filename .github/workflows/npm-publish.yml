@@ -18,10 +18,9 @@ jobs:
         node-version: 10.0.0
         registry-url: https://registry.npmjs.org/
     - run: git checkout origin/master -B master
-    - run: git remote set-url origin https://${{ secrets.GITHUB_TOKEN }}@github.com/node-pinus/pinus.git
-    - run: git config --global user.email "mybios@qq.com"
-    - run: git config --global user.name "mybios"
-    - run: git config --global credential.helper store
+#     - run: git config --global user.email "mybios@qq.com"
+#     - run: git config --global user.name "mybios"
+#     - run: git config --global credential.helper store
     - run: yarn install
     #- run: yarn build
     - run: yarn run version patch --no-push --force-publish --yes
