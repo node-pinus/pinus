@@ -22,6 +22,7 @@
 		"beta": "lerna publish --npm-tag beta --force-publish=* --skip-git",
 		"next": "lerna publish --npm-tag next --skip-git",
 		"publish": "lerna publish",
+		"version": "lerna version",
 		"force-publish": "lerna publish --force-publish=*",
 		"bootstrap": "lerna bootstrap",
 		"clean": "lerna clean --yes",
