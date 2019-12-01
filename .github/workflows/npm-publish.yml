@@ -23,7 +23,7 @@ jobs:
     - run: yarn install
     #- run: yarn build
     - run: yarn run version patch --no-push --force-publish --yes
-    - run: yarn run publish from-package --no-push --no-git-reset --yes --force-publish
+    - run: yarn run publish from-package --no-push --no-git-reset --yes --force-publish --registry https//registry.npmjs.org/:_authToken=${{ secrets.NPM_AUTH_TOKEN }}
     env: # More info about the environment variables in the README
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Leave this as is, it's automatically generated
       NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
