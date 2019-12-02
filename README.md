@@ -1,4 +1,3 @@
-#####  Update version 1.3.12
 
 [![Build Status](https://travis-ci.org/node-pinus/pinus.svg?branch=master)](https://travis-ci.org/node-pinus/pinus)
 
@@ -33,6 +32,9 @@ yarn run build
 ```
 
 编译好以后可以使用 yarn link 或者 npm link 软链接到自己的项目。
+
+
+#### [查看pinus CHANGELOG](CHANGELOG.md)
 
 ## Pinus -- a fast, scalable game server framework for node.js
 
