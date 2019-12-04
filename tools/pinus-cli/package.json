@@ -32,7 +32,7 @@
   "dependencies": {
     "@types/async": "^3.0.0",
     "@types/cliff": "^0.1.4",
-    "@types/node": "8.5.7",
+    "@types/node": "8.10.54",
     "@types/optimist": "0.0.29",
     "async": "^3.0.0",
     "cliff": "^0.1.10",

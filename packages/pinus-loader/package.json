@@ -23,7 +23,7 @@
 		"node": ">=8.5"
 	},
 	"dependencies": {
-		"@types/node": "8.5.7",
+		"@types/node": "8.10.54",
 		"reflect-metadata": "0.1.13"
 	},
 	"devDependencies": {
