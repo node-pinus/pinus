@@ -13,7 +13,7 @@
 	},
 	"scripts": {
 		"preinstall": "node -e \"if(process.env.npm_execpath.indexOf('yarn') === -1) throw new Error('请使用 Yarn 来代替 NPM 安装依赖，请看：https://yarnpkg.com/zh-Hans/docs/install')\"",
-		"test": "mocha",
+		"test": "lerna run mochatest",
 		"cov": "sh scripts/cov.sh",
 		"ci": "yarn run build && yarn run lint",
 		"purge": "yarn run clean && rm -rf node_modules",
@@ -22,6 +22,7 @@
 		"beta": "lerna publish --npm-tag beta --force-publish=* --skip-git",
 		"next": "lerna publish --npm-tag next --skip-git",
 		"publish": "lerna publish",
+		"version": "lerna version",
 		"force-publish": "lerna publish --force-publish=*",
 		"bootstrap": "lerna bootstrap",
 		"clean": "lerna clean --yes",

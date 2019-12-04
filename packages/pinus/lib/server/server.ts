@@ -3,21 +3,21 @@
  * Init and start server instance.
  */
 import { getLogger } from 'pinus-logger';
-import * as fs from 'fs';
 import * as path from 'path';
 import * as pathUtil from '../util/pathUtil';
 import * as Loader from 'pinus-loader';
+import { LoaderPathType } from 'pinus-loader';
 import * as utils from '../util/utils';
 import * as schedule from 'pinus-scheduler';
 import { default as events } from '../util/events';
 import * as Constants from '../util/constants';
+import { RouteRecord } from '../util/constants';
 import { FilterService } from '../common/service/filterService';
-import { HandlerService, HandlerServiceOptions, HandlerCallback } from '../common/service/handlerService';
+import { HandlerCallback, HandlerService, HandlerServiceOptions } from '../common/service/handlerService';
 import { Application } from '../application';
 import { EventEmitter } from 'events';
-import { RouteRecord } from '../util/constants';
-import { FrontendSession, BackendSession } from '../index';
-import { LoaderPathType } from 'pinus-loader';
+import { BackendSession, FrontendSession } from '../index';
+
 let logger = getLogger('pinus', path.basename(__filename));
 
 
@@ -54,10 +54,11 @@ export class Server extends EventEmitter {
     globalFilterService: FilterService = null;
     filterService: FilterService = null;
     handlerService: HandlerService = null;
-    cronHandlers: {[handler: string]: {[method: string]: () => void}} = null;
+    cronHandlers: { [handler: string]: { [method: string]: () => void } } = null;
     crons: Cron[] = [];
-    jobs: {[cronId: string]: number} = {};
+    jobs: { [cronId: string]: number } = {};
     state = ST_INITED;
+
     constructor(app: Application, opts?: ServerOptions) {
         super();
         this.opts = opts || {};
@@ -79,9 +80,20 @@ export class Server extends EventEmitter {
         this.globalFilterService = initFilter(true, this.app);
         this.filterService = initFilter(false, this.app);
         this.handlerService = initHandler(this.app, this.opts);
-        this.cronHandlers = loadCronHandlers(this.app);
-        loadCrons(this, this.app);
+        this.loadCrons();
         this.state = ST_STARTED;
+    }
+
+    loadCrons(manualReload = false) {
+        if (manualReload) {
+            logger.info('loadCrons remove crons', this.crons);
+            this.removeCrons(this.crons);
+        }
+        this.cronHandlers = loadCronHandlers(this.app, manualReload);
+        loadCrons(this, this.app, manualReload);
+        if (manualReload) {
+            scheduleCrons(this, this.crons);
+        }
     }
 
     afterStart() {
@@ -110,7 +122,12 @@ export class Server extends EventEmitter {
 
         let routeRecord = parseRoute(msg.route);
         if (!routeRecord) {
-            utils.invokeCallback(cb, new Error(`meet unknown route message ${msg.route}`));
+            utils.invokeCallback(cb, new Error(`meet unknown route message ${ msg.route }`));
+            return;
+        }
+        if (routeRecord.method === 'constructor') {
+            logger.warn('attack session:', session, msg);
+            this.app.sessionService.kickBySessionId(session.id, 'attack');
             return;
         }
 
@@ -171,14 +188,25 @@ export class Server extends EventEmitter {
     removeCrons(crons: Cron[]) {
         for (let i = 0, l = crons.length; i < l; i++) {
             let cron = crons[i];
-            let id = parseInt(cron.id);
+            let id = cron.id;
             if (!!this.jobs[id]) {
                 schedule.cancelJob(this.jobs[id]);
+                delete this.jobs[id];
             } else {
                 logger.warn('cron is not in application: %j', cron);
             }
         }
     }
+}
+
+// 重置 crons 缓存，  手动添加的crons只会取消任务重新加载任务。
+export function manualReloadCrons(app: Application) {
+    if (!app.components.__server__) {
+        return;
+    }
+    logger.info('manualReloadCrons start');
+    app.components.__server__.server.loadCrons(true);
+    logger.info('manualReloadCrons finish');
 }
 
 let initFilter = function (isGlobal: boolean, app: Application) {
@@ -216,11 +244,11 @@ let initHandler = function (app: Application, opts: HandlerServiceOptions) {
 /**
  * Load cron handlers from current application
  */
-let loadCronHandlers = function (app: Application) {
-    let all: {[key: string]: any} = {};
+let loadCronHandlers = function (app: Application, manualReload = false) {
+    let all: { [key: string]: any } = {};
     let p = pathUtil.getCronPath(app.getBase(), app.getServerType());
     if (p) {
-        let crons = Loader.load(p, app, false, true, LoaderPathType.PINUS_CRONNER);
+        let crons = Loader.load(p, app, manualReload, true, LoaderPathType.PINUS_CRONNER);
         for (let name in crons) {
             all[name] = crons[name];
         }
@@ -229,10 +257,10 @@ let loadCronHandlers = function (app: Application) {
     for (let plugin of app.usedPlugins) {
         if (plugin.cronPath) {
             if (!_checkCanRequire(plugin.cronPath)) {
-                logger.error(`插件[${plugin.name}的cronPath[${plugin.cronPath}不存在。]]`);
+                logger.error(`插件[${ plugin.name }的cronPath[${ plugin.cronPath }不存在。]]`);
                 continue;
             }
-            let crons = Loader.load(plugin.cronPath, app, false, true, LoaderPathType.PINUS_CRONNER);
+            let crons = Loader.load(plugin.cronPath, app, manualReload, true, LoaderPathType.PINUS_CRONNER);
             for (let name in crons) {
                 all[name] = crons[name];
             }
@@ -240,11 +268,24 @@ let loadCronHandlers = function (app: Application) {
     }
     return all;
 };
+const clearRequireCache = function (path: string) {
+    const moduleObj = require.cache[path];
+    if (!moduleObj) {
+        return;
+    }
+    if (moduleObj.parent) {
+        moduleObj.parent.children.splice(moduleObj.parent.children.indexOf(moduleObj), 1);
+    }
+    delete require.cache[path];
+};
 
-function _checkCanRequire(path: string) {
+function _checkCanRequire(path: string, manualReload = false) {
     try {
         path = require.resolve(path);
-    } catch(err) {
+        if (manualReload) {
+            clearRequireCache(path);
+        }
+    } catch (err) {
         return null;
     }
     return path;
@@ -253,12 +294,12 @@ function _checkCanRequire(path: string) {
 /**
  * Load crons from configure file
  */
-let loadCrons = function (server: Server, app: Application) {
+let loadCrons = function (server: Server, app: Application, manualReload = false) {
     let env = app.get(Constants.RESERVED.ENV);
     let p = path.join(app.getBase(), Constants.FILEPATH.CRON);
-    if (!_checkCanRequire(p)) {
+    if (!_checkCanRequire(p, manualReload)) {
         p = path.join(app.getBase(), Constants.FILEPATH.CONFIG_DIR, env, path.basename(Constants.FILEPATH.CRON));
-        if (!_checkCanRequire(p)) {
+        if (!_checkCanRequire(p, manualReload)) {
             return;
         }
     }
@@ -269,10 +310,10 @@ let loadCrons = function (server: Server, app: Application) {
             let list = crons[serverType];
             for (let i = 0; i < list.length; i++) {
                 if (!list[i].serverId) {
-                    checkAndAdd(list[i], server.crons, server);
+                    checkAndAdd(list[i], server.crons, server, manualReload);
                 } else {
                     if (app.serverId === list[i].serverId) {
-                        checkAndAdd(list[i], server.crons, server);
+                        checkAndAdd(list[i], server.crons, server, manualReload);
                     }
                 }
             }
@@ -331,7 +372,7 @@ let handleError = function (isGlobal: boolean, server: Server, err: Error, msg: 
         handler = server.app.get(Constants.RESERVED.ERROR_HANDLER);
     }
     if (!handler) {
-        logger.error(`${server.app.serverId} no default error handler msg[${JSON.stringify(msg)}] to resolve unknown exception: sessionId:${JSON.stringify(session.export())} , error stack: ${err.stack}`);
+        logger.error(`${ server.app.serverId } no default error handler msg[${ JSON.stringify(msg) }] to resolve unknown exception: sessionId:${ JSON.stringify(session.export()) } , error stack: ${ err.stack }`);
         utils.invokeCallback(cb, err, resp);
     } else {
         if (handler.length === 5) {
@@ -397,11 +438,10 @@ let doForward = function (app: Application, msg: any, session: FrontendOrBackend
                 finished = true;
                 utils.invokeCallback(cb, null, resp);
             }).catch(function (err: Error) {
-                logger.error(app.serverId + ' fail to process remote message:' + err.stack);
-                utils.invokeCallback(cb, err);
-            });
-    }
-    catch (err) {
+            logger.error(app.serverId + ' fail to process remote message:' + err.stack);
+            utils.invokeCallback(cb, err);
+        });
+    } catch (err) {
         if (!finished) {
             logger.error(app.serverId + ' fail to forward message:' + err.stack);
             utils.invokeCallback(cb, err);
@@ -482,11 +522,17 @@ let scheduleCrons = function (server: Server, crons: Cron[]) {
 /**
  * If cron is not in crons then put it in the array.
  */
-let checkAndAdd = function (cron: Cron, crons: Cron[], server: Server) {
-    if (!containCron(cron.id, crons)) {
+let checkAndAdd = function (cron: Cron, crons: Cron[], server: Server, replace = false) {
+    const orgCron = containCron(cron.id, crons);
+    if (!orgCron) {
         server.crons.push(cron);
     } else {
         logger.warn('cron is duplicated: %j', cron);
+        if (replace) {
+            logger.warn('replace time and action org:%j, new:%j', orgCron, cron);
+            orgCron.time = cron.time;
+            orgCron.action = cron.action;
+        }
     }
 };
 
@@ -496,8 +542,8 @@ let checkAndAdd = function (cron: Cron, crons: Cron[], server: Server) {
 let containCron = function (id: string, crons: Cron[]) {
     for (let i = 0, l = crons.length; i < l; i++) {
         if (id === crons[i].id) {
-            return true;
+            return crons[i];
         }
     }
-    return false;
+    return null;
 };

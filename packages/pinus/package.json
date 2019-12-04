@@ -1,6 +1,6 @@
 {
   "name": "pinus",
-  "version": "1.3.11",
+  "version": "1.3.14",
   "homepage": "https://github.com/mybios/pinus",
   "repository": {
     "type": "git",
@@ -14,6 +14,7 @@
     "test": "yarn run build",
     "cov": "nyc mocha",
     "ci": "yarn run test",
+    "mochatest": "cd dist && mocha --require source-map-support/register --recursive",
     "gen-api-ref": "node ../../node_modules/typedoc/bin/typedoc --mode file --hideGenerator --excludeExternals --ignoreCompilerErrors --out ../../run/site/public/api-reference/pinus lib/"
   },
   "engines": {
@@ -49,7 +50,7 @@
   "dependencies": {
     "@types/mocha": "^5.0.0",
     "@types/mqtt-connection": "git+https://github.com/node-pinus/types-mqtt-connection.git",
-    "@types/socket.io": "^2.0.0",
+    "@types/socket.io": "^2.1.3",
     "async": "^3.0.0",
     "cliff": "^0.1.10",
     "commander": "^3.0.0",
@@ -58,13 +59,13 @@
     "mkdirp": "^0.5.1",
     "mqtt-connection": "^4.0.0",
     "node-bignumber": "^1.2.1",
-    "pinus-admin": "^1.3.11",
-    "pinus-loader": "^1.3.11",
-    "pinus-logger": "^1.3.11",
-    "pinus-protobuf": "^1.3.11",
-    "pinus-protocol": "^1.3.11",
-    "pinus-rpc": "^1.3.11",
-    "pinus-scheduler": "^1.3.11",
+    "pinus-admin": "^1.3.14",
+    "pinus-loader": "^1.3.14",
+    "pinus-logger": "^1.3.14",
+    "pinus-protobuf": "^1.3.14",
+    "pinus-protocol": "^1.3.14",
+    "pinus-rpc": "^1.3.14",
+    "pinus-scheduler": "^1.3.14",
     "seq-queue": "^0.0.5",
     "socket.io": "^2.0.4",
     "ws": "^7.0.0"

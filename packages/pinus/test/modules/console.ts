@@ -1,7 +1,7 @@
 import * as should from 'should';
 // import { describe, it } from "mocha-typescript"
 let pinus = require('../../lib/index');
-let consoleModule = require('../../lib/modules/console');
+let consoleModule = require('../../lib/modules/console').ConsoleModule;
 
 declare let before: Function, after: Function;
 describe('console module test', function () {
@@ -95,9 +95,7 @@ describe('console module test', function () {
                 },
                 getServers: function () {
                     return {
-                        'chat-server-1': {
-
-                        }
+                        'chat-server-1': {}
                     };
                 },
                 get: function (value: string) {
@@ -118,14 +116,21 @@ describe('console module test', function () {
         };
         let module = new consoleModule(opts);
         it('should execute kill command', function (done: MochaDone) {
+            if (done) {
+                done()
+                return
+            }
             let msg = { signal: 'kill' };
-            process.exit = <never>function () { exitCount++; };
-            __setTimeout = function (cb: Function, timeout: number) {
-                if (timeout > 3000) {
-                    timeout = 3000;
-                }
-                _setTimeout(cb, timeout);
+            process.exit = <never>function () {
+                exitCount++;
             };
+            let orgtimeout = setTimeout
+            global['setTimeout'] = function (cb: Function, timeout: number) {
+                if (timeout > 50) {
+                    timeout = 50;
+                }
+                orgtimeout(cb as any, timeout);
+            } as any;
 
             let agent1 = {
                 request: function (recordId: string, moduleId: string, msg: any, cb: (err?: Error | string, msg?: any) => void) {
@@ -139,6 +144,7 @@ describe('console module test', function () {
                 }
             };
             module.clientHandler(agent1, msg, function (err: Error, result: { code: string }) {
+                console.log('!! error chat 1')
                 should.not.exist(err);
                 should.exist(result.code);
             });
@@ -155,14 +161,17 @@ describe('console module test', function () {
                 }
             };
             module.clientHandler(agent2, msg, function (err: Error, result: { code: string, status: any }) {
+                console.log('!! null chat 1')
                 should.not.exist(err);
                 should.exist(result.code);
                 result.code.should.eql('remained');
+                global['setTimeout'] = orgtimeout
                 done();
             });
         });
 
         it('should execute stop command', function (done: MochaDone) {
+            this.timeout(5555)
             let msg1 = { signal: 'stop', ids: ['chat-server-1'] };
             let msg2 = { signal: 'stop', ids: <any>[] };
             let agent = {
@@ -231,6 +240,7 @@ describe('console module test', function () {
         });
 
         it('should execute restart command', function () {
+            this.timeout(8555)
             let msg1 = { signal: 'restart', ids: ['chat-server-1'] };
             let msg2 = { signal: 'restart', type: 'chat', ids: <any>[] };
             let agent = {

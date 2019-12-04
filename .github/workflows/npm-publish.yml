@@ -1,0 +1,36 @@
+name: npm-publish
+on:
+  push:
+    paths:
+    - '.github/NPM_PUBLISH_VERSION.md'
+    branches:
+      - master # Change this to your default branch
+jobs:
+  npm-publish:
+    name: npm-publish
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@master
+    - name: Set up Node.js
+      uses: actions/setup-node@master
+      with:
+        node-version: 10.0.0
+        registry-url: https://registry.npmjs.org/
+    - run: git remote set-url origin https://node-pinus:${{ secrets.GITHUB_TOKEN }}@github.com/node-pinus/pinus.git
+    - run: git checkout origin/master -B master
+    - run: git config --global user.email "mybios@qq.com"
+    - run: git config --global user.name "mybios"
+    - run: git config --global credential.helper store
+    - run: yarn install
+    - run: yarn build
+    - run: yarn run version patch --no-push --force-publish --yes
+    - run: yarn run publish from-package --no-push --no-git-reset --yes --force-publish --registry https://registry.npmjs.org/
+      env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_AUTH_TOKEN}}
+    - run: git status
+    - run: git push origin --tags
+    - run: git push origin master 
+    env: # More info about the environment variables in the README
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Leave this as is, it's automatically generated
+      NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}

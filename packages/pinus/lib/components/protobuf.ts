@@ -6,6 +6,7 @@ import * as crypto from 'crypto';
 import { getLogger } from 'pinus-logger';
 import { Application } from '../application';
 import { IComponent } from '../interfaces/IComponent';
+import AppEvents from '../util/events';
 
 let logger = getLogger('pinus', path.basename(__filename));
 
@@ -132,7 +133,7 @@ export class ProtobufComponent implements IComponent {
         delete require.cache[path];
     }
 
-    onUpdate(type: string, path: string, event: string) {
+    onUpdate(type: string, path: string, event: string, filename?: string, errTry?: boolean) {
         if (event !== 'change') {
             return;
         }
@@ -141,6 +142,11 @@ export class ProtobufComponent implements IComponent {
         this.clearRequireCache(path);
         try {
             let protos = Protobuf.parse(require(path));
+            // 预防 git checkout这样的操作导致获得的数据为空的情况
+            if (!protos || !Object.keys(protos).length) {
+                // retry.
+                throw new Error('protos error');
+            }
             if (type === Constants.RESERVED.SERVER) {
                 this.protobuf.setEncoderProtos(protos);
                 self.serverProtos = protos;
@@ -152,12 +158,21 @@ export class ProtobufComponent implements IComponent {
             let protoStr = JSON.stringify(self.clientProtos) + JSON.stringify(self.serverProtos);
             self.version = crypto.createHash('md5').update(protoStr).digest('base64');
             logger.info('change proto file , type : %j, path : %j, version : %j', type, path, self.version);
-            this.watchers[type].close();
-            this.watchers[type] = fs.watch(path, this.onUpdate.bind(this, type, path));
+            // 抛出 proto 变化事件。
+            self.app.event.emit(AppEvents.PROTO_CHANGED, type);
         } catch (e) {
-            logger.warn('change proto file error! path : %j', path);
-            logger.warn(e);
+            logger.error('change proto file error! path : %j', path, filename, errTry, e);
+            if (!errTry) {
+                logger.warn('setTimeout,try update proto');
+                setTimeout(() => {
+                    logger.warn('try update proto again');
+                    this.onUpdate(type, path, event, filename, true);
+                }, 3000);
+            }
+
         }
+        this.watchers[type].close();
+        this.watchers[type] = fs.watch(path, this.onUpdate.bind(this, type, path));
     }
 
     stop(force: boolean, cb: () => void) {

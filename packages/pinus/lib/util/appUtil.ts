@@ -210,7 +210,7 @@ let processArgs = function (app: Application, args: ServerStartArgs) {
     app.set(Constants.RESERVED.MODE, mode, true);
     app.set(Constants.RESERVED.TYPE, type, true);
     if (!!startId) {
-        app.set(Constants.RESERVED.STARTID, startId);
+        app.set(Constants.RESERVED.STARTID, startId, true);
     }
 
     if (masterha === 'true') {

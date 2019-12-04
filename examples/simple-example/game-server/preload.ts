@@ -1,6 +1,7 @@
 ﻿import {Promise} from 'bluebird';
 // 支持注解
 import 'reflect-metadata';
+import { pinus } from 'pinus';
 
 /**
  *  替换全局Promise
@@ -29,11 +30,11 @@ export function preload() {
 
     // 捕获普通异常
     process.on('uncaughtException', function (err) {
-        console.error('Caught exception: ' + err.stack);
+        console.error(pinus.app.getServerId(), 'uncaughtException Caught exception: ', err);
     });
 
     // 捕获async异常
-    process.on('unhandledRejection', (reason, p) => {
-        console.error('Caught Unhandled Rejection at:' + p + 'reason:' + reason.stack);
+    process.on('unhandledRejection', (reason: any, p) => {
+        console.error(pinus.app.getServerId(), 'Caught Unhandled Rejection at:', p, 'reason:', reason);
     });
 }

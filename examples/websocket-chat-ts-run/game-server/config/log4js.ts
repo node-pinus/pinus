@@ -58,7 +58,7 @@ module.exports = {
             },
             'backups': 5
         },
-        'pomelo': {
+        'pinus': {
             'type': 'file',
             'filename': '${opts:base}/logs/pinus-${opts:serverId}.log',
             'maxLogSize': 1048576,
@@ -89,9 +89,42 @@ module.exports = {
 
     'categories': {
         'default': {
-            'appenders': ['console', 'con-log', 'rpc-log', 'forward-log', 'rpc-debug', 'crash-log', 'admin-log', 'pomelo', 'pinus-admin', 'pinus-rpc'],
+            'appenders': ['console', 'pinus'],
             'level': 'debug'
-        }
+        },
+        'con-log': {
+            'appenders': ['con-log'],
+            'level': 'debug'
+        },
+        'rpc-log': {
+            'appenders': ['rpc-log'],
+            'level': 'debug'
+        },
+        'forward-log': {
+            'appenders': ['forward-log'],
+            'level': 'debug'
+        },
+        'rpc-debug': {
+            'appenders': ['rpc-debug'],
+            'level': 'debug'
+        },
+        'crash-log': {
+            'appenders': ['crash-log'],
+            'level': 'debug'
+        },
+        'admin-log': {
+            'appenders': ['admin-log'],
+            'level': 'debug'
+        },
+        'pinus-admin': {
+            'appenders': ['pinus-admin'],
+            'level': 'debug'
+        },
+        'pinus-rpc': {
+            'appenders': ['pinus-rpc'],
+            'level': 'debug'
+        },
+
     },
 
     'prefix': '${opts:serverId} ',

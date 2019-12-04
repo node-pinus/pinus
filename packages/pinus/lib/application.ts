@@ -1182,7 +1182,7 @@ export class Application {
         let eventInstance = new Event(opts);
 
         for (let evt in AppEvents) {
-            let name = AppEvents[evt];
+            let name = (AppEvents as any)[evt];
             let method = (eventInstance as any)[name];
             if (method) {
                 this.event.on(name, method.bind(eventInstance));

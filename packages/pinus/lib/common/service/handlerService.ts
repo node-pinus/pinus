@@ -9,20 +9,22 @@ import { RouteRecord, ServerInfo } from '../../util/constants';
 import { BackendSession } from './backendSessionService';
 import * as path from 'path';
 import { LoaderPathType } from 'pinus-loader';
+
 let logger = getLogger('pinus', path.basename(__filename));
 let forwardLogger = getLogger('forward-log', path.basename(__filename));
 
 export interface HandlerServiceOptions {
-    reloadHandlers ?: boolean;
-    enableForwardLog ?: boolean;
-    handlersPaths ?: string[];
+    reloadHandlers?: boolean;
+    enableForwardLog?: boolean;
+    handlersPaths?: string[];
 }
 
-export type HandlerCallback = (err: Error , response ?: any) => void;
-export type HandlerMethod = (msg: any , session: FrontendSession | BackendSession) => Promise<any>;
-export type Handler = {[method: string]: HandlerMethod};
-export type Handlers = {[handler: string]: Handler};
-export type HandlerMap = {[serverType: string]: Handlers};
+export type HandlerCallback = (err: Error, response ?: any) => void;
+export type HandlerMethod = (msg: any, session: FrontendSession | BackendSession) => Promise<any>;
+export type Handler = { [method: string]: HandlerMethod };
+export type Handlers = { [handler: string]: Handler };
+export type HandlerMap = { [serverType: string]: Handlers };
+
 /**
  * Handler service.
  * Dispatch request to the relactive handler.
@@ -32,8 +34,9 @@ export type HandlerMap = {[serverType: string]: Handlers};
 export class HandlerService {
     app: Application;
     handlerMap: HandlerMap = {};
-    handlerPaths: {[serverType: string]: Set<string>} = {};
+    handlerPaths: { [serverType: string]: Set<string> } = {};
     enableForwardLog: boolean;
+
     constructor(app: Application, opts: HandlerServiceOptions) {
         this.app = app;
         if (!!opts.reloadHandlers) {
@@ -45,13 +48,13 @@ export class HandlerService {
         let info = app.getCurrentServer();
         let handlerPath = info.serverType ? pathUtil.getHandlerPath(app.getBase(), info.serverType) : undefined;
         info.handlerPaths = [];
-        if(handlerPath) {
+        if (handlerPath) {
             info.handlerPaths.push(handlerPath);
         }
 
         // 添加插件中的handler到ServerInfo中
-        for(let plugin of app.usedPlugins) {
-            if(plugin.handlerPath) {
+        for (let plugin of app.usedPlugins) {
+            if (plugin.handlerPath) {
                 info.handlerPaths.push(plugin.handlerPath);
             }
         }
@@ -98,16 +101,16 @@ export class HandlerService {
             handler[method](msg, session).then((resp) => {
                 callback(null, resp);
             }, (reason) => {
-                    callback(reason);
-                });
+                callback(reason);
+            });
         } else {
             msg.push(session);
             handler[method].apply(handler, msg).then((resp: any) => {
                 callback(null, resp);
             }, (reason: any) => {
 
-                    callback(reason);
-                });
+                callback(reason);
+            });
         }
         return;
     }
@@ -137,11 +140,11 @@ export class HandlerService {
         return handler;
     }
 
-    private parseHandler(serverType: string , handlerPath: string) {
+    private parseHandler(serverType: string, handlerPath: string) {
         let modules = Loader.load(handlerPath, this.app, false, true, LoaderPathType.PINUS_HANDLER) as Handlers;
-        for(let name in modules) {
+        for (let name in modules) {
             let targetHandlers = this.handlerMap[serverType];
-            if(!targetHandlers) {
+            if (!targetHandlers) {
                 targetHandlers = {};
                 this.handlerMap[serverType] = targetHandlers;
             }
@@ -151,11 +154,11 @@ export class HandlerService {
 
     private addServer(serverInfo: ServerInfo) {
         let targetPaths = this.handlerPaths[serverInfo.serverType];
-        if(!targetPaths) {
+        if (!targetPaths) {
             targetPaths = new Set<string>();
             this.handlerPaths[serverInfo.serverType] = targetPaths;
         }
-        for(let path of serverInfo.handlerPaths) {
+        for (let path of serverInfo.handlerPaths) {
             targetPaths.add(path);
         }
     }
@@ -165,12 +168,23 @@ export class HandlerService {
      */
     private loadHandlers(serverType: string) {
         let paths = this.handlerPaths[serverType];
-        for(let path of paths) {
-            this.parseHandler(serverType , path);
+        for (let path of paths) {
+            this.parseHandler(serverType, path);
         }
     }
 }
 
+export function manualReloadHandlers(app: Application) {
+    if (!app.components.__server__) {
+        return;
+    }
+    let p = pathUtil.getHandlerPath(app.getBase(), app.serverType);
+    if (!p) {
+        return;
+    }
+    const handlerMap: HandlerMap = app.components.__server__.server.handlerService.handlerMap;
+    handlerMap[app.serverType] = Loader.load(p, app, true, true, LoaderPathType.PINUS_HANDLER);
+}
 
 let watchHandlers = function (app: Application, handlerMap: HandlerMap) {
     let p = pathUtil.getHandlerPath(app.getBase(), app.serverType);

@@ -1,5 +1,5 @@
 let utils = require('../../lib/util/utils');
-import * as should from 'should';
+import  'should';
 // import { describe, it } from "mocha-typescript"
 
 describe('utils test', function () {
@@ -143,7 +143,7 @@ describe('utils test', function () {
       let add = {
         aaa: 555
       };
-      let result = utils.extends(opts, add);
+      let result = utils.extendsObject(opts, add);
       result.should.eql({
         test: 123,
         aaa: 555

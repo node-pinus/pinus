@@ -1,20 +1,18 @@
 import { getLogger, Logger } from 'pinus-logger';
-let logger = getLogger('pinus-rpc', 'rpc-client');
 import { failureProcess } from './failureProcess';
 import { constants } from '../util/constants';
 import * as Station from './mailstation';
+import { MailStation, MailStationErrorHandler, MailStationOpts, RpcFilter, RpcServerInfo } from './mailstation';
 import { Tracer } from '../util/tracer';
 import * as Loader from 'pinus-loader';
-import * as utils from '../util/utils';
+import { LoaderPathType } from 'pinus-loader';
+import { listEs6ClassMethods } from '../util/utils';
 import * as router from './router';
 import * as async from 'async';
-import { RpcServerInfo, MailStation, MailStationErrorHandler, RpcFilter, MailStationOpts } from './mailstation';
-import {AsyncFunction, AsyncResultArrayCallback, ErrorCallback} from 'async';
 import { ConsistentHash } from '../util/consistentHash';
 import { RemoteServerCode } from '../../index';
-import { listEs6ClassMethods } from '../util/utils';
-import { LoaderPathType } from 'pinus-loader';
-import {IMailBoxFactory} from './mailbox';
+
+let logger = getLogger('pinus-rpc', 'rpc-client');
 
 /**
  * Client states
@@ -27,6 +25,7 @@ export type RouterFunction = (session: { [key: string]: any }, msg: RpcMsg, cont
 export type Router = RouterFunction | { route: RouterFunction };
 
 export type RouteServers = RpcServerInfo[];
+
 export interface RouteContextClass {
     getServersByType?: (serverType: string) => RouteServers;
 }
@@ -37,16 +36,20 @@ export type RouteContext = RouteServers | RouteContextClass;
 export interface Proxy {
     // 根据路由参数决定发往哪台服务器，第一个是路由参数，其他是rpc参数
     (routeParam: any, ...args: any[]): Promise<any>;
+
     // 根据服务器id决定发往哪个服务器，serverId如果是*，则发往所有这个rpc所属类型的服务器
     toServer(serverId: string, ...args: any[]): Promise<any>;
 
 
     // 根据路由参数决定发往哪台服务器，typescript友好
     route(routeParam: any, notify?: boolean): (...args: any[]) => Promise<any>;
+
     // 默认传递null作为路由参数，typescript友好
     defaultRoute(...args: any[]): Promise<any>;
+
     // 根据服务器id决定发往哪个服务器，serverId如果是*，则发往所有这个rpc所属类型的服务器
     to(serverId: string, notify?: boolean): (...args: any[]) => Promise<any>;
+
     // 广播到所有这个rpc服务器的类型的服务器
     broadcast(...args: any[]): Promise<any>;
 }
@@ -55,10 +58,15 @@ export type ProxyCallback = (routeParam: any, serviceName: string, methodName: s
 
 export type Proxies = {
     [namespace: string]:
-        {[serverType: string]:
-                {[remoterName: string]:
-                        {[attr: string]: Proxy}}}
+        {
+            [serverType: string]:
+                {
+                    [remoterName: string]:
+                        { [attr: string]: Proxy }
+                }
+        }
 };
+
 export interface RpcClientOpts extends MailStationOpts {
     context?: any;
     routeContext?: RouteContext;
@@ -73,6 +81,70 @@ export interface RpcClientOpts extends MailStationOpts {
     bufferMsg?: boolean;
     interval?: number;
     timeout?: number;
+    // 使用动态 rpc.user.servertype  rpc 方法 ,将支持 热更新的 新rpc方法与新rpc文件
+    // 同时带来一个额外好处，内存会变小，因为不会去load remoter文件。
+    // 有性能损耗
+    // 100w次 rpc调用
+    // 正常方法 32.143ms
+    // 动态代理方法: 95.970ms
+    // 测试代码:
+    /*
+
+    let objdefine = {user: {main: {}}}
+
+    objdefine.user.main = new Proxy(objdefine.user.main, {
+        get(target, remoterName,) {
+            if (target[remoterName]) {
+                return target[remoterName];
+            }
+            target[remoterName] = {};
+            target[remoterName] = new Proxy(target[remoterName], {
+                get(target, attr,) {
+                    if (target[attr]) {
+                        return target[attr];
+                    }
+                    // get attr
+                    target[attr] = () => {
+                        return 1
+                    }
+                    return target[attr];
+                }
+            })
+            return target[remoterName];
+        }
+    })
+
+
+    let testobj = {
+        user: {
+            main: {
+                remoter: {
+                    method() {
+                        return 1
+                    }
+                }
+            }
+        }
+    }
+
+    console.log(testobj.user.main.remoter.method())
+
+
+    function testfun(obj, name) {
+        console.time(name)
+        let sum = 0
+        for (let i = 0; i < 1000000; i++) {
+            sum += obj.user.main.remoter.method()
+        }
+        console.timeEnd(name)
+    }
+
+
+    testfun(objdefine, 'objdefine')
+    testfun(testobj, 'object')
+
+     */
+    dynamicUserProxy?: boolean;
 }
 
 export interface RpcMsg {
@@ -334,14 +406,14 @@ export class RpcClient {
             args: args
         };
 
-        return new Promise( (resolve, reject) => {
+        return new Promise((resolve, reject) => {
             this.targetRouterFunction(serverType, msg, routeParam, (err: Error, serverId: string) => {
                 if (err) {
                     return reject(err);
                 }
-                let cb = notify ?  null : (err: Error, resp: string) => err ? reject(err) : resolve(resp);
-                this.rpcInvoke(serverId, msg,  cb);
-                if(notify) {
+                let cb = notify ? null : (err: Error, resp: string) => err ? reject(err) : resolve(resp);
+                this.rpcInvoke(serverId, msg, cb);
+                if (notify) {
                     resolve();
                 }
             });
@@ -382,29 +454,29 @@ export class RpcClient {
             if (serverId === '*') {
                 // (client._routeContext as RouteContextClass).getServersByType(serverType);
                 let servers: string[];
-                if(this._routeContext && (this._routeContext as RouteContextClass).getServersByType) {
+                if (this._routeContext && (this._routeContext as RouteContextClass).getServersByType) {
                     const serverinfos = (this._routeContext as RouteContextClass).getServersByType(serverType);
-                    if(serverinfos) {
+                    if (serverinfos) {
                         servers = serverinfos.map(v => v.id);
                     }
                 } else {
                     servers = this._station.serversMap[serverType];
                 }
-            //   console.log('servers  ', servers);
+                //   console.log('servers  ', servers);
                 if (!servers) {
                     logger.error('[pinus-rpc] serverType %s servers not exist', serverType);
                     return;
                 }
-                async.map(servers,  (serverId, next) => {
+                async.map(servers, (serverId, next) => {
                     this.rpcInvoke(serverId, msg, cb ? next : null);
-                    if(!cb) {
+                    if (!cb) {
                         next();
                     }
                 }, cb);
             } else {
                 this.rpcInvoke(serverId, msg, cb);
             }
-            if(notify) {
+            if (notify) {
                 return resolve();
             }
         });
@@ -419,9 +491,33 @@ export class RpcClient {
      *
      * @api private
      */
-    private generateProxy (record: RemoteServerCode, context: object) {
+    private generateProxy(record: RemoteServerCode, context: object) {
         if (!record) {
             return;
+        }
+        if (this.opts.dynamicUserProxy && record.namespace === 'user') {
+            const self = this;
+            let res: { [key: string]: any } = {};
+            res = new Proxy(res, {
+                get(target: { [p: string]: any }, remoterName: string): any {
+                    if (target[remoterName]) {
+                        return target[remoterName];
+                    }
+                    target[remoterName] = {};
+                    target[remoterName] = new Proxy(target[remoterName], {
+                        get(target: { [p: string]: any }, attr: string): any {
+                            if (target[attr]) {
+                                return target[attr];
+                            }
+                            // get attr
+                            target[attr] = self.genFunctionProxy(remoterName, attr, null, record);
+                            return target[attr];
+                        }
+                    })
+                    return target[remoterName];
+                }
+            })
+            return res;
         }
         let res: { [key: string]: any }, name;
         let modules: { [key: string]: any } = Loader.load(record.path, context, false, false, LoaderPathType.PINUS_REMOTER);
@@ -504,12 +600,12 @@ export class RpcClient {
             };
             // 新的api，广播出去
             proxy.broadcast = function (...args: any[]) {
-                    return self.rpcToSpecifiedServer('*', serviceName, methodName, args, attach);
-                };
+                return self.rpcToSpecifiedServer('*', serviceName, methodName, args, attach);
+            };
             // 新的api，使用默认路由调用
             proxy.defaultRoute = function (...args: any[]) {
-                    return self.rpcToRoute(null, serviceName, methodName, args, attach);
-                };
+                return self.rpcToRoute(null, serviceName, methodName, args, attach);
+            };
 
             // 兼容旧的api
             proxy.toServer = function () {
@@ -532,6 +628,7 @@ export class RpcClient {
             return proxy;
         })();
     }
+
     /**
      * Calculate remote target server id for rpc client.
      *

@@ -1,11 +1,10 @@
 {
   "name": "pinus-cli",
-  "version": "1.3.11",
+  "version": "1.3.14",
   "description": "pinus command line client for managing pinus",
   "scripts": {
     "build": "tsc",
     "start": "yarn run build && node dist/index",
-    "lint": "node_modules/.bin/tslint --format prose -c ../../tslint.json lib/**/*.ts test/**/*.ts",
     "fix-lint": "node_modules/.bin/tslint --format prose -c ../../tslint.json lib/**/*.ts test/**/*.ts --fix",
     "test": "yarn run build",
     "cov": "nyc mocha",
@@ -33,13 +32,13 @@
   "dependencies": {
     "@types/async": "^3.0.0",
     "@types/cliff": "^0.1.4",
-    "@types/node": "^8.5.2",
+    "@types/node": "8.5.7",
     "@types/optimist": "0.0.29",
     "async": "^3.0.0",
     "cliff": "^0.1.10",
     "optimist": "^0.6.1",
-    "pinus-admin": "^1.3.11",
-    "pinus-logger": "^1.3.11"
+    "pinus-admin": "^1.3.14",
+    "pinus-logger": "^1.3.14"
   },
   "devDependencies": {
     "typescript": "3.7.3",
