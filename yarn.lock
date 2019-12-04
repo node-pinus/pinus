@@ -940,9 +940,14 @@
   dependencies:
     "@types/node" "^8.5.2"
 
-"@types/node@*", "@types/node@^8.5.2", "@types/node@^8.5.7":
+"@types/node@*", "@types/node@8.5.7", "@types/node@^8.5.2", "@types/node@^8.5.7":
   version "8.5.7"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-8.5.7.tgz#9c498c35af354dcfbca3790fb2e81129e93cf0e2"
+
+"@types/node@^8.10.54":
+  version "8.10.59"
+  resolved "https://registry.npmjs.org/@types/node/-/node-8.10.59.tgz#9e34261f30183f9777017a13d185dfac6b899e04"
+  integrity sha512-8RkBivJrDCyPpBXhVZcjh7cQxVBSmRk9QM7hOketZzp6Tg79c0N8kkpAIito9bnJ3HCVCHVYz+KHTEbfQNfeVQ==
 
 "@types/optimist@0.0.29":
   version "0.0.29"
@@ -952,15 +957,17 @@
   version "1.4.32"
   resolved "https://registry.yarnpkg.com/@types/socket.io-client/-/socket.io-client-1.4.32.tgz#988a65a0386c274b1c22a55377fab6a30789ac14"
 
-"@types/socket.io@^2.0.0":
-  version "2.1.2"
-  resolved "https://registry.yarnpkg.com/@types/socket.io/-/socket.io-2.1.2.tgz#7165c2587cc3b86b44aa78e2a0060140551de211"
+"@types/socket.io@^2.1.3":
+  version "2.1.4"
+  resolved "https://registry.npmjs.org/@types/socket.io/-/socket.io-2.1.4.tgz#674e7bc193c5ccdadd4433f79f3660d31759e9ac"
+  integrity sha512-cI98INy7tYnweTsUlp8ocveVdAxENUThO0JsLSCs51cjOP2yV5Mqo5QszMDPckyRRA+PO6+wBgKvGvHUCc23TQ==
   dependencies:
     "@types/node" "*"
 
-"@types/underscore@^1.8.6":
-  version "1.8.6"
-  resolved "https://registry.yarnpkg.com/@types/underscore/-/underscore-1.8.6.tgz#3f4b9c5915379b420fe7de75bd8cb58a7d9835ed"
+"@types/underscore@^1.8.20":
+  version "1.9.4"
+  resolved "https://registry.npmjs.org/@types/underscore/-/underscore-1.9.4.tgz#22d1a3e6b494608e430221ec085fa0b7ccee7f33"
+  integrity sha512-CjHWEMECc2/UxOZh0kpiz3lEyX2Px3rQS9HzD20lxMvx571ivOBQKeLnqEjxUY0BMgp6WJWo/pQLRBwMW5v4WQ==
 
 "@types/uuid@^3.4.3":
   version "3.4.3"
@@ -1708,7 +1715,7 @@ bind-obj-methods@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/bind-obj-methods/-/bind-obj-methods-1.0.0.tgz#4f5979cac15793adf70e488161e463e209ca509c"
 
-bl@^1.2.2:
+bl@^1.2.1, bl@^1.2.2:
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/bl/-/bl-1.2.2.tgz#a160911717103c07410cef63ef51b397c025af9c"
   dependencies:
@@ -1891,13 +1898,6 @@ buffer@^4.3.0:
     base64-js "^1.0.2"
     ieee754 "^1.1.4"
     isarray "^1.0.0"
-
-buffer@^5.1.0:
-  version "5.2.1"
-  resolved "https://registry.yarnpkg.com/buffer/-/buffer-5.2.1.tgz#dd57fa0f109ac59c602479044dca7b8b3d0b71d6"
-  dependencies:
-    base64-js "^1.0.2"
-    ieee754 "^1.1.4"
 
 builtin-modules@^1.0.0, builtin-modules@^1.1.1:
   version "1.1.1"
@@ -2726,11 +2726,10 @@ cpy@^5.0.0:
     globby "^6.0.0"
     nested-error-stacks "^2.0.0"
 
-crc@^3.0.0:
-  version "3.8.0"
-  resolved "https://registry.yarnpkg.com/crc/-/crc-3.8.0.tgz#ad60269c2c856f8c299e2c4cc0de4556914056c6"
-  dependencies:
-    buffer "^5.1.0"
+crc@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.npmjs.org/crc/-/crc-0.2.1.tgz#b1f111fc3abb9b83d3a291a6820cf6e8c7ef32d7"
+  integrity sha1-sfER/Dq7m4PTopGmggz26MfvMtc=
 
 crc@^3.5.0:
   version "3.5.0"
@@ -6186,6 +6185,27 @@ mqtt-connection@4.0.0, mqtt-connection@^4.0.0:
     mqtt-packet "^6.0.0"
     safe-buffer "^5.1.1"
     through2 "^2.0.1"
+
+mqtt-connection@^3.2.0:
+  version "3.2.0"
+  resolved "https://registry.npmjs.org/mqtt-connection/-/mqtt-connection-3.2.0.tgz#2104d875ea917c46d25e89922c6694072910f408"
+  integrity sha512-br1n12OegkGfkseOHYby2LggkQy9qtgVKo8kg64acd89/Pc+vzcEA2PzmLd/kNo5K08YuJTVo2GYmymhY8NDIw==
+  dependencies:
+    duplexify "^3.5.1"
+    inherits "^2.0.3"
+    mqtt-packet "^5.4.0"
+    safe-buffer "^5.1.1"
+    through2 "^2.0.1"
+
+mqtt-packet@^5.4.0:
+  version "5.6.1"
+  resolved "https://registry.npmjs.org/mqtt-packet/-/mqtt-packet-5.6.1.tgz#8ecafce091f5af460664268a22b22091c8915f7b"
+  integrity sha512-eaF9rO2uFrIYEHomJxziuKTDkbWW5psLBaIGCazQSKqYsTaB3n4SpvJ1PexKaDBiPnMLPIFWBIiTYT3IfEJfww==
+  dependencies:
+    bl "^1.2.1"
+    inherits "^2.0.3"
+    process-nextick-args "^2.0.0"
+    safe-buffer "^5.1.0"
 
 mqtt-packet@^6.0.0:
   version "6.1.2"
