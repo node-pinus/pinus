@@ -33,7 +33,7 @@ export function preload() {
     });
 
     // 捕获async异常
-    process.on('unhandledRejection', (reason, p) => {
+    process.on('unhandledRejection', (reason: any, p) => {
         console.error('Caught Unhandled Rejection at:' + p + 'reason:' + reason.stack);
     });
 }
