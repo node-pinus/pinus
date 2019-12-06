@@ -15,8 +15,6 @@ export class EntryHandler {
      *
      * @param  {Object}   msg     request message
      * @param  {Object}   session current session object
-     * @param  {Function} next    next stemp callback
-     * @return {Void}
      */
     async enter(msg: { rid: string, username: string }, session: FrontendSession) {
         let self = this;

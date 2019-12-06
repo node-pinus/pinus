@@ -14,7 +14,6 @@ export class GateHandler {
      *
      * @param {Object} msg message from client
      * @param {Object} session
-     * @param {Function} next next stemp callback
      *
      */
     async queryEntry(msg: {uid: string}, session: BackendSession) {

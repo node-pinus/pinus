@@ -14,7 +14,6 @@ export class Handler {
      *
      * @param  {Object}   msg     request message
      * @param  {Object}   session current session object
-     * @param  {Function} next    next step callback
      * @return {Void}
      */
     async entry(msg: any, session: FrontendSession) {
@@ -26,7 +25,6 @@ export class Handler {
      *
      * @param  {Object}   msg     request message
      * @param  {Object}   session current session object
-     * @param  {Function} next    next step callback
      * @return {Void}
      */
     async publish(msg: any, session: FrontendSession) {
@@ -42,7 +40,6 @@ export class Handler {
      *
      * @param  {Object}   msg     request message
      * @param  {Object}   session current session object
-     * @param  {Function} next    next step callback
      * @return {Void}
      */
     async subscribe(msg: any, session: FrontendSession) {
