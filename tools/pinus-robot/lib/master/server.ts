@@ -1,10 +1,10 @@
-import * as io from 'socket.io';
 import * as __ from 'underscore';
 import * as  _nodeclient from './nodeclient.js';
 import * as  _wc from './webclient.js';
 import { logging, Logger } from '../common/logging';
 import * as  stat from '../monitor/stat';
 import * as  starter from './starter';
+const io = require('socket.io');
 
 let STATUS_INTERVAL = 60 * 1000; // 60 seconds
 let HEARTBEAT_INTERVAL = 30 * 1000; // 30 seconds
@@ -36,7 +36,7 @@ export class Server {
     conf: ServerCfg;
     runconfig = { maxuser: 1, agent: 1 };
     status: number = STATUS_RUNNING;
-    io: SocketIO.Server;
+    io: any;
     constructor(conf: ServerCfg) {
         this.log = logging;
         this.conf = conf || {} as ServerCfg;
@@ -51,7 +51,7 @@ export class Server {
         this.register();
     }
     // Registers new Node with Server, announces to WebClients
-    announce_node(socket: SocketIO.Socket, message: any) {
+    announce_node(socket: any, message: any) {
         let rserver = this, nodeId = message.nodeId;
         if (!!rserver.nodes[nodeId]) {
             this.log.warn('Warning: Node \'' + nodeId + '\' already exists, delete old items ');
@@ -99,7 +99,7 @@ export class Server {
         /* temporary code */
     }
     // Registers new WebClient with Server
-    announce_web_client(socket: SocketIO.Socket) {
+    announce_web_client(socket:any) {
         let rserver = this;
         let web_client = new _wc.WebClient(socket, rserver);
         rserver.web_clients[web_client.id] = web_client;
@@ -130,7 +130,7 @@ export class Server {
     register() {
         let rserver = this;
         // rserver.io.set('log level', 1);
-        rserver.io.sockets.on('connection', function (socket) {
+        rserver.io.sockets.on('connection', function (socket:any) {
             socket.on('announce_node', function (message: string) {
                 rserver.log.info('Registering new node ' + JSON.stringify(message));
                 rserver.announce_node(socket, message);
@@ -164,7 +164,7 @@ export class Server {
                 });
 
                 socket.on('exit4reready', function () {
-                    __.each(rserver.nodes, function (obj: { socket: SocketIO.Socket }) {
+                    __.each(rserver.nodes, function (obj: { socket:any}) {
                         obj.socket.emit('exit4reready');
                     });
                     rserver.nodes = {};

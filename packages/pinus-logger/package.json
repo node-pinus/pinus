@@ -23,13 +23,13 @@
         "node": ">=8.5"
     },
     "dependencies": {
-        "@types/node": "8.5.7",
-        "log4js": "^2.4.1"
+        "@types/node": "8.10.54",
+        "log4js": "^6.0.0"
     },
     "devDependencies": {
-        "mocha": ">=0.0.1",
-        "should": ">=0.0.1",
-        "tslint": "^5.9.1",
-        "typescript": "^2.9.2"
+        "mocha": "6.2.2",
+        "should": "13.2.3",
+        "tslint": "5.20.1",
+        "typescript": "3.7.3"
     }
 }

@@ -48,16 +48,16 @@
   "main": "./dist/lib/index",
   "types": "./lib/index",
   "dependencies": {
-    "@types/mocha": "^2.2.46",
+    "@types/mocha": "^5.0.0",
     "@types/mqtt-connection": "git+https://github.com/node-pinus/types-mqtt-connection.git",
-    "@types/socket.io": "^2.1.3",
-    "async": "^2.6.0",
+    "@types/socket.io": "^2.1.4",
+    "async": "^3.0.0",
     "cliff": "^0.1.10",
-    "commander": "^2.12.2",
+    "commander": "^3.0.0",
     "crc": "^3.5.0",
     "eyes": "^0.1.8",
     "mkdirp": "^0.5.1",
-    "mqtt-connection": "^3.2.0",
+    "mqtt-connection": "^4.0.0",
     "node-bignumber": "^1.2.1",
     "pinus-admin": "^1.3.14",
     "pinus-loader": "^1.3.14",
@@ -67,25 +67,25 @@
     "pinus-rpc": "^1.3.14",
     "pinus-scheduler": "^1.3.14",
     "seq-queue": "^0.0.5",
-    "socket.io": "^2.0.4",
-    "ws": "^3.3.3"
+    "socket.io": "^2.3.0",
+    "ws": "^7.0.0"
   },
   "bin": {
     "pinus": "./dist/bin/pinus.js"
   },
   "devDependencies": {
-    "@types/async": "^2.0.46",
-    "@types/cliff": "^0.1.4",
-    "@types/commander": "^2.12.2",
-    "@types/crc": "^3.4.0",
-    "@types/eyes": "^0.1.31",
-    "@types/mkdirp": "^0.5.2",
-    "@types/ws": "^3.2.1",
-    "mocha": "^4.1.0",
-    "muk": ">=0.0.1",
-    "nyc": "^8.4.0",
-    "should": "^3.3.2",
-    "tslint": "^5.9.1",
-    "typescript": "^2.9.2"
+    "@types/async": "3.0.3",
+    "@types/cliff": "0.1.4",
+    "@types/commander": "2.12.2",
+    "@types/crc": "3.4.0",
+    "@types/eyes": "0.1.31",
+    "@types/mkdirp": "0.5.2",
+    "@types/ws": "6.0.4",
+    "mocha": "6.2.2",
+    "muk": "0.5.3",
+    "nyc": "14.1.1",
+    "should": "13.2.3",
+    "tslint": "5.20.1",
+    "typescript": "3.7.3"
   }
 }

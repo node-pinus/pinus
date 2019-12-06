@@ -1,6 +1,5 @@
 import * as __ from 'underscore';
 import { Server } from './server';
-
 // NodeClient is a server/machine/instance running a agent socket
 export class NodeClient {
   nodeId: number;
@@ -8,7 +7,7 @@ export class NodeClient {
   iport: string;
   id: string;
   log_server: Server;
-  constructor(nodeId: number, socket: SocketIO.Socket, server: Server) {
+  constructor(nodeId: number, socket:any, server: Server) {
     this.nodeId = nodeId;
     this.socket = socket;
     this.iport = socket.handshake.address;

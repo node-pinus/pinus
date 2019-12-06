@@ -23,13 +23,13 @@
 		"node": ">=8.5"
 	},
 	"dependencies": {
-		"@types/node": "8.5.7",
-		"reflect-metadata": "0.1.10"
+		"@types/node": "8.10.54",
+		"reflect-metadata": "0.1.13"
 	},
 	"devDependencies": {
-		"mocha": ">=0.0.1",
-		"should": ">=0.0.1",
-		"tslint": "^5.9.1",
-		"typescript": "^2.9.2"
+		"mocha": "6.2.2",
+		"should": "13.2.3",
+		"tslint": "5.20.1",
+		"typescript": "3.7.3"
 	}
 }

@@ -898,7 +898,7 @@ interface IMessage {
 
     /**
      * decode
-     * @param buffer
+     * @param  buffer
      * @return Object
      */
     decode(buffer: egret.ByteArray): any;

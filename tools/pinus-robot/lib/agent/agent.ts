@@ -1,3 +1,5 @@
+import Socket = SocketIOClient.Socket;
+
 let __ = require('underscore');
 import * as io from 'socket.io-client';
 import { logging, Logger } from '../common/logging';
@@ -31,7 +33,7 @@ export class Agent {
     reconnecting: boolean;
     actors: { [key: string]: any };
     count: number;
-    socket: SocketIOClient.Socket;
+    socket: Socket;
     nodeId: string;
     constructor(conf: AgentCfg) {
         this.log = logging;

@@ -1,8 +1,6 @@
 import * as  cp from 'child_process';
 import * as fs from 'fs';
 import * as vm from 'vm';
-import * as path from 'path';
-import * as util from 'util';
 
 import 'cliff';
 

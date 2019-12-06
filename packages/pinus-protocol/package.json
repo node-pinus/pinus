@@ -24,13 +24,13 @@
   "node": ">=8.5"
  },
  "dependencies": {
-  "@types/node": "^8.10.54"
+  "@types/node": "8.10.54"
  },
  "devDependencies": {
-  "jscoverage": "^0.6.0",
-  "mocha": "^4.0.1",
-  "should": "^13.2.0",
-  "tslint": "^5.9.1",
-  "typescript": "^2.9.2"
+  "jscoverage": "0.6.0",
+  "mocha": "6.2.2",
+  "should": "13.2.3",
+  "tslint": "5.20.1",
+  "typescript": "3.7.3"
  }
 }

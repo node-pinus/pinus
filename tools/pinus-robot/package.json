@@ -4,14 +4,14 @@
   "private": false,
   "dependencies": {
     "@types/cliff": "^0.1.4",
-    "@types/node": "8.5.7",
+    "@types/node": "8.10.54",
     "@types/socket.io-client": "^1.4.32",
-    "@types/underscore": "^1.8.20",
+    "@types/underscore": "^1.9.4",
     "cliff": "^0.1.10",
-    "socket.io": "^2.0.4",
-    "socket.io-client": "^2.0.4",
-    "typescript": "^2.9.2",
-    "underscore": "1.8.3"
+    "socket.io": "^2.3.0",
+    "socket.io-client": "^2.3.0",
+    "typescript": "3.7.3",
+    "underscore": "1.9.1"
   },
   "scripts": {
     "build": "tsc",
