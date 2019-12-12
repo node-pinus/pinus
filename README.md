@@ -32,7 +32,7 @@ yarn run build
 ```
 
 编译好以后可以使用 yarn link 或者 npm link 软链接到自己的项目。
-
+也可以用 yarn 的 workspace
 
 #### [查看pinus CHANGELOG](CHANGELOG.md)
 
