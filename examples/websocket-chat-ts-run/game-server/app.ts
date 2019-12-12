@@ -3,7 +3,7 @@ import './app/servers/user.rpc.define'
 import * as  routeUtil from './app/util/routeUtil';
 import {preload} from './preload';
 
-
+// TODO 需要整理。
 import _pinus = require('pinus');
 
 const filePath = (_pinus as any).FILEPATH;
