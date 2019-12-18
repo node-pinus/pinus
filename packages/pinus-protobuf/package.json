@@ -4,7 +4,7 @@
   "main": "./dist/protobuf",
   "types": "./lib/protobuf",
   "dependencies": {
-    "@types/node": "8.10.54"
+    "@types/node": "8.10.59"
   },
   "files": [
     "dist",

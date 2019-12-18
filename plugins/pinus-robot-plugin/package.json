@@ -22,7 +22,7 @@
   "main": "./dist/index",
   "types": "./src/index",
   "dependencies": {
-    "@types/node": "8.10.54",
+    "@types/node": "8.10.59",
     "@types/yargs": "^13.0.0",
     "pinus": "^1.3.14",
     "yargs": "^15.0.0"

@@ -24,7 +24,7 @@
 		"@types/async": "^3.0.0",
 		"@types/bluebird": "^3.5.19",
 		"@types/crc": "^3.4.0",
-		"@types/node": "8.10.54",
+		"@types/node": "8.10.59",
 		"@types/socket.io": "^2.1.4",
 		"@types/socket.io-client": "^1.4.32",
 		"@types/uuid": "^3.4.3",
