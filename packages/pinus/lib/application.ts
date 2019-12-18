@@ -180,7 +180,7 @@ export class Application {
      */
     init(opts ?: ApplicationOptions) {
         opts = opts || {};
-        let base = opts.base || process.cwd();
+        let base = opts.base || path.dirname(require.main.filename);
         this.set(Constants.RESERVED.BASE, base);
         this.base = base;
 
