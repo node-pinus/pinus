@@ -1,7 +1,7 @@
-import {pinus} from 'pinus';
+import { FrontendOrBackendSession, HandlerCallback, pinus, RESERVED, RouteRecord } from 'pinus';
 import './app/servers/user.rpc.define'
 import * as  routeUtil from './app/util/routeUtil';
-import {preload} from './preload';
+import { preload } from './preload';
 
 // TODO 需要整理。
 import _pinus = require('pinus');
@@ -53,8 +53,38 @@ app.configure('production|development', 'gate', function () {
         });
 });
 
+
+function errorHandler(err: Error, msg: any, resp: any,
+                      session: FrontendOrBackendSession, cb: HandlerCallback) {
+    console.error(`${ pinus.app.serverId } error handler msg[${ JSON.stringify(msg) }] ,resp[${ JSON.stringify(resp) }] ,
+    to resolve unknown exception: sessionId:${ JSON.stringify(session.export()) } ,
+     error stack: ${ err.stack }`);
+    if (!resp) {
+        resp = { code: 1003 };
+    }
+    cb(err, resp);
+}
+
+export function globalErrorHandler(err: Error, msg: any, resp: any,
+                                   session: FrontendOrBackendSession, cb: HandlerCallback) {
+    console.error(`${ pinus.app.serverId } globalErrorHandler msg[${ JSON.stringify(msg) }] ,resp[${ JSON.stringify(resp) }] ,
+    to resolve unknown exception: sessionId:${ JSON.stringify(session.export()) } ,
+     error stack: ${ err.stack }`);
+
+
+    if (cb) {
+        cb(err, resp ? resp : { code: 503 });
+    }
+}
+
 // app configure
 app.configure('production|development', function () {
+    app.set(RESERVED.ERROR_HANDLER, errorHandler);
+    app.set(RESERVED.GLOBAL_ERROR_HANDLER, globalErrorHandler);
+    app.globalAfter((err: Error, routeRecord: RouteRecord, msg: any, session: FrontendOrBackendSession, resp: any, cb: HandlerCallback) => {
+        console.log('global after ', err, routeRecord, msg)
+    })
+
     // route configures
     app.route('chat', routeUtil.chat);
 
