@@ -36,7 +36,7 @@ function getLogger(...args: string[]) {
     }
     let logger = log4js.getLogger(categoryName) as any;
     let pLogger: any = {};
-    Object.setPrototypeOf(pLogger,logger)
+    Object.setPrototypeOf(pLogger,logger);
     for (let key in logger) {
         pLogger[key] = logger[key];
     }
