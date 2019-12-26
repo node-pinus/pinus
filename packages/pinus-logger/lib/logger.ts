@@ -35,9 +35,13 @@ function getLogger(...args: string[]) {
         categoryName = categoryName.replace(process.cwd(), '');
     }
     let logger = log4js.getLogger(categoryName) as any;
+    let pLogger: any = {};
+    for (let key in logger) {
+        pLogger[key] = logger[key];
+    }
+
     ['log', 'debug', 'info', 'warn', 'error', 'trace', 'fatal'].forEach((item, idx) => {
-        let orgFun = logger[item];
-        logger[item] = function () {
+        pLogger[item] = function () {
             // 从根源过滤日志级别
             if (idx < logLevel) {
                 return;
@@ -67,10 +71,10 @@ function getLogger(...args: string[]) {
             if (item === 'error' && process.env.ERROR_STACK) {
                 arguments[0] += (new Error()).stack;
             }
-            orgFun.apply(logger, arguments);
+            logger[item].apply(logger, arguments);
         };
     });
-    return logger as log4js.Logger;
+    return pLogger as log4js.Logger;
 }
 
 let configState: { [key: string]: any } = {};
