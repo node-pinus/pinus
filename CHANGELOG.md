@@ -1,5 +1,9 @@
 
 
+#### 1.4.x
+
+修复web-server  更新express依赖出现的`configure`问题。
+
 #### 1.4.1
 try fix [#63](https://github.com/node-pinus/pinus/issues/65)  运行目录问题，先与pomelo的代码行为保持一致。
 
