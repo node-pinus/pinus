@@ -9860,10 +9860,10 @@ typedoc-default-themes@^0.7.0:
     lunr "^2.3.8"
     underscore "^1.9.1"
 
-typedoc@0.16.1:
-  version "0.16.1"
-  resolved "https://registry.yarnpkg.com/typedoc/-/typedoc-0.16.1.tgz#c2aa2c773daca305f5e7b5a5568196f0f978ee13"
-  integrity sha512-n2RdWDwUks7TvTND8bOWG8rC6cFxpo4o9fXlFNwRiGpc+N6Amb0c1v0Y5oqY2SX5rgIe7OftTkItPsbpJAuApg==
+typedoc@0.16.2:
+  version "0.16.2"
+  resolved "https://registry.yarnpkg.com/typedoc/-/typedoc-0.16.2.tgz#e32d0f99edffd0d3c3b08f8087f31133e0a55805"
+  integrity sha512-zaRJqcVzZorIP4oq7Y3AYAzf6C4ladwUXpvvedPOCOhdELVQbvLy6A8LlrE+svDtGrL7+K04ruHsN3KQESoYUw==
   dependencies:
     "@types/minimatch" "3.0.3"
     fs-extra "^8.1.0"
