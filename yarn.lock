@@ -982,7 +982,12 @@
   dependencies:
     "@types/node" ">= 8"
 
-"@types/async@3.0.3", "@types/async@^3.0.0":
+"@types/async@3.0.7":
+  version "3.0.7"
+  resolved "https://registry.yarnpkg.com/@types/async/-/async-3.0.7.tgz#ef2733a3d027a81cd86524d0650db55f5d8cdff6"
+  integrity sha512-Oqf/gYXRnUkYL0xYB5gCLr5Ft/3yckVWie8W8TPngOeT56n+NrnHRtu9xbTvFXzxA7vfaK+gPdCjFiFCyBfEPg==
+
+"@types/async@^3.0.0":
   version "3.0.3"
   resolved "https://registry.npmjs.org/@types/async/-/async-3.0.3.tgz#ea3694128c757580e4f9328cd941b81d9c3e9bf6"
   integrity sha512-FrIcC67Zpko1jO8K4d30C41/KVhAABbMbaSxccvXacxPcKbDBav+8WoFzv72BA2zJvyX4T9PFz0we1hcNymgGA==
