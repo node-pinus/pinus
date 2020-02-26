@@ -27,7 +27,7 @@
 		"@types/node": "8.10.59",
 		"@types/socket.io": "^2.1.4",
 		"@types/socket.io-client": "^1.4.32",
-		"@types/uuid": "^3.4.3",
+		"@types/uuid": "^7.0.0",
 		"@types/ws": "^7.0.0",
 		"async": "^3.0.0",
 		"bearcat-buffer": "^0.1.x",
