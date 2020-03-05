@@ -11,7 +11,7 @@
     "morgan": "1.9.1",
     "mqtt": "3.0.0",
     "mqtt-connection": "4.0.0",
-    "websocket-stream": "5.5.0",
+    "websocket-stream": "5.5.2",
     "ws": "7.2.1"
   },
   "devDependencies": {
