@@ -26,6 +26,7 @@
     "dependencies": {
         "@types/mqtt-connection": "git+https://github.com/node-pinus/types-mqtt-connection.git",
         "@types/node": "8.10.54",
+        "mqtt-connection": "^3.2.0",
         "pinus-logger": "^1.4.1",
         "pinus-monitor": "^1.4.1",
         "pinus-scheduler": "^1.4.1",
