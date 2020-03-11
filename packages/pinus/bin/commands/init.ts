@@ -18,6 +18,25 @@ export default function (program: program.CommanderStatic) {
         });
 }
 
+function templateType(cb: Function) {
+    prompt('Please select underly template, 1 for typescript, 2 for javascript: [1]', function (msg: string) {
+        console.log('selected' , msg);
+        switch (msg.trim()) {
+            case '':
+                cb(1);
+                break;
+            case '1':
+            case '2':
+                cb(msg.trim());
+                break;
+            default:
+                console.log(('Invalid choice! Please input 1 - 2.' as any).red + '\n');
+                templateType(cb);
+                break;
+        }
+    });
+}
+
 /**
  * Get user's choice on connector selecting
  *
@@ -66,22 +85,24 @@ export function emptyDirectory(path: string) {
  */
 function init(path: string) {
     console.log(INIT_PROJ_NOTICE);
-    connectorType(function (type: string) {
-        let empty = emptyDirectory(path);
-        if (empty) {
-            process.stdin.destroy();
-            console.log('start createApplication');
-            createApplicationAt(path, type);
-        } else {
-            confirm('Destination is not empty, continue? (y/n) [no] ', function (force: boolean) {
+    templateType(function (tplType: string) {
+        connectorType(function (netType: string) {
+            let empty = emptyDirectory(path);
+            if (empty) {
                 process.stdin.destroy();
-                if (force) {
-                    createApplicationAt(path, type);
-                } else {
-                    abort(('Fail to init a project' as any).red);
-                }
-            });
-        }
+                console.log('start createApplication');
+                createApplicationAt(path, tplType, netType);
+            } else {
+                confirm('Destination is not empty, continue? (y/n) [no] ', function (force: boolean) {
+                    process.stdin.destroy();
+                    if (force) {
+                        createApplicationAt(path, tplType, netType);
+                    } else {
+                        abort(('Fail to init a project' as any).red);
+                    }
+                });
+            }
+        });
     });
 }
 
@@ -98,6 +119,23 @@ function mkdir(path: string) {
     console.log(('   create : ' as any).green + path);
 
 }
+
+// rmdir -r
+function rmdir(dir: string) {
+    let list = fs.readdirSync(dir);
+    for (let i = 0; i < list.length; i++) {
+        let filename = path.join(dir, list[i]);
+        let stat = fs.statSync(filename);
+        if (filename === '.' || filename === '..') {
+        } else if (stat.isDirectory()) {
+            rmdir(filename);
+        } else {
+            fs.unlinkSync(filename);
+        }
+    }
+    fs.rmdirSync(dir);
+};
+
 /**
  * Copy template files to project.
  *
@@ -126,33 +164,11 @@ function copy(origin: string, target: string) {
     }
 }
 
-/**
- * Create directory and files at the given directory `path`.
- *
- * @param {String} ph
- */
-function createApplicationAt(ph: string, type: string) {
-    let name = path.basename(path.resolve(CUR_DIR, ph));
-    copy(path.join(__dirname, '../../../template/'), ph);
+function genTsNetTemplate(ph: string, name: string, netType:string) {
     mkdir(path.join(ph, 'game-server/dist/logs'));
-    mkdir(path.join(ph, 'shared'));
-    // rmdir -r
-    let rmdir = function (dir: string) {
-        let list = fs.readdirSync(dir);
-        for (let i = 0; i < list.length; i++) {
-            let filename = path.join(dir, list[i]);
-            let stat = fs.statSync(filename);
-            if (filename === '.' || filename === '..') {
-            } else if (stat.isDirectory()) {
-                rmdir(filename);
-            } else {
-                fs.unlinkSync(filename);
-            }
-        }
-        fs.rmdirSync(dir);
-    };
+
     let unlinkFiles: string[];
-    switch (type) {
+    switch (netType) {
         case '1':
             // use websocket
             unlinkFiles = ['game-server/app.ts.sio',
@@ -290,5 +306,169 @@ function createApplicationAt(ph: string, type: string) {
     let f = path.resolve(ph, 'game-server/package.json');
     let content = fs.readFileSync(f).toString();
     fs.writeFileSync(f, content.replace('#', version));
+}
+
+function genJsNetTemplate(ph: string, name: string, netType:string) {
+    let unlinkFiles: string[];
+    switch (netType) {
+        case '1':
+            // use websocket
+            unlinkFiles = ['game-server/app.js.sio',
+                'game-server/app.js.wss',
+                'game-server/app.js.mqtt',
+                'game-server/app.js.sio.wss',
+                'game-server/app.js.udp',
+                'web-server/app.js.https',
+                'web-server/public/index.html.sio',
+                'web-server/public/js/lib/pinusclient.js',
+                'web-server/public/js/lib/pinusclient.js.wss',
+                'web-server/public/js/lib/build/build.js.wss',
+                'web-server/public/js/lib/socket.io.js'];
+            for (let i = 0; i < unlinkFiles.length; ++i) {
+                let f = path.resolve(ph, unlinkFiles[i]);
+                console.log('delete : ' + f);
+                fs.unlinkSync(f);
+            }
+            break;
+        case '2':
+            // use socket.io
+            unlinkFiles = ['game-server/app.js',
+                'game-server/app.js.wss',
+                'game-server/app.js.udp',
+                'game-server/app.js.mqtt',
+                'game-server/app.js.sio.wss',
+                'web-server/app.js.https',
+                'web-server/public/index.html',
+                'web-server/public/js/lib/component.json',
+                'web-server/public/js/lib/pinusclient.js.wss'];
+            for (let i = 0; i < unlinkFiles.length; ++i) {
+                fs.unlinkSync(path.resolve(ph, unlinkFiles[i]));
+            }
+
+            fs.renameSync(path.resolve(ph, 'game-server/app.js.sio'), path.resolve(ph, 'game-server/app.js'));
+            fs.renameSync(path.resolve(ph, 'web-server/public/index.html.sio'), path.resolve(ph, 'web-server/public/index.html'));
+
+            rmdir(path.resolve(ph, 'web-server/public/js/lib/build'));
+            rmdir(path.resolve(ph, 'web-server/public/js/lib/local'));
+            break;
+        case '3':
+            // use websocket wss
+            unlinkFiles = ['game-server/app.js.sio',
+                'game-server/app.js',
+                'game-server/app.js.udp',
+                'game-server/app.js.sio.wss',
+                'game-server/app.js.mqtt',
+                'web-server/app.js',
+                'web-server/public/index.html.sio',
+                'web-server/public/js/lib/pinusclient.js',
+                'web-server/public/js/lib/pinusclient.js.wss',
+                'web-server/public/js/lib/build/build.js',
+                'web-server/public/js/lib/socket.io.js'];
+            for (let i = 0; i < unlinkFiles.length; ++i) {
+                fs.unlinkSync(path.resolve(ph, unlinkFiles[i]));
+            }
+
+            fs.renameSync(path.resolve(ph, 'game-server/app.js.wss'), path.resolve(ph, 'game-server/app.js'));
+            fs.renameSync(path.resolve(ph, 'web-server/app.js.https'), path.resolve(ph, 'web-server/app.js'));
+            fs.renameSync(path.resolve(ph, 'web-server/public/js/lib/build/build.js.wss'), path.resolve(ph, 'web-server/public/js/lib/build/build.js'));
+            break;
+        case '4':
+            // use socket.io wss
+            unlinkFiles = ['game-server/app.js.sio',
+                'game-server/app.js',
+                'game-server/app.js.udp',
+                'game-server/app.js.wss',
+                'game-server/app.js.mqtt',
+                'web-server/app.js',
+                'web-server/public/index.html',
+                'web-server/public/js/lib/pinusclient.js'];
+            for (let i = 0; i < unlinkFiles.length; ++i) {
+                fs.unlinkSync(path.resolve(ph, unlinkFiles[i]));
+            }
+
+            fs.renameSync(path.resolve(ph, 'game-server/app.js.sio.wss'), path.resolve(ph, 'game-server/app.js'));
+            fs.renameSync(path.resolve(ph, 'web-server/app.js.https'), path.resolve(ph, 'web-server/app.js'));
+            fs.renameSync(path.resolve(ph, 'web-server/public/index.html.sio'), path.resolve(ph, 'web-server/public/index.html'));
+            fs.renameSync(path.resolve(ph, 'web-server/public/js/lib/pinusclient.js.wss'), path.resolve(ph, 'web-server/public/js/lib/pinusclient.js'));
+
+            rmdir(path.resolve(ph, 'web-server/public/js/lib/build'));
+            rmdir(path.resolve(ph, 'web-server/public/js/lib/local'));
+            fs.unlinkSync(path.resolve(ph, 'web-server/public/js/lib/component.json'));
+            break;
+        case '5':
+            // use socket.io wss
+            unlinkFiles = ['game-server/app.js.sio',
+                'game-server/app.js',
+                'game-server/app.js.wss',
+                'game-server/app.js.mqtt',
+                'game-server/app.js.sio.wss',
+                'web-server/app.js.https',
+                'web-server/public/index.html',
+                'web-server/public/js/lib/component.json',
+                'web-server/public/js/lib/pinusclient.js.wss'];
+            for (let i = 0; i < unlinkFiles.length; ++i) {
+                fs.unlinkSync(path.resolve(ph, unlinkFiles[i]));
+            }
+
+            fs.renameSync(path.resolve(ph, 'game-server/app.js.udp'), path.resolve(ph, 'game-server/app.js'));
+            fs.renameSync(path.resolve(ph, 'web-server/public/index.html.sio'), path.resolve(ph, 'web-server/public/index.html'));
+
+            rmdir(path.resolve(ph, 'web-server/public/js/lib/build'));
+            rmdir(path.resolve(ph, 'web-server/public/js/lib/local'));
+            break;
+        case '6':
+            // use socket.io
+            unlinkFiles = ['game-server/app.js',
+                'game-server/app.js.wss',
+                'game-server/app.js.udp',
+                'game-server/app.js.sio',
+                'game-server/app.js.sio.wss',
+                'web-server/app.js.https',
+                'web-server/public/index.html',
+                'web-server/public/js/lib/component.json',
+                'web-server/public/js/lib/pinusclient.js.wss'];
+            for (let i = 0; i < unlinkFiles.length; ++i) {
+                fs.unlinkSync(path.resolve(ph, unlinkFiles[i]));
+            }
+
+            fs.renameSync(path.resolve(ph, 'game-server/app.js.mqtt'), path.resolve(ph, 'game-server/app.js'));
+            fs.renameSync(path.resolve(ph, 'web-server/public/index.html.sio'), path.resolve(ph, 'web-server/public/index.html'));
+
+            rmdir(path.resolve(ph, 'web-server/public/js/lib/build'));
+            rmdir(path.resolve(ph, 'web-server/public/js/lib/local'));
+            break;
+    }
+    let replaceFiles = ['game-server/app.js',
+        'game-server/package.json',
+        'web-server/package.json'];
+    for (let j = 0; j < replaceFiles.length; j++) {
+        let str = fs.readFileSync(path.resolve(ph, replaceFiles[j])).toString();
+        fs.writeFileSync(path.resolve(ph, replaceFiles[j]), str.replace('$', name));
+    }
+    let f = path.resolve(ph, 'game-server/package.json');
+    let content = fs.readFileSync(f).toString();
+    fs.writeFileSync(f, content.replace('#', version));
+}
+
+/**
+ * Create directory and files at the given directory `path`.
+ *
+ * @param {String} ph
+ */
+function createApplicationAt(ph: string, tplType: string, netType: string) {
+    let tplMap = new Map([['1', 'ts'], ['2', 'js']]);
+    let name = path.basename(path.resolve(CUR_DIR, ph));
+    copy(path.join(__dirname, '../../../template/', tplMap.get(tplType)), ph);
+    mkdir(path.join(ph, 'shared'));
+
+    // ts template
+    if (tplType === '1') {
+        genTsNetTemplate(ph, name, netType);
+    }
+
+    // js template
+    if (tplType === '2') {
+        genJsNetTemplate(ph, name, netType);
+    }
 }
 

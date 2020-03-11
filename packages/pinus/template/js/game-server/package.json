@@ -1,0 +1,13 @@
+{
+    "name": "$",
+    "version": "0.0.1",
+    "private": false,
+    "dependencies": {
+        "@types/node": "8.10.54",
+        "@types/bluebird": "^3.5.19",
+        "pinus":"#",
+        "bluebird": "^3.5.1",
+        "source-map-support": "^0.5.0",
+        "reflect-metadata": "^0.1.10"
+    }
+}
