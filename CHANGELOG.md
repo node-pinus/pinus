@@ -1,8 +1,13 @@
 
 
-#### 1.4.x
+#### 1.4.2
 
 修复web-server  更新express依赖出现的`configure`问题。
+fix  #118  #119
+回退 web-server express版本
+fix pinus-cli lost dependency.
+
+
 
 #### 1.4.1
 try fix [#63](https://github.com/node-pinus/pinus/issues/65)  运行目录问题，先与pomelo的代码行为保持一致。
