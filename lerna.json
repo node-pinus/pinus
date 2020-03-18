@@ -9,7 +9,7 @@
     "examples/websocket-chat-ts-run/*",
     "examples/robot-sample"
   ],
-  "version": "1.4.1",
+  "version": "1.4.2",
   "npmClient": "yarn",
   "useWorkspaces": true
 }
