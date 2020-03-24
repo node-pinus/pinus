@@ -529,7 +529,7 @@ export class Application {
                     if (err) {
                         utils.invokeCallback(cb, err);
                     } else {
-                        logger.info('%j enter after start...', self.getServerId());
+                        logger.info('%j enter start...', self.getServerId());
 
                         appUtil.optComponents(self.loaded, Constants.RESERVED.START, function (err) {
                             self.state = STATE_START;
