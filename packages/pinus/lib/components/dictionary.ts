@@ -59,13 +59,10 @@ export class DictionaryComponent implements IComponent {
 
             for (let name in handlers) {
                 let handler = handlers[name];
-                for (let name in handlers) {
-                    let handler = handlers[name];
 
-                    let proto = listEs6ClassMethods(handler);
-                    for (let key of proto) {
-                        routes.push(serverType + '.' + name + '.' + key);
-                    }
+                let proto = listEs6ClassMethods(handler);
+                for (let key of proto) {
+                    routes.push(serverType + '.' + name + '.' + key);
                 }
             }
         }
