@@ -6,9 +6,10 @@ export class Encoder {
     protos: any;
 
     private readonly _encodeCache: Buffer;
+
     constructor(protos: any, encoderCacheSize?: number) {
         this.init(protos);
-        if(encoderCacheSize){
+        if (encoderCacheSize) {
             this._encodeCache = Buffer.alloc(encoderCacheSize);
         }
     }
@@ -17,7 +18,7 @@ export class Encoder {
         this.protos = protos || {};
     }
 
-    encode(route: string, msg: {[key: string]: any}) {
+    encode(route: string, msg: { [key: string]: any }) {
         if (!route || !msg) {
             console.warn('Route or msg can not be null! route : %j, msg %j', route, msg);
             return null;
@@ -33,7 +34,7 @@ export class Encoder {
         }
 
         let buffer = this._encodeCache;
-        if(!buffer){
+        if (!buffer) {
             // Set the length of the buffer 2 times bigger to prevent overflow
             let length = Buffer.byteLength(JSON.stringify(msg)) * 2;
 
@@ -55,7 +56,7 @@ export class Encoder {
     /**
      * Check if the msg follow the defination in the protos
      */
-    checkMsg(msg: {[key: string]: any}, protos: {[key: string]: any}) {
+    checkMsg(msg: { [key: string]: any }, protos: { [key: string]: any }) {
         if (!protos || !msg) {
             console.warn('no protos or msg exist! msg : %j, protos : %j', msg, protos);
             return false;
@@ -97,7 +98,7 @@ export class Encoder {
         return true;
     }
 
-    encodeMsg(buffer: Buffer, offset: number, protos: {[key: string]: any}, msg: {[key: string]: any}) {
+    encodeMsg(buffer: Buffer, offset: number, protos: { [key: string]: any }, msg: { [key: string]: any }) {
         for (let name in msg) {
             if (!!protos[name]) {
                 let proto = protos[name];
@@ -120,7 +121,7 @@ export class Encoder {
         return offset;
     }
 
-    encodeProp(value: any, type: string, offset: number, buffer: Buffer, protos?: {[key: string]: any}) {
+    encodeProp(value: any, type: string, offset: number, buffer: Buffer, protos?: { [key: string]: any }) {
         let length = 0;
 
         switch (type) {
@@ -149,7 +150,7 @@ export class Encoder {
                 offset += length;
                 break;
             default:
-                let message: {[key: string]: any} = protos.__messages[type] || this.protos['message ' + type];
+                let message: { [key: string]: any } = protos.__messages[type] || this.protos['message ' + type];
                 if (!!message) {
                     // Use a tmp buffer to build an internal msg
                     let tmpBuffer = Buffer.alloc(Buffer.byteLength(JSON.stringify(value)) * 2);
@@ -172,7 +173,7 @@ export class Encoder {
     /**
      * Encode reapeated properties, simple msg and object are decode differented
      */
-    encodeArray(array: Array<number>, proto: {[key: string]: any}, offset: number, buffer: Buffer, protos: {[key: string]: any}) {
+    encodeArray(array: Array<number>, proto: { [key: string]: any }, offset: number, buffer: Buffer, protos: { [key: string]: any }) {
         let i = 0;
         if (util.isSimpleType(proto.type)) {
             offset = this.writeBytes(buffer, offset, this.encodeTag(proto.type, proto.tag));
