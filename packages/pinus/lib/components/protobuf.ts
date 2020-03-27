@@ -61,7 +61,7 @@ export class ProtobufComponent implements IComponent {
     constructor(app: Application, opts ?: ProtobufComponentOptions) {
         this.app = app;
         opts = opts || {};
-        logger.debug("ProtobufComponent options:",opts)
+        logger.debug('ProtobufComponent options:', opts)
         let env = app.get(Constants.RESERVED.ENV);
         let originServerPath = path.join(app.getBase(), Constants.FILEPATH.SERVER_PROTOS);
         let presentServerPath = path.join(Constants.FILEPATH.CONFIG_DIR, env, path.basename(Constants.FILEPATH.SERVER_PROTOS));
@@ -74,7 +74,11 @@ export class ProtobufComponent implements IComponent {
         this.setProtos(Constants.RESERVED.SERVER, path.join(app.getBase(), this.serverProtosPath));
         this.setProtos(Constants.RESERVED.CLIENT, path.join(app.getBase(), this.clientProtosPath));
 
-        this.protobuf = new Protobuf({ encoderProtos: this.serverProtos, decoderProtos: this.clientProtos, encoderCacheSize: opts.encoderCacheSize });
+        this.protobuf = new Protobuf({
+            encoderProtos: this.serverProtos,
+            decoderProtos: this.clientProtos,
+            encoderCacheSize: opts.encoderCacheSize
+        });
     }
 
 
