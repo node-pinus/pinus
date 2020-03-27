@@ -5,8 +5,12 @@ import * as util from './util';
 export class Encoder {
     protos: any;
 
-    constructor(protos: any) {
+    private readonly _encodeCache: Buffer;
+    constructor(protos: any, encoderCacheSize?: number) {
         this.init(protos);
+        if(encoderCacheSize){
+            this._encodeCache = Buffer.alloc(encoderCacheSize);
+        }
     }
 
     init(protos: any) {
@@ -28,11 +32,14 @@ export class Encoder {
             return null;
         }
 
-        // Set the length of the buffer 2 times bigger to prevent overflow
-        let length = Buffer.byteLength(JSON.stringify(msg)) * 2;
+        let buffer = this._encodeCache;
+        if(!buffer){
+            // Set the length of the buffer 2 times bigger to prevent overflow
+            let length = Buffer.byteLength(JSON.stringify(msg)) * 2;
 
-        // Init buffer and offset
-        let buffer = Buffer.alloc(length);
+            // Init buffer and offset
+            buffer = Buffer.alloc(length);
+        }
         let offset = 0;
 
         if (!!protos) {

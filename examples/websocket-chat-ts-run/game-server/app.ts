@@ -43,6 +43,19 @@ app.configure('production|development', 'connector', function () {
             useDict: true,
             useProtobuf: true
         });
+
+    /**
+     // 缓存大小不够 日志示例
+     [2020-03-27T10:44:48.752] [ERROR] pinus - [chat-server-1 channelService.js] [pushMessage] fail to dispatch msg to serverId: connector-server-1, err:RangeError [ERR_OUT_OF_RANGE]: The value of "offset" is out of range. It must be >= 0 and <= 0. Received 1
+     at boundsError (internal/buffer.js:53:9)
+     at writeU_Int8 (internal/buffer.js:562:5)
+     at Buffer.writeUInt8 (internal/buffer.js:569:10)
+     at Encoder.writeBytes (F:\develop\gong4-server\logicServer\pinus\packages\pinus-protobuf\lib\encoder.ts:195:20)
+     */
+    app.set('protobufConfig', {
+        // protobuf Encoder 使用 5m 的缓存 需要保证每个消息不会超过指定的缓存大小，超过了就会抛出异常
+        encoderCacheSize: 5 * 1024 * 1024
+    });
 });
 
 app.configure('production|development', 'gate', function () {
