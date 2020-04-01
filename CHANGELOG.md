@@ -1,6 +1,8 @@
 
 #### 1.4.x
 
+**pinus-rpc** 修复mqtt调用延迟40～80ms的bug   https://github.com/NetEase/pomelo-rpc/pull/33
+
 分布式部署时，servers 配置有 args参数时，自动添加空格。
 
 Merge pull request #125 from lowkeywx/master
@@ -10,7 +12,7 @@ Merge pull request #126 from wjt382063576/fix_dict
  fix(dict): Fix the problem of duplicate handler routing in the dictio…
 
 
-pinus-protobuf Encoder可选性能优化，添加Encoder缓存选项。
+**pinus-protobuf** Encoder可选性能优化，添加Encoder缓存选项。
 不优化时的逻辑是，对msg进行JSON.stringify 获取长度*2，再分配Buffer。
 使用优化时的逻辑是，使用指定大小的预分配Buffer。
 
