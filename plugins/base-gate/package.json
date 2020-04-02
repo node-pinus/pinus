@@ -37,7 +37,7 @@
     "source-map-support": "^0.5.0"
   },
   "devDependencies": {
-    "tslint": "6.1.0",
+    "tslint": "6.1.1",
     "typescript": "3.8.3"
   },
   "license": "MIT",

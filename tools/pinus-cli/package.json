@@ -42,7 +42,7 @@
   },
   "devDependencies": {
     "typescript": "3.8.3",
-    "tslint": "6.1.0"
+    "tslint": "6.1.1"
   },
   "license": "MIT"
 }

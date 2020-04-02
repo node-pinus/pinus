@@ -29,7 +29,7 @@
   "@types/node": "8.10.59"
  },
  "devDependencies": {
-  "tslint": "6.1.0",
+  "tslint": "6.1.1",
   "typescript": "3.8.3"
  }
 }
