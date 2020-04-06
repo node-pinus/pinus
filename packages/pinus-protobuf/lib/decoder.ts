@@ -29,7 +29,12 @@ export class Decoder {
         this.offset = 0;
 
         if (!!protos) {
-            return this.decodeMsg({}, protos, this.buffer.length);
+            try {
+                return this.decodeMsg({}, protos, this.buffer.length);
+            } catch (e) {
+                console.warn('protobuf decode invalid msg route:', route, 'length:', this.buffer.length, 'error:', e.message);
+                return null; // discard this msg！
+            }
         }
 
         return null;
@@ -40,6 +45,9 @@ export class Decoder {
             let type = head.type;
             let tag = head.tag;
             let name = protos.__tags[tag];
+            if (!protos[name]) { // invalid msg
+                console.warn('protobuf decodeMsg name missed. name:', name, 'protos:', JSON.stringify(protos), 'tag:', tag);
+            }
 
             switch (protos[name].option) {
                 case 'optional':
