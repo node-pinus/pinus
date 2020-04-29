@@ -13,6 +13,6 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 10
-      - run: yarn install
+      - run: yarn
       - run: yarn run ci
       - run: yarn run test
