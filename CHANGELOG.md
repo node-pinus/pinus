@@ -43,6 +43,9 @@ Merge pull request #126 from wjt382063576/fix_dict
 所以添加了这个选项.
 
 
+**examples/websocket-chat-ts-run** 添加开启 选项 `decodeCheckMsg` 的示例. 并使用 `globalBefore` 进行捕获.
+
+
 #### 1.4.2
 
 修复web-server  更新express依赖出现的`configure`问题。
