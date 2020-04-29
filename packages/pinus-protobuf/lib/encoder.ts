@@ -1,6 +1,7 @@
 import * as codec from './codec';
 import * as constant from './constant';
 import * as util from './util';
+import { checkMsgValid } from './util';
 
 export class Encoder {
     protos: any;
@@ -57,45 +58,7 @@ export class Encoder {
      * Check if the msg follow the defination in the protos
      */
     checkMsg(msg: { [key: string]: any }, protos: { [key: string]: any }) {
-        if (!protos || !msg) {
-            console.warn('no protos or msg exist! msg : %j, protos : %j', msg, protos);
-            return false;
-        }
-
-        for (let name in protos) {
-            let proto = protos[name];
-
-            // All required element must exist
-            switch (proto.option) {
-                case 'required':
-                    if (typeof (msg[name]) === 'undefined') {
-                        console.warn('no property exist for required! name: %j, proto: %j, msg: %j', name, proto, msg);
-                        return false;
-                    }
-                case 'optional':
-                    if (typeof (msg[name]) !== 'undefined') {
-                        let message = protos.__messages[proto.type] || this.protos['message ' + proto.type];
-                        if (!!message && !this.checkMsg(msg[name], message)) {
-                            console.warn('inner proto error! name: %j, proto: %j, msg: %j', name, proto, msg);
-                            return false;
-                        }
-                    }
-                    break;
-                case 'repeated':
-                    // Check nest message in repeated elements
-                    let message = protos.__messages[proto.type] || this.protos['message ' + proto.type];
-                    if (!!msg[name] && !!message) {
-                        for (let i = 0; i < msg[name].length; i++) {
-                            if (!this.checkMsg(msg[name][i], message)) {
-                                return false;
-                            }
-                        }
-                    }
-                    break;
-            }
-        }
-
-        return true;
+        return checkMsgValid(msg, protos, this.protos)
     }
 
     encodeMsg(buffer: Buffer, offset: number, protos: { [key: string]: any }, msg: { [key: string]: any }) {

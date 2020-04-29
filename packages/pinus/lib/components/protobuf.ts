@@ -29,6 +29,8 @@ export interface ProtobufComponentOptions {
      at Encoder.writeBytes (F:\develop\gong4-server\logicServer\pinus\packages\pinus-protobuf\lib\encoder.ts:195:20)
      */
     encoderCacheSize?: number;
+    // decode 客户端请求消息时校验消息
+    decodeCheckMsg?: boolean;
 }
 
 
@@ -77,7 +79,8 @@ export class ProtobufComponent implements IComponent {
         this.protobuf = new Protobuf({
             encoderProtos: this.serverProtos,
             decoderProtos: this.clientProtos,
-            encoderCacheSize: opts.encoderCacheSize
+            encoderCacheSize: opts.encoderCacheSize,
+            decodeCheckMsg: opts.decodeCheckMsg,
         });
     }
 

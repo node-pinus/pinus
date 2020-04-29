@@ -6,12 +6,15 @@ export class Protobuf {
     encoder: Encoder;
     decoder: Decoder;
 
-    constructor(opts: { encoderProtos: object, decoderProtos: object, encoderCacheSize?: number }) {
+    constructor(opts: {
+        encoderProtos: object, decoderProtos: object,
+        encoderCacheSize?: number, decodeCheckMsg?: boolean
+    }) {
         // On the serverside, use serverProtos to encode messages send to client
         this.encoder = new Encoder(opts.encoderProtos, opts.encoderCacheSize);
 
         // On the serverside, user clientProtos to decode messages receive from clients
-        this.decoder = new Decoder(opts.decoderProtos);
+        this.decoder = new Decoder(opts.decoderProtos, opts.decodeCheckMsg);
 
 
     }
