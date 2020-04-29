@@ -33,6 +33,16 @@ Merge pull request #126 from wjt382063576/fix_dict
 
 ```
 
+
+**pinus-protobuf** protobufConfig 配置添加一个选项 decodeCheckMsg.
+
+解析客户端消息时校验客户端消息字段是否符合protobuf定义
+
+因为目前发现,有的客户端encode消息没有校验消息字段是否完整,导致服务端收到消息以后字段缺失,会出现逻辑问题.
+
+所以添加了这个选项.
+
+
 #### 1.4.2
 
 修复web-server  更新express依赖出现的`configure`问题。
