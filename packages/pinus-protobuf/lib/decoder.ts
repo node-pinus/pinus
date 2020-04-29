@@ -32,7 +32,7 @@ export class Decoder {
         if (!!protos) {
             let ret = this.decodeMsg({}, protos, this.buffer.length);
             if (this.decodeCheckMsg && !checkMsgValid(ret, protos, this.protos)) {
-                console.error("decode check msg failed:", route, buf.length, buf);
+                console.error('decode check msg failed:', route, buf.length, buf);
                 return null;
             }
             return ret;
