@@ -39,7 +39,7 @@ app.configure('production|development', 'connector', function () {
     app.set('connectorConfig',
         {
             connector: pinus.connectors.hybridconnector,
-            heartbeat: 3,
+            heartbeat: 60,
             useDict: true,
             useProtobuf: true
         });
@@ -54,7 +54,9 @@ app.configure('production|development', 'connector', function () {
      */
     app.set('protobufConfig', {
         // protobuf Encoder 使用 5m 的缓存 需要保证每个消息不会超过指定的缓存大小，超过了就会抛出异常
-        encoderCacheSize: 5 * 1024 * 1024
+        encoderCacheSize: 5 * 1024 * 1024,
+        // decode 对客户端请求消息做校验
+        decodeCheckMsg: true,
     });
 });
 
@@ -96,6 +98,14 @@ app.configure('production|development', function () {
     app.set(RESERVED.GLOBAL_ERROR_HANDLER, globalErrorHandler);
     app.globalAfter((err: Error, routeRecord: RouteRecord, msg: any, session: FrontendOrBackendSession, resp: any, cb: HandlerCallback) => {
         console.log('global after ', err, routeRecord, msg)
+    })
+
+    app.globalBefore((routeRecord: RouteRecord, msg: any, session: FrontendOrBackendSession, cb: HandlerCallback) => {
+        if (msg.body === null) {
+            cb(new Error(`msg body ===null maybe protobuf check error uid:${ session.uid } ${ JSON.stringify(msg) }`), { code: 499 });
+            return;
+        }
+        cb(null);
     })
 
     // route configures
