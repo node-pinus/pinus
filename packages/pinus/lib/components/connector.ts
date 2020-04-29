@@ -303,6 +303,12 @@ export class ConnectorComponent implements IComponent {
                 dmsg = this.decode(msg);
             } else if (this.connector.decode) {
                 dmsg = this.connector.decode(msg);
+                // Perhaps protobuf decoder error can be captured here.
+                // if (dmsg && dmsg.body === null) {
+                //     // protobuf decode error
+                //     logger.error('fail to decode the msg body received from client. msg:', dmsg);
+                //     return;
+                // }
             }
             if (!dmsg) {
                 // discard invalid message
