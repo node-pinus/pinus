@@ -1,5 +1,6 @@
 
-#### 1.4.x
+
+#### 1.4.3
 
 **pinus-rpc** 修复mqtt调用延迟40～80ms的bug   https://github.com/NetEase/pomelo-rpc/pull/33
 
