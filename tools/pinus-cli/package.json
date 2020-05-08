@@ -30,10 +30,6 @@
     "pinus-cli": "./dist/bin/pinus-cli.js"
   },
   "dependencies": {
-    "@types/async": "^3.0.0",
-    "@types/cliff": "^0.1.4",
-    "@types/node": "8.10.54",
-    "@types/optimist": "0.0.29",
     "async": "^3.0.0",
     "cliff": "^0.1.10",
     "optimist": "^0.6.1",
@@ -41,6 +37,10 @@
     "pinus-logger": "^1.4.4"
   },
   "devDependencies": {
+    "@types/async": "^3.0.0",
+    "@types/cliff": "^0.1.4",
+    "@types/node": "8.10.54",
+    "@types/optimist": "0.0.29",
     "tslint": "5.20.1",
     "typescript": "3.7.3"
   },

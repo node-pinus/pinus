@@ -22,12 +22,12 @@
   "main": "./dist/index",
   "types": "./src/index",
   "dependencies": {
-    "@types/node": "8.10.54",
-    "@types/yargs": "^13.0.0",
     "pinus": "^1.4.4",
     "yargs": "^15.0.0"
   },
   "devDependencies": {
+    "@types/node": "8.10.54",
+    "@types/yargs": "^13.0.0",
     "tslint": "5.20.1",
     "typescript": "3.7.3"
   },

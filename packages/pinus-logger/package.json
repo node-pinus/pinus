@@ -23,10 +23,10 @@
         "node": ">=8.5"
     },
     "dependencies": {
-        "@types/node": "8.10.54",
         "log4js": "^6.0.0"
     },
     "devDependencies": {
+        "@types/node": "8.10.54",
         "mocha": "6.2.2",
         "should": "13.2.3",
         "tslint": "5.20.1",
