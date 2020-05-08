@@ -1,5 +1,9 @@
 
 
+#### 1.4.4
+
+修复NPM没有编译dist的问题.
+
 #### 1.4.3
 
 **pinus-rpc** 修复mqtt调用延迟40～80ms的bug   https://github.com/NetEase/pomelo-rpc/pull/33
