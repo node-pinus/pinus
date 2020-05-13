@@ -1,7 +1,10 @@
 
 #### 1.4.x
 
-1. 更新 package.json,转移不需要的包到dev依赖.
+1. 更新 package.json,转移不需要的包到dev依赖. d58657d523c6ca1782dba1ec4c7d7d5cc62e5e22
+
+2. [pinus]: manualReloadCrons 添加重载前清除选项. 8c1708ee74f68a9ef583827882a36cb0e59ead28
+
 
 
 #### 1.4.4
