@@ -1,4 +1,12 @@
 
+#### 1.4.7
+
+fix #129  https://github.com/node-pinus/pinus/issues/129
+
+#### 1.4.6
+
+revert 1.4.5 -> 1
+revert 1.4.5 -> 3
 
 #### 1.4.5
 

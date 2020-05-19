@@ -13,7 +13,7 @@ let PKG_HEAD_BYTES = PKG_ID_BYTES + PKG_ROUTE_LENGTH_BYTES;
 let curId = 1;
 
 
-export interface SIOConnectorOptions {
+export interface SIOConnectorOptions extends socket_io.ServerOptions{
     /**
      * The path to server the client file to
      * @default '/socket.io'
