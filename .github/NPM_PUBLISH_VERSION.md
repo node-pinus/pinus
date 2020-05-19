@@ -8,3 +8,4 @@ lerna version [bump]
 ```
 
 1.4.7
+force
