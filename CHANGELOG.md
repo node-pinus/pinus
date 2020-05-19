@@ -1,10 +1,12 @@
 
-#### 1.4.x
 
-1. 更新 package.json,转移不需要的包到dev依赖. d58657d523c6ca1782dba1ec4c7d7d5cc62e5e22
+#### 1.4.5
+
+1. 更新 package.json,转移不需要的包到dev依赖. d58657d523c6ca1782dba1ec4c7d7d5cc62e5e22 https://github.com/node-pinus/pinus/issues/128
 
 2. [pinus]: manualReloadCrons 添加重载前清除选项. 8c1708ee74f68a9ef583827882a36cb0e59ead28
 
+3. tsconfig.json add opition `skipLibCheck` 解决新建的模板项目编译报错问题
 
 
 #### 1.4.4
