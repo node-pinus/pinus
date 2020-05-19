@@ -7,5 +7,4 @@ lerna version [bump]
         'major', 'minor', 'patch', 'premajor', 'preminor', 'prepatch', or 'prerelease'. 
 ```
 
-1.4.7
-force
+1.4.8

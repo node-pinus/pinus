@@ -1,3 +1,7 @@
+#### 1.4.8
+
+fix #128 https://github.com/node-pinus/pinus/issues/128  解决 mqtt-connection
+
 
 #### 1.4.7
 
