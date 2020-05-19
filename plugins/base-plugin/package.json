@@ -1,6 +1,6 @@
 {
   "name": "pinus-base-plugin",
-  "version": "1.4.7",
+  "version": "1.4.6",
   "description": "pinus base plugin",
   "files": [
     "dist",
@@ -22,7 +22,7 @@
   "main": "./dist/index",
   "types": "./src/index",
   "dependencies": {
-    "pinus": "^1.4.7"
+    "pinus": "^1.4.6"
   },
   "devDependencies": {
     "@types/node": "8.10.54",
