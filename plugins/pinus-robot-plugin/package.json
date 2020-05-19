@@ -1,6 +1,6 @@
 {
   "name": "pinus-robot-plugin",
-  "version": "1.4.6",
+  "version": "1.4.7",
   "description": "pinus robot plugin",
   "files": [
     "dist",
@@ -22,7 +22,7 @@
   "main": "./dist/index",
   "types": "./src/index",
   "dependencies": {
-    "pinus": "^1.4.6",
+    "pinus": "^1.4.7",
     "yargs": "^15.0.0"
   },
   "devDependencies": {
