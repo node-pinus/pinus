@@ -48,6 +48,7 @@
   "main": "./dist/lib/index",
   "types": "./lib/index",
   "dependencies": {
+    "@types/socket.io": "^2.1.4",
     "async": "^3.0.0",
     "cliff": "^0.1.10",
     "commander": "^3.0.0",
@@ -79,7 +80,6 @@
     "@types/mkdirp": "0.5.2",
     "@types/mocha": "^5.0.0",
     "@types/mqtt-connection": "git+https://github.com/node-pinus/types-mqtt-connection.git",
-    "@types/socket.io": "^2.1.4",
     "@types/ws": "6.0.4",
     "mocha": "6.2.2",
     "muk": "0.5.3",
