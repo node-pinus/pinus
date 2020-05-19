@@ -1,6 +1,6 @@
 {
  "name": "pinus-protocol",
- "version": "1.4.4",
+ "version": "1.4.5",
  "private": false,
  "main": "./dist",
  "types": "./lib/index",
@@ -22,8 +22,6 @@
  },
  "engines": {
   "node": ">=8.5"
- },
- "dependencies": {
  },
  "devDependencies": {
   "@types/node": "8.10.54",
