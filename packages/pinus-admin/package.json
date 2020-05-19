@@ -24,7 +24,6 @@
         "node": ">=8.5"
     },
     "dependencies": {
-        "@types/mqtt-connection": "git+https://github.com/node-pinus/types-mqtt-connection.git",
         "mqtt-connection": "^3.2.0",
         "pinus-logger": "^1.4.7",
         "pinus-monitor": "^1.4.7",

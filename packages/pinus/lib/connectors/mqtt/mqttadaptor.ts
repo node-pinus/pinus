@@ -1,5 +1,5 @@
 
-import * as mqtt_connection from 'mqtt-connection';
+
 import { MQTTSocket } from '../mqttsocket';
 export interface MqttAdaptorOptions {
     publishRoute ?: string;

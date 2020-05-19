@@ -7,6 +7,7 @@ import { ScriptsModule } from './lib/modules/scripts';
 import { SystemInfoModule } from './lib/modules/systemInfo';
 export * from './lib/consoleService';
 
+export * from './lib/protocol/mqtt/mqttConnectorDefine';
 export * from './lib/client/client';
 export * from './lib/monitor/monitorAgent';
 export * from './lib/master/masterAgent';

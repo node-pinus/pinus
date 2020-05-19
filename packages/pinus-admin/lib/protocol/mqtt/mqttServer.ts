@@ -1,13 +1,13 @@
 import { getLogger } from 'pinus-logger';
 import { EventEmitter } from 'events';
-import * as mqtt_connection from 'mqtt-connection';
 import * as Util from 'util';
 import * as net from 'net';
 import * as path from 'path';
+import { MqttConnection, MqttConnectionConstructor } from './mqttConnectorDefine';
 let logger = getLogger('pinus-admin', path.basename(__filename));
+const mqtt_constructor: MqttConnectionConstructor = require('mqtt-connection');
 
-
-export interface MqttSocket extends mqtt_connection {
+export interface MqttSocket extends MqttConnection {
     send(topic: string , msg: any): void;
 }
 
@@ -23,7 +23,7 @@ export class MqttServer extends EventEmitter {
     inited = false;
     closed = true;
     server: net.Server;
-    socket: mqtt_connection;
+    socket: MqttConnection;
 
     constructor(private opts?: any, private cb?: Function) {
         super();
@@ -54,7 +54,7 @@ export class MqttServer extends EventEmitter {
         });
 
         this.server.on('connection', function (stream) {
-            let socket = mqtt_connection(stream) as MqttSocket;
+            let socket = mqtt_constructor(stream) as MqttSocket;
             socket.id = curId++;
 
             self.socket = socket;
