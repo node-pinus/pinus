@@ -21,6 +21,7 @@
   "dependencies": {
     "@types/node": "8.10.54",
     "@types/ws": "^3.2.0",
+    "cli-color": "^2.0.0",
     "pinus-protobuf": "^1.4.8",
     "pinus-protocol": "^1.4.8",
     "pinus-robot": "^1.4.8",
