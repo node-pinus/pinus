@@ -123,7 +123,7 @@ export class Encoder {
                         offset = this.encodeMsg(buffer, offset, message, value);
                         let msgLength = offset - lengthOffset - 1;
                         let lenBytes = codec.encodeUInt32(msgLength);
-                        if (lenBytes.length == 1) {
+                        if (lenBytes.length === 1) {
                             buffer[lengthOffset] = lenBytes[0];
                         } else {
                             let moveSize = lenBytes.length - 1;
