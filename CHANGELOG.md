@@ -1,3 +1,17 @@
+
+#### 1.4.9
+
+[pinus-protobuf]: 在开启encode缓存时,优化protobuf encode性能. (提升1倍)
+```
+ test Protobuf time: 914.453ms
+ Protobuf length total: 1780000
+
+ test ProtobufCache time: 416.399ms
+ ProtobufCache length total: 1780000
+```
+ 
+
+
 #### 1.4.8
 
 fix #128 https://github.com/node-pinus/pinus/issues/128  解决 mqtt-connection
