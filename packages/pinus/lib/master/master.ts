@@ -84,7 +84,7 @@ export class MasterServer {
             let pingTimer: NodeJS.Timer = null;
             let server = self.app.getServerById(id);
             let stopFlags = self.app.get(Constants.RESERVED.STOP_SERVERS) || [];
-            if (!!server && (server[Constants.RESERVED.AUTO_RESTART] === true || server[Constants.RESERVED.RESTART_FORCE] === true) && stopFlags.indexOf(id) < 0) {
+            if (!!server && (server[Constants.RESERVED.AUTO_RESTART] === "true" || server[Constants.RESERVED.RESTART_FORCE] === "true") && stopFlags.indexOf(id) < 0) {
                 let handle = function () {
                     clearTimeout(pingTimer);
                     utils.checkPort(server, function (status) {
