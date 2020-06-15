@@ -1,5 +1,5 @@
 import * as starter from './starter';
-import {getLogger} from 'pinus-logger';
+import { getLogger } from 'pinus-logger';
 import * as path from 'path';
 
 let logger = getLogger('pinus', path.basename(__filename));
@@ -10,9 +10,9 @@ import * as util from 'util';
 import * as utils from '../util/utils';
 import * as moduleUtil from '../util/moduleUtil';
 import * as Constants from '../util/constants';
-import {Application} from '../application';
-import {ConsoleService, ConsoleServiceOpts} from 'pinus-admin';
-import {IModule} from '../index';
+import { Application } from '../application';
+import { ConsoleService, ConsoleServiceOpts } from 'pinus-admin';
+import { IModule } from '../index';
 
 
 export type MasterServerOptions =
@@ -30,7 +30,7 @@ export class MasterServer {
     closeWatcher: boolean;
     masterConsole: ConsoleService;
 
-    constructor(app: Application, opts ?: MasterServerOptions) {
+    constructor(app: Application, opts?: MasterServerOptions) {
         this.app = app;
         this.masterInfo = app.getMaster();
         opts = opts || {};
@@ -84,7 +84,9 @@ export class MasterServer {
             let pingTimer: NodeJS.Timer = null;
             let server = self.app.getServerById(id);
             let stopFlags = self.app.get(Constants.RESERVED.STOP_SERVERS) || [];
-            if (!!server && (server[Constants.RESERVED.AUTO_RESTART] === true || server[Constants.RESERVED.RESTART_FORCE] === true) && stopFlags.indexOf(id) < 0) {
+            let autoRestart: any = server[Constants.RESERVED.AUTO_RESTART] || '';
+            let restartForce: any = server[Constants.RESERVED.RESTART_FORCE] || '';
+            if (!!server && (autoRestart.toString() === 'true' || restartForce.toString() === 'true') && stopFlags.indexOf(id) < 0) {
                 let handle = function () {
                     clearTimeout(pingTimer);
                     utils.checkPort(server, function (status) {
