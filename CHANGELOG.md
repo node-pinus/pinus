@@ -1,7 +1,7 @@
 
 #### 1.4.9
 
-[pinus-protobuf]: 在开启encode缓存时,优化protobuf encode性能. (提升1倍)
+[pinus-protobuf]: [在开启encode缓存时,优化protobuf encode性能. (提升1倍)](https://github.com/node-pinus/pinus/commit/721eda3437fdc1e704a426718776c72b073029d3)
 ```
  test Protobuf time: 914.453ms
  Protobuf length total: 1780000
@@ -9,7 +9,11 @@
  test ProtobufCache time: 416.399ms
  ProtobufCache length total: 1780000
 ```
+
+[pinus]: [fixed bug:指定服务配置auto-restart失效](https://github.com/node-pinus/pinus/pull/132)   
  
+[Example]:  [add nodejs ts client.](https://github.com/node-pinus/pinus/commit/bdcdc9bdbccdff6aeecfbfe8b18ec43f42228d76) 
+
 
 
 #### 1.4.8
