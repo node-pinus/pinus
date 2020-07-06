@@ -13,6 +13,5 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 10
-      - run: yarn
-      - run: yarn run ci
+      - run: yarn && yarn run ci
       - run: yarn run test
