@@ -210,7 +210,7 @@ describe('console module test', function () {
             });
         });
 
-        it('should execute add command', function (done) {
+        it('should execute add command', function () {
             let msg1 = { signal: 'add', args: ['host=127.0.0.1', 'port=88888', 'clusterCount=2'] };
             let msg2 = { signal: 'add', args: ['host=127.0.0.1', 'port=88888', 'id=chat-server-1', 'serverType=chat'] };
             let agent = {};
@@ -223,7 +223,6 @@ describe('console module test', function () {
                 //  result.status.should.eql('ok');
                 // TODO: unknown error:
                 console.log('should execute add command', err, result);
-                done();
             });
         });
 
