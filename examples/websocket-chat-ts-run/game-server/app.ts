@@ -1,4 +1,12 @@
-import { FrontendOrBackendSession, HandlerCallback, pinus, RESERVED, RouteRecord } from 'pinus';
+import {
+    createTcpAcceptor,
+    createTcpMailBox,
+    FrontendOrBackendSession,
+    HandlerCallback,
+    pinus,
+    RESERVED,
+    RouteRecord
+} from 'pinus';
 import './app/servers/user.rpc.define'
 import * as  routeUtil from './app/util/routeUtil';
 import { preload } from './preload';
@@ -113,6 +121,20 @@ app.configure('production|development', function () {
 
     // filter configures
     app.filter(new pinus.filters.timeout());
+
+    // RPC 启用TCP协议
+    app.set('proxyConfig', {
+        mailboxFactory: createTcpMailBox,
+        //    bufferMsg:true
+        // rpc 超时时间
+        // timeout: 20 * 1000,
+        // dynamicUserProxy: true,
+    });
+    app.set('remoteConfig', {
+        acceptorFactory: createTcpAcceptor,
+        // bufferMsg:true,
+        // interval:50,
+    });
 });
 
 app.configure('development', function () {
