@@ -220,6 +220,8 @@ export class MqttClient extends EventEmitter {
                 if (now - this.lastPing > KEEP_ALIVE_TIMEOUT) {
                     logger.error('mqtt rpc client checkKeepAlive error timeout for %d', KEEP_ALIVE_TIMEOUT);
                     this.close();
+                } else {
+                    this.socket.pingreq();
                 }
             } else {
                 this.socket.pingreq();
