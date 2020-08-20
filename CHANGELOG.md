@@ -1,4 +1,9 @@
 
+#### 1.4.10
+
+[pinus] [修复win10 mqtt 超时问题](https://github.com/node-pinus/pinus/pull/137)
+
+
 #### 1.4.9
 
 [pinus-protobuf]: [在开启encode缓存时,优化protobuf encode性能. (提升1倍)](https://github.com/node-pinus/pinus/commit/721eda3437fdc1e704a426718776c72b073029d3)
