@@ -4,7 +4,7 @@
 	"devDependencies": {
 		"lerna": "3.20.2",
 		"lerna-relinker": "1.5.0",
-		"nyc": "15.0.0",
+		"nyc": "15.1.0",
 		"pinus-site-tools": "1.0.6",
 		"ts-node": "8.8.1",
 		"tslint": "6.1.1",
