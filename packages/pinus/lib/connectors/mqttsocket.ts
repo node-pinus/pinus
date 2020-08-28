@@ -1,8 +1,8 @@
 import * as util from 'util';
 import { EventEmitter } from 'events';
 import { ISocket } from '../interfaces/ISocket';
-import * as mqtt_connection from 'mqtt-connection';
 import { MqttAdaptor } from './mqtt/mqttadaptor';
+import { MqttConnection } from 'pinus-admin';
 
 let ST_INITED = 1;
 let ST_CLOSED = 2;
@@ -12,13 +12,13 @@ let ST_CLOSED = 2;
  */
 export class MQTTSocket extends EventEmitter implements ISocket {
     id: number;
-    socket: mqtt_connection;
+    socket: MqttConnection;
     remoteAddress: { ip: string, port: number };
     adaptor: MqttAdaptor;
 
     state: number;
 
-    constructor(id: number, socket: mqtt_connection, adaptor: MqttAdaptor) {
+    constructor(id: number, socket: MqttConnection, adaptor: MqttAdaptor) {
         super();
         this.id = id;
         this.socket = socket;

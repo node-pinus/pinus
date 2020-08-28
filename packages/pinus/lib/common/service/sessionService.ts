@@ -15,7 +15,7 @@ let ST_INITED = 0;
 let ST_CLOSED = 1;
 
 export interface SessionServiceOptions {
-    singleSession?: Session;
+    singleSession?: boolean;
 }
 
 /**
@@ -30,7 +30,7 @@ export interface SessionServiceOptions {
  * @constructor
  */
 export class SessionService {
-    singleSession: Session;
+    singleSession: boolean;
     sessions: { [sid: number]: Session };
     uidMap: { [uid: string]: Session[] };
 

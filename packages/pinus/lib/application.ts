@@ -8,48 +8,44 @@
  * Module dependencies.
  */
 import * as utils from './util/utils';
-import {getLogger, ILogger} from 'pinus-logger';
-import {EventEmitter} from 'events';
-import {default as events, AppEvents} from './util/events';
+import { getLogger, ILogger } from 'pinus-logger';
+import { EventEmitter } from 'events';
+import { AppEvents, default as events } from './util/events';
 import * as appUtil from './util/appUtil';
+import { ServerStartArgs } from './util/appUtil';
 import * as Constants from './util/constants';
+import { FRONTENDID, ServerInfo } from './util/constants';
 import * as appManager from './common/manager/appManager';
+import { TransactionCondictionFunction, TransactionHandlerFunction } from './common/manager/appManager';
 import * as fs from 'fs';
 import * as path from 'path';
-import * as util from 'util';
-import {IComponent} from './interfaces/IComponent';
-import {DictionaryComponent} from './components/dictionary';
-import {PushSchedulerComponent} from './components/pushScheduler';
-import {BackendSessionService} from './common/service/backendSessionService';
-import {ChannelService, ChannelServiceOptions} from './common/service/channelService';
-import {SessionComponent} from './components/session';
-import {ServerComponent} from './components/server';
-import {RemoteComponent} from './components/remote';
-import {ProxyComponent, RouteMaps, RouteFunction} from './components/proxy';
-import {ProtobufComponent} from './components/protobuf';
-import {MonitorComponent} from './components/monitor';
-import {MasterComponent} from './components/master';
-import {ConnectorComponent} from './components/connector';
-import {ConnectionComponent} from './components/connection';
-import {SessionService} from './common/service/sessionService';
-import {ObjectType} from './interfaces/define';
-import {isFunction} from 'util';
-import {IModule, IModuleFactory} from 'pinus-admin';
-import {ChannelComponent} from './components/channel';
-import {BackendSessionComponent} from './components/backendSession';
-import {ServerInfo, FRONTENDID} from './util/constants';
-import {BeforeHandlerFilter, AfterHandlerFilter, IHandlerFilter} from './interfaces/IHandlerFilter';
-import {TransactionCondictionFunction, TransactionHandlerFunction} from './common/manager/appManager';
-import {RpcFilter, MailStationErrorHandler, RpcMsg} from 'pinus-rpc';
-import {ILifeCycle} from './interfaces/ILifeCycle';
-import {ModuleRecord} from './util/moduleUtil';
-import {IPlugin, ApplicationEventContructor} from './interfaces/IPlugin';
-import {Cron} from './server/server';
-import {ServerStartArgs} from './util/appUtil';
-import {RemoterProxyWithRoute, RemoterProxy} from './util/remoterHelper';
-import {listEs6ClassMethods} from 'pinus-rpc';
-import {ResponseErrorHandler} from './server/server';
-import {FrontendOrBackendSession, ScheduleOptions, UID, SID, FrontendSession, ISession} from './index';
+import { isFunction } from 'util';
+import { IComponent } from './interfaces/IComponent';
+import { DictionaryComponent } from './components/dictionary';
+import { PushSchedulerComponent } from './components/pushScheduler';
+import { BackendSessionService } from './common/service/backendSessionService';
+import { ChannelService, ChannelServiceOptions } from './common/service/channelService';
+import { SessionComponent } from './components/session';
+import { ServerComponent } from './components/server';
+import { RemoteComponent } from './components/remote';
+import { ProxyComponent, RouteFunction, RouteMaps } from './components/proxy';
+import { ProtobufComponent, ProtobufComponentOptions } from './components/protobuf';
+import { MonitorComponent } from './components/monitor';
+import { MasterComponent } from './components/master';
+import { ConnectorComponent, ConnectorComponentOptions } from './components/connector';
+import { ConnectionComponent } from './components/connection';
+import { SessionService } from './common/service/sessionService';
+import { ObjectType } from './interfaces/define';
+import { IModule, IModuleFactory } from 'pinus-admin';
+import { ChannelComponent } from './components/channel';
+import { BackendSessionComponent } from './components/backendSession';
+import { AfterHandlerFilter, BeforeHandlerFilter, IHandlerFilter } from './interfaces/IHandlerFilter';
+import { MailStationErrorHandler, RpcFilter, RpcMsg } from 'pinus-rpc';
+import { ModuleRecord } from './util/moduleUtil';
+import { ApplicationEventContructor, IPlugin } from './interfaces/IPlugin';
+import { Cron, ResponseErrorHandler } from './server/server';
+import { RemoterProxy } from './util/remoterHelper';
+import { FrontendOrBackendSession, ISession, ScheduleOptions, SID, UID } from './index';
 
 let logger = getLogger('pinus', path.basename(__filename));
 
@@ -180,7 +176,7 @@ export class Application {
      */
     init(opts ?: ApplicationOptions) {
         opts = opts || {};
-        let base = opts.base || process.cwd();
+        let base = opts.base || path.dirname(require.main.filename);
         this.set(Constants.RESERVED.BASE, base);
         this.base = base;
 
@@ -231,9 +227,9 @@ export class Application {
             let originPath = path.join(base, Constants.FILEPATH.LOG);
             let presentPath = path.join(base, Constants.FILEPATH.CONFIG_DIR, env, path.basename(Constants.FILEPATH.LOG));
             if (this._checkCanRequire(originPath)) {
-                logger.configure(originPath, {serverId: serverId, base: base});
+                logger.configure(originPath, { serverId: serverId, base: base });
             } else if (this._checkCanRequire(presentPath)) {
-                logger.configure(presentPath, {serverId: serverId, base: base});
+                logger.configure(presentPath, { serverId: serverId, base: base });
             } else {
                 console.error('logger file path configuration is error.');
             }
@@ -529,7 +525,7 @@ export class Application {
                     if (err) {
                         utils.invokeCallback(cb, err);
                     } else {
-                        logger.info('%j enter after start...', self.getServerId());
+                        logger.info('%j enter start...', self.getServerId());
 
                         appUtil.optComponents(self.loaded, Constants.RESERVED.START, function (err) {
                             self.state = STATE_START;
@@ -651,6 +647,8 @@ export class Application {
     set(setting: 'sessionService', val: SessionService, attach?: boolean): Application;
     set(setting: 'channelConfig', val: ChannelServiceOptions, attach?: boolean): Application;
     set(setting: 'backendSessionService', val: BackendSessionComponent, attach?: boolean): Application;
+    set(setting: 'protobufConfig', val: ProtobufComponentOptions, attach?: boolean): Application;
+    set(setting: 'connectorConfig', val: ConnectorComponentOptions, attach?: boolean): Application;
     set(setting: Constants.KEYWORDS.BEFORE_FILTER, val: BeforeHandlerFilter[], attach?: boolean): Application;
     set(setting: Constants.KEYWORDS.AFTER_FILTER, val: AfterHandlerFilter[], attach?: boolean): Application;
     set(setting: Constants.KEYWORDS.GLOBAL_BEFORE_FILTER, val: BeforeHandlerFilter[], attach?: boolean): Application;
@@ -854,7 +852,7 @@ export class Application {
             throw new Error(`pluin is null!]`);
         }
         if (this.usedPlugins.indexOf(plugin) >= 0) {
-            throw new Error(`pluin[${plugin.name} was used already!]`);
+            throw new Error(`pluin[${ plugin.name } was used already!]`);
         }
 
         if (plugin.components) {
@@ -870,7 +868,7 @@ export class Application {
 
         this.usedPlugins.push(plugin);
 
-        console.warn(`used Plugin : ${plugin.name}`);
+        console.warn(`used Plugin : ${ plugin.name }`);
     }
 
     /**

@@ -1,9 +1,8 @@
 import * as log4js from 'log4js';
+import { Configuration } from 'log4js';
 
 import * as fs from 'fs';
 import * as util from 'util';
-import {Configuration, Levels} from 'log4js';
-import {isNullOrUndefined} from 'util';
 
 
 let funcs: { [key: string]: (name: string, opts: any) => string } = {
@@ -36,6 +35,7 @@ function getLogger(...args: string[]) {
     }
     let logger = log4js.getLogger(categoryName) as any;
     let pLogger: any = {};
+    Object.setPrototypeOf(pLogger, logger);
     for (let key in logger) {
         pLogger[key] = logger[key];
     }
@@ -51,12 +51,10 @@ function getLogger(...args: string[]) {
                 if (process.env.LOGGER_PREFIX) {
                     if (args.length > 1) {
                         p = '[' + process.env.LOGGER_PREFIX + prefix + '] ';
-                    }
-                    else if (process.env.LOGGER_PREFIX) {
+                    } else if (process.env.LOGGER_PREFIX) {
                         p = '[' + process.env.LOGGER_PREFIX + '] ';
                     }
-                }
-                else if (args.length > 1) {
+                } else if (args.length > 1) {
                     p = '[' + prefix + '] ';
                 }
 
@@ -188,8 +186,7 @@ function configure(configOrFilename: string | Config, opts?: { [key: string]: an
         // modified by sw
         config = require(configOrFilename) as Config;
         //    config = JSON.parse(fs.readFileSync(configOrFilename, 'utf8')) as Config;
-    }
-    else {
+    } else {
         config = configOrFilename;
     }
 

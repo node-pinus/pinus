@@ -14,8 +14,6 @@ export class Handler {
      *
      * @param  {Object}   msg     request message
      * @param  {Object}   session current session object
-     * @param  {Function} next    next step callback
-     * @return {Void}
      */
     async entry(msg: any, session: FrontendSession) {
         return { code: 200, msg: 'game server is ok.' };
@@ -26,8 +24,6 @@ export class Handler {
      *
      * @param  {Object}   msg     request message
      * @param  {Object}   session current session object
-     * @param  {Function} next    next step callback
-     * @return {Void}
      */
     async publish(msg: any, session: FrontendSession) {
         let result = {
@@ -42,8 +38,6 @@ export class Handler {
      *
      * @param  {Object}   msg     request message
      * @param  {Object}   session current session object
-     * @param  {Function} next    next step callback
-     * @return {Void}
      */
     async subscribe(msg: any, session: FrontendSession) {
         let result = {

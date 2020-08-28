@@ -31,7 +31,7 @@ export class TimeoutFilter implements IHandlerFilter {
         this.curId++;
         this.timeOutCount++;
         this.timeouts[this.curId] = setTimeout(function () {
-            logger.error('request %j timeout.', routeRecord.route);
+            logger.error('request %j timeout.', routeRecord ? routeRecord.route : routeRecord);
         }, this.timeout);
         (session as any).__timeout__ = this.curId;
         next(null);

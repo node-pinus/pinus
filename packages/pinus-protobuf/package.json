@@ -1,11 +1,8 @@
 {
   "name": "pinus-protobuf",
-  "version": "1.3.14",
+  "version": "1.4.10",
   "main": "./dist/protobuf",
   "types": "./lib/protobuf",
-  "dependencies": {
-    "@types/node": "8.10.59"
-  },
   "files": [
     "dist",
     "lib",
@@ -25,9 +22,10 @@
     "node": ">=8.5"
   },
   "devDependencies": {
-    "mocha": "7.0.0",
+    "@types/node": "8.10.54",
+    "mocha": "6.2.2",
     "should": "13.2.3",
-    "tslint": "6.1.1",
-    "typescript": "3.8.3"
+    "tslint": "5.20.1",
+    "typescript": "3.7.3"
   }
 }

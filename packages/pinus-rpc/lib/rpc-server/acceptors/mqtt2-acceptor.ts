@@ -76,6 +76,7 @@ export class MQTT2Acceptor extends EventEmitter {
     });
 
     this.server.on('connection', function (stream) {
+      stream.setNoDelay(true)
       let socket = MqttCon(stream);
       socket['id'] = curId++;
 

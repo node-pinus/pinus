@@ -1,5 +1,6 @@
 import * as codec from './codec';
 import * as util from './util';
+import { checkMsgValid } from './util';
 
 
 export class Decoder {
@@ -8,7 +9,7 @@ export class Decoder {
     protos: any;
 
 
-    constructor(protos: object) {
+    constructor(protos: object, private decodeCheckMsg?: boolean) {
         this.init(protos);
     }
 
@@ -29,12 +30,18 @@ export class Decoder {
         this.offset = 0;
 
         if (!!protos) {
-            return this.decodeMsg({}, protos, this.buffer.length);
+            let ret = this.decodeMsg({}, protos, this.buffer.length);
+            if (this.decodeCheckMsg && !checkMsgValid(ret, protos, this.protos)) {
+                console.error('decode check msg failed:', route, buf.length, buf);
+                return null;
+            }
+            return ret;
         }
 
         return null;
     }
-    decodeMsg(msg: {[key: string]: any}, protos: {[key: string]: any}, length: number) {
+
+    decodeMsg(msg: { [key: string]: any }, protos: { [key: string]: any }, length: number) {
         while (this.offset < length) {
             let head = this.getHead();
             let type = head.type;
@@ -61,9 +68,10 @@ export class Decoder {
     /**
      * Test if the given msg is finished
      */
-    isFinish(msg: object, protos: {[key: string]: any}) {
+    isFinish(msg: object, protos: { [key: string]: any }) {
         return (!protos.__tags[this.peekHead().tag]);
     }
+
     /**
      * Get property head from protobuf
      */
@@ -88,7 +96,7 @@ export class Decoder {
         };
     }
 
-    decodeProp(type: string, protos?: {[key: string]: any}) {
+    decodeProp(type: string, protos?: { [key: string]: any }) {
         switch (type) {
             case 'uInt32':
                 return codec.decodeUInt32(this.getBytes());

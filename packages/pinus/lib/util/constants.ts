@@ -143,7 +143,6 @@ export interface ServerInfo {
     ['max-connections'] ?: number;
     ['auto-restart'] ?: boolean;
     ['restart-force'] ?: boolean;
-    ['auto-restart'] ?: boolean;
     ['clusterCount'] ?: number;
 
     handlerPaths ?: string[];

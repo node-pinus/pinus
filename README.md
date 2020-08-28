@@ -1,5 +1,6 @@
 
 [![Build Status](https://travis-ci.org/node-pinus/pinus.svg?branch=master)](https://travis-ci.org/node-pinus/pinus)
+[![Actions Status](https://github.com/node-pinus/pinus/workflows/ci/badge.svg?branch=master&event=push)](https://github.com/node-pinus/pinus/actions)
 
 官方网站：[https://pinus.io](https://pinus.io)
 欢迎加Pinus官方QQ群：102530089
@@ -32,7 +33,7 @@ yarn run build
 ```
 
 编译好以后可以使用 yarn link 或者 npm link 软链接到自己的项目。
-
+也可以用 yarn 的 workspace
 
 #### [查看pinus CHANGELOG](CHANGELOG.md)
 
@@ -76,3 +77,6 @@ Pinus is also suitable for real-time web applications; its distributed architect
 Fast, scalable, real-time game server development is not an easy job, and a good container or framework can reduce its complexity.
 Unfortunately, unlike web, finding a game server framework solution is difficult, especially an open source solution. Pinus fills this gap, providing a full solution for building game server frameworks.
 
+### Thanks JetBrains
+
+[JetBrains WebStrom](https://www.jetbrains.com/?from=pinus)

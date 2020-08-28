@@ -15,7 +15,6 @@ export class ChatHandler {
      *
      * @param {Object} msg message from client
      * @param {Object} session
-     * @param  {Function} next next stemp callback
      *
      */
     async send(msg: {content: string , target: string}, session: BackendSession) {

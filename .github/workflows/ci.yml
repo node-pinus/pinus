@@ -5,7 +5,7 @@ on:
 # https://github.com/actions/starter-workflows/issues/158
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
     env:
       NODE_ENV: ci
     steps:
@@ -13,6 +13,5 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 10
-      - run: yarn install
-      - run: yarn run ci
+      - run: yarn && yarn run ci
       - run: yarn run test

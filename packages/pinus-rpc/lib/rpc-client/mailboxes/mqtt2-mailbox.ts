@@ -76,6 +76,7 @@ export class MQTT2MailBox extends EventEmitter {
     let self = this;
 
     let stream = net.createConnection(this.port, this.host);
+    stream.setNoDelay(true)
     this.socket = MqttCon(stream);
 
     let connectTimeout = setTimeout(function () {
