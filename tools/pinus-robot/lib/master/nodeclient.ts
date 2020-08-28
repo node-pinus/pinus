@@ -19,7 +19,7 @@ export class NodeClient {
 
     socket.on('disconnect', () => {
       // Notify all WebClients upon disconnect
-      __(this.log_server.web_clients).each((web_client: any, client_id: number) => {
+      __(this.log_server.web_clients).each((web_client: any, client_id: any) => {
         web_client.remove_node(this);
       });
       socket.leave('nodes');
