@@ -26,7 +26,7 @@
 		"pinus-logger": "^1.4.10"
 	},
 	"devDependencies": {
-		"@types/node": "8.10.54",
+		"@types/node": "8.10.62",
 		"tslint": "5.20.1",
 		"typescript": "3.7.3"
 	}
