@@ -1,4 +1,9 @@
 
+#### 1.4.x 
+
+[template] [添加了打包时对配置文件的复制处理](https://github.com/node-pinus/pinus/pull/138)
+
+
 #### 1.4.10
 
 [pinus] [修复win10 mqtt 超时问题](https://github.com/node-pinus/pinus/pull/137)
