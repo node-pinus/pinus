@@ -23,7 +23,7 @@
   "types": "./src/index",
   "dependencies": {
     "pinus": "^1.4.10",
-    "yargs": "^15.0.0"
+    "yargs": "^16.0.0"
   },
   "devDependencies": {
     "@types/node": "8.10.63",
