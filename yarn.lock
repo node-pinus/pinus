@@ -1204,10 +1204,10 @@
     "@types/engine.io" "*"
     "@types/node" "*"
 
-"@types/underscore@1.9.4":
-  version "1.9.4"
-  resolved "https://registry.yarnpkg.com/@types/underscore/-/underscore-1.9.4.tgz#22d1a3e6b494608e430221ec085fa0b7ccee7f33"
-  integrity sha512-CjHWEMECc2/UxOZh0kpiz3lEyX2Px3rQS9HzD20lxMvx571ivOBQKeLnqEjxUY0BMgp6WJWo/pQLRBwMW5v4WQ==
+"@types/underscore@1.10.23":
+  version "1.10.23"
+  resolved "https://registry.yarnpkg.com/@types/underscore/-/underscore-1.10.23.tgz#cc672e8864000d288e1e39c609fd9cab84391ff3"
+  integrity sha512-vX1NPekXhrLquFWskH2thcvFAha187F/lM6xYOoEMZWwJ/6alSk0/ttmGP/YRqcqtCv0TMbZjYAdZyHAEcuU4g==
 
 "@types/uuid@3.4.9":
   version "3.4.9"
