@@ -40,7 +40,7 @@
 		"@types/crc": "3.4.0",
 		"@types/node": "8.10.64",
 		"@types/socket.io": "2.1.6",
-		"@types/socket.io-client": "1.4.32",
+		"@types/socket.io-client": "1.4.33",
 		"@types/uuid": "3.4.9",
 		"@types/ws": "7.2.6",
 		"mocha": "6.2.3",
