@@ -38,7 +38,7 @@
   },
   "devDependencies": {
     "@types/async": "3.2.1",
-    "@types/cliff": "0.1.4",
+    "@types/cliff": "0.1.5",
     "@types/node": "8.10.64",
     "@types/optimist": "0.0.29",
     "tslint": "5.20.1",
