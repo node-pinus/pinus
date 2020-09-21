@@ -21,7 +21,7 @@
     },
     "devDependencies": {
 		"tslint": "6.1.1",
-        "typescript": "4.0.2"
+        "typescript": "4.0.3"
     }
 }
 
