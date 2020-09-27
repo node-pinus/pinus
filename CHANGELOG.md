@@ -3,6 +3,23 @@
 
 [template] [添加了打包时对配置文件的复制处理](https://github.com/node-pinus/pinus/pull/138)
 
+[pinus]  [DictionaryComponent 添加选项 ignoreAutoRouter](https://github.com/node-pinus/pinus/commit/780b0efa105d4b2438cd7c7a289dc0dc0e49541a)
+
+> 可以自主控制dict的序号id.
+
+```
+// app.set('dictionaryConfig',{dict,ignoreAutoRouter})
+export interface DictionaryComponentOptions {
+    dict?: string;
+    // 不自动按照路由生成router,仅使用 config/dictionary 内的路由.
+    // 这样路由的 id 就可以通过dictionary的顺序来控制了,方便proto变更不影响原顺序id (为也热更新考虑)
+    // 另外这样也少一次load handler
+    ignoreAutoRouter?: boolean;
+}
+```
+
+
+
 
 #### 1.4.10
 
