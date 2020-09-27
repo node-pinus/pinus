@@ -51,6 +51,11 @@ app.configure('production|development', 'connector', function () {
             useDict: true,
             useProtobuf: true
         });
+    // 不自动按照路由生成router,仅使用 config/dictionary 内的路由.
+    // 具体看 packages/pinus/lib/components/dictionary.ts DictionaryComponentOptions
+    app.set('dictionaryConfig', {
+        ignoreAutoRouter: true,
+    })
 
     /**
      // 缓存大小不够 日志示例
