@@ -1,4 +1,5 @@
 import { Protobuf } from '../lib/protobuf';
+import 'mocha';
 
 let util = require('../lib/util');
 let should = require('should');
@@ -8,6 +9,11 @@ let tc = require('./testMsg');
 describe('msgEncoderTest', function () {
     let protos = Protobuf.parse(require('./example.json'));
     let protobuf = new Protobuf({ encoderProtos: protos, decoderProtos: protos });
+    let protobufCache = new Protobuf({
+        encoderProtos: protos,
+        decoderProtos: protos,
+        encoderCacheSize: 5 * 1024 * 1024
+    });
 
     it('encodeTest', function () {
         for (let route in tc) {
@@ -28,13 +34,13 @@ describe('msgEncoderTest', function () {
 
     const COUNT = 10000;
 
-    function TestProtbuf() {
+    function TestProtbuf(proto: Protobuf) {
         let len = 0;
         for (let route in tc) {
             let msg = tc[route];
-            let buffer = protobuf.encode(route, msg);
+            let buffer = proto.encode(route, msg);
             len += buffer.length;
-            let decodeMsg = protobuf.decode(route, buffer);
+            let decodeMsg = proto.decode(route, buffer);
         }
         return len;
     }
@@ -64,10 +70,24 @@ describe('msgEncoderTest', function () {
         console.time('test Protobuf time')
         let len = 0;
         for (let i = 0; i < COUNT; i++) {
-            len += TestProtbuf();
+            len += TestProtbuf(protobuf);
         }
         console.timeEnd('test Protobuf time');
         console.log('Protobuf length total:', len);
+        // test Protobuf time: 914.453ms
+        // Protobuf length total: 1780000
+    });
+
+    it('test ProtobufCache time', () => {
+        console.time('test ProtobufCache time')
+        let len = 0;
+        for (let i = 0; i < COUNT; i++) {
+            len += TestProtbuf(protobufCache);
+        }
+        console.timeEnd('test ProtobufCache time');
+        console.log('ProtobufCache length total:', len);
+        // test ProtobufCache time: 416.399ms
+        // ProtobufCache length total: 1780000
     });
 });
 

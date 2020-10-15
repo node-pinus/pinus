@@ -1,3 +1,48 @@
+
+#### 1.4.x 
+
+[template] [添加了打包时对配置文件的复制处理](https://github.com/node-pinus/pinus/pull/138)
+
+[pinus]  [DictionaryComponent 添加选项 ignoreAutoRouter](https://github.com/node-pinus/pinus/commit/780b0efa105d4b2438cd7c7a289dc0dc0e49541a)
+
+> 可以自主控制dict的序号id.
+
+```
+// app.set('dictionaryConfig',{dict,ignoreAutoRouter})
+export interface DictionaryComponentOptions {
+    dict?: string;
+    // 不自动按照路由生成router,仅使用 config/dictionary 内的路由.
+    // 这样路由的 id 就可以通过dictionary的顺序来控制了,方便proto变更不影响原顺序id (为也热更新考虑)
+    // 另外这样也少一次load handler
+    ignoreAutoRouter?: boolean;
+}
+```
+
+
+
+
+#### 1.4.10
+
+[pinus] [修复win10 mqtt 超时问题](https://github.com/node-pinus/pinus/pull/137)
+
+
+#### 1.4.9
+
+[pinus-protobuf]: [在开启encode缓存时,优化protobuf encode性能. (提升1倍)](https://github.com/node-pinus/pinus/commit/721eda3437fdc1e704a426718776c72b073029d3)
+```
+ test Protobuf time: 914.453ms
+ Protobuf length total: 1780000
+
+ test ProtobufCache time: 416.399ms
+ ProtobufCache length total: 1780000
+```
+
+[pinus]: [fixed bug:指定服务配置auto-restart失效](https://github.com/node-pinus/pinus/pull/132)   
+ 
+[Example]:  [add nodejs ts client.](https://github.com/node-pinus/pinus/commit/bdcdc9bdbccdff6aeecfbfe8b18ec43f42228d76) 
+
+
+
 #### 1.4.8
 
 fix #128 https://github.com/node-pinus/pinus/issues/128  解决 mqtt-connection

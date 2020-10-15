@@ -115,6 +115,26 @@ export class Encoder {
             default:
                 let message: { [key: string]: any } = protos.__messages[type] || this.protos['message ' + type];
                 if (!!message) {
+                    if (this._encodeCache) {
+                        let lengthOffset = offset;
+                        // 先预留1字节的长度位置  一般的消息都是小于128字节的.
+                        // 大于128字节就copy数据. 原来的逻辑本来就需要copy所以对性能只有提升,没有降低
+                        offset += 1;
+                        offset = this.encodeMsg(buffer, offset, message, value);
+                        let msgLength = offset - lengthOffset - 1;
+                        let lenBytes = codec.encodeUInt32(msgLength);
+                        if (lenBytes.length === 1) {
+                            buffer[lengthOffset] = lenBytes[0];
+                        } else {
+                            let moveSize = lenBytes.length - 1;
+                            offset += moveSize
+                            for (let i = offset - 1; i >= lengthOffset + 1; i--) {
+                                buffer[i] = buffer[i - moveSize];
+                            }
+                            this.writeBytes(buffer, lengthOffset, lenBytes);
+                        }
+                        break;
+                    }
                     // Use a tmp buffer to build an internal msg
                     let tmpBuffer = Buffer.alloc(Buffer.byteLength(JSON.stringify(value)) * 2);
                     length = 0;
