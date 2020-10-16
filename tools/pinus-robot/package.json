@@ -11,7 +11,7 @@
   },
   "devDependencies": {
     "@types/cliff": "0.1.5",
-    "@types/node": "8.10.64",
+    "@types/node": "8.10.65",
     "@types/socket.io-client": "1.4.34",
     "@types/underscore": "1.10.24"
   },
