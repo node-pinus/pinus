@@ -203,7 +203,7 @@ export class TCPAcceptor extends EventEmitter implements IAcceptor {
     cloneError(origin: { msg: any, stack: any }) {
         // copy the stack infos for Error instance json result is empty
         let res = {
-            msg: origin.msg,
+            ...origin,
             stack: origin.stack
         };
         return res;
