@@ -36,7 +36,7 @@
 	},
 	"devDependencies": {
 		"@types/async": "3.2.1",
-		"@types/bluebird": "3.5.32",
+		"@types/bluebird": "3.5.33",
 		"@types/crc": "3.4.0",
 		"@types/node": "8.10.66",
 		"@types/socket.io": "2.1.6",
