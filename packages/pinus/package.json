@@ -79,7 +79,7 @@
     "@types/eyes": "0.1.31",
     "@types/mkdirp": "0.5.2",
     "@types/mocha": "5.2.7",
-    "@types/ws": "7.2.9",
+    "@types/ws": "7.4.0",
     "mocha": "6.2.3",
     "muk": "0.5.3",
     "nyc": "15.1.0",
