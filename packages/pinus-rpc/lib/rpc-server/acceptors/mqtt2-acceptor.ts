@@ -147,7 +147,7 @@ export class MQTT2Acceptor extends EventEmitter {
   cloneError(origin: { msg: string, stack: object }) {
     // copy the stack infos for Error instance json result is empty
     let res = {
-      msg: origin.msg,
+      ...origin,
       stack: origin.stack
     };
     return res;

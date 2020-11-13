@@ -155,7 +155,7 @@ export class WSAcceptor extends EventEmitter {
   cloneError(origin: { msg: any, stack: Error }) {
     // copy the stack infos for Error instance json result is empty
     let res = {
-      msg: origin.msg,
+      ...origin,
       stack: origin.stack
     };
     return res;
