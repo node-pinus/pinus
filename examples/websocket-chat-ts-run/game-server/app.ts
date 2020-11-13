@@ -10,6 +10,7 @@ import {
 import './app/servers/user.rpc.define'
 import * as  routeUtil from './app/util/routeUtil';
 import { preload } from './preload';
+import { TestComponent } from "./app/components/testComponent";
 
 // TODO 需要整理。
 import _pinus = require('pinus');
@@ -107,6 +108,7 @@ export function globalErrorHandler(err: Error, msg: any, resp: any,
 
 // app configure
 app.configure('production|development', function () {
+    app.load(new TestComponent(app))
     app.set(RESERVED.ERROR_HANDLER, errorHandler);
     app.set(RESERVED.GLOBAL_ERROR_HANDLER, globalErrorHandler);
     app.globalAfter((err: Error, routeRecord: RouteRecord, msg: any, session: FrontendOrBackendSession, resp: any, cb: HandlerCallback) => {
