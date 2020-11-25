@@ -3,18 +3,18 @@ import { getLogger } from 'pinus-logger';
 import * as util from 'util';
 import * as utils from '../util/utils';
 import * as Constants from '../util/constants';
-import * as os from 'os';
-import {pinus} from '../pinus';
-import { Application } from '../application';
 import { ServerInfo } from '../util/constants';
+import * as os from 'os';
+import { pinus } from '../pinus';
+import { Application } from '../application';
 import * as path from 'path';
+
 let logger = getLogger('pinus', path.basename(__filename));
 
 
-
-
-let cpus: {[serverId: string]: number} = {};
+let cpus: { [serverId: string]: number } = {};
 let env: string = Constants.RESERVED.ENV_DEV;
+
 /**
  * Run all servers
  *
@@ -79,7 +79,13 @@ export function run(app: Application, server: ServerInfo, cb ?: (err?: string | 
         cmd = util.format('cd "%s" && "%s"', app.getBase(), process.execPath);
         let arg = server.args;
         if (arg !== undefined) {
-            cmd += arg;
+            if (typeof arg === 'string') {
+                cmd += ' ' + arg.trim()
+            } else {
+                for (let v of arg) {
+                    cmd += ' ' + v.trim()
+                }
+            }
         }
         cmd += util.format(' "%s" env=%s ', app.get(Constants.RESERVED.MAIN), env);
         for (key in server) {
@@ -108,8 +114,7 @@ export function bindCpu(sid: string, pid: string, host: string) {
             options.push(String(cpus[sid]));
             options.push(pid);
             localrun(Constants.COMMAND.TASKSET, null, options);
-        }
-        else {
+        } else {
             let cmd = util.format('taskset -pc "%s" "%s"', cpus[sid], pid);
             sshrun(cmd, host, null);
         }

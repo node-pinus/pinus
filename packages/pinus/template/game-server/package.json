@@ -9,7 +9,7 @@
     "main": "./dist/app",
     "scripts": {
         "start": "npm run build && cd dist &&  node app",
-        "build": "node_modules/.bin/tsc"
+        "build": "node_modules/.bin/tsc  && node copy"
     },
     "dependencies":{
         "@types/node": "8.10.54",
@@ -20,6 +20,7 @@
         "reflect-metadata": "^0.1.10"
     },
     "devDependencies": {
+        "cpy": "^8.1.0",
 		"tslint": "5.20.1",
         "typescript": "3.7.3"
     }

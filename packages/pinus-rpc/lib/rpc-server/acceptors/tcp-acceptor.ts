@@ -111,13 +111,13 @@ export class TCPAcceptor extends EventEmitter implements IAcceptor {
                 } catch(err) { // json parse exception
                     if(err) {
                         socket.composer.reset();
-                        logger.error(err.stack);
+                        logger.error('tcp-acceptor socket.on(data) error', socket.remoteAddress, data.length, data, err);
                     }
                 }
             });
 
             socket.on('error', (err: Error) => {
-                logger.error('tcp socket error: %j', err);
+                logger.error('tcp socket error: %j address:%s', err, socket.remoteAddress);
             });
 
             socket.on('close', () => {
@@ -169,13 +169,14 @@ export class TCPAcceptor extends EventEmitter implements IAcceptor {
                 self.timer[socketId] = null;
             }
 
+            let remoteAddress = self.sockets[socketId].remoteAddress;
             self.sockets[socketId].composer.removeAllListeners();
             self.sockets[socketId].removeAllListeners();
 
             self.sockets[socketId].destroy();
             delete self.sockets[socketId];
             delete self.msgQueues[socketId];
-            logger.warn('ping timeout with socket id: %s', socketId);
+            logger.warn('ping timeout with socket id: %s  address:%s', socketId, remoteAddress);
         }
         this.timer[socketId] = setInterval(ping.bind(null, this, socketId), this.ping + 5e3) as any;
         logger.info('wait ping with socket id: %s' , socketId);
@@ -202,7 +203,7 @@ export class TCPAcceptor extends EventEmitter implements IAcceptor {
     cloneError(origin: { msg: any, stack: any }) {
         // copy the stack infos for Error instance json result is empty
         let res = {
-            msg: origin.msg,
+            ...origin,
             stack: origin.stack
         };
         return res;

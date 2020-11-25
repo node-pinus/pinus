@@ -7,10 +7,10 @@ import { MqttAdaptor } from './mqtt/mqttadaptor';
 import * as generate from './mqtt/generate';
 import { getLogger } from 'pinus-logger';
 import { IConnector } from '../interfaces/IConnector';
-import * as mqtt_connection from 'mqtt-connection';
 import * as path from 'path';
+import { MqttConnectionConstructor } from 'pinus-admin';
 let logger = getLogger('pinus', path.basename(__filename));
-
+const mqtt_connection: MqttConnectionConstructor = require('mqtt-connection');
 
 
 export interface MQTTConnectorOptions {

@@ -84,10 +84,13 @@ export class Server extends EventEmitter {
         this.state = ST_STARTED;
     }
 
-    loadCrons(manualReload = false) {
+    loadCrons(manualReload = false, clear = false) {
         if (manualReload) {
             logger.info('loadCrons remove crons', this.crons);
             this.removeCrons(this.crons);
+            if (clear) {
+                this.crons = [];
+            }
         }
         this.cronHandlers = loadCronHandlers(this.app, manualReload);
         loadCrons(this, this.app, manualReload);
@@ -200,12 +203,14 @@ export class Server extends EventEmitter {
 }
 
 // 重置 crons 缓存，  手动添加的crons只会取消任务重新加载任务。
-export function manualReloadCrons(app: Application) {
+// clear 控制重新加载之前是否先清除原有的.
+// 有的 cron 是通过运行时动态添加进来的. 所以不能直接清除, 所以只能添加选项自己来控制
+export function manualReloadCrons(app: Application, clear = false) {
     if (!app.components.__server__) {
         return;
     }
     logger.info('manualReloadCrons start');
-    app.components.__server__.server.loadCrons(true);
+    app.components.__server__.server.loadCrons(true, clear);
     logger.info('manualReloadCrons finish');
 }
 

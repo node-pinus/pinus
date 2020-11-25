@@ -1,7 +1,7 @@
 {
  "name": "pinus-monitor",
  "description": "monitor the operating-system and process information",
- "version": "1.4.1",
+ "version": "1.4.10",
  "main": "./dist/index",
  "types": "./lib/index",
  "files": [
@@ -25,10 +25,8 @@
  "engines": {
   "node": ">=8.5"
  },
- "dependencies": {
-  "@types/node": "8.10.54"
- },
  "devDependencies": {
+  "@types/node": "8.10.54",
   "tslint": "5.20.1",
   "typescript": "3.7.3"
  }

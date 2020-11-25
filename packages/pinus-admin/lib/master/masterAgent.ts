@@ -6,9 +6,9 @@ import * as protocol from '../util/protocol';
 import * as utils from '../util/utils';
 import * as Util from 'util';
 import { ConsoleService } from '../consoleService';
-import * as mqtt_connection from 'mqtt-connection';
 import { ServerInfo, AdminUserInfo, AdminServerInfo, Callback } from '../util/constants';
 import * as path from 'path';
+import { MqttConnection } from '../protocol/mqtt/mqttConnectorDefine';
 let logger = getLogger('pinus-admin', path.basename(__filename));
 
 let ST_INITED = 1;
@@ -57,7 +57,7 @@ export class MasterAgent extends EventEmitter {
     } = {};
     typeMap: { [type: string]: AgentClient[] } = {};
     clients: { [id: string]: AgentClient } = {};
-    sockets: { [id: string]: mqtt_connection } = {};
+    sockets: { [id: string]: MqttConnection } = {};
     slaveMap: { [serverId: string]: AgentClient[] } = {};
     server: MqttServer = null;
     callbacks: { [reqId: number]: Callback } = {};

@@ -249,6 +249,16 @@ $(document).ready(function() {
 		});
 	});
 
+	$("#errbtntest").click(()=>{
+		var route = "chat.chatHandler.send";
+		pomelo.request(route,{
+			content:$("#entry").attr("value").replace("\n", ""),
+			rid:rid,
+			// lost field
+		},data=>{
+			console.warn("!!?? ",data)
+		})
+	})
 	//deal with chat mode.
 	$("#entry").keypress(function(e) {
 		var route = "chat.chatHandler.send";

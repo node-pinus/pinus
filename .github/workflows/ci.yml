@@ -1,0 +1,17 @@
+name: ci
+# https://github.com/actions/starter-workflows/blob/master/ci/npm-publish.yml
+on:
+  [push,pull_request]
+# https://github.com/actions/starter-workflows/issues/158
+jobs:
+  build:
+    runs-on: ubuntu-18.04
+    env:
+      NODE_ENV: ci
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 10
+      - run: yarn && yarn run ci
+      - run: yarn run test

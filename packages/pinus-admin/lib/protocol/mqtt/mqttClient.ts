@@ -1,11 +1,11 @@
 import { getLogger } from 'pinus-logger';
 import {EventEmitter } from 'events';
 import * as constants from '../../util/constants';
-import * as MqttCon from 'mqtt-connection';
 import * as Util from 'util';
 import * as net from 'net';
-import * as mqtt_connection from 'mqtt-connection';
 import * as path from 'path';
+import { MqttConnection, MqttConnectionConstructor } from './mqttConnectorDefine';
+const MqttCon: MqttConnectionConstructor = require('mqtt-connection');
 let logger = getLogger('pinus-admin', path.basename(__filename));
 export interface MqttClientOpts {
     id: string;
@@ -27,7 +27,7 @@ export class MqttClient extends EventEmitter {
     connectedTimes = 1;
     host: string = null;
     port: number = null;
-    socket: mqtt_connection = null;
+    socket: MqttConnection = null;
     lastPing = -1;
     lastPong = -1;
     closed = false;
@@ -220,6 +220,8 @@ export class MqttClient extends EventEmitter {
                 if (now - this.lastPing > KEEP_ALIVE_TIMEOUT) {
                     logger.error('mqtt rpc client checkKeepAlive error timeout for %d', KEEP_ALIVE_TIMEOUT);
                     this.close();
+                } else {
+                    this.socket.pingreq();
                 }
             } else {
                 this.socket.pingreq();

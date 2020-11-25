@@ -9,21 +9,23 @@ jobs:
   npm-publish:
     name: npm-publish
     runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/') && github.repository == 'node-pinus/pinus'
     steps:
     - name: Checkout repository
       uses: actions/checkout@master
     - name: Set up Node.js
       uses: actions/setup-node@master
       with:
-        node-version: 10.0.0
+        node-version: 10
         registry-url: https://registry.npmjs.org/
     - run: git remote set-url origin https://node-pinus:${{ secrets.GITHUB_TOKEN }}@github.com/node-pinus/pinus.git
     - run: git checkout origin/master -B master
     - run: git config --global user.email "mybios@qq.com"
     - run: git config --global user.name "mybios"
     - run: git config --global credential.helper store
-    - run: yarn install
+    - run: yarn
     - run: yarn build
+    - run: git checkout yarn.lock
     - run: yarn run version `head -n +1 .github/NPM_PUBLISH_VERSION.md` --no-push --force-publish --yes
     - run: yarn run publish from-package --no-push --no-git-reset --yes --force-publish --registry https://registry.npmjs.org/
       env:

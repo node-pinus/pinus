@@ -1,13 +1,13 @@
 {
   "name": "pinus-admin-web",
-  "version": "1.4.1",
+  "version": "1.4.10",
   "private": false,
   "dependencies": {
     "body-parser": "1.19.0",
     "compression": "1.7.4",
     "cookie-parser": "1.4.4",
     "ejs": "3.0.1",
-    "express": "4.17.1",
+    "express": "3.4.8",
     "morgan": "1.9.1",
     "mqtt": "3.0.0",
     "mqtt-connection": "4.0.0",

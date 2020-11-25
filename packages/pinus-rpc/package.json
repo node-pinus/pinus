@@ -1,6 +1,6 @@
 {
 	"name": "pinus-rpc",
-	"version": "1.4.1",
+	"version": "1.4.10",
 	"main": "./dist/index",
 	"types": "./lib/index",
 	"files": [
@@ -21,21 +21,13 @@
 		"gen-api-ref": "node ../../node_modules/typedoc/bin/typedoc --mode file --hideGenerator --excludeExternals --ignoreCompilerErrors --out ../../run/site/public/api-reference/pinus-rpc lib/"
 	},
 	"dependencies": {
-		"@types/async": "^3.0.0",
-		"@types/bluebird": "^3.5.19",
-		"@types/crc": "^3.4.0",
-		"@types/node": "8.10.54",
-		"@types/socket.io": "^2.1.4",
-		"@types/socket.io-client": "^1.4.32",
-		"@types/uuid": "^3.4.3",
-		"@types/ws": "^6.0.0",
 		"async": "^3.0.0",
 		"bearcat-buffer": "^0.1.x",
 		"bluebird": "^3.5.1",
 		"crc": "^0.2.1",
 		"mqtt-connection": "^3.2.0",
-		"pinus-loader": "^1.4.1",
-		"pinus-logger": "^1.4.1",
+		"pinus-loader": "^1.4.10",
+		"pinus-logger": "^1.4.10",
 		"socket.io": "^2.3.0",
 		"source-map-support": "^0.5.0",
 		"stream-pkg": "0.0.5",
@@ -43,6 +35,14 @@
 		"ws": "^7.0.0"
 	},
 	"devDependencies": {
+		"@types/async": "^3.0.0",
+		"@types/bluebird": "^3.5.19",
+		"@types/crc": "^3.4.0",
+		"@types/node": "8.10.54",
+		"@types/socket.io": "^2.1.6",
+		"@types/socket.io-client": "^1.4.32",
+		"@types/uuid": "^3.4.3",
+		"@types/ws": "^6.0.0",
 		"mocha": "6.2.2",
 		"should": "13.2.3",
 		"tslint": "5.20.1",

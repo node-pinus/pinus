@@ -3,17 +3,17 @@
  */
 import * as cronTrigger from './cronTrigger';
 import * as simpleTrigger from './simpleTrigger';
+import { SimpleTriggerOpts } from './simpleTrigger';
+import { getLogger } from 'log4js';
 
 let jobId = 1;
 
 let SIMPLE_JOB = 1;
-let CRON_JOB  = 2;
+let CRON_JOB = 2;
 let jobCount = 0;
 
 let warnLimit = 500;
 
-import { getLogger } from 'log4js';
-import { SimpleTriggerOpts } from './simpleTrigger';
 let logger = getLogger(__filename);
 
 
@@ -24,7 +24,7 @@ export class Job {
     data: any;
     func: Function;
     type: number;
-    trigger: any;
+    trigger: { excuteTime(): number, nextExcuteTime(time?: number): number };
     id: number;
     runTime: number;
 
@@ -71,6 +71,7 @@ export class Job {
         return this.trigger.excuteTime();
     }
 }
+
 /**
  * The Interface to create Job
  * @param trigger The trigger to use
@@ -79,5 +80,5 @@ export class Job {
  * @return The new instance of the give job or null if fail
  */
 export function createJob(trigger: SimpleTriggerOpts | string, jobFunc: Function, jobData: any) {
-  return new Job(trigger, jobFunc, jobData);
+    return new Job(trigger, jobFunc, jobData);
 }

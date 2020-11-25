@@ -427,12 +427,16 @@ let startCluster = function (app: Application, msg: any, cb: MasterCallback) {
                     starter.run(app, server, function (err) {
                         if (err) {
                             fails.push(server);
-                            latch.done();
+                            if(latch.count) {
+                                latch.done();
+                            }
                         }
                     });
                     process.nextTick(function () {
                         successFlag = true;
-                        latch.done();
+                        if(latch.count) {
+                            latch.done();
+                        }
                     });
                 }
             });

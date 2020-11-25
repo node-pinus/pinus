@@ -66,6 +66,7 @@ export class MQTTAcceptor extends EventEmitter implements IAcceptor {
         });
 
         this.server.on('connection', function (stream) {
+            stream.setNoDelay(true)
             let socket = MqttCon(stream);
             socket['id'] = curId++;
 
@@ -146,7 +147,7 @@ export class MQTTAcceptor extends EventEmitter implements IAcceptor {
     cloneError(origin: {msg: string, stack: object}) {
         // copy the stack infos for Error instance json result is empty
         let res = {
-            msg: origin.msg,
+            ...origin,
             stack: origin.stack
         };
         return res;

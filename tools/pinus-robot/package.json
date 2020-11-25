@@ -1,17 +1,19 @@
 {
   "name": "pinus-robot",
-  "version": "1.4.1",
+  "version": "1.4.10",
   "private": false,
   "dependencies": {
-    "@types/cliff": "^0.1.4",
-    "@types/node": "8.10.54",
-    "@types/socket.io-client": "^1.4.32",
-    "@types/underscore": "^1.9.4",
     "cliff": "^0.1.10",
     "socket.io": "^2.3.0",
     "socket.io-client": "^2.3.0",
     "typescript": "3.7.3",
     "underscore": "1.9.1"
+  },
+  "devDependencies": {
+    "@types/cliff": "^0.1.4",
+    "@types/node": "8.10.54",
+    "@types/socket.io-client": "^1.4.32",
+    "@types/underscore": "^1.9.4"
   },
   "scripts": {
     "build": "tsc",
