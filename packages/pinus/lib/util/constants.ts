@@ -147,8 +147,8 @@ export interface ServerInfo {
 
     handlerPaths ?: string[];
     remoterPaths ?: RemoteServerCode[];
-    // 进程id
-    pid?: number;
+    // 进程id  number
+    pid?: any;
     // 进程启动时的 env 参数
     env?: string;
 }
