@@ -406,7 +406,7 @@ export class RpcClient {
             args: args
         };
 
-        return new Promise((resolve, reject) => {
+        return new Promise<any>((resolve, reject) => {
             this.targetRouterFunction(serverType, msg, routeParam, (err: Error, serverId: string) => {
                 if (err) {
                     return reject(err);
@@ -414,7 +414,7 @@ export class RpcClient {
                 let cb = notify ? null : (err: Error, resp: string) => err ? reject(err) : resolve(resp);
                 this.rpcInvoke(serverId, msg, cb);
                 if (notify) {
-                    resolve();
+                    resolve(null);
                 }
             });
         });
@@ -445,7 +445,7 @@ export class RpcClient {
             args: args
         };
 
-        return new Promise((resolve, reject) => {
+        return new Promise<any>((resolve, reject) => {
             if (typeof serverId !== 'string') {
                 logger.error('[pinus-rpc] serverId is not a string : %s', serverId);
                 return;
@@ -477,7 +477,7 @@ export class RpcClient {
                 this.rpcInvoke(serverId, msg, cb);
             }
             if (notify) {
-                return resolve();
+                return resolve(null);
             }
         });
     }
