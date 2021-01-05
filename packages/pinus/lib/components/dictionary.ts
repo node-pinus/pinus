@@ -43,7 +43,7 @@ export class DictionaryComponent implements IComponent {
             p = opts.dict;
         }
         if (!!opts) {
-            this.ignoreAutoRouter = opts.ignoreAutoRouter ?? false;
+            this.ignoreAutoRouter = !!opts.ignoreAutoRouter;
         }
         if (canResolve(p)) {
             this.userDicPath = p;
