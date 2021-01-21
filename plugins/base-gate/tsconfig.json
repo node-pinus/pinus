@@ -15,6 +15,7 @@
     "noImplicitAny": true, //在表达式和声明上有隐含的'any'类型时报错。
     "noImplicitThis": true,
     "inlineSourceMap": true,     //用于debug
+    "newLine": "lf", // 统一跨平台下编译文件的换行符
 
     "rootDirs": ["."],      //仅用来控制输出的目录结构--outDir。
     "outDir":"./dist",     //重定向输出目录。
