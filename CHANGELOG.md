@@ -1,5 +1,10 @@
 
-#### 1.4.x 
+#### 1.4.x
+
+
+
+
+#### 1.4.11 
 
 [template] [添加了打包时对配置文件的复制处理](https://github.com/node-pinus/pinus/pull/138)
 
