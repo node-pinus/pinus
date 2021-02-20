@@ -1,6 +1,6 @@
 {
   "name": "pinus-example-robot",
-  "version": "1.4.10",
+  "version": "1.4.11",
   "private": false,
   "description": "A distributed load test framework",
   "repository": {
@@ -22,9 +22,9 @@
     "@types/node": "8.10.54",
     "@types/ws": "^3.2.0",
     "cli-color": "^2.0.0",
-    "pinus-protobuf": "^1.4.10",
-    "pinus-protocol": "^1.4.10",
-    "pinus-robot": "^1.4.10",
+    "pinus-protobuf": "^1.4.11",
+    "pinus-protocol": "^1.4.11",
+    "pinus-robot": "^1.4.11",
     "ws": "^3.2.0"
   },
   "devDependencies": {

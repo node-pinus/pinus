@@ -1,6 +1,6 @@
 {
   "name": "pinus-admin-web",
-  "version": "1.4.10",
+  "version": "1.4.11",
   "private": false,
   "dependencies": {
     "body-parser": "1.19.0",

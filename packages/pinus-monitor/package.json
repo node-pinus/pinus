@@ -1,7 +1,7 @@
 {
  "name": "pinus-monitor",
  "description": "monitor the operating-system and process information",
- "version": "1.4.10",
+ "version": "1.4.11",
  "main": "./dist/index",
  "types": "./lib/index",
  "files": [

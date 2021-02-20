@@ -1,6 +1,6 @@
 {
   "name": "pinus-robot",
-  "version": "1.4.10",
+  "version": "1.4.11",
   "private": false,
   "dependencies": {
     "cliff": "^0.1.10",

@@ -1,6 +1,6 @@
 {
     "name": "pinus-admin",
-    "version": "1.4.10",
+    "version": "1.4.11",
     "main": "./dist/index",
     "types": "./lib/index",
     "files": [
@@ -25,9 +25,9 @@
     },
     "dependencies": {
         "mqtt-connection": "^3.2.0",
-        "pinus-logger": "^1.4.10",
-        "pinus-monitor": "^1.4.10",
-        "pinus-scheduler": "^1.4.10",
+        "pinus-logger": "^1.4.11",
+        "pinus-monitor": "^1.4.11",
+        "pinus-scheduler": "^1.4.11",
         "read-last-lines": "^1.3.0"
     },
     "devDependencies": {
