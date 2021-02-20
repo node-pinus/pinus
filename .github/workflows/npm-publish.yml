@@ -9,7 +9,7 @@ jobs:
   npm-publish:
     name: npm-publish
     runs-on: ubuntu-latest
-    if: startsWith(github.ref, 'refs/tags/') && github.repository == 'node-pinus/pinus'
+    if: github.repository == 'node-pinus/pinus'
     steps:
     - name: Checkout repository
       uses: actions/checkout@master
