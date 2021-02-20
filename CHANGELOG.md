@@ -19,6 +19,15 @@ export interface DictionaryComponentOptions {
 ```
 
 
+[pinus-rpc]  [origin基本是Error或其它扩展过的Error对象，cloneError会导致message等其它信息丢失](https://github.com/whtiehack/pinus/issues/141)
+
+[examples] : component 示例.
+
+[pinus] [fix for lower typescript version.](https://github.com/node-pinus/pinus/commit/9e54887cfd8c863d66b9c3ec23f9cfd5833211cf)
+
+[all] [统一跨平台下编译文件的换行符"LF"](https://github.com/whtiehack/pinus/issues/152)
+
+
 
 
 #### 1.4.10
