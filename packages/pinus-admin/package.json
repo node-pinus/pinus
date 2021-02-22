@@ -24,7 +24,7 @@
         "node": ">=8.5"
     },
     "dependencies": {
-        "mqtt-connection": "^3.2.0",
+        "mqtt-connection": "^4.0.0",
         "pinus-logger": "^1.4.10",
         "pinus-monitor": "^1.4.10",
         "pinus-scheduler": "^1.4.10",
