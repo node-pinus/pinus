@@ -25,7 +25,7 @@
 		"bearcat-buffer": "^0.1.x",
 		"bluebird": "^3.5.1",
 		"crc": "^0.2.1",
-		"mqtt-connection": "^3.2.0",
+		"mqtt-connection": "^4.0.0",
 		"pinus-loader": "^1.4.10",
 		"pinus-logger": "^1.4.10",
 		"socket.io": "^2.3.0",
