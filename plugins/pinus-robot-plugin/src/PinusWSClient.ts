@@ -224,7 +224,7 @@ export class PinusWSClient {
                 console.log(`EVENT: Route:${msg.route} Msg:${msg.body}`);
             }
 
-            // this.emit(msg.route, msg.body);
+            this.emit(msg.route, msg.body);
             return;
         }
         if (PinusWSClient.DEBUG) {
