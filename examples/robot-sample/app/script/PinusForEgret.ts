@@ -236,7 +236,7 @@ export class WSClient {
                 console.log(`EVENT: Route:${msg.route} Msg:${msg.body}`);
             }
 
-            // this.emit(msg.route, msg.body);
+            this.emit(msg.route, msg.body);
             return;
         }
         if (WSClient.DEBUG) {

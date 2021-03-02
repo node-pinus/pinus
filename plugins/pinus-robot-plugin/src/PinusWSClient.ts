@@ -130,6 +130,7 @@ export class PinusWSClient {
     public on(event: PinusWSClientEvent.EVENT_CLOSE, fn: (err: Error) => void): void;
     public on(event: PinusWSClientEvent.EVENT_KICK, fn: (err: Error) => void): void;
     public on(event: PinusWSClientEvent.EVENT_HEART_BEAT_TIMEOUT, fn: (err: Error) => void): void;
+    public on(event: string, fn: (msg: any) => void): void;
     public on(event: string, fn: (msg: any) => void) {
         (this._callbacks[event] = this._callbacks[event] || []).push(fn);
     }
