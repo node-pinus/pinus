@@ -130,6 +130,7 @@ export class PinusWSClient {
     public on(event: PinusWSClientEvent.EVENT_CLOSE, fn: (err: Error) => void): void;
     public on(event: PinusWSClientEvent.EVENT_KICK, fn: (err: Error) => void): void;
     public on(event: PinusWSClientEvent.EVENT_HEART_BEAT_TIMEOUT, fn: (err: Error) => void): void;
+    public on(event: string, fn: (msg: any) => void): void;
     public on(event: string, fn: (msg: any) => void) {
         (this._callbacks[event] = this._callbacks[event] || []).push(fn);
     }
@@ -795,15 +796,14 @@ class Protobuf {
     }
     static decodeArray(array: Array<any>, type: string, protos: any, buffer: egret.ByteArray): void {
         let isSimpleType = this.isSimpleType;
-        let decodeProp = this.decodeProp;
 
         if (isSimpleType(type)) {
             let length: number = this.decodeUInt32(buffer);
             for (let i: number = 0; i < length; i++) {
-                array.push(decodeProp(type, protos, buffer));
+                array.push(this.decodeProp(type, protos, buffer));
             }
         } else {
-            array.push(decodeProp(type, protos, buffer));
+            array.push(this.decodeProp(type, protos, buffer));
         }
     }
 
