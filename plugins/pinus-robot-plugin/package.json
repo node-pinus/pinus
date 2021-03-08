@@ -27,7 +27,7 @@
   },
   "devDependencies": {
     "@types/node": "8.10.66",
-    "@types/yargs": "13.0.11",
+    "@types/yargs": "16.0.0",
     "tslint": "5.20.1",
     "typescript": "4.0.5"
   },
