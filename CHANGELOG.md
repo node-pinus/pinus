@@ -1,5 +1,21 @@
 
-#### 1.4.x
+#### 1.4.12
+
+[pinus-robot-plugin] [Update PinusWSClient.ts 打开服务器消息回调调用的注释](https://github.com/node-pinus/pinus/issues/158)
+
+[pinus-robot-plugin] [修改机器人中对protobuf嵌套类型的解析,打开机器人对服务器推送的监听](https://github.com/whtiehack/pinus/issues/159)
+
+[pinus]: template tsconfig.json 配置调整.
+
+[pinus]: template remove skip lib check.
+
+[examples]: cron 示例
+
+Bump elliptic from 6.5.3 to 6.5.4
+
+Bump y18n from 3.2.1 to 3.2.2
+
+
 
 
 
