@@ -1,4 +1,10 @@
 
+### 1.4.x
+
+[pinus-logger] fix: 已知 logger 存在内存泄漏的问题 [#167](https://github.com/node-pinus/pinus/issues/167)
+
+
+
 #### 1.4.12
 
 [pinus-robot-plugin] [Update PinusWSClient.ts 打开服务器消息回调调用的注释](https://github.com/node-pinus/pinus/issues/158)

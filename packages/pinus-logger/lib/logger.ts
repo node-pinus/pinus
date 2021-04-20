@@ -20,6 +20,12 @@ function setPinusLogLevel(newLevel: 0 | 1 | 2 | 3 | 4 | 5) {
     logLevel = newLevel;
 }
 
+let log4jspause = false;
+
+process.on('log4js:pause', (val) => {
+    log4jspause = val;
+});
+
 function getLogger(...args: string[]) {
     let categoryName = args[0];
     let prefix = '';
@@ -43,7 +49,7 @@ function getLogger(...args: string[]) {
     ['log', 'debug', 'info', 'warn', 'error', 'trace', 'fatal'].forEach((item, idx) => {
         pLogger[item] = function () {
             // 从根源过滤日志级别
-            if (idx < logLevel) {
+            if (idx < logLevel || log4jspause) {
                 return;
             }
             let p = '';
