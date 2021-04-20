@@ -22,7 +22,7 @@ function setPinusLogLevel(newLevel: 0 | 1 | 2 | 3 | 4 | 5) {
 
 let log4jspause = false;
 
-process.on('log4js:pause', (val) => {
+process.on('log4js:pause' as any, (val: any) => {
     log4jspause = val;
 });
 
