@@ -9,7 +9,7 @@
 
 [pinus-robot-plugin] [Update PinusWSClient.ts 打开服务器消息回调调用的注释](https://github.com/node-pinus/pinus/issues/158)
 
-[pinus-robot-plugin] [修改机器人中对protobuf嵌套类型的解析,打开机器人对服务器推送的监听](https://github.com/whtiehack/pinus/issues/159)
+[pinus-robot-plugin] [修改机器人中对protobuf嵌套类型的解析,打开机器人对服务器推送的监听](https://github.com/node-pinus/pinus/issues/159)
 
 [pinus]: template tsconfig.json 配置调整.
 
