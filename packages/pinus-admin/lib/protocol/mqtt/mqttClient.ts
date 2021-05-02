@@ -234,7 +234,15 @@ export class MqttClient extends EventEmitter {
     }
 
     disconnect() {
-        this.close();
+        this.connected = false;
+        this.closed = true;
+        // 取消定时
+        clearTimeout(this.reconnectId);
+        clearTimeout(this.timeoutId);
+        // 主动断线时，socket已关闭被置null的可能
+        if (this.socket) {
+            this.socket.disconnect();
+        }
     }
 
     close() {
