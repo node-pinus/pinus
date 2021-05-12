@@ -42,7 +42,7 @@
 		"@types/socket.io": "2.1.6",
 		"@types/socket.io-client": "1.4.36",
 		"@types/uuid": "3.4.9",
-		"@types/ws": "7.4.2",
+		"@types/ws": "7.4.4",
 		"mocha": "6.2.3",
 		"should": "13.2.3",
 		"tslint": "5.20.1",
