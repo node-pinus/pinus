@@ -1210,10 +1210,10 @@
   resolved "https://registry.yarnpkg.com/@types/normalize-package-data/-/normalize-package-data-2.4.0.tgz#e486d0d97396d79beedd0a6e33f4534ff6b4973e"
   integrity sha512-f5j5b/Gf71L+dbqxIpQ4Z2WlmI/mPJ0fOkGGmFgtb6sAu97EPczzbS3/tJKxmcYDj55OX6ssqwDAWOHIYDRDGA==
 
-"@types/optimist@0.0.29":
-  version "0.0.29"
-  resolved "https://registry.npmjs.org/@types/optimist/-/optimist-0.0.29.tgz#a8873580b3a84b69ac1e687323b15fbbeb90479a"
-  integrity sha1-qIc1gLOoS2msHmhzI7Ffu+uQR5o=
+"@types/optimist@0.0.30":
+  version "0.0.30"
+  resolved "https://registry.yarnpkg.com/@types/optimist/-/optimist-0.0.30.tgz#6b91b312c4256a45a8df2caa278d6119db53ef13"
+  integrity sha512-dXwE/kn9pOLiofxjeOsR5cY8fHilaa0k+oKWvZ0hV/sGdhW2b55wo2cEvlWALWEeio1U7F2kGtjga5TIhfh7bg==
 
 "@types/parse-json@^4.0.0":
   version "4.0.0"
