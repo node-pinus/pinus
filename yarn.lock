@@ -1156,10 +1156,10 @@
   resolved "https://registry.yarnpkg.com/@types/estree/-/estree-0.0.50.tgz#1e0caa9364d3fccd2931c3ed96fdbeaa5d4cca83"
   integrity sha512-C6N5s2ZFtuZRj54k2/zyRhNDjJwwcViAM3Nbm8zjBpbqAdZ00mr0CFxvSKeO8Y/e03WVFLpQMdHYVfUd6SB+Hw==
 
-"@types/eyes@0.1.31":
-  version "0.1.31"
-  resolved "https://registry.npmjs.org/@types/eyes/-/eyes-0.1.31.tgz#a858c4fc784d0c42ee7d62fc5bc5d2a371b6f2b2"
-  integrity sha512-kKDgdUvHjcBVXyr3JW8xuvAbpL5e+2UKi7fru8s8OBvpZrxE0cx9uUKUBwk4dHvaA6zK03AiTKv0TDoKl21K+Q==
+"@types/eyes@0.1.32":
+  version "0.1.32"
+  resolved "https://registry.yarnpkg.com/@types/eyes/-/eyes-0.1.32.tgz#d27e1fb7ff7d58e2fca0c6b1852dbc06195daaa0"
+  integrity sha512-jH+zwSvH818VwAkiN2CvE3evQcQr9iIzp5w0Xk1KNybGXqSVDJyKEt8t269BIGoZkifItIR59TNv4MpJj2XASQ==
   dependencies:
     "@types/node" "*"
 
