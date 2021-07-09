@@ -1099,10 +1099,10 @@
   resolved "https://registry.npmjs.org/@types/bluebird/-/bluebird-3.5.30.tgz#ee034a0eeea8b84ed868b1aa60d690b08a6cfbc5"
   integrity sha512-8LhzvcjIoqoi1TghEkRMkbbmM+jhHnBokPGkJWjclMK+Ks0MxEBow3/p2/iFTZ+OIbJHQDSfpgdZEb+af3gfVw==
 
-"@types/cliff@0.1.5":
-  version "0.1.5"
-  resolved "https://registry.yarnpkg.com/@types/cliff/-/cliff-0.1.5.tgz#cad520ab1af26395f666a2fe4e65f89f44fb30e8"
-  integrity sha512-26O7DGEzfF+N12ZfIsPHfFmYlBz9cGAFm0A8VRGiEusVBDimLehxReNuVTHy6lMJknFB0BZm13nSgoSW4UDILg==
+"@types/cliff@0.1.6":
+  version "0.1.6"
+  resolved "https://registry.yarnpkg.com/@types/cliff/-/cliff-0.1.6.tgz#fbf73df967a7ffe5d1990e34f78a7eab345a635b"
+  integrity sha512-z2ffxhk2uiPtYsjMvNYuSDkjaDP6rir3BctxMHflMW4M6EArIH0nq+020bh1Dkx1N1MyuNAyRIECE++JoOWSJw==
 
 "@types/color-name@^1.1.1":
   version "1.1.1"
