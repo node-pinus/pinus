@@ -20,13 +20,13 @@
 		"gen-api-ref": "node ../../node_modules/typedoc/bin/typedoc --mode file --hideGenerator --excludeExternals --ignoreCompilerErrors --out ../../run/site/public/api-reference/pinus-loader lib/"
 	},
 	"engines": {
-		"node": ">=8.5"
+		"node": ">=12.9.0"
 	},
 	"dependencies": {
 		"reflect-metadata": "0.1.13"
 	},
 	"devDependencies": {
-		"@types/node": "8.10.54",
+		"@types/node": "^12.7.12",
 		"mocha": "6.2.2",
 		"should": "13.2.3",
 		"tslint": "5.20.1",

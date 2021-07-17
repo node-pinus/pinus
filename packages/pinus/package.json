@@ -18,7 +18,7 @@
     "gen-api-ref": "node ../../node_modules/typedoc/bin/typedoc --mode file --hideGenerator --excludeExternals --ignoreCompilerErrors --out ../../run/site/public/api-reference/pinus lib/"
   },
   "engines": {
-    "node": ">=8.5"
+    "node": ">=12.9.0"
   },
   "bugs": {
     "url": "https://github.com/mybios/pinus/issues"
@@ -85,6 +85,6 @@
     "nyc": "14.1.1",
     "should": "13.2.3",
     "tslint": "5.20.1",
-    "typescript": "3.7.3"
+    "typescript": "^4.3.5"
   }
 }

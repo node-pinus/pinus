@@ -33,8 +33,8 @@ export interface MailBoxOpts {
 export class MQTT2MailBox extends EventEmitter {
   curId: number = 0;
   id: number;
-  host: Function;
-  port: string;
+  host: string;
+  port: number;
   requests: { [key: string]: any } = {};
   timeout: { [key: string]: any } = {};
   queue: Array<any> = [];
@@ -53,7 +53,7 @@ export class MQTT2MailBox extends EventEmitter {
   socket: any;
   _interval: any;
 
-  constructor(server: { id: number, host: Function, port: string }, opts: MailBoxOpts) {
+  constructor(server: { id: number, host: string, port: number }, opts: MailBoxOpts) {
     super();
     this.id = server.id;
     this.host = server.host;
@@ -321,6 +321,6 @@ export class MQTT2MailBox extends EventEmitter {
  *                      opts.bufferMsg {Boolean} msg should be buffered or send immediately.
  *                      opts.interval {Boolean} msg queue flush interval if bufferMsg is true. default is 50 ms
  */
-module.exports.create = function (server: { id: number, host: Function, port: string }, opts: MailBoxOpts) {
+module.exports.create = function (server: { id: number, host: string, port: number }, opts: MailBoxOpts) {
   return new MQTT2MailBox(server, opts || <any>{});
 };
