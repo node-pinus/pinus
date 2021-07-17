@@ -1,6 +1,6 @@
 {
 	"name": "pinus-loader",
-	"version": "1.4.13",
+	"version": "1.4.14",
 	"main": "./dist/index",
 	"types": "./lib/index",
 	"files": [
