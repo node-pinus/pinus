@@ -1,6 +1,6 @@
 {
   "name": "pinus-base-gate",
-  "version": "1.4.12",
+  "version": "1.4.13",
   "description": "pinus base gate plugin",
   "files": [
     "dist",
@@ -28,8 +28,8 @@
   "dependencies": {
     "bluebird": "^3.5.1",
     "crc": "^3.5.0",
-    "pinus": "^1.4.12",
-    "pinus-robot-plugin": "^1.4.12",
+    "pinus": "^1.4.13",
+    "pinus-robot-plugin": "^1.4.13",
     "reflect-metadata": "^0.1.10",
     "source-map-support": "^0.5.0"
   },
