@@ -12,6 +12,6 @@ jobs:
       - uses: actions/checkout@v1
       - uses: actions/setup-node@v1
         with:
-          node-version: 10
+          node-version: 12
       - run: yarn && yarn run ci
       - run: yarn run test
