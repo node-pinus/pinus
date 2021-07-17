@@ -12,12 +12,12 @@
         "gen-api-ref": "node ../../../node_modules/typedoc/bin/typedoc --mode file --hideGenerator --excludeExternals --ignoreCompilerErrors --out ../../../run/site/public/api-reference/pinus-loader lib/"
     },
     "engines": {
-        "node": ">=8.5"
+        "node": ">=12.9.0"
     },
     "dependencies": {
         "@types/bluebird": "^3.5.19",
         "@types/crc": "^3.4.0",
-        "@types/node": "8.10.54",
+        "@types/node": "^12.7.12",
         "bluebird": "^3.5.1",
         "crc": "^3.5.0",
         "pinus": "^1.4.12",

@@ -71,10 +71,10 @@ export class TCPMailBox extends EventEmitter implements IMailBox {
             return;
         }
 
-        this.socket = net.connect(<any>{
-            port: this.port,
-            host: this.host
-        }, (err: Error) => {
+        this.socket = net.connect(
+            this.port,
+            this.host
+        , () => {
             // success to connect
             this.connected = true;
             this.closed = false;
@@ -85,7 +85,7 @@ export class TCPMailBox extends EventEmitter implements IMailBox {
                 }, this.interval);
             }
             this.heartbeat();
-            utils.invokeCallback(cb, err);
+            utils.invokeCallback(cb, undefined);
         });
 
         this.composer.on('data', (data: Buffer) => {

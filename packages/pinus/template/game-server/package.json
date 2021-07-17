@@ -12,7 +12,7 @@
         "build": "node_modules/.bin/tsc  && node copy"
     },
     "dependencies":{
-        "@types/node": "8.10.54",
+        "@types/node": "^12.7.12",
         "@types/bluebird": "^3.5.19",
         "pinus":"#",
         "bluebird": "^3.5.1",

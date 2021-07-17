@@ -17,7 +17,7 @@
     "gen-api-ref": "node ../../node_modules/typedoc/bin/typedoc --mode file --hideGenerator --excludeExternals --ignoreCompilerErrors --out ../../run/site/public/api-reference/pinus-monitor lib/"
   },
   "engines": {
-    "node": ">=8.5"
+    "node": ">=12.9.0"
   },
   "main": "./dist/index",
   "types": "./src/index",
@@ -26,7 +26,7 @@
     "yargs": "^15.0.0"
   },
   "devDependencies": {
-    "@types/node": "8.10.54",
+    "@types/node": "^12.7.12",
     "@types/yargs": "^13.0.0",
     "tslint": "5.20.1",
     "typescript": "3.7.3"

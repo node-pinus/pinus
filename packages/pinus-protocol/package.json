@@ -21,10 +21,10 @@
   "gen-api-ref": "node ../../node_modules/typedoc/bin/typedoc --mode file --hideGenerator --excludeExternals --ignoreCompilerErrors --out ../../run/site/public/api-reference/pinus-protocol lib/"
  },
  "engines": {
-  "node": ">=8.5"
+  "node": ">=12.9.0"
  },
  "devDependencies": {
-  "@types/node": "8.10.54",
+  "@types/node": "^12.7.12",
   "jscoverage": "0.6.0",
   "mocha": "6.2.2",
   "should": "13.2.3",

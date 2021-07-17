@@ -8,7 +8,7 @@
     "url": "https://github.com/node-pinus/pinus"
   },
   "engines": {
-    "node": ">=8.5"
+    "node": ">=12.9.0"
   },
   "scripts": {
     "build": "tsc",
@@ -19,7 +19,7 @@
     "gen-api-ref": "node ../../node_modules/typedoc/bin/typedoc --mode file --hideGenerator --excludeExternals --ignoreCompilerErrors --out ../../run/site/public/api-reference/pinus-loader lib/"
   },
   "dependencies": {
-    "@types/node": "8.10.54",
+    "@types/node": "^12.7.12",
     "@types/ws": "^3.2.0",
     "cli-color": "^2.0.0",
     "pinus-protobuf": "^1.4.12",
