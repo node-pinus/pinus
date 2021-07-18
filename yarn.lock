@@ -1836,7 +1836,7 @@ bindings@^1.5.0:
   dependencies:
     file-uri-to-path "1.0.0"
 
-bl@^1.2.1, bl@^1.2.2:
+bl@^1.2.2:
   version "1.2.3"
   resolved "https://registry.yarnpkg.com/bl/-/bl-1.2.3.tgz#1e8dd80142eac80d7158c9dccc047fb620e035e7"
   integrity sha512-pvcNpa0UU69UT341rO6AYy4FVAIkUHuZXRIWbq+zHnsVcRzDDjIAhGuuYoi0d//cwIwtt4pkpKycWEfjdV+vww==
@@ -6508,37 +6508,16 @@ move-concurrently@^1.0.1:
     rimraf "^2.5.4"
     run-queue "^1.0.3"
 
-mqtt-connection@4.0.0, mqtt-connection@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.npmjs.org/mqtt-connection/-/mqtt-connection-4.0.0.tgz#f171f08edb113c880c67d5cca29b081338139f1e"
-  integrity sha512-hkgQ2DjScc7ShVga4IEyxKum+rUXCGxoSiiG1DacrGZ9lz0TNzGEybaIScexCNBnt8fepBbfnXa6t0yr/69vjw==
+mqtt-connection@4.1.0, mqtt-connection@^4.0.0, mqtt-connection@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/mqtt-connection/-/mqtt-connection-4.1.0.tgz#9cbf57fe559f923a76608440a76f254a31bc2830"
+  integrity sha512-GxfIEosx2Rxh7Yw8951L2s3WDqNLLqhyA8f6O9IyEMdrATX750TkdPMcqdDyTJTdwGCMjCRNGPvsI6PxFlX3AA==
   dependencies:
     duplexify "^3.5.1"
     inherits "^2.0.3"
     mqtt-packet "^6.0.0"
     safe-buffer "^5.1.1"
     through2 "^2.0.1"
-
-mqtt-connection@^3.2.0:
-  version "3.2.0"
-  resolved "https://registry.npmjs.org/mqtt-connection/-/mqtt-connection-3.2.0.tgz#2104d875ea917c46d25e89922c6694072910f408"
-  integrity sha512-br1n12OegkGfkseOHYby2LggkQy9qtgVKo8kg64acd89/Pc+vzcEA2PzmLd/kNo5K08YuJTVo2GYmymhY8NDIw==
-  dependencies:
-    duplexify "^3.5.1"
-    inherits "^2.0.3"
-    mqtt-packet "^5.4.0"
-    safe-buffer "^5.1.1"
-    through2 "^2.0.1"
-
-mqtt-packet@^5.4.0:
-  version "5.6.1"
-  resolved "https://registry.npmjs.org/mqtt-packet/-/mqtt-packet-5.6.1.tgz#8ecafce091f5af460664268a22b22091c8915f7b"
-  integrity sha512-eaF9rO2uFrIYEHomJxziuKTDkbWW5psLBaIGCazQSKqYsTaB3n4SpvJ1PexKaDBiPnMLPIFWBIiTYT3IfEJfww==
-  dependencies:
-    bl "^1.2.1"
-    inherits "^2.0.3"
-    process-nextick-args "^2.0.0"
-    safe-buffer "^5.1.0"
 
 mqtt-packet@^6.0.0:
   version "6.3.2"
