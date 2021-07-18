@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "@types/node": "^16.3.3",
-    "@types/ws": "^3.2.0",
+    "@types/ws": "^7.4.6",
     "cli-color": "^2.0.0",
     "pinus-protobuf": "^1.4.13",
     "pinus-protocol": "^1.4.13",
