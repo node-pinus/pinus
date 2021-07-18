@@ -1036,10 +1036,10 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-16.3.3.tgz#0c30adff37bbbc7a50eb9b58fae2a504d0d88038"
   integrity sha512-8h7k1YgQKxKXWckzFCMfsIwn0Y61UK6tlD6y2lOb3hTOIMlK3t9/QwHOhc81TwU+RMf0As5fj7NPjroERCnejQ==
 
-"@types/optimist@0.0.29":
-  version "0.0.29"
-  resolved "https://registry.npmjs.org/@types/optimist/-/optimist-0.0.29.tgz#a8873580b3a84b69ac1e687323b15fbbeb90479a"
-  integrity sha1-qIc1gLOoS2msHmhzI7Ffu+uQR5o=
+"@types/optimist@0.0.30":
+  version "0.0.30"
+  resolved "https://registry.yarnpkg.com/@types/optimist/-/optimist-0.0.30.tgz#6b91b312c4256a45a8df2caa278d6119db53ef13"
+  integrity sha512-dXwE/kn9pOLiofxjeOsR5cY8fHilaa0k+oKWvZ0hV/sGdhW2b55wo2cEvlWALWEeio1U7F2kGtjga5TIhfh7bg==
 
 "@types/socket.io-client@^1.4.32":
   version "1.4.32"
