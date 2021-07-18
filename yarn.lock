@@ -993,10 +993,10 @@
   resolved "https://registry.npmjs.org/@types/events/-/events-3.0.0.tgz#2862f3f58a9a7f7c3e78d79f130dd4d71c25c2a7"
   integrity sha512-EaObqwIvayI5a8dCzhFrjKzVwKLxjoG9T6Ppd5CEo07LRKfQ8Yokw54r5+Wq7FaBQ+yXRvQAYPrHwya1/UFt9g==
 
-"@types/eyes@0.1.31":
-  version "0.1.31"
-  resolved "https://registry.npmjs.org/@types/eyes/-/eyes-0.1.31.tgz#a858c4fc784d0c42ee7d62fc5bc5d2a371b6f2b2"
-  integrity sha512-kKDgdUvHjcBVXyr3JW8xuvAbpL5e+2UKi7fru8s8OBvpZrxE0cx9uUKUBwk4dHvaA6zK03AiTKv0TDoKl21K+Q==
+"@types/eyes@0.1.32":
+  version "0.1.32"
+  resolved "https://registry.yarnpkg.com/@types/eyes/-/eyes-0.1.32.tgz#d27e1fb7ff7d58e2fca0c6b1852dbc06195daaa0"
+  integrity sha512-jH+zwSvH818VwAkiN2CvE3evQcQr9iIzp5w0Xk1KNybGXqSVDJyKEt8t269BIGoZkifItIR59TNv4MpJj2XASQ==
   dependencies:
     "@types/node" "*"
 
