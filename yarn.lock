@@ -5965,9 +5965,9 @@ log-symbols@2.2.0:
     chalk "^2.0.1"
 
 log4js@^6.0.0:
-  version "6.2.1"
-  resolved "https://registry.npmjs.org/log4js/-/log4js-6.2.1.tgz#fc23a3bf287f40f5b48259958e5e0ed30d558eeb"
-  integrity sha512-7n+Oqxxz7VcQJhIlqhcYZBTpbcQ7XsR0MUIfJkx/n3VUjkAS4iUr+4UJlhxf28RvP9PMGQXbgTUhLApnu0XXgA==
+  version "6.3.0"
+  resolved "https://registry.yarnpkg.com/log4js/-/log4js-6.3.0.tgz#10dfafbb434351a3e30277a00b9879446f715bcb"
+  integrity sha512-Mc8jNuSFImQUIateBFwdOQcmC6Q5maU0VVvdC2R6XMb66/VnT+7WS4D/0EeNMZu1YODmJe5NIn2XftCzEocUgw==
   dependencies:
     date-format "^3.0.0"
     debug "^4.1.1"
