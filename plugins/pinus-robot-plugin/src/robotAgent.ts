@@ -1,17 +1,16 @@
 import { Application , IPlugin} from 'pinus';
 import { Robot, RobotCfg } from 'pinus-robot';
 import * as  fs from 'fs';
-import * as yargs from 'yargs';
-let argv = yargs.argv;
+import { argv } from 'yargs';
 
 console.log('启动robotAgent');
-
+let args = argv as any;
 let config = {
-    master: {host: argv.host, port: argv.port, interval: argv.interval}
+    master: {host: args.host, port: args.port, interval: args.interval}
 } as RobotCfg;
 
 let robot = new Robot(config);
-robot.runAgent(argv.scriptFile as any);
+robot.runAgent(args.scriptFile as any);
 
 process.on('uncaughtException', function (err) {
     console.error(' Caught exception: ' + err.stack);
