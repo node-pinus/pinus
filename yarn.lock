@@ -2897,12 +2897,7 @@ cpy@^5.0.0:
     globby "^6.0.0"
     nested-error-stacks "^2.0.0"
 
-crc@^0.2.1:
-  version "0.2.1"
-  resolved "https://registry.npmjs.org/crc/-/crc-0.2.1.tgz#b1f111fc3abb9b83d3a291a6820cf6e8c7ef32d7"
-  integrity sha1-sfER/Dq7m4PTopGmggz26MfvMtc=
-
-crc@^3.5.0:
+crc@^3.5.0, crc@^3.8.0:
   version "3.8.0"
   resolved "https://registry.npmjs.org/crc/-/crc-3.8.0.tgz#ad60269c2c856f8c299e2c4cc0de4556914056c6"
   integrity sha512-iX3mfgcTMIq3ZKLIsVFAbv7+Mc10kxabAGQb8HvjA1o3T1PIYprbakQ65d3I+2HGHt6nSKkM9PYjgoJO2KcFBQ==
