@@ -953,9 +953,9 @@
   integrity sha512-a+MBBfOTs3ShFMlbH9qsRVFkjIUunEtxrBT0gxRx1cntjKRg2WApuGmNYzHkwKaIhMi3SMbKktaD/rLObQMwIw==
 
 "@types/bluebird@^3.5.19":
-  version "3.5.30"
-  resolved "https://registry.npmjs.org/@types/bluebird/-/bluebird-3.5.30.tgz#ee034a0eeea8b84ed868b1aa60d690b08a6cfbc5"
-  integrity sha512-8LhzvcjIoqoi1TghEkRMkbbmM+jhHnBokPGkJWjclMK+Ks0MxEBow3/p2/iFTZ+OIbJHQDSfpgdZEb+af3gfVw==
+  version "3.5.36"
+  resolved "https://registry.yarnpkg.com/@types/bluebird/-/bluebird-3.5.36.tgz#00d9301d4dc35c2f6465a8aec634bb533674c652"
+  integrity sha512-HBNx4lhkxN7bx6P0++W8E289foSu8kO8GCk2unhuVggO+cE7rh9DhZUyPhUxNRG9m+5B5BTKxZQ5ZP92x/mx9Q==
 
 "@types/cliff@0.1.4", "@types/cliff@^0.1.4":
   version "0.1.4"
