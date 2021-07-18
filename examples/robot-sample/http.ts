@@ -1,9 +1,9 @@
+import cluster from 'cluster';
 import * as http from 'http';
 let envConfig = require('./app/config/env.json');
 let config = require('./app/config/' + envConfig.env + '/config');
 let path = __filename.substring(0, __filename.lastIndexOf('/'));
 import { Robot } from 'pinus-robot';
-import * as cluster from 'cluster';
 
 let robot = new Robot(config);
 

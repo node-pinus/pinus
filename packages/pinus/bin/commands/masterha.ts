@@ -4,13 +4,13 @@
 import * as fs from 'fs';
 import * as os from 'os';
 import * as path from 'path';
-import * as program from 'commander';
 import * as constants from '../../lib/util/constants';
 import { connectToMaster, abort, runServer } from '../utils/utils';
 import { ConsoleModule as co } from '../../lib/modules/console';
 import { DEFAULT_USERNAME, DEFAULT_PWD, DEFAULT_MASTER_HOST, DEFAULT_MASTER_PORT, ADD_SERVER_INFO, DEFAULT_GAME_SERVER_DIR, MASTER_HA_NOT_FOUND } from '../utils/constants';
+import { Command } from 'commander';
 
-export default function (program: program.CommanderStatic) {
+export default function (program: Command) {
     program.command('masterha')
     .description('start all the slaves of the master')
     .option('-d, --directory <directory>', 'the code directory', DEFAULT_GAME_SERVER_DIR)
