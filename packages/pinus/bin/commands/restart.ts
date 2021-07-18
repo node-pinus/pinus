@@ -6,14 +6,15 @@ import * as program from 'commander';
 import { connectToMaster } from '../utils/utils';
 import { ConsoleModule as co } from '../../lib/modules/console';
 import { DEFAULT_USERNAME, DEFAULT_PWD, DEFAULT_MASTER_HOST, DEFAULT_MASTER_PORT, ADD_SERVER_INFO, RESTART_SERVER_INFO } from '../utils/constants';
+import { Command } from 'commander';
 
-export default function (program: program.CommanderStatic) {
+export default function (program: Command) {
     program.command('restart')
     .description('restart the servers, for multiple servers, use `pinus restart server-id-1 server-id-2`')
     .option('-u, --username <username>', 'administration user name', DEFAULT_USERNAME)
     .option('-p, --password <password>', 'administration password', DEFAULT_PWD)
     .option('-h, --host <master-host>', 'master server host', DEFAULT_MASTER_HOST)
-    .option('-P, --port <master-port>', 'master server port', DEFAULT_MASTER_PORT)
+    .option('-P, --port <master-port>', 'master server port', (value)=>parseInt(value), DEFAULT_MASTER_PORT)
     .option('-t, --type <server-type>,', 'start server type')
     .option('-i, --id <server-id>', 'start server id')
     .action(function (opts) {

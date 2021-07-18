@@ -5,16 +5,16 @@ import * as fs from 'fs';
 import * as os from 'os';
 import * as path from 'path';
 import * as util from 'util';
-import * as program from 'commander';
 import * as constants from '../../lib/util/constants';
 import { connectToMaster, abort } from '../utils/utils';
 import { ConsoleModule as co } from '../../lib/modules/console';
 import { DEFAULT_USERNAME, DEFAULT_PWD, DEFAULT_MASTER_HOST, DEFAULT_MASTER_PORT, ADD_SERVER_INFO, CLOSEAPP_INFO, KILL_CMD_WIN, KILL_CMD_LUX, DEFAULT_ENV, DEFAULT_GAME_SERVER_DIR, SCRIPT_NOT_FOUND, DAEMON_INFO } from '../utils/constants';
 import { exec, spawn } from 'child_process';
+import { Command } from 'commander';
 
 
 
-export default function (program: program.CommanderStatic) {
+export default function (program: Command) {
     program.command('start')
     .description('start the application')
     .option('-e, --env <env>', 'the used environment', DEFAULT_ENV)

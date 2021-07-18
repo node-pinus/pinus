@@ -1,5 +1,3 @@
-
-import * as program from 'commander';
 import { CUR_DIR, INIT_PROJ_NOTICE, TIME_INIT, FILEREAD_ERROR } from '../utils/constants';
 import {  confirm, abort, version, prompt } from '../utils/utils';
 
@@ -9,8 +7,9 @@ import * as path from 'path';
 import * as util from 'util';
 import * as cliff from 'cliff';
 import * as mkdirp from 'mkdirp';
+import { Command } from 'commander';
 
-export default function (program: program.CommanderStatic) {
+export default function (program: Command) {
     program.command('init [path]')
         .description('create a new application')
         .action(function (path) {
@@ -119,7 +118,7 @@ function copy(origin: string, target: string) {
         let tCurrent = path.resolve(target, datalist[i]);
         if (fs.statSync(oCurrent).isFile()) {
             console.log(('   create : ' as any).green + tCurrent + ' from : ' + oCurrent);
-            fs.writeFileSync(tCurrent, fs.readFileSync(oCurrent, ''), '');
+            fs.writeFileSync(tCurrent, fs.readFileSync(oCurrent));
         } else if (fs.statSync(oCurrent).isDirectory()) {
             copy(oCurrent, tCurrent);
         }

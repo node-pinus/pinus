@@ -36,7 +36,7 @@
   "devDependencies": {
     "@types/bluebird": "^3.5.19",
     "@types/crc": "^3.4.0",
-    "@types/node": "^12.7.12",
+    "@types/node": "^16.3.3",
     "tslint": "5.20.1",
     "typescript": "3.7.3"
   },

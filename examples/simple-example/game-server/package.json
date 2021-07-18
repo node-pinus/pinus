@@ -19,7 +19,7 @@
     },
     "dependencies": {
         "@types/bluebird": "^3.5.19",
-        "@types/node": "^12.7.12",
+        "@types/node": "^16.3.3",
         "bluebird": "^3.5.1",
         "pinus": "^1.4.13",
         "pinus-base-plugin": "^1.4.13",

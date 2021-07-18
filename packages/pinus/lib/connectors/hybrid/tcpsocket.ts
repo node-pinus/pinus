@@ -86,7 +86,7 @@ export class TcpSocket extends Stream implements IHybridSocket {
 
 
     send(msg: any, options: { binary?: boolean }, cb?: (err ?: Error) => void) {
-        this._socket.write(msg, options as string, cb);
+        this._socket.write(msg, options.binary ? "binary" : "utf8", cb);
     }
 
     close() {

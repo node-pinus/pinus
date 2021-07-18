@@ -43,7 +43,7 @@ export class Protobuf {
         return bytes;
     }
 
-    encodeStr(key: string, msg: object, code: string) {
+    encodeStr(key: string, msg: object, code: BufferEncoding) {
         code = code || 'base64';
         let buffer = this.encode(key, msg);
         return !!buffer ? buffer.toString(code) : buffer;
