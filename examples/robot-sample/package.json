@@ -28,7 +28,7 @@
     "ws": "^7.4.6"
   },
   "devDependencies": {
-    "tslint": "^5.14.0",
+    "tslint": "^6.1.3",
     "typescript": "3.7.3"
   }
 }
