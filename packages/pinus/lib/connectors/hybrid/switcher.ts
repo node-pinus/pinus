@@ -16,6 +16,8 @@ let logger = getLogger('pinus', path.basename(__filename));
 let HTTP_METHODS = [
     'GET', 'POST', 'DELETE', 'PUT', 'HEAD'
 ];
+// max length of 'DELETE'
+let MAX_HTTP_METHODS_LEN = 6;
 
 let ST_STARTED = 1;
 let ST_CLOSED = 2;
@@ -126,7 +128,7 @@ export class HybridSwitcher extends EventEmitter implements IHybridSwitcher {
 
 }
 let isHttp = function (data: Buffer) {
-    let head = data.toString('utf8', 0, 4);
+    let head = data.toString('utf8', 0, MAX_HTTP_METHODS_LEN - 1);
 
     for (let i = 0, l = HTTP_METHODS.length; i < l; i++) {
         if (head.indexOf(HTTP_METHODS[i]) === 0) {
