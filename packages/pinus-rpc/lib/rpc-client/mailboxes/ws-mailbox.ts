@@ -3,7 +3,7 @@ let logger = getLogger('pinus-rpc', 'ws-mailbox');
 import { EventEmitter } from 'events';
 import { constants } from '../../util/constants';
 import { Tracer } from '../../util/tracer';
-import * as client from 'socket.io-client';
+import {io} from 'socket.io-client';
 import * as utils from '../../util/utils';
 import * as util from 'util';
 import { Msg } from '../../util/coder';
@@ -62,7 +62,7 @@ export class WSMailBox extends EventEmitter {
       return;
     }
     let self = this;
-    this.socket = client.connect(this.host + ':' + this.port, <any>{
+    this.socket = io(this.host + ':' + this.port, <any>{
       'force new connection': true,
       'reconnect': false
     });
