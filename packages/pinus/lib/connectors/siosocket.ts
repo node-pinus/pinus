@@ -1,6 +1,7 @@
 import * as util from 'util';
 import { EventEmitter } from 'events';
 import { ISocket } from '../interfaces/ISocket';
+import { Socket } from 'socket.io';
 
 let ST_INITED = 0;
 let ST_CLOSED = 1;
@@ -10,11 +11,11 @@ let ST_CLOSED = 1;
  */
 export class SioSocket extends EventEmitter implements ISocket {
     id: number;
-    socket: SocketIO.Socket;
+    socket: Socket;
     remoteAddress: { ip: string };
     state: number;
 
-    constructor(id: number, socket: SocketIO.Socket) {
+    constructor(id: number, socket: Socket) {
         super();
         this.id = id;
         this.socket = socket;
