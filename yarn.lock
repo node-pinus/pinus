@@ -9946,12 +9946,7 @@ unbox-primitive@^1.0.1:
     has-symbols "^1.0.2"
     which-boxed-primitive "^1.0.2"
 
-underscore@1.12.1:
-  version "1.12.1"
-  resolved "https://registry.npm.taobao.org/underscore/download/underscore-1.12.1.tgz#7bb8cc9b3d397e201cf8553336d262544ead829e"
-  integrity sha1-e7jMmz05fiAc+FUzNtJiVE6tgp4=
-
-underscore@>=1.8.3, underscore@^1.9.1:
+underscore@1.13.1, underscore@>=1.8.3, underscore@^1.9.1:
   version "1.13.1"
   resolved "https://registry.npm.taobao.org/underscore/download/underscore-1.13.1.tgz#0c1c6bd2df54b6b69f2314066d65b6cde6fcf9d1"
   integrity sha1-DBxr0t9UtrafIxQGbWW2zeb8+dE=
