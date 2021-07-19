@@ -1090,12 +1090,7 @@
   resolved "https://registry.nlark.com/@types/bluebird/download/@types/bluebird-3.5.36.tgz?cache=0&sync_timestamp=1625595934922&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40types%2Fbluebird%2Fdownload%2F%40types%2Fbluebird-3.5.36.tgz#00d9301d4dc35c2f6465a8aec634bb533674c652"
   integrity sha1-ANkwHU3DXC9kZaiuxjS7UzZ0xlI=
 
-"@types/cliff@0.1.4":
-  version "0.1.4"
-  resolved "https://registry.nlark.com/@types/cliff/download/@types/cliff-0.1.4.tgz#245f0954140c48c48f6e35ac7b99baecfdbc4686"
-  integrity sha1-JF8JVBQMSMSPbjWse5m67P28RoY=
-
-"@types/cliff@^0.1.4":
+"@types/cliff@0.1.6", "@types/cliff@^0.1.4":
   version "0.1.6"
   resolved "https://registry.nlark.com/@types/cliff/download/@types/cliff-0.1.6.tgz#fbf73df967a7ffe5d1990e34f78a7eab345a635b"
   integrity sha1-+/c9+Wen/+XRmQ4094p+qzRaY1s=
