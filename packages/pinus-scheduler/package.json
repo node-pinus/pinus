@@ -1,6 +1,6 @@
 {
 	"name": "pinus-scheduler",
-	"version": "1.4.13",
+	"version": "1.5.0",
 	"author": "mybios <mybios@qq.com>",
 	"main": "./dist/schedule",
 	"types": "./lib/schedule",
@@ -23,7 +23,7 @@
 		"node": ">=12.9.0"
 	},
 	"dependencies": {
-		"pinus-logger": "^1.4.13"
+		"pinus-logger": "^1.5.0"
 	},
 	"devDependencies": {
 		"@types/node": "^16.3.3",
