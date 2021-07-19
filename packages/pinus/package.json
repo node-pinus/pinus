@@ -1,6 +1,7 @@
 {
   "name": "pinus",
   "version": "1.5.0",
+  "private": false,
   "homepage": "https://github.com/mybios/pinus",
   "repository": {
     "type": "git",
@@ -23,6 +24,7 @@
   "bugs": {
     "url": "https://github.com/mybios/pinus/issues"
   },
+  "author": "mybios",
   "licenses": [
     {
       "type": "MIT",
@@ -30,7 +32,6 @@
     }
   ],
   "keywords": [
-    "pinus",
     "pinus",
     "framework",
     "game",
