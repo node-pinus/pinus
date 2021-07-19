@@ -1,7 +1,15 @@
 {
   "lerna": "3.19.0",
   "packages": [
-    "packages/*",
+    "packages/pinus",
+    "packages/pinus-admin",
+    "packages/pinus-loader",
+    "packages/pinus-logger",
+    "packages/pinus-monitor",
+    "packages/pinus-protobuf",
+    "packages/pinus-protocol",
+    "packages/pinus-rpc",
+    "packages/pinus-scheduler",
     "tools/*",
     "plugins/*",
     "examples/simple-example/*",
