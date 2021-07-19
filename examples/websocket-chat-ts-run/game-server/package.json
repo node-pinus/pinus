@@ -23,7 +23,7 @@
         "pinus-robot-plugin": "^1.5.0",
         "reflect-metadata": "^0.1.10",
         "source-map-support": "^0.5.0",
-        "ts-node": "^8.2.0"
+        "ts-node": "^9.1.1"
     },
     "devDependencies": {
         "tslint": "^6.1.3",
