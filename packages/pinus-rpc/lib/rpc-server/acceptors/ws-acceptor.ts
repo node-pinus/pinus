@@ -3,7 +3,7 @@ let logger = getLogger('pinus-rpc', 'ws-acceptor');
 import { EventEmitter } from 'events';
 import { Tracer } from '../../util/tracer';
 import * as utils from '../../util/utils';
-import * as sio from 'socket.io';
+import { Server } from "socket.io";
 import * as util from 'util';
 import * as Coder from '../../util/coder';
 
@@ -51,7 +51,7 @@ export class WSAcceptor extends EventEmitter {
     this.cb = cb;
   }
 
-  listen(port: string | number) {
+  listen(port: number) {
     // check status
     if (!!this.inited) {
       this.cb(new Error('already inited.'));
@@ -61,7 +61,7 @@ export class WSAcceptor extends EventEmitter {
 
     let self = this;
 
-    this.server = sio.listen(port);
+    this.server = new Server(port);
 
     this.server.set('log level', 0);
 

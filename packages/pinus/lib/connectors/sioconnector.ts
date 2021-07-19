@@ -4,14 +4,14 @@ import { createServer } from 'http';
 let httpServer = createServer();
 import { SioSocket } from './siosocket';
 import { IConnector } from '../interfaces/IConnector';
-import * as socket_io from 'socket.io';
+import { Server, ServerOptions } from 'socket.io';
 
 let PKG_ID_BYTES = 4;
 let PKG_ROUTE_LENGTH_BYTES = 1;
 let PKG_HEAD_BYTES = PKG_ID_BYTES + PKG_ROUTE_LENGTH_BYTES;
 
 let curId = 1;
-export type SIOConnectorOptions = socket_io.ServerOptions;
+export type SIOConnectorOptions = ServerOptions;
 
 /**
  * Connector that manager low level connection and protocol bewteen server and client.
@@ -21,7 +21,7 @@ export class SIOConnector extends EventEmitter implements IConnector {
     port: number;
     host: string;
     opts: SIOConnectorOptions;
-    private server: SocketIO.Server;
+    private server: Server;
 
 
     constructor(port: number, host: string, opts: SIOConnectorOptions) {
@@ -54,7 +54,7 @@ export class SIOConnector extends EventEmitter implements IConnector {
         }
 
         opts.path = '/socket.io';
-        let sio = socket_io(httpServer, opts);
+        let sio = new Server(httpServer, opts);
 
         let port = this.port;
         httpServer.listen(port, function () {
