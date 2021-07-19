@@ -47,8 +47,7 @@
   ],
   "main": "./dist/lib/index",
   "types": "./lib/index",
-  "dependencies": {
-    "async": "^3.0.0",
+  "dependencies": {    "async": "^3.0.0",
     "cliff": "^0.1.10",
     "commander": "^8.0.0",
     "crc": "^3.5.0",

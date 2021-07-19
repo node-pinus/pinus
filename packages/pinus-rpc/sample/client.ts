@@ -133,7 +133,7 @@ async function test() {
     const toServersRet = await client.proxies.user.test.service.echo.toServer('test-server-3', m, 'zzDDD', 'unused');
     console.log('toServersRet', JSON.stringify(toServersRet, null, 4));
     console.log('!!!!@@');
-    await new Promise(done => setTimeout(done, 5000));
+    await new Promise(done => setTimeout(done, 5000, null));
     console.log('~~ latency end');
     const latencyRet = await client.proxies.user.test.service.echo.toServer('test-server-3', 'latency!!', 'aaa');
     console.log('~~~ latency', latencyRet);
