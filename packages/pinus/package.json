@@ -54,7 +54,7 @@
     "crc": "^3.5.0",
     "eyes": "^0.1.8",
     "mkdirp": "^1.0.4",
-    "mqtt-connection": "^4.0.0",
+    "mqtt-connection": "^4.1.0",
     "node-bignumber": "^1.2.1",
     "pinus-admin": "^1.5.0",
     "pinus-loader": "^1.5.0",
