@@ -59,7 +59,7 @@ describe('application test', function () {
   describe('#compoent', function () {
     it('should load the component and fire their lifecircle callback by app.start, app.afterStart, app.stop', function (done: MochaDone) {
       let startCount = 0, afterStartCount = 0, stopCount = 0;
-      if(require('os').platform() == 'linux') {
+      if(require('os').platform() === 'linux') {
           done();
           return;
       }
@@ -553,7 +553,7 @@ describe('application test', function () {
 
   describe('#beforeStopHook', function () {
     it('should be called before application stopped.', function (done: MochaDone) {
-      if(require('os').platform() == 'linux') {
+      if(require('os').platform() === 'linux') {
         done();
         return;
       }

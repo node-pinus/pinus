@@ -3,7 +3,7 @@ let logger = getLogger('pinus-rpc', 'ws-acceptor');
 import { EventEmitter } from 'events';
 import { Tracer } from '../../util/tracer';
 import * as utils from '../../util/utils';
-import { Server } from "socket.io";
+import { Server } from 'socket.io';
 import * as util from 'util';
 import * as Coder from '../../util/coder';
 
