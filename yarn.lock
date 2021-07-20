@@ -6381,7 +6381,7 @@ morgan@1.10.0, morgan@^1.6.1:
     on-finished "~2.3.0"
     on-headers "~1.0.2"
 
-mqtt-connection@4.1.0, mqtt-connection@^4.0.0, mqtt-connection@^4.1.0:
+mqtt-connection@4.1.0, mqtt-connection@^4.1.0:
   version "4.1.0"
   resolved "https://registry.npm.taobao.org/mqtt-connection/download/mqtt-connection-4.1.0.tgz#9cbf57fe559f923a76608440a76f254a31bc2830"
   integrity sha1-nL9X/lWfkjp2YIRAp28lSjG8KDA=
