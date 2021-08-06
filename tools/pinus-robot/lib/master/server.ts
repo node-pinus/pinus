@@ -47,7 +47,9 @@ export class Server {
     }
 
     listen(port: number | string) {
-        this.io = io.listen(port);
+        const server = require('http').createServer();
+        this.io = io(server)
+        server.listen(port)
         this.register();
     }
     // Registers new Node with Server, announces to WebClients

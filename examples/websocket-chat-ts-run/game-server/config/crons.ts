@@ -31,8 +31,8 @@ module.exports = {
         "chat": [
             {
                 "id": 'onlineStatus',
-                // 5秒一次
-                "time": "0/5 * * * * *",
+                // 30秒一次
+                "time": "0/30 * * * * *",
                 "action": "cronTest.onlineCron"
             }
         ]
