@@ -6555,9 +6555,9 @@ no-case@^2.2.0:
     lower-case "^1.1.1"
 
 node-bignumber@^1.2.1:
-  version "1.2.1"
-  resolved "https://registry.nlark.com/node-bignumber/download/node-bignumber-1.2.1.tgz#266c9553352838539f661c92e58631be97917ea5"
-  integrity sha1-JmyVUzUoOFOfZhyS5YYxvpeRfqU=
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/node-bignumber/-/node-bignumber-1.2.2.tgz#f9df5d8c6b6a5f7eab6e4d6c1e61b7d52557a9f4"
+  integrity sha512-VoTZHmdFQpZH1+q1dz2qcHNCwTWsJg2T3PYwlAyDNFOfVhSYUKQBLFcCpCud+wJBGgCttGavZILaIggDIKqEQQ==
 
 node-environment-flags@1.0.5:
   version "1.0.5"
