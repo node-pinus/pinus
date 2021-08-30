@@ -12,7 +12,7 @@
     "mqtt": "4.2.8",
     "mqtt-connection": "4.1.0",
     "websocket-stream": "5.5.2",
-    "ws": "7.5.3"
+    "ws": "8.2.1"
   },
   "devDependencies": {
     "tslint": "6.1.3",
