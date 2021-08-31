@@ -77,6 +77,3 @@ Pinus is also suitable for real-time web applications; its distributed architect
 Fast, scalable, real-time game server development is not an easy job, and a good container or framework can reduce its complexity.
 Unfortunately, unlike web, finding a game server framework solution is difficult, especially an open source solution. Pinus fills this gap, providing a full solution for building game server frameworks.
 
-### Thanks JetBrains
-
-[JetBrains WebStrom](https://www.jetbrains.com/?from=pinus)
