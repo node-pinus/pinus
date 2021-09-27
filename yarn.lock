@@ -1212,10 +1212,10 @@
   resolved "https://registry.nlark.com/@types/uuid/download/@types/uuid-8.3.1.tgz?cache=0&sync_timestamp=1625249983950&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40types%2Fuuid%2Fdownload%2F%40types%2Fuuid-8.3.1.tgz#1a32969cf8f0364b3d8c8af9cc3555b7805df14f"
   integrity sha1-GjKWnPjwNks9jIr5zDVVt4Bd8U8=
 
-"@types/ws@7.4.6", "@types/ws@^7.4.6":
-  version "7.4.6"
-  resolved "https://registry.nlark.com/@types/ws/download/@types/ws-7.4.6.tgz?cache=0&sync_timestamp=1625252949341&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40types%2Fws%2Fdownload%2F%40types%2Fws-7.4.6.tgz#c4320845e43d45a7129bb32905e28781c71c1fff"
-  integrity sha1-xDIIReQ9RacSm7MpBeKHgcccH/8=
+"@types/ws@8.2.0", "@types/ws@^8.2.0":
+  version "8.2.0"
+  resolved "https://registry.yarnpkg.com/@types/ws/-/ws-8.2.0.tgz#75faefbe2328f3b833cb8dc640658328990d04f3"
+  integrity sha512-cyeefcUCgJlEk+hk2h3N+MqKKsPViQgF5boi9TTHSK+PoR9KWBb/C5ccPcDyAqgsbAYHTwulch725DV84+pSpg==
   dependencies:
     "@types/node" "*"
 
