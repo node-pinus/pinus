@@ -4211,10 +4211,10 @@ glob@^6.0.1:
     once "^1.3.0"
     path-is-absolute "^1.0.0"
 
-glob@^7.0.0, glob@^7.0.3, glob@^7.0.5, glob@^7.0.6, glob@^7.1.1, glob@^7.1.3, glob@^7.1.4, glob@^7.1.6, glob@^7.1.7:
-  version "7.1.7"
-  resolved "https://registry.nlark.com/glob/download/glob-7.1.7.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fglob%2Fdownload%2Fglob-7.1.7.tgz#3b193e9233f01d42d0b3f78294bbeeb418f94a90"
-  integrity sha1-Oxk+kjPwHULQs/eClLvutBj5SpA=
+glob@^7.0.0, glob@^7.0.3, glob@^7.0.5, glob@^7.0.6, glob@^7.1.1, glob@^7.1.3, glob@^7.1.4, glob@^7.1.6, glob@^7.2.0:
+  version "7.2.0"
+  resolved "https://registry.yarnpkg.com/glob/-/glob-7.2.0.tgz#d15535af7732e02e948f4c41628bd910293f6023"
+  integrity sha512-lmLf6gtyrPq8tTjSmrO94wBeQbFR3HbLHbuyD69wuyQkImp2hWqMGB47OX65FBkPffO641IP9jWa1z4ivqG26Q==
   dependencies:
     fs.realpath "^1.0.0"
     inflight "^1.0.4"
@@ -4276,7 +4276,7 @@ growl@1.10.5:
   resolved "https://registry.npm.taobao.org/growl/download/growl-1.10.5.tgz#f2735dc2283674fa67478b10181059355c369e5e"
   integrity sha1-8nNdwig2dPpnR4sQGBBZNVw2nl4=
 
-handlebars@^4.0.3, handlebars@^4.7.6, handlebars@^4.7.7:
+handlebars@^4.0.3, handlebars@^4.7.6:
   version "4.7.7"
   resolved "https://registry.nlark.com/handlebars/download/handlebars-4.7.7.tgz#9ce33416aad02dbd6c8fafa8240d5d98004945a1"
   integrity sha1-nOM0FqrQLb1sj6+oJA1dmABJRaE=
@@ -5450,12 +5450,17 @@ json-stringify-safe@^5.0.1, json-stringify-safe@~5.0.1:
   resolved "https://registry.npm.taobao.org/json-stringify-safe/download/json-stringify-safe-5.0.1.tgz#1296a2d58fd45f19a0f6ce01d65701e2c735b6eb"
   integrity sha1-Epai1Y/UXxmg9s4B1lcB4sc1tus=
 
-json5@^2.1.2, json5@^2.2.0:
+json5@^2.1.2:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/json5/-/json5-2.2.0.tgz#2dfefe720c6ba525d9ebd909950f0515316c89a3"
   integrity sha512-f+8cldu7X/y7RAJurMEJmdoKXGB/X550w2Nr3tTbezL6RwEE/iMcm+tZnXeoZtKuOq6ft8+CqzEkrIgx1fPoQA==
   dependencies:
     minimist "^1.2.5"
+
+jsonc-parser@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/jsonc-parser/-/jsonc-parser-3.0.0.tgz#abdd785701c7e7eaca8a9ec8cf070ca51a745a22"
+  integrity sha512-fQzRfAbIBnR0IQvftw9FJveWiHp72Fg20giDrHz6TdfB12UH/uue0D3hm57UB5KgAVuniLMCaS8P1IMj9NR7cA==
 
 jsonfile@^4.0.0:
   version "4.0.0"
@@ -5983,10 +5988,10 @@ markdown@~0.5.0:
   dependencies:
     nopt "~2.1.1"
 
-marked@^2.1.1:
-  version "2.1.3"
-  resolved "https://registry.yarnpkg.com/marked/-/marked-2.1.3.tgz#bd017cef6431724fd4b27e0657f5ceb14bff3753"
-  integrity sha512-/Q+7MGzaETqifOMWYEA7HVMaZb4XbcRfaOzcSsHZEith83KGlvaSG33u0SKu89Mj5h+T8V2hM+8O45Qc5XTgwA==
+marked@^3.0.4:
+  version "3.0.4"
+  resolved "https://registry.yarnpkg.com/marked/-/marked-3.0.4.tgz#b8a1539e5e05c6ea9e93f15c0bad1d54ce890406"
+  integrity sha512-jBo8AOayNaEcvBhNobg6/BLhdsK3NvnKWJg33MAAPbvTWiG4QBn9gpW1+7RssrKu4K1dKlN+0goVQwV41xEfOA==
 
 math-random@^1.0.1:
   version "1.0.4"
@@ -6180,7 +6185,7 @@ min-indent@^1.0.0:
   resolved "https://registry.npm.taobao.org/min-indent/download/min-indent-1.0.1.tgz#a63f681673b30571fbe8bc25686ae746eefa9869"
   integrity sha1-pj9oFnOzBXH76LwlaGrnRu76mGk=
 
-"minimatch@2 || 3", minimatch@3.0.4, minimatch@^3.0.0, minimatch@^3.0.4:
+"minimatch@2 || 3", minimatch@3.0.4, minimatch@^3.0.4:
   version "3.0.4"
   resolved "https://registry.npm.taobao.org/minimatch/download/minimatch-3.0.4.tgz#5166e286457f03306064be5497e8dbb0c3d32083"
   integrity sha1-UWbihkV/AzBgZL5Ul+jbsMPTIIM=
@@ -7493,11 +7498,6 @@ process-on-spawn@^1.0.0:
   dependencies:
     fromentries "^1.2.0"
 
-progress@^2.0.3:
-  version "2.0.3"
-  resolved "https://registry.npm.taobao.org/progress/download/progress-2.0.3.tgz?cache=0&sync_timestamp=1599054255267&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fprogress%2Fdownload%2Fprogress-2.0.3.tgz#7e8cf8d8f5b8f239c1bc68beb4eb78567d572ef8"
-  integrity sha1-foz42PW48jnBvGi+tOt4Vn1XLvg=
-
 promise-inflight@^1.0.1:
   version "1.0.1"
   resolved "https://registry.npm.taobao.org/promise-inflight/download/promise-inflight-1.0.1.tgz#98472870bf228132fcbdd868129bad12c3c029e3"
@@ -8272,12 +8272,12 @@ shebang-regex@^3.0.0:
   resolved "https://registry.yarnpkg.com/shebang-regex/-/shebang-regex-3.0.0.tgz#ae16f1644d873ecad843b0307b143362d4c42172"
   integrity sha512-7++dFhtcx3353uBaq8DDR4NuxBetBzC7ZQOhmTQInHEd6bSrXdiEyzCvG07Z44UYdLShWUyXt5M/yhz8ekcb1A==
 
-shiki@^0.9.3:
-  version "0.9.5"
-  resolved "https://registry.yarnpkg.com/shiki/-/shiki-0.9.5.tgz#c8da81a05fbfd1810729c6873901a729a72ec541"
-  integrity sha512-XFn+rl3wIowDjzdr5DlHoHgQphXefgUTs2bNp/bZu4WF9gTrTLnKwio3f28VjiFG6Jpip7yQn/p4mMj6OrjrtQ==
+shiki@^0.9.11:
+  version "0.9.11"
+  resolved "https://registry.yarnpkg.com/shiki/-/shiki-0.9.11.tgz#07d75dab2abb6dc12a01f79a397cb1c391fa22d8"
+  integrity sha512-tjruNTLFhU0hruCPoJP0y+B9LKOmcqUhTpxn7pcJB3fa+04gFChuEmxmrUfOJ7ZO6Jd+HwMnDHgY3lv3Tqonuw==
   dependencies:
-    json5 "^2.2.0"
+    jsonc-parser "^3.0.0"
     onigasm "^2.2.5"
     vscode-textmate "5.2.0"
 
@@ -9337,24 +9337,16 @@ typedarray@^0.0.6:
   resolved "https://registry.npm.taobao.org/typedarray/download/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
 
-typedoc-default-themes@^0.12.10:
-  version "0.12.10"
-  resolved "https://registry.yarnpkg.com/typedoc-default-themes/-/typedoc-default-themes-0.12.10.tgz#614c4222fe642657f37693ea62cad4dafeddf843"
-  integrity sha512-fIS001cAYHkyQPidWXmHuhs8usjP5XVJjWB8oZGqkTowZaz3v7g3KDZeeqE82FBrmkAnIBOY3jgy7lnPnqATbA==
-
-typedoc@0.21.4:
-  version "0.21.4"
-  resolved "https://registry.yarnpkg.com/typedoc/-/typedoc-0.21.4.tgz#fced3cffdc30180db60a5dbfec9dbbb273cb5b31"
-  integrity sha512-slZQhvD9U0d9KacktYAyuNMMOXJRFNHy+Gd8xY2Qrqq3eTTTv3frv3N4au/cFnab9t3T5WA0Orb6QUjMc+1bDA==
+typedoc@0.22.5:
+  version "0.22.5"
+  resolved "https://registry.yarnpkg.com/typedoc/-/typedoc-0.22.5.tgz#c1a7c33fcdc808f57c766584a6afb47762944229"
+  integrity sha512-KFrWGU1iKiTGw0RcyjLNYDmhd7uICU14HgBNPmFKY/sT4Pm/fraaLyWyisst9vGTUAKxqibqoDITR7+ZcAkhHg==
   dependencies:
-    glob "^7.1.7"
-    handlebars "^4.7.7"
+    glob "^7.2.0"
     lunr "^2.3.9"
-    marked "^2.1.1"
-    minimatch "^3.0.0"
-    progress "^2.0.3"
-    shiki "^0.9.3"
-    typedoc-default-themes "^0.12.10"
+    marked "^3.0.4"
+    minimatch "^3.0.4"
+    shiki "^0.9.11"
 
 typescript@^4.3.5:
   version "4.3.5"
