@@ -42,6 +42,9 @@ export class EntryHandler {
         // put user into channel
         let users = await self.app.rpc.chat.chatRemote.add.route(session)(uid, self.app.get('serverId'), rid, true);
 
+        // test remoter
+        self.app.rpc.chat.notifyRemote.notifyMethod.to("chat-server-1")('11', '22', '33')
+        self.app.rpc.chat.anotherName.zzzMethod.to(null)('aa', 'bb', 'cc')
         return {
             users: users
         };

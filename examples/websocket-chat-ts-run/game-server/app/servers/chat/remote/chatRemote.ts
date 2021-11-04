@@ -4,17 +4,19 @@ export default function (app: Application) {
     return new ChatRemote(app);
 }
 
-// rpc 定义挪到单独的定义文件(user.rpc.define.ts)。解决ts-node 有可能找不到定义的问题。
-// 你也可以用其它方法解决，或者没有遇到过这个问题的话，定义还是可以放在这里。
 
 // UserRpc的命名空间自动合并
-// declare global {
-//     interface UserRpc {
-//         chat: {
-//             chatRemote: RemoterClass<FrontendSession, ChatRemote>;
-//         };
-//     }
-// }
+declare global {
+    interface MergeChatRemoter {
+        chatRemote: RemoterClass<FrontendSession, ChatRemote>;
+    }
+
+    interface UserRpc {
+        chat: MergeChatRemoter
+    }
+}
+
+
 export class ChatRemote {
 
     constructor(private app: Application) {
