@@ -2546,9 +2546,9 @@ command-exists@^1.2.8:
   integrity sha1-xQclrzgIyKsCYP1gsB+/oluVT2k=
 
 commander@*, commander@^8.0.0:
-  version "8.0.0"
-  resolved "https://registry.nlark.com/commander/download/commander-8.0.0.tgz?cache=0&sync_timestamp=1624609539421&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fcommander%2Fdownload%2Fcommander-8.0.0.tgz#1da2139548caef59bd23e66d18908dfb54b02258"
-  integrity sha1-HaITlUjK71m9I+ZtGJCN+1SwIlg=
+  version "8.3.0"
+  resolved "https://registry.yarnpkg.com/commander/-/commander-8.3.0.tgz#4837ea1b2da67b9c616a67afbb0fafee567bca66"
+  integrity sha512-OkTL9umf+He2DZkUq8f8J9of7yL6RJKI24dVITBmNfZBmri9zYZQrKkuXiKhyfPSu8tUhnVBB1iKXevvnlR4Ww==
 
 commander@2.9.0:
   version "2.9.0"
