@@ -1,5 +1,5 @@
 
-### 1.4.x
+### 1.5.1
 
 [pinus-logger] fix: 已知 logger 存在内存泄漏的问题 [#167](https://github.com/node-pinus/pinus/issues/167)
 
