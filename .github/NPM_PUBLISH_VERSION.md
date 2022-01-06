@@ -9,3 +9,4 @@ lerna version [bump]
 ```
  
 1.6.2
+

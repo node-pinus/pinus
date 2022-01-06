@@ -1,7 +1,8 @@
 
 ### 1.6.2
 
-[pinus] 修复命令行工具失效问题
+[pinus] 修复命令行工具失效问题 [#388](https://github.com/node-pinus/pinus/issues/388)
+
 
 ### 1.6.1
 

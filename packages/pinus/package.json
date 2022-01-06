@@ -74,11 +74,11 @@
   "devDependencies": {
     "@types/async": "3.2.8",
     "@types/cliff": "0.1.6",
-    "@types/commander": "2.12.2",
     "@types/crc": "3.4.0",
     "@types/eyes": "0.1.32",
     "@types/mkdirp": "1.0.2",
     "@types/mocha": "^5.0.0",
+    "@types/node": "^12.20.41",
     "@types/ws": "7.4.6",
     "mocha": "6.2.2",
     "muk": "0.5.3",

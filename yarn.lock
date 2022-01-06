@@ -1098,13 +1098,6 @@
   resolved "https://registry.nlark.com/@types/cliff/download/@types/cliff-0.1.6.tgz#fbf73df967a7ffe5d1990e34f78a7eab345a635b"
   integrity sha1-+/c9+Wen/+XRmQ4094p+qzRaY1s=
 
-"@types/commander@2.12.2":
-  version "2.12.2"
-  resolved "https://registry.npm.taobao.org/@types/commander/download/@types/commander-2.12.2.tgz#183041a23842d4281478fa5d23c5ca78e6fd08ae"
-  integrity sha1-GDBBojhC1CgUePpdI8XKeOb9CK4=
-  dependencies:
-    commander "*"
-
 "@types/component-emitter@^1.2.10":
   version "1.2.10"
   resolved "https://registry.nlark.com/@types/component-emitter/download/@types/component-emitter-1.2.10.tgz?cache=0&sync_timestamp=1621240806137&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40types%2Fcomponent-emitter%2Fdownload%2F%40types%2Fcomponent-emitter-1.2.10.tgz#ef5b1589b9f16544642e473db5ea5639107ef3ea"
@@ -1186,6 +1179,11 @@
   version "16.4.1"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-16.4.1.tgz#9fad171a5b701613ee8a6f4ece3c88b1034b1b03"
   integrity sha512-UW7cbLqf/Wu5XH2RKKY1cHwUNLicIDRLMraYKz+HHAerJ0ZffUEk+fMnd8qU2JaS6cAy0r8tsaf7yqHASf/Y0Q==
+
+"@types/node@^12.20.41":
+  version "12.20.41"
+  resolved "https://registry.npmmirror.com/@types/node/download/@types/node-12.20.41.tgz#81d7734c5257da9f04354bd9084a6ebbdd5198a5"
+  integrity sha512-f6xOqucbDirG7LOzedpvzjP3UTmHttRou3Mosx3vL9wr9AIQGhcPgVnqa8ihpZYnxyM1rxeNCvTyukPKZtq10Q==
 
 "@types/normalize-package-data@^2.4.0":
   version "2.4.1"
@@ -2544,11 +2542,6 @@ command-exists@^1.2.8:
   version "1.2.9"
   resolved "https://registry.npm.taobao.org/command-exists/download/command-exists-1.2.9.tgz#c50725af3808c8ab0260fd60b01fbfa25b954f69"
   integrity sha1-xQclrzgIyKsCYP1gsB+/oluVT2k=
-
-commander@*:
-  version "8.3.0"
-  resolved "https://registry.yarnpkg.com/commander/-/commander-8.3.0.tgz#4837ea1b2da67b9c616a67afbb0fafee567bca66"
-  integrity sha512-OkTL9umf+He2DZkUq8f8J9of7yL6RJKI24dVITBmNfZBmri9zYZQrKkuXiKhyfPSu8tUhnVBB1iKXevvnlR4Ww==
 
 commander@2.9.0:
   version "2.9.0"
