@@ -9,7 +9,7 @@ import * as path from 'path';
 import { COMMAND_ERROR } from './utils/constants';
 import { version } from './utils/utils';
 import { isFunction } from 'util';
-import { program } from 'commander';
+import * as program from 'commander';
 
 program.version(version);
 
