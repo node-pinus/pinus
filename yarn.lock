@@ -9865,10 +9865,10 @@ write-pkg@^4.0.0:
     type-fest "^0.4.1"
     write-json-file "^3.2.0"
 
-ws@7.5.3, ws@^7.0.0, ws@^7.4.6, ws@^7.5.0:
-  version "7.5.3"
-  resolved "https://registry.nlark.com/ws/download/ws-7.5.3.tgz#160835b63c7d97bfab418fc1b8a9fced2ac01a74"
-  integrity sha1-Fgg1tjx9l7+rQY/BuKn87SrAGnQ=
+ws@8.4.0, ws@^8.4.0:
+  version "8.4.0"
+  resolved "https://registry.yarnpkg.com/ws/-/ws-8.4.0.tgz#f05e982a0a88c604080e8581576e2a063802bed6"
+  integrity sha512-IHVsKe2pjajSUIl4KYMQOdlyliovpEPquKkqbwswulszzI7r0SfQrxnXdWAEqOlDCLrVSJzo+O1hAwdog2sKSQ==
 
 ws@^3.2.0:
   version "3.3.3"
@@ -9878,6 +9878,11 @@ ws@^3.2.0:
     async-limiter "~1.0.0"
     safe-buffer "~5.1.0"
     ultron "~1.1.0"
+
+ws@^7.5.0:
+  version "7.5.3"
+  resolved "https://registry.nlark.com/ws/download/ws-7.5.3.tgz#160835b63c7d97bfab418fc1b8a9fced2ac01a74"
+  integrity sha1-Fgg1tjx9l7+rQY/BuKn87SrAGnQ=
 
 ws@~7.4.2:
   version "7.4.6"
