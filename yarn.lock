@@ -1170,10 +1170,10 @@
   dependencies:
     "@types/node" "*"
 
-"@types/mocha@^5.0.0":
-  version "5.2.7"
-  resolved "https://registry.nlark.com/@types/mocha/download/@types/mocha-5.2.7.tgz#315d570ccb56c53452ff8638738df60726d5b6ea"
-  integrity sha1-MV1XDMtWxTRS/4Y4c432BybVtuo=
+"@types/mocha@^9.1.0":
+  version "9.1.0"
+  resolved "https://registry.yarnpkg.com/@types/mocha/-/mocha-9.1.0.tgz#baf17ab2cca3fcce2d322ebc30454bff487efad5"
+  integrity sha512-QCWHkbMv4Y5U9oW10Uxbr45qMMSzl4OzijsozynUAgx3kEHUdXB00udx2dWDQ7f2TU2a2uuiFaRZjCe3unPpeg==
 
 "@types/node@*", "@types/node@>=10.0.0", "@types/node@^16.3.3":
   version "16.4.1"
