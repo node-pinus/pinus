@@ -24,7 +24,7 @@
   "node": ">=12.9.0"
  },
  "devDependencies": {
-  "@types/node": "^12.20.41",
+  "@types/node": "^17.0.18",
   "jscoverage": "0.6.0",
   "mocha": "6.2.2",
   "should": "13.2.3",
