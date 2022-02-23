@@ -11,7 +11,8 @@
       "es2015",
       "es2016",
       "es2017",
-      "esnext.asynciterable"
+      "esnext.asynciterable",
+      "DOM"
     ],
     "noImplicitAny": false, //在表达式和声明上有隐含的'any'类型时报错。
     "noImplicitThis": false,

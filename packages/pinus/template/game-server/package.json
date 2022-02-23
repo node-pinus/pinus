@@ -9,7 +9,7 @@
     "main": "./dist/app",
     "scripts": {
         "start": "npm run build && cd dist &&  node app",
-        "build": "node_modules/.bin/tsc  && node copy"
+        "build": "tsc  && node copy"
     },
     "dependencies":{
         "@types/node": "^12.7.12",

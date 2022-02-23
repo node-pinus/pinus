@@ -10,7 +10,8 @@
     "lib": [
       "es2015",
       "es2016",
-      "esnext.asynciterable"
+      "esnext.asynciterable",
+      "DOM"
     ],
     "noImplicitAny": true, //在表达式和声明上有隐含的'any'类型时报错。
     "noImplicitThis": true,
