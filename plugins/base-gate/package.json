@@ -27,7 +27,7 @@
   },
   "dependencies": {
     "bluebird": "^3.5.1",
-    "crc": "^3.5.0",
+    "crc": "^4.1.0",
     "pinus": "^1.6.3",
     "pinus-robot-plugin": "^1.6.3",
     "reflect-metadata": "^0.1.10",

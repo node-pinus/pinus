@@ -2026,7 +2026,7 @@ buffer-from@^1.0.0:
   resolved "https://registry.npm.taobao.org/buffer-from/download/buffer-from-1.1.1.tgz#32713bc028f75c02fdb710d7c7bcec1f2c6070ef"
   integrity sha1-MnE7wCj3XAL9txDXx7zsHyxgcO8=
 
-buffer@^5.1.0, buffer@^5.5.0:
+buffer@^5.5.0:
   version "5.7.1"
   resolved "https://registry.npm.taobao.org/buffer/download/buffer-5.7.1.tgz?cache=0&sync_timestamp=1606098159535&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fbuffer%2Fdownload%2Fbuffer-5.7.1.tgz#ba62e7c13133053582197160851a8f648e99eed0"
   integrity sha1-umLnwTEzBTWCGXFghRqPZI6Z7tA=
@@ -2845,12 +2845,10 @@ cpy@^5.0.0:
     globby "^6.0.0"
     nested-error-stacks "^2.0.0"
 
-crc@^3.5.0, crc@^3.8.0:
-  version "3.8.0"
-  resolved "https://registry.npm.taobao.org/crc/download/crc-3.8.0.tgz#ad60269c2c856f8c299e2c4cc0de4556914056c6"
-  integrity sha1-rWAmnCyFb4wpnixMwN5FVpFAVsY=
-  dependencies:
-    buffer "^5.1.0"
+crc@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/crc/-/crc-4.1.0.tgz#bb875159ac3012d52611f13a2bcf5d46b401c8e7"
+  integrity sha512-xl6/PgOWZCDOA9mnytKzg2ftRS2YT/SUnNPPiCMoD6KWuiJayRjHcaLmBzGWNZGHSXDSrDuLNUEIljLRMbn7vA==
 
 create-require@^1.1.0:
   version "1.1.1"
