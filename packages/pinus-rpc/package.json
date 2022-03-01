@@ -40,7 +40,7 @@
 		"@types/crc": "^3.4.0",
 		"@types/node": "^12.20.41",
 		"@types/uuid": "^8.3.1",
-		"@types/ws": "^7.4.6",
+		"@types/ws": "^8.5.2",
 		"mocha": "6.2.2",
 		"should": "13.2.3",
 		"tslint": "6.1.3",
