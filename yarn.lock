@@ -1223,9 +1223,9 @@
   integrity sha1-O5ziSJkZ2eT+pDm3aRarw0st8Sk=
 
 "@types/yargs@^17.0.2":
-  version "17.0.2"
-  resolved "https://registry.nlark.com/@types/yargs/download/@types/yargs-17.0.2.tgz?cache=0&sync_timestamp=1625519310139&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40types%2Fyargs%2Fdownload%2F%40types%2Fyargs-17.0.2.tgz#8fb2e0f4cdc7ab2a1a570106e56533f31225b584"
-  integrity sha1-j7Lg9M3HqyoaVwEG5WUz8xIltYQ=
+  version "17.0.10"
+  resolved "https://registry.yarnpkg.com/@types/yargs/-/yargs-17.0.10.tgz#591522fce85d8739bca7b8bb90d048e4478d186a"
+  integrity sha512-gmEaFwpj/7f/ROdtIlci1R1VYU1J4j95m8T+Tj3iBgiBFKg1foE/PSl93bBd5T9LDXNPo8UlNN6W0qwD8O5OaA==
   dependencies:
     "@types/yargs-parser" "*"
 
