@@ -15,7 +15,7 @@
     "dependencies": {
         "@types/bluebird": "^3.5.19",
         "@types/crc": "^3.4.0",
-        "@types/node": "^16.3.3",
+        "@types/node": "^17.0.22",
         "bluebird": "^3.5.1",
         "crc": "^3.5.0",
         "pinus": "^1.6.3",
