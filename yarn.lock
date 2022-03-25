@@ -9355,9 +9355,9 @@ typedoc@0.21.4:
     typedoc-default-themes "^0.12.10"
 
 typescript@^4.3.5:
-  version "4.3.5"
-  resolved "https://registry.nlark.com/typescript/download/typescript-4.3.5.tgz#4d1c37cc16e893973c45a06886b7113234f119f4"
-  integrity sha1-TRw3zBbok5c8RaBohrcRMjTxGfQ=
+  version "4.6.3"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.6.3.tgz#eefeafa6afdd31d725584c67a0eaba80f6fc6c6c"
+  integrity sha512-yNIatDa5iaofVozS/uQJEl3JRWLKKGJKh6Yaiv0GLGSuhpFJe7P3SbHZ8/yjAHRQwKRoA6YZqlfjXWmVzoVSMw==
 
 uc.micro@^1.0.1, uc.micro@^1.0.5:
   version "1.0.6"
