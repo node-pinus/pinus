@@ -19,7 +19,7 @@
     "gen-api-ref": "node ../../node_modules/typedoc/bin/typedoc --mode file --hideGenerator --excludeExternals --ignoreCompilerErrors --out ../../run/site/public/api-reference/pinus-loader lib/"
   },
   "dependencies": {
-    "@types/node": "^16.3.3",
+    "@types/node": "^17.0.25",
     "@types/ws": "^7.4.6",
     "cli-color": "^2.0.0",
     "pinus-protobuf": "^1.6.3",
