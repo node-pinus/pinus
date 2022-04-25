@@ -7,7 +7,7 @@
     "compression": "1.7.4",
     "cookie-parser": "1.4.5",
     "ejs": "3.1.6",
-    "express": "4.17.1",
+    "express": "4.18.0",
     "morgan": "1.10.0",
     "mqtt": "4.2.8",
     "mqtt-connection": "4.1.0",
