@@ -51,7 +51,7 @@
   "dependencies": {
     "async": "^3.0.0",
     "cliff": "^0.1.10",
-    "commander": "3.0.2",
+    "commander": "9.3.0",
     "crc": "^3.5.0",
     "eyes": "^0.1.8",
     "mkdirp": "^1.0.4",
