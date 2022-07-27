@@ -4,7 +4,7 @@
     "private": false,
     "main": "./dist/app",
     "scripts": {
-        "build": "tsc",
+        "build": "node_modules/.bin/tsc",
         "start": "yarn run build && cd dist &&  node app",
         "test": "yarn run build",
         "cov": "nyc mocha",

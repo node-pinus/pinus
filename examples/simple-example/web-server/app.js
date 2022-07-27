@@ -8,6 +8,7 @@ var app = express();
   app.set('views', __dirname + '/public');
   app.set('view options', {layout: false});
   app.set('basepath',__dirname + '/public');
+
 let env = app.get('env');
 if(env=="development"){
   app.use(express.static(__dirname + '/public'));
