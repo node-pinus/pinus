@@ -19,8 +19,8 @@ let ST_WORKING = 2;
 let ST_CLOSED = 3;
 
 export interface HybridSocketOptions {
-    realIPKey?: string;   // 代理过后真实客户端ip获取字段
-    realPortKey?: string; // 代理过后真实客户端port获取字段
+    realIPKey?: string;   // 代理过后真实客户端ip获取字段 Header name must be lower-cased.
+    realPortKey?: string; // 代理过后真实客户端port获取字段 Header name must be lower-cased.
 }
 
 /**
@@ -38,11 +38,15 @@ export class HybridSocket extends EventEmitter implements ISocket {
         this.socket = socket;
 
         if (request && (opts.realIPKey || opts.realPortKey)) {
-            this.remoteAddress = {
-                ip: request['headers'][opts.realIPKey],
-                port: request['headers'][opts.realPortKey]
+            let ip = request['headers'][opts.realIPKey];
+            if (ip) {
+                this.remoteAddress = {
+                    ip: ip,
+                    port: opts.realPortKey ? request['headers'][opts.realPortKey] : 0
+                }
             }
-        } else {
+        }
+        if (!this.remoteAddress) {
             if (!(socket as TcpSocket)._socket) {
                 this.remoteAddress = {
                     ip: (socket as any).address().address,
