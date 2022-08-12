@@ -1,13 +1,13 @@
 import * as util from 'util';
 import * as net from 'net';
-import {EventEmitter} from 'events';
-import {default as handler} from './common/handler';
-import {Package} from 'pinus-protocol';
-import {getLogger} from 'pinus-logger';
-import {ISocket} from '../interfaces/ISocket';
+import { EventEmitter } from 'events';
+import { default as handler } from './common/handler';
+import { Package } from 'pinus-protocol';
+import { getLogger } from 'pinus-logger';
+import { ISocket } from '../interfaces/ISocket';
 import * as WebSocket from 'ws';
-import {TcpSocket} from './hybrid/tcpsocket';
-import {IHybridSocket} from './hybrid/IHybridSocket';
+import { TcpSocket } from './hybrid/tcpsocket';
+import { IHybridSocket } from './hybrid/IHybridSocket';
 import * as path from 'path';
 
 let logger = getLogger('pinus', path.basename(__filename));
@@ -18,6 +18,11 @@ let ST_WAIT_ACK = 1;
 let ST_WORKING = 2;
 let ST_CLOSED = 3;
 
+export interface HybridSocketOptions {
+    realIPKey?: string;   // 代理过后真实客户端ip获取字段 Header name must be lower-cased.
+    realPortKey?: string; // 代理过后真实客户端port获取字段 Header name must be lower-cased.
+}
+
 /**
  * Socket class that wraps socket and websocket to provide unified interface for up level.
  */
@@ -27,21 +32,32 @@ export class HybridSocket extends EventEmitter implements ISocket {
     remoteAddress: { ip: string, port: number };
     state: number;
 
-    constructor(id: number, socket: IHybridSocket) {
+    constructor(id: number, socket: IHybridSocket, request: any, opts: HybridSocketOptions) {
         super();
         this.id = id;
         this.socket = socket;
 
-        if (!(socket as TcpSocket)._socket) {
-            this.remoteAddress = {
-                ip: (socket as any).address().address,
-                port: (socket as any).address().port
-            };
-        } else {
-            this.remoteAddress = {
-                ip: (socket as TcpSocket)._socket.remoteAddress,
-                port: (socket as TcpSocket)._socket.remotePort
-            };
+        if (request && (opts.realIPKey || opts.realPortKey)) {
+            let ip = request['headers'][opts.realIPKey];
+            if (ip) {
+                this.remoteAddress = {
+                    ip: ip,
+                    port: opts.realPortKey ? request['headers'][opts.realPortKey] : 0
+                }
+            }
+        }
+        if (!this.remoteAddress) {
+            if (!(socket as TcpSocket)._socket) {
+                this.remoteAddress = {
+                    ip: (socket as any).address().address,
+                    port: (socket as any).address().port
+                };
+            } else {
+                this.remoteAddress = {
+                    ip: (socket as TcpSocket)._socket.remoteAddress,
+                    port: (socket as TcpSocket)._socket.remotePort
+                };
+            }
         }
 
         let self = this;
@@ -73,7 +89,7 @@ export class HybridSocket extends EventEmitter implements ISocket {
         }
         let self = this;
 
-        this.socket.send(msg, {binary: true}, (err) => {
+        this.socket.send(msg, { binary: true }, (err) => {
             if (!!err) {
                 logger.error('websocket send binary data failed: %j', err.stack);
                 return;
@@ -118,7 +134,7 @@ export class HybridSocket extends EventEmitter implements ISocket {
         if (this.state === ST_CLOSED) {
             return;
         }
-        this.socket.send(msg, {binary: true});
+        this.socket.send(msg, { binary: true });
     }
 
     /**
@@ -131,7 +147,7 @@ export class HybridSocket extends EventEmitter implements ISocket {
             return;
         }
 
-        this.socket.send(resp, {binary: true});
+        this.socket.send(resp, { binary: true });
         this.state = ST_WAIT_ACK;
     }
 
