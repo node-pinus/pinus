@@ -57,10 +57,10 @@ export class HybridConnector extends EventEmitter implements IConnector {
         super();
 
         this.opts = opts || {};
-        if (opts.realPortKey) {
+        if (this.opts.realPortKey) {
             this.opts.realPortKey = opts.realPortKey.toLowerCase();
         }
-        if (opts.realIPKey) {
+        if (this.opts.realIPKey) {
             this.opts.realIPKey = opts.realIPKey.toLowerCase();
         }
         this.port = port;
