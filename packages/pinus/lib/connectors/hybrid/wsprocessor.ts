@@ -22,9 +22,9 @@ export class WSProcessor extends EventEmitter {
         let self = this;
         this.wsServer = new WebSocket.Server({ server: this.httpServer });
 
-        this.wsServer.on('connection', function (socket) {
+        this.wsServer.on('connection', function (socket, request) {
             // emit socket to outside
-            self.emit('connection', socket);
+            self.emit('connection', socket, request);
         });
 
         this.state = ST_STARTED;

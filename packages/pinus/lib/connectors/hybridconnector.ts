@@ -23,9 +23,11 @@ import { IHybridSocket } from './hybrid/IHybridSocket';
 let curId = 1;
 
 export interface HybridConnectorOptions extends HybridSwitcherOptions {
-    useDict ?: boolean;
-    useProtobuf ?: boolean;
-    distinctHost ?: boolean;
+    useDict?: boolean;
+    useProtobuf?: boolean;
+    distinctHost?: boolean;
+    realIPKey?: string;   //代理过后真实客户端ip获取字段
+    realPortKey?: string; //代理过后真实客户端port获取字段
 }
 
 /**
@@ -51,7 +53,7 @@ export class HybridConnector extends EventEmitter implements IConnector {
 
     listeningServer: net.Server;
 
-    constructor(port: number, host: string, opts ?: HybridConnectorOptions) {
+    constructor(port: number, host: string, opts?: HybridConnectorOptions) {
         super();
 
         this.opts = opts || {};
@@ -74,8 +76,8 @@ export class HybridConnector extends EventEmitter implements IConnector {
         let app = pinus.app;
         let self = this;
 
-        let gensocket = function (socket: IHybridSocket) {
-            let hybridsocket = new HybridSocket(curId++, socket);
+        let gensocket = function (socket: IHybridSocket, request: any) {
+            let hybridsocket = new HybridSocket(curId++, socket, request, self.opts);
             hybridsocket.on('handshake', self.handshake.handle.bind(self.handshake, hybridsocket));
             hybridsocket.on('heartbeat', self.heartbeat.handle.bind(self.heartbeat, hybridsocket));
             hybridsocket.on('disconnect', self.heartbeat.clear.bind(self.heartbeat, hybridsocket.id));
@@ -95,8 +97,8 @@ export class HybridConnector extends EventEmitter implements IConnector {
         }
         this.switcher = new Switcher(this.listeningServer, self.opts);
 
-        this.switcher.on('connection', function (socket) {
-            gensocket(socket);
+        this.switcher.on('connection', function (socket, request) {
+            gensocket(socket, request);
         });
 
         if (!!this.distinctHost) {
