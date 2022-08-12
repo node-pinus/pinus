@@ -26,8 +26,8 @@ export interface HybridConnectorOptions extends HybridSwitcherOptions {
     useDict?: boolean;
     useProtobuf?: boolean;
     distinctHost?: boolean;
-    realIPKey?: string;   //代理过后真实客户端ip获取字段
-    realPortKey?: string; //代理过后真实客户端port获取字段
+    realIPKey?: string;   // 代理过后真实客户端ip获取字段
+    realPortKey?: string; // 代理过后真实客户端port获取字段
 }
 
 /**

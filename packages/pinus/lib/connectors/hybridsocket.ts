@@ -19,8 +19,8 @@ let ST_WORKING = 2;
 let ST_CLOSED = 3;
 
 export interface HybridSocketOptions {
-    realIPKey?: string;   //代理过后真实客户端ip获取字段
-    realPortKey?: string; //代理过后真实客户端port获取字段
+    realIPKey?: string;   // 代理过后真实客户端ip获取字段
+    realPortKey?: string; // 代理过后真实客户端port获取字段
 }
 
 /**
