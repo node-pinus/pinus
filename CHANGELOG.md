@@ -1,3 +1,10 @@
+### 1.6.4
+
+[template] optimize preload.ts handle error. 
+[template] fix simple-example web-server.
+[pinus]nginx代理hybrid、ws获取客户端真实IP，port.[#532](https://github.com/node-pinus/pinus/pull/532)
+
+
 
 ### 1.6.2
 

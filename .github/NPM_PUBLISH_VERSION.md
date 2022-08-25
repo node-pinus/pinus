@@ -8,5 +8,5 @@ lerna version [bump]
 
 ```
  
-1.6.3
+1.6.4
 
