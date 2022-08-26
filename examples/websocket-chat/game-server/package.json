@@ -19,7 +19,7 @@
         "@types/crc": "^3.4.0",
         "@types/node": "^16.3.3",
         "bluebird": "^3.5.1",
-        "crc": "^3.5.0",
+        "crc": "^4.1.1",
         "pinus": "^1.6.4",
         "pinus-robot": "^1.6.4",
         "pinus-robot-plugin": "^1.6.4",

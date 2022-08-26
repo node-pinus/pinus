@@ -24,7 +24,7 @@
 		"async": "^3.0.0",
 		"bearcat-buffer": "^0.1.x",
 		"bluebird": "^3.5.1",
-		"crc": "^3.8.0",
+		"crc": "^4.1.1",
 		"mqtt-connection": "^4.1.0",
 		"pinus-loader": "^1.6.4",
 		"pinus-logger": "^1.6.4",
