@@ -1143,12 +1143,12 @@
   resolved "https://registry.nlark.com/@types/component-emitter/download/@types/component-emitter-1.2.10.tgz?cache=0&sync_timestamp=1621240806137&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40types%2Fcomponent-emitter%2Fdownload%2F%40types%2Fcomponent-emitter-1.2.10.tgz#ef5b1589b9f16544642e473db5ea5639107ef3ea"
   integrity sha1-71sVibnxZURkLkc9tepWORB+8+o=
 
-"@types/cookie@^0.4.0":
+"@types/cookie@^0.4.1":
   version "0.4.1"
   resolved "https://registry.nlark.com/@types/cookie/download/@types/cookie-0.4.1.tgz#bfd02c1f2224567676c1545199f87c3a861d878d"
   integrity sha1-v9AsHyIkVnZ2wVRRmfh8OoYdh40=
 
-"@types/cors@^2.8.10":
+"@types/cors@^2.8.12":
   version "2.8.12"
   resolved "https://registry.nlark.com/@types/cors/download/@types/cors-2.8.12.tgz#6b2c510a7ad7039e98e7b8d3d6598f4359e5c080"
   integrity sha1-ayxRCnrXA56Y57jT1lmPQ1nlwIA=
@@ -1761,12 +1761,7 @@ async@2.1.2:
   dependencies:
     lodash "^4.14.0"
 
-async@^3.0.0:
-  version "3.2.3"
-  resolved "https://registry.yarnpkg.com/async/-/async-3.2.3.tgz#ac53dafd3f4720ee9e8a160628f18ea91df196c9"
-  integrity sha512-spZRyzKL5l5BZQrr/6m/SqFdBN0q3OCI0f9rjfBzCMBIP4p75P620rR3gTmaksNOhmzgdxcaxdNfMy6anrbM0g==
-
-async@^3.2.3:
+async@^3.0.0, async@^3.2.3:
   version "3.2.3"
   resolved "https://registry.yarnpkg.com/async/-/async-3.2.3.tgz#ac53dafd3f4720ee9e8a160628f18ea91df196c9"
   integrity sha512-spZRyzKL5l5BZQrr/6m/SqFdBN0q3OCI0f9rjfBzCMBIP4p75P620rR3gTmaksNOhmzgdxcaxdNfMy6anrbM0g==
@@ -3087,7 +3082,7 @@ debug-log@^1.0.1:
   resolved "https://registry.npm.taobao.org/debug-log/download/debug-log-1.0.1.tgz#2307632d4c04382b8df8a32f70b895046d52745f"
   integrity sha1-IwdjLUwEOCuN+KMvcLiVBG1SdF8=
 
-debug@*, debug@4, debug@^4.1.0, debug@^4.1.1, debug@^4.3.4, debug@~4.3.1:
+debug@*, debug@4, debug@^4.1.0, debug@^4.1.1, debug@^4.3.4, debug@~4.3.1, debug@~4.3.2:
   version "4.3.4"
   resolved "https://registry.yarnpkg.com/debug/-/debug-4.3.4.tgz#1319f6579357f2338d3337d2cdd4914bb5dcc865"
   integrity sha512-PRWFHuSU3eDtQJPvnNY7Jcket1j0t5OuOsFzPPzsekD52Zl8qUfFIPEiswXqIvHWGVHOgX+7G/vCNNhehwxfkQ==
@@ -3449,25 +3444,33 @@ engine.io-client@~5.1.2:
     ws "~7.4.2"
     yeast "0.1.2"
 
-engine.io-parser@~4.0.0, engine.io-parser@~4.0.1:
+engine.io-parser@~4.0.1:
   version "4.0.2"
   resolved "https://registry.npm.taobao.org/engine.io-parser/download/engine.io-parser-4.0.2.tgz?cache=0&sync_timestamp=1607330719219&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fengine.io-parser%2Fdownload%2Fengine.io-parser-4.0.2.tgz#e41d0b3fb66f7bf4a3671d2038a154024edb501e"
   integrity sha1-5B0LP7Zve/SjZx0gOKFUAk7bUB4=
   dependencies:
     base64-arraybuffer "0.1.4"
 
-engine.io@~5.1.1:
-  version "5.1.1"
-  resolved "https://registry.nlark.com/engine.io/download/engine.io-5.1.1.tgz?cache=0&sync_timestamp=1621204854469&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fengine.io%2Fdownload%2Fengine.io-5.1.1.tgz#a1f97e51ddf10cbd4db8b5ff4b165aad3760cdd3"
-  integrity sha1-ofl+Ud3xDL1NuLX/SxZarTdgzdM=
+engine.io-parser@~5.0.3:
+  version "5.0.4"
+  resolved "https://registry.yarnpkg.com/engine.io-parser/-/engine.io-parser-5.0.4.tgz#0b13f704fa9271b3ec4f33112410d8f3f41d0fc0"
+  integrity sha512-+nVFp+5z1E3HcToEnO7ZIj3g+3k9389DvWtvJZz0T6/eOCPIyyxehFcedoYrZQrp0LgQbD9pPXhpMBKMd5QURg==
+
+engine.io@~6.2.0:
+  version "6.2.0"
+  resolved "https://registry.yarnpkg.com/engine.io/-/engine.io-6.2.0.tgz#003bec48f6815926f2b1b17873e576acd54f41d0"
+  integrity sha512-4KzwW3F3bk+KlzSOY57fj/Jx6LyRQ1nbcyIadehl+AnXjKT7gDO0ORdRi/84ixvMKTym6ZKuxvbzN62HDDU1Lg==
   dependencies:
+    "@types/cookie" "^0.4.1"
+    "@types/cors" "^2.8.12"
+    "@types/node" ">=10.0.0"
     accepts "~1.3.4"
     base64id "2.0.0"
     cookie "~0.4.1"
     cors "~2.8.5"
     debug "~4.3.1"
-    engine.io-parser "~4.0.0"
-    ws "~7.4.2"
+    engine.io-parser "~5.0.3"
+    ws "~8.2.3"
 
 enhanced-resolve@^5.10.0:
   version "5.10.0"
@@ -8696,10 +8699,10 @@ sntp@1.x.x:
   dependencies:
     hoek "2.x.x"
 
-socket.io-adapter@~2.3.1:
-  version "2.3.1"
-  resolved "https://registry.nlark.com/socket.io-adapter/download/socket.io-adapter-2.3.1.tgz#a442720cb09a4823cfb81287dda1f9b52d4ccdb2"
-  integrity sha1-pEJyDLCaSCPPuBKH3aH5tS1MzbI=
+socket.io-adapter@~2.4.0:
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/socket.io-adapter/-/socket.io-adapter-2.4.0.tgz#b50a4a9ecdd00c34d4c8c808224daa1a786152a6"
+  integrity sha512-W4N+o69rkMEGVuk2D/cvca3uYsvGlMwsySWV447y99gUPghxq42BxqLNMndb+a1mm/5/7NeXVQS7RLa2XyXvYg==
 
 socket.io-client@^4.1.3:
   version "4.1.3"
@@ -8724,18 +8727,15 @@ socket.io-parser@~4.0.4:
     debug "~4.3.1"
 
 socket.io@^4.1.3:
-  version "4.1.3"
-  resolved "https://registry.nlark.com/socket.io/download/socket.io-4.1.3.tgz#d114328ef27ab31b889611792959c3fa6d502500"
-  integrity sha1-0RQyjvJ6sxuIlhF5KVnD+m1QJQA=
+  version "4.5.1"
+  resolved "https://registry.yarnpkg.com/socket.io/-/socket.io-4.5.1.tgz#aa7e73f8a6ce20ee3c54b2446d321bbb6b1a9029"
+  integrity sha512-0y9pnIso5a9i+lJmsCdtmTTgJFFSvNQKDnPQRz28mGNnxbmqYg2QPtJTLFxhymFZhAIn50eHAKzJeiNaKr+yUQ==
   dependencies:
-    "@types/cookie" "^0.4.0"
-    "@types/cors" "^2.8.10"
-    "@types/node" ">=10.0.0"
     accepts "~1.3.4"
     base64id "~2.0.0"
-    debug "~4.3.1"
-    engine.io "~5.1.1"
-    socket.io-adapter "~2.3.1"
+    debug "~4.3.2"
+    engine.io "~6.2.0"
+    socket.io-adapter "~2.4.0"
     socket.io-parser "~4.0.4"
 
 socks-proxy-agent@^5.0.0:
@@ -10231,6 +10231,11 @@ ws@~7.4.2:
   version "7.4.6"
   resolved "https://registry.nlark.com/ws/download/ws-7.4.6.tgz#5654ca8ecdeee47c33a9a4bf6d28e2be2980377c"
   integrity sha1-VlTKjs3u5HwzqaS/bSjivimAN3w=
+
+ws@~8.2.3:
+  version "8.2.3"
+  resolved "https://registry.yarnpkg.com/ws/-/ws-8.2.3.tgz#63a56456db1b04367d0b721a0b80cae6d8becbba"
+  integrity sha512-wBuoj1BDpC6ZQ1B7DWQBYVLphPWkm8i9Y0/3YdHjHKHiohOJ1ws+3OccDWtH+PoC9DZD5WOTrJvNbWvjS6JWaA==
 
 xfs@~0.1.8:
   version "0.1.10"
