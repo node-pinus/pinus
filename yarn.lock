@@ -1761,12 +1761,7 @@ async@2.1.2:
   dependencies:
     lodash "^4.14.0"
 
-async@^3.0.0:
-  version "3.2.3"
-  resolved "https://registry.yarnpkg.com/async/-/async-3.2.3.tgz#ac53dafd3f4720ee9e8a160628f18ea91df196c9"
-  integrity sha512-spZRyzKL5l5BZQrr/6m/SqFdBN0q3OCI0f9rjfBzCMBIP4p75P620rR3gTmaksNOhmzgdxcaxdNfMy6anrbM0g==
-
-async@^3.2.3:
+async@^3.0.0, async@^3.2.3:
   version "3.2.3"
   resolved "https://registry.yarnpkg.com/async/-/async-3.2.3.tgz#ac53dafd3f4720ee9e8a160628f18ea91df196c9"
   integrity sha512-spZRyzKL5l5BZQrr/6m/SqFdBN0q3OCI0f9rjfBzCMBIP4p75P620rR3gTmaksNOhmzgdxcaxdNfMy6anrbM0g==
@@ -3087,7 +3082,7 @@ debug-log@^1.0.1:
   resolved "https://registry.npm.taobao.org/debug-log/download/debug-log-1.0.1.tgz#2307632d4c04382b8df8a32f70b895046d52745f"
   integrity sha1-IwdjLUwEOCuN+KMvcLiVBG1SdF8=
 
-debug@*, debug@4, debug@^4.1.0, debug@^4.1.1, debug@^4.3.4, debug@~4.3.1:
+debug@*, debug@4, debug@^4.1.0, debug@^4.1.1, debug@^4.3.1, debug@^4.3.4, debug@~4.3.1:
   version "4.3.4"
   resolved "https://registry.yarnpkg.com/debug/-/debug-4.3.4.tgz#1319f6579357f2338d3337d2cdd4914bb5dcc865"
   integrity sha512-PRWFHuSU3eDtQJPvnNY7Jcket1j0t5OuOsFzPPzsekD52Zl8qUfFIPEiswXqIvHWGVHOgX+7G/vCNNhehwxfkQ==
@@ -5553,6 +5548,11 @@ jest-worker@^27.0.2:
     merge-stream "^2.0.0"
     supports-color "^8.0.0"
 
+js-sdsl@^4.1.3:
+  version "4.1.3"
+  resolved "https://registry.yarnpkg.com/js-sdsl/-/js-sdsl-4.1.3.tgz#0c68865329135b47684e8997d587e7247044f331"
+  integrity sha512-p6umEbgMJq1OL+2z6eYFj8/yHlsx+0gX2nNoSqnu0V5KZaFGBaUfvktdbm5BGrlojadQ+Hjir0rdsaTmzoyd5Q==
+
 "js-tokens@^3.0.0 || ^4.0.0", js-tokens@^4.0.0:
   version "4.0.0"
   resolved "https://registry.nlark.com/js-tokens/download/js-tokens-4.0.0.tgz#19203fb59991df98e3a287050d4647cdeaf32499"
@@ -6615,10 +6615,10 @@ mqtt-packet@^6.0.0, mqtt-packet@^6.8.0:
     debug "^4.1.1"
     process-nextick-args "^2.0.1"
 
-mqtt@4.2.8:
-  version "4.2.8"
-  resolved "https://registry.yarnpkg.com/mqtt/-/mqtt-4.2.8.tgz#f0e54b138bcdaef6c55c547b3a4de9cf9074208c"
-  integrity sha512-DJYjlXODVXtSDecN8jnNzi6ItX3+ufGsEs9OB3YV24HtkRrh7kpx8L5M1LuyF0KzaiGtWr2PzDcMGAY60KGOSA==
+mqtt@4.3.7:
+  version "4.3.7"
+  resolved "https://registry.yarnpkg.com/mqtt/-/mqtt-4.3.7.tgz#42985ca490ea25d2c12c119d83c632db6dc9d589"
+  integrity sha512-ew3qwG/TJRorTz47eW46vZ5oBw5MEYbQZVaEji44j5lAUSQSqIEoul7Kua/BatBW0H0kKQcC9kwUHa1qzaWHSw==
   dependencies:
     commist "^1.0.0"
     concat-stream "^2.0.0"
@@ -6626,13 +6626,16 @@ mqtt@4.2.8:
     duplexify "^4.1.1"
     help-me "^3.0.0"
     inherits "^2.0.3"
+    lru-cache "^6.0.0"
     minimist "^1.2.5"
     mqtt-packet "^6.8.0"
+    number-allocator "^1.0.9"
     pump "^3.0.0"
     readable-stream "^3.6.0"
     reinterval "^1.1.0"
+    rfdc "^1.3.0"
     split2 "^3.1.0"
-    ws "^7.5.0"
+    ws "^7.5.5"
     xtend "^4.0.2"
 
 ms@2.0.0:
@@ -7023,6 +7026,14 @@ nth-check@~1.0.1:
   integrity sha1-sr0pXDfj3VijvwcAN2Zjuk2c8Fw=
   dependencies:
     boolbase "~1.0.0"
+
+number-allocator@^1.0.9:
+  version "1.0.11"
+  resolved "https://registry.yarnpkg.com/number-allocator/-/number-allocator-1.0.11.tgz#46ed259eb40830f03962da79cc3e28aa4e3e057c"
+  integrity sha512-ykOuVG+oGw67qwt0eW0sPaIR+ANtB58QCpVaaGLxt0QekRXDA5Q/eG7sJmFEZpIcSVdjdevmO72Z6mH258y7Hw==
+  dependencies:
+    debug "^4.3.1"
+    js-sdsl "^4.1.3"
 
 number-is-nan@^1.0.0:
   version "1.0.1"
@@ -10213,7 +10224,7 @@ write-pkg@^4.0.0:
     type-fest "^0.4.1"
     write-json-file "^3.2.0"
 
-ws@7.5.3, ws@^7.0.0, ws@^7.4.6, ws@^7.5.0:
+ws@7.5.3:
   version "7.5.3"
   resolved "https://registry.nlark.com/ws/download/ws-7.5.3.tgz#160835b63c7d97bfab418fc1b8a9fced2ac01a74"
   integrity sha1-Fgg1tjx9l7+rQY/BuKn87SrAGnQ=
@@ -10226,6 +10237,11 @@ ws@^3.2.0:
     async-limiter "~1.0.0"
     safe-buffer "~5.1.0"
     ultron "~1.1.0"
+
+ws@^7.0.0, ws@^7.4.6, ws@^7.5.5:
+  version "7.5.9"
+  resolved "https://registry.yarnpkg.com/ws/-/ws-7.5.9.tgz#54fa7db29f4c7cec68b1ddd3a89de099942bb591"
+  integrity sha512-F+P9Jil7UiSKSkppIiD94dN07AwvFixvLIj1Og1Rl9GGMuNipJnV9JzjD6XuqmAeiswGvUmNLjr5cFuXwNS77Q==
 
 ws@~7.4.2:
   version "7.4.6"
