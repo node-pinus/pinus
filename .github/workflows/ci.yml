@@ -17,6 +17,7 @@ jobs:
       - run: yarn run test
 
       - name: check process start
-        run: node ci-test.js
         working-directory: ./examples/websocket-chat-ts-run/game-server
+        run: node ci-test.js
+        
 
