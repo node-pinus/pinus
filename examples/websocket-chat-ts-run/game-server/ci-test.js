@@ -6,7 +6,7 @@ setTimeout(() => {
     process.exit(-2)
 }, 25000)
 
-let childProcess = spawn("node", ['tsrun.js'], { cwd: __dirname })
+let childProcess = spawn("node", ['tsrun.js'])
 childProcess.stdout.on("data", (data) => {
     // all servers startup in
     let str = data.toString()
