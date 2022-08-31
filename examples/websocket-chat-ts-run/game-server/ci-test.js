@@ -1,13 +1,13 @@
 const { spawn } = require("child_process");
 
-console.log("!! ci-test directory:", __dirname, " cwd:", process.cwd())
+console.log("!! ci-test directory:", __dirname, " cwd:", process.cwd(), " main file:", require.main.filename)
 
 setTimeout(() => {
     console.log("start child process timeout")
     process.exit(-2)
 }, 25000)
 
-let childProcess = spawn("node", ['app.js'], { cwd: __dirname + "/dist" })
+let childProcess = spawn("node", ['tsrun-ci.js'], { cwd: __dirname })
 childProcess.stdout.on("data", (data) => {
     // all servers startup in
     let str = data.toString()
