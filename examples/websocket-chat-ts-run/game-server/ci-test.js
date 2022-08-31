@@ -1,5 +1,6 @@
 const { spawn } = require("child_process");
 
+console.log("!! ci-test directory:", __dirname, " cwd:", process.cwd())
 
 setTimeout(() => {
     console.log("start child process timeout")
