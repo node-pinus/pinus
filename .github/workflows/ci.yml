@@ -15,5 +15,6 @@ jobs:
           node-version: 12
       - run: yarn && yarn run ci
       - run: yarn run test
-      - run: cd examples/websocket-chat-ts-run/game-server && node ci-test.js
+      - run: cd examples/websocket-chat-ts-run/game-server
+      - run: node ci-test.js
 
