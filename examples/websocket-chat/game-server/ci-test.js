@@ -7,7 +7,7 @@ setTimeout(() => {
     process.exit(-2)
 }, 25000)
 
-let childProcess = spawn("node", ['tsrun-ci.js'], { cwd: __dirname })
+let childProcess = spawn("node", ['app.js'], { cwd: __dirname + "/dist" })
 childProcess.stdout.on("data", (data) => {
     // all servers startup in
     let str = data.toString()
@@ -27,7 +27,7 @@ childProcess.stdout.on("data", (data) => {
 childProcess.stderr.on("data", (data) => {
     let str = data.toString()
     console.log("swpan stderr:", str)
-    if (str.indexOf("Debugger listening") >= 0) {
+    if (str.indexOf("Debugger listening") >= 0 || str.indexOf("Warning: Accessing non-existent") >= 0) {
         return
     }
     // 子进程还在.  ci中没什么影响

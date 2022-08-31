@@ -5,7 +5,7 @@ on:
 # https://github.com/actions/starter-workflows/issues/158
 jobs:
   build:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     env:
       NODE_ENV: ci
     steps:
@@ -17,7 +17,7 @@ jobs:
       - run: yarn run test
 
       - name: check process start
-        working-directory: ./examples/websocket-chat-ts-run/game-server
+        working-directory: ./examples/websocket-chat/game-server
         run: node ci-test.js
         
 
