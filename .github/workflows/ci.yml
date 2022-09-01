@@ -1,7 +1,10 @@
 name: ci
 # https://github.com/actions/starter-workflows/blob/master/ci/npm-publish.yml
 on:
-  [push,pull_request]
+  push:
+  pull_request:
+    branches:
+      - master
 # https://github.com/actions/starter-workflows/issues/158
 jobs:
   build:
