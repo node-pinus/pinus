@@ -1,7 +1,9 @@
+import { Injectable } from '@nestjs/common';
 import { Application, ChannelService, FrontendSession, RemoterClass } from 'pinus';
+import { getNestClass } from '../../../util/nestutil';
 
 export default function (app: Application) {
-    return new ChatRemote(app);
+    return getNestClass(app, ChatRemote);
 }
 
 
@@ -16,7 +18,7 @@ declare global {
     }
 }
 
-
+@Injectable()
 export class ChatRemote {
 
     constructor(private app: Application) {

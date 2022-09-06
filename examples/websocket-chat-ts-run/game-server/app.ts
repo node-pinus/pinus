@@ -13,6 +13,7 @@ import { TestComponent } from './app/components/testcomponent';
 
 // TODO 需要整理。
 import _pinus = require('pinus');
+import { NestComponent } from './app/components/nestComponent';
 
 const filePath = (_pinus as any).FILEPATH;
 filePath.MASTER = '/config/master';
@@ -41,6 +42,11 @@ preload();
  */
 let app = pinus.createApp();
 app.set('name', 'chatofpomelo-websocket');
+
+app.configure('all', 'connector|gate|chat', () => {
+    console.log('load nest component');
+    app.load(new NestComponent(app));
+});
 
 // app configuration
 app.configure('production|development', 'connector', function () {
@@ -83,10 +89,10 @@ app.configure('production|development', 'gate', function () {
 
 
 function errorHandler(err: Error, msg: any, resp: any,
-                      session: FrontendOrBackendSession, cb: HandlerCallback) {
-    console.error(`${ pinus.app.serverId } error handler msg[${ JSON.stringify(msg) }] ,resp[${ JSON.stringify(resp) }] ,
-    to resolve unknown exception: sessionId:${ JSON.stringify(session.export()) } ,
-     error stack: ${ err.stack }`);
+    session: FrontendOrBackendSession, cb: HandlerCallback) {
+    console.error(`${pinus.app.serverId} error handler msg[${JSON.stringify(msg)}] ,resp[${JSON.stringify(resp)}] ,
+    to resolve unknown exception: sessionId:${JSON.stringify(session.export())} ,
+     error stack: ${err.stack}`);
     if (!resp) {
         resp = { code: 1003 };
     }
@@ -94,10 +100,10 @@ function errorHandler(err: Error, msg: any, resp: any,
 }
 
 export function globalErrorHandler(err: Error, msg: any, resp: any,
-                                   session: FrontendOrBackendSession, cb: HandlerCallback) {
-    console.error(`${ pinus.app.serverId } globalErrorHandler msg[${ JSON.stringify(msg) }] ,resp[${ JSON.stringify(resp) }] ,
-    to resolve unknown exception: sessionId:${ JSON.stringify(session.export()) } ,
-     error stack: ${ err.stack }`);
+    session: FrontendOrBackendSession, cb: HandlerCallback) {
+    console.error(`${pinus.app.serverId} globalErrorHandler msg[${JSON.stringify(msg)}] ,resp[${JSON.stringify(resp)}] ,
+    to resolve unknown exception: sessionId:${JSON.stringify(session.export())} ,
+     error stack: ${err.stack}`);
 
 
     if (cb) {
@@ -116,7 +122,7 @@ app.configure('production|development', function () {
 
     app.globalBefore((routeRecord: RouteRecord, msg: any, session: FrontendOrBackendSession, cb: HandlerCallback) => {
         if (msg.body === null) {
-            cb(new Error(`msg body ===null maybe protobuf check error uid:${ session.uid } ${ JSON.stringify(msg) }`), { code: 499 });
+            cb(new Error(`msg body ===null maybe protobuf check error uid:${session.uid} ${JSON.stringify(msg)}`), { code: 499 });
             return;
         }
         cb(null);
@@ -145,7 +151,7 @@ app.configure('production|development', function () {
 
 app.configure('development', function () {
     // enable the system monitor modules
-    app.enable('systemMonitor');
+    // app.enable('systemMonitor');
 });
 
 if (app.isMaster()) {

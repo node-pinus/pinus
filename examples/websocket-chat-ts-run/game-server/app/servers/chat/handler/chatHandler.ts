@@ -1,11 +1,13 @@
-import { ChatRemote } from '../remote/chatRemote';
-import {Application, BackendSession} from 'pinus';
-import { FrontendSession } from 'pinus';
+import { Application, BackendSession } from 'pinus';
+import { Injectable } from '@nestjs/common';
+import { getNestClass } from '../../../util/nestutil';
 
-export default function(app: Application) {
-    return new ChatHandler(app);
+
+export default function (app: Application) {
+    return getNestClass(app, ChatHandler)
 }
 
+@Injectable()
 export class ChatHandler {
     constructor(private app: Application) {
     }
@@ -17,7 +19,7 @@ export class ChatHandler {
      * @param {Object} session
      *
      */
-    async send(msg: {content: string , target: string}, session: BackendSession) {
+    async send(msg: { content: string, target: string }, session: BackendSession) {
         let rid = session.get('rid');
         let username = session.uid.split('*')[0];
         let channelService = this.app.get('channelService');

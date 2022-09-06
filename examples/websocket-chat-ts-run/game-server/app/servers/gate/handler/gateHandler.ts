@@ -1,10 +1,13 @@
 import { dispatch } from '../../../util/dispatcher';
-import { Application , BackendSession} from 'pinus';
+import { Application, BackendSession } from 'pinus';
+import { Injectable } from '@nestjs/common';
+import { getNestClass } from '../../../util/nestutil';
 
 export default function (app: Application) {
-    return new GateHandler(app);
+    return getNestClass(app, GateHandler);
 }
 
+@Injectable()
 export class GateHandler {
     constructor(private app: Application) {
     }
@@ -16,7 +19,7 @@ export class GateHandler {
      * @param {Object} session
      *
      */
-    async queryEntry(msg: {uid: string}, session: BackendSession) {
+    async queryEntry(msg: { uid: string }, session: BackendSession) {
         let uid = msg.uid;
         if (!uid) {
             return {

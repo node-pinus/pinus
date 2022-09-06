@@ -1,7 +1,9 @@
+import { Injectable } from '@nestjs/common';
 import { Application, ChannelService, FrontendSession, RemoterClass } from 'pinus';
+import { getNestClass } from '../../../util/nestutil';
 
 export default function (app: Application) {
-    return new NotifyRemoter(app);
+    return getNestClass(app, NotifyRemoter);
 }
 
 // UserRpc的命名空间自动合并
@@ -15,6 +17,7 @@ declare global {
     }
 }
 
+@Injectable()
 export class NotifyRemoter {
 
     constructor(private app: Application) {

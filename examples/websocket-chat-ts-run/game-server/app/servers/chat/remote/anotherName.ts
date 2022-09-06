@@ -1,7 +1,9 @@
 import { Application, ChannelService, FrontendSession, RemoterClass } from 'pinus';
+import { Injectable } from '@nestjs/common';
+import { getNestClass } from '../../../util/nestutil';
 
 export default function (app: Application) {
-    return new AnotherName(app);
+    return getNestClass(app, AnotherName);
 }
 
 // UserRpc的命名空间自动合并
@@ -15,6 +17,7 @@ declare global {
     }
 }
 
+@Injectable()
 export class AnotherName {
 
     constructor(private app: Application) {
@@ -23,7 +26,7 @@ export class AnotherName {
 
 
     public async zzzMethod(uid: string, sid: string, name: string) {
-        console.log("~~~~  zzzMethod ", uid, sid, name)
-        return null
+        console.log("~~~~  zzzMethod ", uid, sid, name);
+        return null;
     }
 }

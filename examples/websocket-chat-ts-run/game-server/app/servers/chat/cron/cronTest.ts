@@ -1,14 +1,15 @@
+import { Injectable } from "@nestjs/common";
 import { Application } from "pinus";
+import { getNestClass } from "../../../util/nestutil";
+import { ChatServerModule } from "../../chat.module";
 
 let cronInstance: CronTest
 
 export default function (app) {
-    if (cronInstance) {
-        return cronInstance
-    }
-    return cronInstance = new CronTest(app)
+    return getNestClass(app, CronTest, ChatServerModule)
 }
 
+@Injectable()
 export class CronTest {
     constructor(app: Application) {
     }

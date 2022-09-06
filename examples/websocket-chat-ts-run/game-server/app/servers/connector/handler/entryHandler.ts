@@ -1,10 +1,13 @@
-import {Application} from 'pinus';
-import {FrontendSession} from 'pinus';
+import { Injectable } from '@nestjs/common';
+import { Application } from 'pinus';
+import { FrontendSession } from 'pinus';
+import { getNestClass } from '../../../util/nestutil';
 
 export default function (app: Application) {
-    return new EntryHandler(app);
+    return getNestClass(app, EntryHandler);
 }
 
+@Injectable()
 export class EntryHandler {
     constructor(private app: Application) {
     }
