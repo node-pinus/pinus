@@ -1,6 +1,7 @@
 import { Application, BackendSession } from 'pinus';
 import { Injectable } from '@nestjs/common';
 import { getNestClass } from '../../../util/nestutil';
+import { MuteService } from '../../../logic/mutemodule/mute.service';
 
 
 export default function (app: Application) {
@@ -9,7 +10,10 @@ export default function (app: Application) {
 
 @Injectable()
 export class ChatHandler {
-    constructor(private app: Application) {
+    constructor(
+        private app: Application,
+        private readonly muteService: MuteService,
+    ) {
     }
 
     /**
@@ -22,6 +26,10 @@ export class ChatHandler {
     async send(msg: { content: string, target: string }, session: BackendSession) {
         let rid = session.get('rid');
         let username = session.uid.split('*')[0];
+        if (this.muteService.checkUidMuted(username)) {
+            console.log("user has been muted", username, " chage msg");
+            msg.content = "##@ user has been muted## - " + msg.content
+        }
         let channelService = this.app.get('channelService');
         let param = {
             msg: msg.content,
