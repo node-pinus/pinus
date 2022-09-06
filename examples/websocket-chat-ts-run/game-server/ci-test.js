@@ -7,7 +7,7 @@ setTimeout(() => {
     process.exit(-2)
 }, 25000)
 
-let childProcess = spawn("node", ['app.js', 'env=development'], { cwd: __dirname + "/dist" })
+let childProcess = spawn("node", ['app.js', 'env=ci'], { cwd: __dirname + "/dist" })
 childProcess.stdout.on("data", (data) => {
     // all servers startup in
     let str = data.toString()

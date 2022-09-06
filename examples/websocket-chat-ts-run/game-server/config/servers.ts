@@ -23,6 +23,30 @@ module.exports = {
             }
         ]
     },
+    'ci': {
+        'connector': [
+            {
+                'id': 'connector-server-1',
+                'host': '127.0.0.1',
+                'port': 4051,
+                'clientPort': 3051,
+                'frontend': true,
+                'args': ''
+            }
+        ],
+        'chat': [
+            {'id': 'chat-server-1', 'host': '127.0.0.1', 'port': 6051, 'args': ''}
+        ],
+        'gate': [
+            {
+                'id': 'gate-server-1',
+                'host': '127.0.0.1',
+                'clientPort': 3015,
+                'frontend': true,
+                'args': ''
+            }
+        ]
+    },
     'production': {
         'connector': [
             {'id': 'connector-server-1', 'host': '127.0.0.1', 'port': 4050, 'clientPort': 3050, 'frontend': true},

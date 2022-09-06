@@ -26,5 +26,8 @@ jobs:
       - name: check process start
         working-directory: ./examples/websocket-chat/game-server
         run: node ci-test.js
+      - name: check nestjs example start
+        working-directory: ./examples/websocket-chat-ts-run/game-server
+        run: node ci-test.js
         
 
