@@ -9875,10 +9875,10 @@ unbox-primitive@^1.0.1:
     has-symbols "^1.0.2"
     which-boxed-primitive "^1.0.2"
 
-underscore@1.13.4:
-  version "1.13.4"
-  resolved "https://registry.npmjs.org/underscore/-/underscore-1.13.4.tgz"
-  integrity sha512-BQFnUDuAQ4Yf/cYY5LNrK9NCJFKriaRbD9uR1fTeXnBeoa97W0i41qkZfGO9pSo8I5KzjAcSY2XYtdf0oKd7KQ==
+underscore@1.13.5:
+  version "1.13.5"
+  resolved "https://registry.yarnpkg.com/underscore/-/underscore-1.13.5.tgz#1580d668564a689a00e9cc7f99d3f8c4e0b667cc"
+  integrity sha512-A5XL+zduLwgQj38z9k7jaDv9Ls8eaIbpsJV1iK4vCK667GWnYO9XR7AJ3EK7qH1SfhZksWH1Fsw3nPZelhzAMQ==
 
 unicode-length@^1.0.0:
   version "1.0.3"
