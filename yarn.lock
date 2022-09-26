@@ -1165,9 +1165,9 @@
   integrity sha512-1vvBNUF6mY6Px8MZIJoTbCI8h06N9jkIFGbLxaVJk9nX11TlnojrzUoN3MyRgqw5pL67+eV3MUvPX7PqjM5Wbg==
 
 "@types/bluebird@^3.5.19":
-  version "3.5.36"
-  resolved "https://registry.nlark.com/@types/bluebird/download/@types/bluebird-3.5.36.tgz?cache=0&sync_timestamp=1625595934922&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40types%2Fbluebird%2Fdownload%2F%40types%2Fbluebird-3.5.36.tgz"
-  integrity sha1-ANkwHU3DXC9kZaiuxjS7UzZ0xlI=
+  version "3.5.37"
+  resolved "https://registry.yarnpkg.com/@types/bluebird/-/bluebird-3.5.37.tgz#b99e5c7fe382c2c6d5252dc99d9fba6810fedbeb"
+  integrity sha512-g2qEd+zkfkTEudA2SrMAeAvY7CrFqtbsLILm2dT2VIeKTqMqVzcdfURlvu6FU3srRgbmXN1Srm94pg34EIehww==
 
 "@types/cliff@0.1.6", "@types/cliff@^0.1.4":
   version "0.1.6"
