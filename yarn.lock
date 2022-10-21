@@ -934,9 +934,9 @@
     write-file-atomic "^3.0.3"
 
 "@nestjs/common@^9.0.11":
-  version "9.1.4"
-  resolved "https://registry.yarnpkg.com/@nestjs/common/-/common-9.1.4.tgz#83ed4f5627db12c0e0aaf1438becba8927fb97e2"
-  integrity sha512-hmGTZ8ShKFDqqlU02uU8e/8PNE4bnES4pcFa6s/T1pLDYWjyf/75Klunro1W4aQPHcxnnohBmB27WxMqFTPEfw==
+  version "9.1.5"
+  resolved "https://registry.yarnpkg.com/@nestjs/common/-/common-9.1.5.tgz#8784e036701270347ceec7308d3068b5b5d5fee4"
+  integrity sha512-FVD6BCFVfwi4gGOE0/TXYiADGVNxq50auUzo12+LW38p+mx1AYLO+QGF/Kw985Ck9j/12arC/H4SITZqxK04Vg==
   dependencies:
     iterare "1.2.1"
     tslib "2.4.0"
