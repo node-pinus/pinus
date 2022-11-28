@@ -3034,10 +3034,10 @@ dashdash@^1.12.0:
   dependencies:
     assert-plus "^1.0.0"
 
-date-format@^4.0.13:
-  version "4.0.13"
-  resolved "https://registry.npmjs.org/date-format/-/date-format-4.0.13.tgz"
-  integrity sha512-bnYCwf8Emc3pTD8pXnre+wfnjGtfi5ncMDKy7+cWZXbmRAsdWkOQHrfC1yz/KiwP5thDp2kCHWYWKBX4HP1hoQ==
+date-format@^4.0.14:
+  version "4.0.14"
+  resolved "https://registry.yarnpkg.com/date-format/-/date-format-4.0.14.tgz#7a8e584434fb169a521c8b7aa481f355810d9400"
+  integrity sha512-39BOQLs9ZjKh0/patS9nrT8wc3ioX3/eA/zgbKNopnF2wCqJEoxywwwElATYvRsXdnOxA/OQeQoFZ3rFjVajhg==
 
 dateformat@^3.0.0:
   version "3.0.3"
@@ -3987,10 +3987,10 @@ flat@^4.1.0:
   dependencies:
     is-buffer "~2.0.3"
 
-flatted@^3.2.6:
-  version "3.2.6"
-  resolved "https://registry.npmjs.org/flatted/-/flatted-3.2.6.tgz"
-  integrity sha512-0sQoMh9s0BYsm+12Huy/rkKxVu4R1+r96YX5cG44rHV0pQ6iC3Q+mkoMFaGWObMFYQxCVT+ssG1ksneA2MI9KQ==
+flatted@^3.2.7:
+  version "3.2.7"
+  resolved "https://registry.yarnpkg.com/flatted/-/flatted-3.2.7.tgz#609f39207cb614b89d0765b477cb2d437fbf9787"
+  integrity sha512-5nqDSxl8nn5BSNxyR3n4I6eDmbolI6WT+QqR547RwxQapgjQBmtktdP+HTBb/a/zLsbzERTONyUB5pefh5TtjQ==
 
 for-in@^1.0.1, for-in@^1.0.2:
   version "1.0.2"
@@ -5929,15 +5929,15 @@ log-symbols@2.2.0:
     chalk "^2.0.1"
 
 log4js@^6.0.0:
-  version "6.6.1"
-  resolved "https://registry.npmjs.org/log4js/-/log4js-6.6.1.tgz"
-  integrity sha512-J8VYFH2UQq/xucdNu71io4Fo+purYYudyErgBbswWKO0MC6QVOERRomt5su/z6d3RJSmLyTGmXl3Q/XjKCf+/A==
+  version "6.7.1"
+  resolved "https://registry.yarnpkg.com/log4js/-/log4js-6.7.1.tgz#06e12b1ac915dd1067146ffad8215f666f7d2c51"
+  integrity sha512-lzbd0Eq1HRdWM2abSD7mk6YIVY0AogGJzb/z+lqzRk+8+XJP+M6L1MS5FUSc3jjGru4dbKjEMJmqlsoYYpuivQ==
   dependencies:
-    date-format "^4.0.13"
+    date-format "^4.0.14"
     debug "^4.3.4"
-    flatted "^3.2.6"
+    flatted "^3.2.7"
     rfdc "^1.3.0"
-    streamroller "^3.1.2"
+    streamroller "^3.1.3"
 
 longest@^1.0.1:
   version "1.0.1"
@@ -8850,12 +8850,12 @@ stream-shift@^1.0.0:
   resolved "https://registry.npm.taobao.org/stream-shift/download/stream-shift-1.0.1.tgz"
   integrity sha1-1wiCgVWasneEJCebCHfaPDktWj0=
 
-streamroller@^3.1.2:
-  version "3.1.2"
-  resolved "https://registry.npmjs.org/streamroller/-/streamroller-3.1.2.tgz"
-  integrity sha512-wZswqzbgGGsXYIrBYhOE0yP+nQ6XRk7xDcYwuQAGTYXdyAUmvgVFE0YU1g5pvQT0m7GBaQfYcSnlHbapuK0H0A==
+streamroller@^3.1.3:
+  version "3.1.3"
+  resolved "https://registry.yarnpkg.com/streamroller/-/streamroller-3.1.3.tgz#d95689a8c29b30d093525d0baffe6616fd62ca7e"
+  integrity sha512-CphIJyFx2SALGHeINanjFRKQ4l7x2c+rXYJ4BMq0gd+ZK0gi4VT8b+eHe2wi58x4UayBAKx4xtHpXT/ea1cz8w==
   dependencies:
-    date-format "^4.0.13"
+    date-format "^4.0.14"
     debug "^4.3.4"
     fs-extra "^8.1.0"
 
