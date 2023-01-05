@@ -1,7 +1,9 @@
 import { getLogger } from 'pinus-logger';
 import * as util from '../util';
 import { consts } from '../consts';
-import * as cliff from 'cliff';
+import * as colors from 'colors';
+// @ts-ignore
+import * as pc from 'pretty-columns';
 import { ICommand, AgentCommand } from '../command';
 import { ReadLine } from 'readline';
 import { AdminClient } from 'pinus-admin';
@@ -48,7 +50,7 @@ export class Command implements ICommand {
             context: Context
         }, function (err: Error, data: object) {
                 if (err) console.log(err);
-                else util.log('\n' + cliff.inspect(data) + '\n');
+                else pc.output(data);
                 rl.prompt();
             });
     }

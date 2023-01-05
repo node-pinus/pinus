@@ -2,8 +2,6 @@ import * as  cp from 'child_process';
 import * as fs from 'fs';
 import * as vm from 'vm';
 
-import 'cliff';
-
 export function run(main: string, message: any, clients: Array<any>) {
     if (!clients) {
         clients = ['127.0.0.1'];

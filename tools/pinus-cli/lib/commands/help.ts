@@ -3,7 +3,9 @@ import * as path from 'path';
 let logger = getLogger('pinus-cli', path.basename(__filename));
 import * as util from '../util';
 import { consts } from '../consts';
-import * as cliff from 'cliff';
+import * as colors from 'colors';
+// @ts-ignore
+import * as pc from 'pretty-columns';
 import { ICommand, AgentCommand } from '../command';
 import { ReadLine } from 'readline';
 import { AdminClient } from 'pinus-admin';
@@ -56,7 +58,7 @@ let help = function () {
     }
 
     let COMANDS_ALL = consts.COMANDS_ALL;
-    util.log(cliff.stringifyRows(COMANDS_ALL));
+    pc.output(COMANDS_ALL);
 
     let HELP_INFO_2 = consts.HELP_INFO_2;
     for (let i = 0; i < HELP_INFO_2.length; i++) {
