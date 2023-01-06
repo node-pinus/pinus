@@ -1,7 +1,6 @@
 import { getLogger } from 'pinus-logger';
 import * as util from '../util';
 import { consts } from '../consts';
-require('cliff');
 import { ICommand, AgentCommand } from '../command';
 import { ReadLine } from 'readline';
 import { AdminClient } from 'pinus-admin';

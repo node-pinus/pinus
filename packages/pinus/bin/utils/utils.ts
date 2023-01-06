@@ -3,7 +3,6 @@ import * as fs from 'fs';
 import * as os from 'os';
 import * as path from 'path';
 import * as util from 'util';
-import * as cliff from 'cliff';
 import * as mkdirp from 'mkdirp';
 import { FILEREAD_ERROR, CONNECT_ERROR, MASTER_HA_NOT_FOUND, CLOSEAPP_INFO, KILL_CMD_WIN, KILL_CMD_LUX } from './constants';
 import * as utils from '../../lib/util/utils';

@@ -5,7 +5,6 @@ import * as fs from 'fs';
 import * as os from 'os';
 import * as path from 'path';
 import * as util from 'util';
-import * as cliff from 'cliff';
 import * as mkdirp from 'mkdirp';
 import { Command } from 'commander';
 

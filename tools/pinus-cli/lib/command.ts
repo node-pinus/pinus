@@ -1,6 +1,5 @@
 import { consts } from './consts';
 import * as util from './util';
-require('cliff');
 import * as fs from 'fs';
 import { isFunction } from 'util';
 import { AdminClient } from 'pinus-admin';

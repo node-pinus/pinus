@@ -1,7 +1,9 @@
 import { DEFAULT_USERNAME, DEFAULT_PWD, DEFAULT_MASTER_HOST, DEFAULT_MASTER_PORT } from '../utils/constants';
 import { connectToMaster } from '../utils/utils';
 import {AdminClient} from 'pinus-admin';
-import * as cliff from 'cliff';
+import * as colors from 'colors';
+// @ts-ignore
+import * as pc from 'pretty-columns';
 import { ConsoleModule as co } from '../../lib/modules/console';
 import { Command } from 'commander';
 
@@ -47,11 +49,11 @@ function list(opts: any) {
             };
             servers.sort(comparer);
             let rows: string[][] = [];
-            rows.push(['serverId', 'serverType', 'pid', 'rss(M)', 'heapTotal(M)', 'heapUsed(M)', 'uptime(m)']);
+            rows.push([ colors.red('serverId'), colors.blue('serverType'), colors.green('pid'), colors.cyan('rss(M)'), colors.magenta('heapTotal(M)'), colors.white('heapUsed(M)'), colors.yellow('uptime(m)')]);
             servers.forEach(function (server) {
                 rows.push([server.serverId, server.serverType, server.pid, server.rss, server.heapTotal, server.heapUsed, server.uptime]);
             });
-            console.log(cliff.stringifyRows(rows, ['red', 'blue', 'green', 'cyan', 'magenta', 'white', 'yellow']));
+            pc.output(rows);
             process.exit(0);
         });
     });

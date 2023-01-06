@@ -31,14 +31,14 @@
   },
   "dependencies": {
     "async": "^3.0.0",
-    "cliff": "^0.1.10",
+    "colors": "^1.4.0",
     "optimist": "^0.6.1",
     "pinus-admin": "^1.6.4",
-    "pinus-logger": "^1.6.4"
+    "pinus-logger": "^1.6.4",
+    "pretty-columns": "^1.2.1"
   },
   "devDependencies": {
     "@types/async": "^3.0.0",
-    "@types/cliff": "^0.1.4",
     "@types/node": "^12.20.41",
     "@types/optimist": "0.0.30",
     "tslint": "6.1.3",

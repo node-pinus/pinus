@@ -1,4 +1,6 @@
-import * as cliff from 'cliff';
+import * as colors from 'colors';
+// @ts-ignore
+import * as pc from 'pretty-columns';
 import * as async from 'async';
 import * as crypto from 'crypto';
 import { consts } from './consts';
@@ -17,7 +19,7 @@ export function help() {
     }
 
     let COMANDS_ALL = consts.COMANDS_ALL;
-    log(cliff.stringifyRows(COMANDS_ALL));
+    pc.output(COMANDS_ALL);
 
     let HELP_INFO_2 = consts.HELP_INFO_2;
     for (let i = 0; i < HELP_INFO_2.length; i++) {
@@ -65,8 +67,7 @@ export function formatOutput(comd: string, data: { msg: { [key: string]: any } }
         let results = [];
         serverMap = {};
         serverMap['all'] = 1;
-        header.push(['serverId', 'serverType', 'host', 'port', 'pid', 'heapUsed(M)', 'uptime(m)']);
-        let color = getColor(header[0].length);
+        header.push(setHeaderColors(['serverId', 'serverType', 'host', 'port', 'pid', 'heapUsed(M)', 'uptime(m)']));
         for (let key in msg) {
             let server = msg[key];
             if (!server['port']) {
@@ -79,7 +80,7 @@ export function formatOutput(comd: string, data: { msg: { [key: string]: any } }
             callback(null, server[0]);
         }, function (err, _results) {
                 results = header.concat(_results);
-                log('\n' + cliff.stringifyRows(results, color) + '\n');
+                pc.output(results);
                 return;
             });
     }
@@ -87,8 +88,7 @@ export function formatOutput(comd: string, data: { msg: { [key: string]: any } }
     if (comd === 'connections') {
         let msg = data.msg;
         let rows = [];
-        let color = getColor(3);
-        rows.push(['serverId', 'totalConnCount', 'loginedCount']);
+        rows.push(setHeaderColors(['serverId', 'totalConnCount', 'loginedCount']));
         let sumConnCount = 0,
             sumloginedCount = 0;
         for (let key in msg) {
@@ -98,15 +98,14 @@ export function formatOutput(comd: string, data: { msg: { [key: string]: any } }
             sumloginedCount += server['loginedCount'];
         }
         rows.push(['sum connections', sumConnCount, sumloginedCount]);
-        log('\n' + cliff.stringifyRows(rows, color) + '\n');
+        pc.output(rows);
         return;
     }
 
     if (comd === 'logins') {
         let msg = data.msg;
         let rows = [];
-        let color = getColor(3);
-        rows.push(['loginTime', 'uid', 'address']);
+        rows.push(setHeaderColors(['loginTime', 'uid', 'address']));
         for (let key in msg) {
             let server = msg[key];
             let loginedList = server['loginedList'] || [];
@@ -118,7 +117,7 @@ export function formatOutput(comd: string, data: { msg: { [key: string]: any } }
             for (let i = 0; i < loginedList.length; i++) {
                 rows.push([format_date(new Date(loginedList[i]['loginTime'])), loginedList[i]['uid'], loginedList[i]['address']]);
             }
-            log('\n' + cliff.stringifyRows(rows, color) + '\n');
+            pc.output(rows);
             return;
         }
     }
@@ -134,11 +133,10 @@ export function formatOutput(comd: string, data: { msg: { [key: string]: any } }
         let msg = data.msg;
         let server = msg.body;
         let rows = [];
-        rows.push(['time', 'serverId', 'serverType', 'pid', 'cpuAvg', 'memAvg', 'vsz', 'rss', 'usr', 'sys', 'gue']);
-        let color = getColor(rows[0].length);
+        rows.push(setHeaderColors(['time', 'serverId', 'serverType', 'pid', 'cpuAvg', 'memAvg', 'vsz', 'rss', 'usr', 'sys', 'gue']));
         if (server) {
             rows.push([server['time'], server['serverId'], server['serverType'], server['pid'], server['cpuAvg'], server['memAvg'], server['vsz'], server['rss'], server['usr'], server['sys'], server['gue']]);
-            log('\n' + cliff.stringifyRows(rows, color) + '\n');
+            pc.output(rows);
         } else {
             log('\n' + consts.STATUS_ERROR + '\n');
         }
@@ -146,7 +144,7 @@ export function formatOutput(comd: string, data: { msg: { [key: string]: any } }
     }
 
     if (comd === 'config' || comd === 'components' || comd === 'settings' || comd === 'get' || comd === 'set' || comd === 'exec' || comd === 'run') {
-        log('\n' + cliff.inspect(data) + '\n');
+        pc.output(data);
         return;
     }
 
@@ -159,7 +157,7 @@ export function formatOutput(comd: string, data: { msg: { [key: string]: any } }
     }
 
     if (comd === 'proxy' || comd === 'handler') {
-        log('\n' + cliff.inspect(data) + '\n');
+        pc.output(data);
         return;
     }
 
@@ -202,6 +200,12 @@ export function format_date(date: Date, friendly?: boolean) {
     let secondStr: string = ((second < 10) ? '0' : '') + second;
 
     return year + '-' + month + '-' + day + ' ' + hourStr + ':' + minuteStr;
+}
+
+export function setHeaderColors(header: string[]) {
+    return header.map(str => {
+        return colors.blue(str);
+    });
 }
 
 export function getColor(len: number) {
