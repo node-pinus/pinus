@@ -54,7 +54,7 @@
     "commander": "3.0.2",
     "crc": "^3.5.0",
     "eyes": "^0.1.8",
-    "mkdirp": "^1.0.4",
+    "mkdirp": "^2.0.0",
     "mqtt-connection": "^4.1.0",
     "node-bignumber": "^1.2.1",
     "pinus-admin": "^1.6.4",
