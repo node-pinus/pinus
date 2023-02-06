@@ -2,10 +2,10 @@
  * backend session service for backend session
  */
 import * as utils from '../../util/utils';
-import {Application} from '../../application';
-import {IComponent} from '../../interfaces/IComponent';
-import {SID, FRONTENDID, ServerInfo} from '../../util/constants';
-import {ISession} from './sessionService';
+import { Application } from '../../application';
+import { IComponent } from '../../interfaces/IComponent';
+import { SID, FRONTENDID, ServerInfo } from '../../util/constants';
+import { ISession } from './sessionService';
 
 let EXPORTED_FIELDS = ['id', 'frontendId', 'uid', 'settings'];
 
@@ -47,7 +47,7 @@ export class BackendSessionService implements IComponent {
      *
      * @memberOf BackendSessionService
      */
-    get(frontendId: string, sid: number, cb: (err: Error | null, result ?: BackendSession) => void) {
+    get(frontendId: string, sid: number, cb: (err: Error | null, result?: BackendSession) => void) {
         let namespace = 'sys';
         let service = 'sessionRemote';
         let method = 'getBackendSessionBySid';
@@ -65,7 +65,7 @@ export class BackendSessionService implements IComponent {
      *
      * @memberOf BackendSessionService
      */
-    getByUid(frontendId: string, uid: string, cb: (err: Error | null, result ?: BackendSession[]) => void) {
+    getByUid(frontendId: string, uid: string, cb: (err: Error | null, result?: BackendSession[]) => void) {
         let namespace = 'sys';
         let service = 'sessionRemote';
         let method = 'getBackendSessionsByUid';
@@ -83,12 +83,14 @@ export class BackendSessionService implements IComponent {
      *
      * @memberOf BackendSessionService
      */
-    kickBySid(frontendId: string, sid: number, cb: (err: Error | null, result ?: void) => void): void;
-    kickBySid(frontendId: string, sid: number, reason: (err: Error | null, result ?: void) => void | string, cb ?: (err: Error | null, result ?: void) => void) {
+    kickBySid(frontendId: string, sid: number, cb: callBack): void;
+    kickBySid(frontendId: string, sid: number, reason: string): void;
+    kickBySid(frontendId: string, sid: number, reason: string, cb: callBack): void;
+    kickBySid(frontendId: string, sid: number, reason: callBack | string, cb?: callBack) {
         let namespace = 'sys';
         let service = 'sessionRemote';
         let method = 'kickBySid';
-        let args = [sid];
+        let args: Array<any> = [sid];
         if (typeof reason === 'function') {
             cb = reason;
         } else {
@@ -107,7 +109,7 @@ export class BackendSessionService implements IComponent {
      *
      * @memberOf BackendSessionService
      */
-    kickByUid(frontendId: string, uid: string, reason: string, cb: (err: Error | null, result ?: void) => void) {
+    kickByUid(frontendId: string, uid: string, reason: string, cb: callBack) {
         let namespace = 'sys';
         let service = 'sessionRemote';
         let method = 'kickByUid';
@@ -132,7 +134,7 @@ export class BackendSessionService implements IComponent {
      * @memberOf BackendSessionService
      * @api private
      */
-    bind(frontendId: string, sid: number, uid: string, cb: (err: Error | null, result ?: void) => void) {
+    bind(frontendId: string, sid: number, uid: string, cb: callBack) {
         let namespace = 'sys';
         let service = 'sessionRemote';
         let method = 'bind';
@@ -152,7 +154,7 @@ export class BackendSessionService implements IComponent {
      * @memberOf BackendSessionService
      * @api private
      */
-    unbind(frontendId: string, sid: number, uid: string, cb: (err: Error | null, result ?: void) => void) {
+    unbind(frontendId: string, sid: number, uid: string, cb: callBack) {
         let namespace = 'sys';
         let service = 'sessionRemote';
         let method = 'unbind';
@@ -172,7 +174,7 @@ export class BackendSessionService implements IComponent {
      * @memberOf BackendSessionService
      * @api private
      */
-    push(frontendId: string, sid: number, key: string, value: string, cb: (err: Error | null, result ?: void) => void) {
+    push(frontendId: string, sid: number, key: string, value: string, cb: callBack) {
         let namespace = 'sys';
         let service = 'sessionRemote';
         let method = 'push';
@@ -191,7 +193,7 @@ export class BackendSessionService implements IComponent {
      * @memberOf BackendSessionService
      * @api private
      */
-    pushAll(frontendId: string, sid: number, settings: Object, cb: (err: Error | null, result ?: void) => void) {
+    pushAll(frontendId: string, sid: number, settings: Object, cb: callBack) {
         let namespace = 'sys';
         let service = 'sessionRemote';
         let method = 'pushAll';
@@ -210,7 +212,7 @@ export class BackendSessionService implements IComponent {
 }
 
 let rpcInvoke = function (app: Application, sid: FRONTENDID, namespace: string, service: string, method: string, args: any, cb: Function) {
-    app.rpcInvoke(sid, {namespace: namespace, service: service, method: method, args: args}, cb);
+    app.rpcInvoke(sid, { namespace: namespace, service: service, method: method, args: args }, cb);
 };
 
 
@@ -254,7 +256,7 @@ export class BackendSession implements ISession {
      *
      * @memberOf BackendSession
      */
-    bind(uid: string, cb: (err: Error | null, result ?: void) => void) {
+    bind(uid: string, cb: callBack) {
         let self = this;
         this.__sessionService__.bind(this.frontendId, this.id, uid, function (err) {
             if (!err) {
@@ -273,7 +275,7 @@ export class BackendSession implements ISession {
      *
      * @memberOf BackendSession
      */
-    unbind(uid: string, cb: (err: Error | null, result ?: void) => void) {
+    unbind(uid: string, cb: callBack) {
         let self = this;
         this.__sessionService__.unbind(this.frontendId, this.id, uid, function (err) {
             if (!err) {
@@ -309,7 +311,7 @@ export class BackendSession implements ISession {
      * @param  {String}   key key
      * @param  {Function} cb  callback function
      */
-    push(key: string, cb: (err: Error | null, result ?: void) => void) {
+    push(key: string, cb: callBack) {
         this.__sessionService__.push(this.frontendId, this.id, key, this.get(key), cb);
     }
 
@@ -318,15 +320,15 @@ export class BackendSession implements ISession {
      *
      * @param  {Function} cb callback function
      */
-    pushAll(cb: (err: Error | null, result ?: void) => void) {
+    pushAll(cb: callBack) {
         this.__sessionService__.pushAll(this.frontendId, this.id, this.settings, cb);
     }
 
-    abind(uid: string, ) {
+    abind(uid: string,) {
         return new Promise((resolve, reject) => this.bind(uid, (err, ret) => err ? reject(err) : resolve(ret as any)));
     }
 
-    aunbind(uid: string, ) {
+    aunbind(uid: string,) {
         return new Promise((resolve, reject) => this.unbind(uid, (err, ret) => err ? reject(err) : resolve(ret as any)));
     }
 
@@ -381,3 +383,6 @@ let BackendSessionCB = function (service: BackendSessionService, cb: Function, e
         utils.invokeCallback(cb, null, session);
     }
 };
+
+
+type callBack = (err: Error | null, result?: void) => void
