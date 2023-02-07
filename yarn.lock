@@ -6445,6 +6445,11 @@ mkdirp@^1.0.3, mkdirp@^1.0.4:
   resolved "https://registry.nlark.com/mkdirp/download/mkdirp-1.0.4.tgz?cache=0&sync_timestamp=1624625160603&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fmkdirp%2Fdownload%2Fmkdirp-1.0.4.tgz"
   integrity sha1-PrXtYmInVteaXw4qIh3+utdcL34=
 
+mkdirp@^2.1.3:
+  version "2.1.3"
+  resolved "https://registry.yarnpkg.com/mkdirp/-/mkdirp-2.1.3.tgz#b083ff37be046fd3d6552468c1f0ff44c1545d1f"
+  integrity sha512-sjAkg21peAG9HS+Dkx7hlG9Ztx7HLeKnvB3NQRcu/mltCVmvkF0pisbiTSfDVYTT86XEfZrTUosLdZLStquZUw==
+
 mocha@6.2.2:
   version "6.2.2"
   resolved "https://registry.nlark.com/mocha/download/mocha-6.2.2.tgz?cache=0&sync_timestamp=1625301211567&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fmocha%2Fdownload%2Fmocha-6.2.2.tgz"
