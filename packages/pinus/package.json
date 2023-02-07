@@ -67,7 +67,7 @@
     "pretty-columns": "^1.2.1",
     "seq-queue": "^0.0.5",
     "socket.io": "^4.1.3",
-    "ws": "^7.0.0"
+    "ws": "^8.12.0"
   },
   "bin": {
     "pinus": "./dist/bin/pinus.js"
@@ -79,7 +79,7 @@
     "@types/mkdirp": "1.0.2",
     "@types/mocha": "^5.0.0",
     "@types/node": "^12.20.41",
-    "@types/ws": "7.4.6",
+    "@types/ws": "8.5.4",
     "mocha": "6.2.2",
     "muk": "0.5.3",
     "nyc": "15.1.0",
