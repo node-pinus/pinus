@@ -51,7 +51,7 @@ export class HybridConnector extends EventEmitter implements IConnector {
     protobuf: ProtobufComponent;
     decodeIO_protobuf: IComponent;
 
-    listeningServer: net.Server;
+    listeningServer: net.Server | tls.Server;
 
     constructor(port: number, host: string, opts?: HybridConnectorOptions) {
         super();
@@ -100,6 +100,11 @@ export class HybridConnector extends EventEmitter implements IConnector {
             this.listeningServer = net.createServer();
         } else {
             this.listeningServer = tls.createServer(this.ssl);
+            if (this.opts.sslWatcher) {
+                this.opts.sslWatcher((opts) => {
+                    (this.listeningServer as tls.Server).setSecureContext(opts);
+                });
+            }
         }
         this.switcher = new Switcher(this.listeningServer, self.opts);
 
