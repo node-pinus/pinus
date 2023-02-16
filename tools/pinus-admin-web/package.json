@@ -12,10 +12,10 @@
     "mqtt": "4.2.8",
     "mqtt-connection": "4.1.0",
     "websocket-stream": "5.5.2",
-    "ws": "7.5.3"
+    "ws": "8.12.1"
   },
   "devDependencies": {
     "tslint": "6.1.3",
-    "webpack": "5.74.0"
+    "webpack": "5.75.0"
   }
 }
