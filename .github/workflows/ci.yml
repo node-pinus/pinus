@@ -29,5 +29,8 @@ jobs:
       - name: check nestjs example start
         working-directory: ./examples/websocket-chat-ts-run/game-server
         run: node ci-test.js
+      - name: check ssl example start
+        working-directory: ./examples/ssl-connector/game-server
+        run: node ci-test.js
         
 
