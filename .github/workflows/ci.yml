@@ -25,12 +25,12 @@ jobs:
 
       - name: check process start
         working-directory: ./examples/websocket-chat/game-server
-        run: node ci-test.js
+        run: node ci-test.js && pkill -f node
       - name: check nestjs example start
         working-directory: ./examples/websocket-chat-ts-run/game-server
-        run: node ci-test.js
+        run: node ci-test.js && pkill -f node
       - name: check ssl example start
         working-directory: ./examples/ssl-connector/game-server
-        run: node ci-test.js
+        run: node ci-test.js && pkill -f node
         
 
