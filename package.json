@@ -70,6 +70,7 @@
         "packages/pinus-rpc",
         "packages/pinus-scheduler",
 		"examples/simple-example/*",
+		"examples/ssl-connector/*",
 		"examples/websocket-chat/*",
 		"examples/websocket-chat-ts-run/*",
 		"examples/robot-sample"
