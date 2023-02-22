@@ -1,6 +1,6 @@
 {
   "name": "pinusmod-simple-example-web-server",
-  "version": "1.4.11",
+  "version": "1.6.5",
   "private": true,
   "dependencies": {
     "express": "4.18.2"

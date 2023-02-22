@@ -1,6 +1,6 @@
 {
 	"name": "pinus-sample-websocket-chat-web-server",
-	"version": "1.6.4",
+	"version": "1.6.5",
 	"private": false,
 	"dependencies": {
 		"express": "4.18.2"
