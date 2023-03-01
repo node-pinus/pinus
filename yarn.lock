@@ -1234,12 +1234,12 @@
   resolved "https://registry.nlark.com/@types/minimist/download/@types/minimist-1.2.2.tgz?cache=0&sync_timestamp=1625616294413&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40types%2Fminimist%2Fdownload%2F%40types%2Fminimist-1.2.2.tgz"
   integrity sha1-7nceK6Sz3Fs3KTXVSf2WF780W4w=
 
-"@types/mkdirp@1.0.2":
-  version "1.0.2"
-  resolved "https://registry.npmjs.org/@types/mkdirp/-/mkdirp-1.0.2.tgz"
-  integrity sha512-o0K1tSO0Dx5X6xlU5F1D6625FawhC3dU3iqr25lluNv/+/QIVH8RLNEiVokgIZo+mz+87w/3Mkg/VvQS+J51fQ==
+"@types/mkdirp@2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@types/mkdirp/-/mkdirp-2.0.0.tgz#d14f087a889c3744e7cc41e82ad762b047ebc636"
+  integrity sha512-c/iUqMymAlxLAyIK3u5SzrwkrkyOdv1XDc91T+b5FsY7Jr6ERhUD19jJHOhPW4GD6tmN6mFEorfSdks525pwdQ==
   dependencies:
-    "@types/node" "*"
+    mkdirp "*"
 
 "@types/mocha@^5.0.0":
   version "5.2.7"
@@ -6457,6 +6457,11 @@ mkdirp-infer-owner@^2.0.0:
     chownr "^2.0.0"
     infer-owner "^1.0.4"
     mkdirp "^1.0.3"
+
+mkdirp@*, mkdirp@^2.1.4:
+  version "2.1.4"
+  resolved "https://registry.yarnpkg.com/mkdirp/-/mkdirp-2.1.4.tgz#34faf1f2a1b4cc9a65a84e2979087211da608d11"
+  integrity sha512-Cy9cV4pRSl1o10i1dURTuRt4T04l0DkS1WZrT+Jir886OqOVkSv4FbOA7pgjhS8kEUrmm4kCRvv5var2iOCxpA==
 
 mkdirp@0.5.1:
   version "0.5.1"
