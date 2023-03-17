@@ -23,9 +23,8 @@ export interface RemoteComponentOptions extends RpcServerOpts {
 
     /**
      * convert remote path to relative path (need to upgrade pinus-loader to a supported version)
-     * 
      * If you want to deploy the project to different paths on multiple servers,
-     * or use the packaging tool to package and deploy on multiple servers, you can enable this function. 
+     * or use the packaging tool to package and deploy on multiple servers, you can enable this function.
      * each process will have its own running path as the root path
      */
     relativePath?: boolean;
