@@ -124,11 +124,11 @@ export function checkFileType(fn: string, suffix: string) {
 }
 
 let isFile = function (path: string) {
-    return fs.statSync(path, { throwIfNoEntry: false })?.isFile();
+    return fs.existsSync(path) && fs.statSync(path).isFile();
 };
 
 let isDir = function (path: string) {
-    return fs.statSync(path, { throwIfNoEntry: false })?.isDirectory();
+    return fs.existsSync(path) && fs.statSync(path).isDirectory();
 };
 
 let getFileName = function (fp: string, suffixLength: number) {
