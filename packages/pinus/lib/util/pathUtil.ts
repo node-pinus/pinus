@@ -5,6 +5,16 @@ import { RemoteServerCode } from '../index';
 import { DIR } from './constants';
 
 /**
+ * Get relative path
+ *
+ * @param  {String} path full path
+ * @return {String} relative path
+ */
+export function getRelativePath(path) {
+    return path.replace(process.cwd(), '')
+}
+
+/**
  * Get system remote service path
  *
  * @param  {String} role server role: frontend, backend
@@ -64,9 +74,13 @@ export function listUserRemoteDir(appBase: string) {
  * @param  {String} namespace  remote path namespace, such as: 'sys', 'user'
  * @param  {String} serverType
  * @param  {String} path       remote service source path
+ * @param  {Boolean} relativePath       convert path to relative path
  * @return {Object}            remote path record
  */
-export function remotePathRecord(namespace: string, serverType: string, path: string): RemoteServerCode {
+export function remotePathRecord(namespace: string, serverType: string, path: string, relativePath?: boolean): RemoteServerCode {
+    if (relativePath) {
+        path = getRelativePath(path);
+    }
     return { namespace: namespace, serverType: serverType, path: path };
 }
 
