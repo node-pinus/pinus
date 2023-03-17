@@ -19,7 +19,7 @@ export interface RemoteComponentOptions extends RpcServerOpts {
     rpcDebugLog?: boolean;
     rpcLogger?: Logger;
 
-    rpcServer?: { create: (opts ?: RemoteComponentOptions) => Gateway };
+    rpcServer?: { create: (opts?: RemoteComponentOptions) => Gateway };
 
     /**
      * convert remote path to relative path (need to upgrade pinus-loader to a supported version)
@@ -50,7 +50,7 @@ export class RemoteComponent implements IComponent {
             opts.rpcDebugLog = true;
             opts.rpcLogger = getLogger('rpc-debug', path.basename(__filename));
         }
-        
+
         opts.relativePath = opts.relativePath || false;
         opts.paths = this.getRemotePaths(opts.relativePath);
         opts.context = this.app;
