@@ -10,7 +10,7 @@ import { DIR } from './constants';
  * @param  {String} path full path
  * @return {String} relative path
  */
-export function getRelativePath(path) {
+export function getRelativePath(path: string) {
     return path.replace(process.cwd(), '')
 }
 
