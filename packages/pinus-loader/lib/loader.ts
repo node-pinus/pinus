@@ -28,6 +28,11 @@ export function load(mpath: string, context: any, reload: boolean, createInstanc
         throw new Error('opts or opts.path should not be empty.');
     }
 
+    // maybe relative path, need convert to full path
+    if (!isDir(mpath)) {
+        mpath = process.cwd() + mpath;
+    }
+
     try {
         mpath = fs.realpathSync(mpath);
     } catch (err) {
@@ -119,11 +124,11 @@ export function checkFileType(fn: string, suffix: string) {
 }
 
 let isFile = function (path: string) {
-    return fs.statSync(path).isFile();
+    return fs.existsSync(path) && fs.statSync(path).isFile();
 };
 
 let isDir = function (path: string) {
-    return fs.statSync(path).isDirectory();
+    return fs.existsSync(path) && fs.statSync(path).isDirectory();
 };
 
 let getFileName = function (fp: string, suffixLength: number) {

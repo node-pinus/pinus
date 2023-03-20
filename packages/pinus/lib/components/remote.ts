@@ -19,7 +19,15 @@ export interface RemoteComponentOptions extends RpcServerOpts {
     rpcDebugLog?: boolean;
     rpcLogger?: Logger;
 
-    rpcServer?: { create: (opts ?: RemoteComponentOptions) => Gateway };
+    rpcServer?: { create: (opts?: RemoteComponentOptions) => Gateway };
+
+    /**
+     * convert remote path to relative path (need to upgrade pinus-loader to a supported version)
+     * If you want to deploy the project to different paths on multiple servers,
+     * or use the packaging tool to package and deploy on multiple servers, you can enable this function.
+     * each process will have its own running path as the root path
+     */
+    relativePath?: boolean;
 }
 
 /**
@@ -43,7 +51,8 @@ export class RemoteComponent implements IComponent {
             opts.rpcLogger = getLogger('rpc-debug', path.basename(__filename));
         }
 
-        opts.paths = this.getRemotePaths();
+        opts.relativePath = opts.relativePath || false;
+        opts.paths = this.getRemotePaths(opts.relativePath);
         opts.context = this.app;
 
         let remoters: Remoters = {};
@@ -100,11 +109,11 @@ export class RemoteComponent implements IComponent {
     /**
      * Get remote paths from application
      *
-     * @param {Object} app current application context
+     * @param {Boolean} relativePath convert path to relative path
      * @return {Array} paths
      *
      */
-    getRemotePaths(): RemoteServerCode[] {
+    getRemotePaths(relativePath?: boolean): RemoteServerCode[] {
         let paths = [];
 
         let role;
@@ -116,12 +125,12 @@ export class RemoteComponent implements IComponent {
         }
 
         let sysPath = pathUtil.getSysRemotePath(role), serverType = this.app.getServerType();
-        if (fs.existsSync(sysPath)) {
-            paths.push(pathUtil.remotePathRecord('sys', serverType, sysPath));
+        if (sysPath !== null) {
+            paths.push(pathUtil.remotePathRecord('sys', serverType, sysPath, relativePath));
         }
         let userPath = pathUtil.getUserRemotePath(this.app.getBase(), serverType);
-        if (fs.existsSync(userPath)) {
-            paths.push(pathUtil.remotePathRecord('user', serverType, userPath));
+        if (userPath !== null) {
+            paths.push(pathUtil.remotePathRecord('user', serverType, userPath, relativePath));
         }
 
         return paths;
