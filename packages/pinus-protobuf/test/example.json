@@ -1,4 +1,30 @@
 {
+  "message MapFieldEntry1": {
+    "optional string key" : 1,
+    "optional string value" : 2
+  },
+  "message ObjectFieldEntry2": {
+    "optional string key" : 1,
+    "optional string value" : 2
+  },
+  "message ObjectFieldEntry1": {
+    "optional uInt32 key" : 1,
+    "optional Path value" : 2
+  },
+  "onTest" : {
+    "message Path": {
+      "message demo": {
+        "required double a" : 1,
+        "required double b" : 2,
+        "repeated uInt32 nums": 3
+      },
+      "repeated demo x" : 1,
+      "obj ObjectFieldEntry2 y" : 2,
+      "map MapFieldEntry1 map1" : 3
+    },
+    "obj ObjectFieldEntry1 pathMap": 1
+  },
+
   "onMove" : {
     "required uInt32 entityId" : 1,
     "message Path": {

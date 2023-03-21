@@ -62,29 +62,52 @@ export class Encoder {
     }
 
     encodeMsg(buffer: Buffer, offset: number, protos: { [key: string]: any }, msg: { [key: string]: any }) {
-        for (let name in msg) {
-            if (!!protos[name]) {
-                let proto = protos[name];
-
-                switch (proto.option) {
-                    case 'required':
-                    case 'optional':
-                        offset = this.writeBytes(buffer, offset, this.encodeTag(proto.type, proto.tag));
-                        offset = this.encodeProp(msg[name], proto.type, offset, buffer, protos);
-                        break;
-                    case 'repeated':
-                        if (!!msg[name] && msg[name].length > 0) {
-                            offset = this.encodeArray(msg[name], proto, offset, buffer, protos);
-                        }
-                        break;
+        if(msg instanceof Map) {
+            for(const [key, value] of msg) {
+                if (!!protos[key]) {
+                    let proto = protos[key];
+                    offset = this._encodeMsg(buffer, offset, protos, proto, value);
+                }
+            }
+        } else {
+            for (let name in msg) {
+                if (!!protos[name]) {
+                    let proto = protos[name];
+                    offset = this._encodeMsg(buffer, offset, protos, proto, msg[name]);
                 }
             }
         }
-
         return offset;
     }
 
-    encodeProp(value: any, type: string, offset: number, buffer: Buffer, protos?: { [key: string]: any }) {
+    _encodeMsg(buffer: Buffer, offset: number, protos: { [key: string]: any }, proto: any, value: any) {
+            switch (proto.option) {
+                case 'required':
+                case 'optional':
+                    offset = this.writeBytes(buffer, offset, this.encodeTag(proto.type, proto.tag));
+                    offset = this.encodeProp(value, proto.type, offset, buffer, protos);
+                    break;
+                case 'repeated':
+                    if (!!value && value.length > 0) {
+                        offset = this.encodeArray(value, proto, offset, buffer, protos);
+                    }
+                    break;
+                case 'map':
+                    if(!!value) {
+                        offset = this.encodeMap(value, proto, offset, buffer, protos);
+                    };
+                    break;
+                case 'obj':
+                    if(!!value) {
+                        offset = this.encodeObject(value, proto, offset, buffer, protos);
+                    };
+                    break;
+            }
+            return offset;
+        }
+
+
+    encodeProp(value: any, type: string, offset: number, buffer: Buffer, protos ?: { [key: string]: any }) {
         let length = 0;
 
         switch (type) {
@@ -156,7 +179,7 @@ export class Encoder {
     /**
      * Encode reapeated properties, simple msg and object are decode differented
      */
-    encodeArray(array: Array<number>, proto: { [key: string]: any }, offset: number, buffer: Buffer, protos: { [key: string]: any }) {
+    encodeArray(array: Array < number > , proto: { [key: string]: any }, offset: number, buffer: Buffer, protos: { [key: string]: any }) {
         let i = 0;
         if (util.isSimpleType(proto.type)) {
             offset = this.writeBytes(buffer, offset, this.encodeTag(proto.type, proto.tag));
@@ -171,6 +194,36 @@ export class Encoder {
             }
         }
 
+        return offset;
+    }
+
+    encodeMap(map: Map < (string | number), any > , proto: { [key: string]: any }, offset: number, buffer: Buffer, protos: { [key: string]: any }) {
+        const size = map.size;
+        offset = this.writeBytes(buffer, offset, this.encodeTag(proto.type, proto.tag));
+        offset = this.writeBytes(buffer, offset, codec.encodeUInt32(size));
+        for(const [key, value] of map) {
+            let message: { [key: string]: any } = protos.__messages[proto.type] || this.protos['message ' + proto.type];
+            // map key
+            offset = this.encodeProp(key, message.key.type, offset, buffer, protos);
+            offset = this.encodeProp(value, message.value.type, offset, buffer, protos);
+        }
+        return offset;
+    }
+
+    encodeObject(obj: {[key: string]: any}, proto: { [key: string]: any }, offset: number, buffer: Buffer, protos: { [key: string]: any }) {
+        const keys = Object.keys(obj);
+        if (keys.length === 0) {
+            return offset;
+        }
+        offset = this.writeBytes(buffer, offset, this.encodeTag(proto.type, proto.tag));
+        offset = this.writeBytes(buffer, offset, codec.encodeUInt32(keys.length));
+        for (let key in obj) {
+            let message: { [key: string]: any } = protos.__messages[proto.type] || this.protos['message ' + proto.type];
+            // map key
+            offset = this.encodeProp(key, message.key.type, offset, buffer, protos);
+            const value = obj[key];
+            offset = this.encodeProp(value, message.value.type, offset, buffer, protos);
+        }
         return offset;
     }
 

@@ -1,5 +1,9 @@
 var tc = module.exports;
 
+tc.onTest = {
+    'pathMap':{234:{'x': [{"a":123, "b":456,"nums":[1,2,3,4]}],'y': {"d": "d11", "e":"123"}},567:{'x':[{"a":123111}],'y':{"d": "d1333"}}}
+};
+
 tc['area.playerHandler.enterScene'] = {
     map : {
         name : 'a',
