@@ -131,6 +131,11 @@ export class Decoder {
                 this.offset += length;
 
                 return str;
+            case 'bool':
+                const value = codec.decodeUInt32(this.getBytes());
+                const boolValue = value ? true : false;
+                return boolValue;
+                break;
             default:
                 let message = protos && (protos.__messages[type] || this.protos['message ' + type]);
                 if (message) {

@@ -135,6 +135,11 @@ export class Encoder {
                 buffer.write(value, offset, length);
                 offset += length;
                 break;
+            case 'bool':
+                const intValue = value ? 1 : 0;
+                offset = this.writeBytes(buffer, offset, codec.encodeUInt32(intValue));
+                break;
+                break;
             default:
                 let message: { [key: string]: any } = protos.__messages[type] || this.protos['message ' + type];
                 if (!!message) {

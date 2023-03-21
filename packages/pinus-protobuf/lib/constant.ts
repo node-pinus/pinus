@@ -5,5 +5,6 @@ export let TYPES = {
     double : 1,
     string : 2,
     message : 2,
-    float : 5
+    float : 5,
+    bool: 0
 };
