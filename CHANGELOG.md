@@ -14,15 +14,15 @@
 
 [chore] 更新部分依赖版本
 
-[ci]: 添加进程正常启动测试
+[ci] 添加进程正常启动测试
 
-[ci]: add node 12,14,16,18 env test
+[ci] add node 12,14,16,18 env test
 
 [examples]: websocket-chat-ts-run 改造成 nestjs示例
 
 [examples]: chat-ts-run 添加 逻辑模块依赖注入示例 [#19](https://github.com/node-pinus/pinus/issues/19)
 
-[ci]: add nestjs examples test
+[ci] add nestjs examples test
 
 FEA: 用 pretty-columns 替代 cliff  [#598](https://github.com/node-pinus/pinus/pull/598)
 
