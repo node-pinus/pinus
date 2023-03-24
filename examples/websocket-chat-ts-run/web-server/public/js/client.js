@@ -280,4 +280,27 @@ $(document).ready(function() {
 			});
 		}
 	});
+	
+	$("#protobufTest").click(function() {
+		var route = "gate.gateHandler.protobufTest";
+		const obj = {demo1:{a:'test', b:678, c: true}};
+		const map = new Map();
+		map.set('demo2', {d:"map1", e:999, f: false})
+		pomelo.init({
+			host: window.location.hostname,
+			port: 3014,
+			log: true
+		}, function() {
+			pomelo.request(route, {
+				username: 'user123',
+				obj: obj,
+				map: map
+			}, function(data) {
+				alert(JSON.stringify(data))
+				console.info(data);
+			});
+		});
+
+		
+	});
 });

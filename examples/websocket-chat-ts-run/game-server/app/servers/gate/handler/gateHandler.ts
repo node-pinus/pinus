@@ -1,5 +1,5 @@
 import { dispatch } from '../../../util/dispatcher';
-import { Application, BackendSession } from 'pinus';
+import {Application, BackendSession, FrontendSession} from 'pinus';
 import { Injectable } from '@nestjs/common';
 import { getNestClass } from '../../../util/nestutil';
 
@@ -40,5 +40,15 @@ export class GateHandler {
             host: res.host,
             port: res.clientPort
         };
+    }
+    
+    /**
+     * protobuftest include obj and map
+     * @param msg
+     * @param session
+     */
+    async protobufTest(msg: { username: string, obj:{[key: string]: {a: string, b: number, c: boolean}},map:Map<string, {d: string, e: number, f: boolean}> }, session: FrontendSession){
+        console.log(msg);
+        return msg;
     }
 }
