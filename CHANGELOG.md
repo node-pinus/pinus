@@ -1,5 +1,5 @@
 
-### 1.6.6
+### 1.7.0
 
 [pinus-rpc] 修复mqtt的rpc-client概率自动断开连接问题 [#650](https://github.com/node-pinus/pinus/issues/650)
 
