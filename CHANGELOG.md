@@ -1,5 +1,5 @@
 
-### 1.6.x
+### 1.6.6
 
 [pinus-rpc] 修复mqtt的rpc-client概率自动断开连接问题 [#650](https://github.com/node-pinus/pinus/issues/650)
 
@@ -7,7 +7,7 @@
 
 [pinus-rpc] 修复typescript 5.x编译错误 [#652](https://github.com/node-pinus/pinus/issues/652)
 
-
+[pinus-protobuf] 新增对map和object的编码和解码支持 [#653](https://github.com/node-pinus/pinus/pull/653)
 
 
 ### 1.6.5
