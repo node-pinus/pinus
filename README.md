@@ -1,5 +1,4 @@
 
-[![Build Status](https://travis-ci.org/node-pinus/pinus.svg?branch=master)](https://travis-ci.org/node-pinus/pinus)
 [![Actions Status](https://github.com/node-pinus/pinus/workflows/ci/badge.svg?branch=master&event=push)](https://github.com/node-pinus/pinus/actions)
 
 官方网站：[https://pinus.io](https://pinus.io)
