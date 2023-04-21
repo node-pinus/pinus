@@ -1167,10 +1167,10 @@
   resolved "https://registry.npmjs.org/@tootallnate/once/-/once-1.1.2.tgz"
   integrity sha512-RbzJvlNzmRq5c3O09UipeuXno4tA1FE6ikOjxZK0tuxVv3412l64l5t1W5pj4+rJq9vpkm/kwiR07aZXnsKPxw==
 
-"@types/async@3.2.16", "@types/async@^3.0.0":
-  version "3.2.16"
-  resolved "https://registry.yarnpkg.com/@types/async/-/async-3.2.16.tgz#7473aa015cf8a60584a94dc79b9203d465c32b41"
-  integrity sha512-jnlGp5Z/cAZ7JVYyLnSDuYJ+YyYm0o2yzL8Odv6ckWmGMow3j/P/wgfziybB044cXXA93lEuymJyxVR8Iz2amQ==
+"@types/async@3.2.19", "@types/async@^3.0.0":
+  version "3.2.19"
+  resolved "https://registry.yarnpkg.com/@types/async/-/async-3.2.19.tgz#95d97d2bd35cee2fd6534679b37d85c4f8af4de6"
+  integrity sha512-MSgZeRq5H2zm212k1uzlBM/67MTco4O8EFsUmyK96Xg0dOGQMReXKuB9QiBzGz6B0XPWPasjNBbPtMuy3qvtmQ==
 
 "@types/bluebird@^3.5.19":
   version "3.5.38"
