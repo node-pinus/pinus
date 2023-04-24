@@ -47,8 +47,8 @@ export class ProxyComponent implements IComponent {
         opts.bufferMsg = opts.bufferMsg || opts.cacheMsg || false;
         opts.interval = opts.interval || 30;
         opts.router = genRouteFun();
-        opts.context = app;
-        opts.routeContext = app;
+        opts.context = opts.context ?? app;
+        opts.routeContext = opts.routeContext ?? app;
         if (app.enabled('rpcDebugLog')) {
             opts.rpcDebugLog = true;
             opts.rpcLogger = getLogger('rpc-debug', path.basename(__filename));
@@ -196,8 +196,8 @@ export function manualReloadProxies(app: Application) {
  * @return {Object} rpc client
  */
 let genRpcClient = function (app: Application, opts: RpcClientOpts & { rpcClient?: { create: (opts: RpcClientOpts) => RpcClient; } }) {
-    opts.context = app;
-    opts.routeContext = app;
+    opts.context = opts.context ?? app;
+    opts.routeContext = opts.routeContext ?? app;
     if (!!opts.rpcClient) {
         return opts.rpcClient.create(opts);
     } else {
