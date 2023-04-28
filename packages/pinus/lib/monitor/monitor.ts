@@ -17,6 +17,7 @@ let logger = getLogger('pinus', path.basename(__filename));
 
 export interface MonitorOptions {
     closeWatcher ?: boolean;
+    monitorAgentClientFactory?: admin.IMonitorAgentClientFactory;
 }
 export class Monitor {
     app: Application;
@@ -25,6 +26,7 @@ export class Monitor {
     modules: IModule[] = [];
     closeWatcher: any;
     monitorConsole: ConsoleService;
+    monitorOpts: admin.MonitorConsoleServiceOpts;
 
     constructor(app: Application, opts ?: MonitorOptions) {
         opts = opts || {};
@@ -33,15 +35,17 @@ export class Monitor {
         this.masterInfo = app.getMaster();
         this.closeWatcher = opts.closeWatcher;
 
-        this.monitorConsole = admin.createMonitorConsole({
+        this.monitorOpts = {
             id: this.serverInfo.id,
             type: this.app.getServerType(),
             host: this.masterInfo.host,
             port: this.masterInfo.port,
             info: this.serverInfo,
             env: this.app.get(Constants.RESERVED.ENV),
-            authServer: app.get('adminAuthServerMonitor') // auth server function
-        });
+            authServer: app.get('adminAuthServerMonitor'), // auth server function
+            monitorAgentClientFactory: opts.monitorAgentClientFactory
+        };
+        this.monitorConsole = admin.createMonitorConsole(this.monitorOpts);
     }
 
     start(cb: (err?: Error) => void) {
@@ -84,14 +88,9 @@ export class Monitor {
     reconnect(masterInfo: MasterInfo) {
         let self = this;
         this.stop(function () {
-            self.monitorConsole = admin.createMonitorConsole({
-                id: self.serverInfo.id,
-                type: self.app.getServerType(),
-                host: masterInfo.host,
-                port: masterInfo.port,
-                info: self.serverInfo,
-                env: self.app.get(Constants.RESERVED.ENV)
-            });
+            self.monitorOpts.host = masterInfo.host;
+            self.monitorOpts.port = masterInfo.port;
+            self.monitorConsole = admin.createMonitorConsole(self.monitorOpts);
             self.startConsole(function () {
                 logger.info('restart modules for server : %j finish.', self.app.serverId);
             });
