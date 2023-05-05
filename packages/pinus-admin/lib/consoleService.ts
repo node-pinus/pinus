@@ -1,5 +1,5 @@
 import { getLogger } from 'pinus-logger';
-import {MonitorAgent} from './monitor/monitorAgent';
+import { IMonitorAgentClientFactory, MonitorAgent } from './monitor/monitorAgent';
 import { EventEmitter } from 'events';
 import { MasterAgent, MasterAgentOptions } from './master/masterAgent';
 import * as schedule from 'pinus-scheduler';
@@ -66,6 +66,7 @@ export interface MonitorConsoleServiceOpts {
     port?: number;
     env?: string;
     authServer ?: typeof utils.defaultAuthServerMaster;
+    monitorAgentClientFactory?: IMonitorAgentClientFactory;
 }
 
 export type ConsoleServiceOpts = MasterConsoleServiceOpts | MonitorConsoleServiceOpts;
@@ -136,7 +137,8 @@ export class ConsoleService extends EventEmitter {
                 consoleService: this,
                 id: this.id,
                 type: this.type,
-                info: monitorOpts.info
+                info: monitorOpts.info,
+                monitorAgentClientFactory: monitorOpts.monitorAgentClientFactory
             });
         }
     }
@@ -540,8 +542,8 @@ let aclControl = function (agent: MasterAgent, action: string, method: string, m
  * @param {Object} opts construct parameter
  *                      opts.port {String | Number} listen port for master console
  */
-export function createMasterConsole(opts: ConsoleServiceOpts) {
-    (opts as MasterConsoleServiceOpts).master = true;
+export function createMasterConsole(opts: MasterConsoleServiceOpts) {
+    opts.master = true;
     return new ConsoleService(opts);
 }
 
@@ -554,6 +556,6 @@ export function createMasterConsole(opts: ConsoleServiceOpts) {
  *                      opts.host {String} master server host
  *                      opts.port {String | Number} master port
  */
-export function createMonitorConsole(opts: ConsoleServiceOpts) {
+export function createMonitorConsole(opts: MonitorConsoleServiceOpts) {
     return new ConsoleService(opts);
 }

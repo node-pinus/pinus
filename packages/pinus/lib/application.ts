@@ -45,7 +45,7 @@ import { ModuleRecord } from './util/moduleUtil';
 import { ApplicationEventContructor, IPlugin } from './interfaces/IPlugin';
 import { Cron, ResponseErrorHandler } from './server/server';
 import { RemoterProxy } from './util/remoterHelper';
-import { FrontendOrBackendSession, ISession, ScheduleOptions, SID, UID } from './index';
+import { FrontendOrBackendSession, ISession, MonitorOptions, ScheduleOptions, SID, UID } from './index';
 
 let logger = getLogger('pinus', path.basename(__filename));
 
@@ -650,6 +650,7 @@ export class Application {
     set(setting: 'protobufConfig', val: ProtobufComponentOptions, attach?: boolean): Application;
     set(setting: 'connectorConfig', val: ConnectorComponentOptions, attach?: boolean): Application;
     set(setting: 'remoteConfig', val: RemoteComponentOptions, attach?: boolean): Application;
+    set(setting: 'monitorConfig', val: MonitorOptions, attach?: boolean): Application;
     set(setting: Constants.KEYWORDS.BEFORE_FILTER, val: BeforeHandlerFilter[], attach?: boolean): Application;
     set(setting: Constants.KEYWORDS.AFTER_FILTER, val: AfterHandlerFilter[], attach?: boolean): Application;
     set(setting: Constants.KEYWORDS.GLOBAL_BEFORE_FILTER, val: BeforeHandlerFilter[], attach?: boolean): Application;

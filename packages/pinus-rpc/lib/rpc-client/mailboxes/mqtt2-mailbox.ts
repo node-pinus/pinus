@@ -218,21 +218,13 @@ export class MQTT2MailBox extends EventEmitter {
     // console.log('checkKeepAlive lastPing %d lastPong %d ~~~', this.lastPing, this.lastPong);
     let now = Date.now();
     let KEEP_ALIVE_TIMEOUT = this.keepalive * 2;
-    if (this.lastPing > 0) {
-      if (this.lastPong < this.lastPing) {
-        if (now - this.lastPing > KEEP_ALIVE_TIMEOUT) {
-          logger.error('mqtt rpc client %s checkKeepAlive timeout from remote server %s for %d lastPing: %s lastPong: %s', this.serverId, this.id, KEEP_ALIVE_TIMEOUT, this.lastPing, this.lastPong);
-          this.emit('close', this.id);
-          this.lastPing = -1;
-          // this.close();
-        }
-      } else {
+    if (this.lastPong < this.lastPing && now - this.lastPing > KEEP_ALIVE_TIMEOUT) {
+        logger.error('mqtt rpc client %s checkKeepAlive timeout from remote server %s for %d lastPing: %s lastPong: %s', this.serverId, this.id, KEEP_ALIVE_TIMEOUT, this.lastPing, this.lastPong);
+        this.emit('close', this.id);
+        this.lastPing = -1;
+    } else {
         this.socket.pingreq();
         this.lastPing = Date.now();
-      }
-    } else {
-      this.socket.pingreq();
-      this.lastPing = Date.now();
     }
   }
 

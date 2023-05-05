@@ -7,6 +7,7 @@ import * as Util from 'util';
 import { ServerInfo, AdminServerInfo, Callback } from '../util/constants';
 import { ConsoleService } from '../consoleService';
 import * as path from 'path';
+import { RobustMqttClient } from '../protocol/mqtt/robustMqttClient';
 let logger = getLogger('pinus-admin', path.basename(__filename));
 
 let ST_INITED = 1;
@@ -15,8 +16,19 @@ let ST_REGISTERED = 3;
 let ST_CLOSED = 4;
 let STATUS_INTERVAL = 5 * 1000; // 60 seconds
 
-export interface MonitorAgentOpts { id: string; type: string; info: ServerInfo; consoleService: ConsoleService; }
+export interface MonitorAgentOpts { id: string; type: string; info: ServerInfo; consoleService: ConsoleService; monitorAgentClientFactory?:  IMonitorAgentClientFactory}
 
+export interface IMonitorAgentClientFactory {
+    (opts: MonitorAgentOpts): MqttClient;
+}
+
+export function createDefaultMonitorAgentClient (opts: MonitorAgentOpts) {
+    return new MqttClient(opts);
+}
+
+export function createRobustMonitorAgentClient (opts: MonitorAgentOpts) {
+    return new RobustMqttClient(opts);
+}
 
 /**
  * MonitorAgent Constructor
@@ -36,6 +48,7 @@ export class MonitorAgent extends EventEmitter {
     type: string;
     info: ServerInfo;
     consoleService: ConsoleService;
+    monitorAgentClientFactory: IMonitorAgentClientFactory;
 
     reqId = 1;
     socket: MqttClient;
@@ -52,6 +65,7 @@ export class MonitorAgent extends EventEmitter {
         this.info = opts.info;
         this.state = ST_INITED;
         this.consoleService = opts.consoleService;
+        this.monitorAgentClientFactory = opts.monitorAgentClientFactory ?? createDefaultMonitorAgentClient;
     }
 
     /**
@@ -70,7 +84,7 @@ export class MonitorAgent extends EventEmitter {
 
         cb = cb || function () { };
 
-        this.socket = new MqttClient(this.opts);
+        this.socket = this.monitorAgentClientFactory(this.opts);
         this.socket.connect(host, port);
 
         // this.socket = sclient.connect(host + ':' + port, {
