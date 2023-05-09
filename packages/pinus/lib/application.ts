@@ -28,7 +28,7 @@ import { ChannelService, ChannelServiceOptions } from './common/service/channelS
 import { SessionComponent } from './components/session';
 import { ServerComponent } from './components/server';
 import { RemoteComponent, RemoteComponentOptions } from './components/remote';
-import { ProxyComponent, RouteFunction, RouteMaps } from './components/proxy';
+import { ProxyComponent, ProxyComponentOptions, RouteFunction, RouteMaps } from './components/proxy';
 import { ProtobufComponent, ProtobufComponentOptions } from './components/protobuf';
 import { MonitorComponent } from './components/monitor';
 import { MasterComponent } from './components/master';
@@ -651,6 +651,7 @@ export class Application {
     set(setting: 'connectorConfig', val: ConnectorComponentOptions, attach?: boolean): Application;
     set(setting: 'remoteConfig', val: RemoteComponentOptions, attach?: boolean): Application;
     set(setting: 'monitorConfig', val: MonitorOptions, attach?: boolean): Application;
+    set(setting: 'proxyConfig', val: ProxyComponentOptions, attach?: boolean): Application;
     set(setting: Constants.KEYWORDS.BEFORE_FILTER, val: BeforeHandlerFilter[], attach?: boolean): Application;
     set(setting: Constants.KEYWORDS.AFTER_FILTER, val: AfterHandlerFilter[], attach?: boolean): Application;
     set(setting: Constants.KEYWORDS.GLOBAL_BEFORE_FILTER, val: BeforeHandlerFilter[], attach?: boolean): Application;

@@ -145,6 +145,9 @@ export interface RpcClientOpts extends MailStationOpts {
 
      */
     dynamicUserProxy?: boolean;
+
+    // 默认路由生成不包含父类方法，导致本来可以在remote父类声明的方法只能在每个remote都写一份
+    containParentMethod?: boolean;
 }
 
 export interface RpcMsg {
@@ -545,7 +548,7 @@ export class RpcClient {
     private genObjectProxy(serviceName: string, origin: any, attach: RemoteServerCode) {
         // generate proxy for function field
         let res: { [key: string]: Proxy } = {};
-        let proto = listEs6ClassMethods(origin);
+        let proto = listEs6ClassMethods(origin, this.opts.containParentMethod);
         for (let field of proto) {
             res[field] = this.genFunctionProxy(serviceName, field, origin, attach);
         }
