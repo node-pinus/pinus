@@ -221,12 +221,13 @@ export let getBearcat = function () {
 };
 
 /**
- * 列出ES6的一个Class实例上的所有方法，但不包括父类的
+ * 列出ES6的一个Class实例上的所有方法
  * @param objInstance
+ * @param containParent ture 包含父类方法 默认不包含
  */
-export function listEs6ClassMethods(objInstance: { [key: string]: any }) {
+export function listEs6ClassMethods(objInstance: { [key: string]: any }, containParent?: boolean) {
+    let names: string[] = [];
     if (objInstance.prototype && objInstance.prototype.constructor === objInstance) {
-        let names: string[] = [];
         let methodNames = Object.getOwnPropertyNames(objInstance.prototype);
         for (let name of methodNames) {
             let method = objInstance.prototype[name];
@@ -234,16 +235,27 @@ export function listEs6ClassMethods(objInstance: { [key: string]: any }) {
             if (!(method instanceof Function) || name === 'constructor') continue;
             names.push(name);
         }
-        return names;
-    } else {
-        let names: string[] = [];
-        let methodNames = Object.getOwnPropertyNames(Object.getPrototypeOf(objInstance)).concat(Object.getOwnPropertyNames(objInstance));
-        for (let name of methodNames) {
-            let method = objInstance[name];
-            // Supposedly you'd like to skip constructor
-            if (!(method instanceof Function) || name === 'constructor') continue;
-            names.push(name);
-        }
-        return names;
     }
+    // 包含父类方法
+    else {
+        let methodNames = Object.getOwnPropertyNames(objInstance);
+        let instance = Object.getPrototypeOf(objInstance);
+        while (instance) {
+            methodNames.push(...Object.getOwnPropertyNames(instance));
+            instance = Object.getPrototypeOf(instance);
+
+            // 所有对象最底层都继承于Object，跳过Object对象的方法收集
+            if (!containParent || instance['constructor']?.name === Object.name) {
+                break;
+            }
+        }
+        for (let name of methodNames) {
+            // Supposedly you'd like to skip constructor
+            if (name !== 'constructor' && objInstance[name] instanceof Function) {
+                names.push(name);
+            }
+        }
+    }
+
+    return names;
 }
