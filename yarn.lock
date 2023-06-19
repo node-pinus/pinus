@@ -1192,10 +1192,10 @@
   resolved "https://registry.nlark.com/@types/cors/download/@types/cors-2.8.12.tgz"
   integrity sha1-ayxRCnrXA56Y57jT1lmPQ1nlwIA=
 
-"@types/crc@3.4.0", "@types/crc@^3.4.0":
-  version "3.4.0"
-  resolved "https://registry.nlark.com/@types/crc/download/@types/crc-3.4.0.tgz?cache=0&sync_timestamp=1621240983885&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40types%2Fcrc%2Fdownload%2F%40types%2Fcrc-3.4.0.tgz"
-  integrity sha1-I2a+tDmc1zSzPkLHrICVduYX1Io=
+"@types/crc@3.8.0", "@types/crc@^3.4.0":
+  version "3.8.0"
+  resolved "https://registry.yarnpkg.com/@types/crc/-/crc-3.8.0.tgz#688f9c236655af805ce71a791bd7925c997ccdff"
+  integrity sha512-m7woGxgPGlPSJ/4ae/7xf95QW4pDpEiaxlQgGyt+6JInQeKyEdZJybfjZueA84X9Lk8vckPyUnXdvU0nVs4r9w==
   dependencies:
     "@types/node" "*"
 
