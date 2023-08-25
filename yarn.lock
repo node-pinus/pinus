@@ -1285,9 +1285,9 @@
   integrity sha512-//oorEZjL6sbPcKUaCdIGlIUeH26mgzimjBB77G6XRgnDl/L5wOnpyBGRe/Mmf5CVW3PwEBE1NjiMZ/ssFh4wA==
 
 "@types/underscore@^1.9.4":
-  version "1.11.4"
-  resolved "https://registry.npmjs.org/@types/underscore/-/underscore-1.11.4.tgz"
-  integrity sha512-uO4CD2ELOjw8tasUrAhvnn2W4A0ZECOvMjCivJr4gA9pGgjv+qxKWY9GLTMVEK8ej85BxQOocUyE7hImmSQYcg==
+  version "1.11.8"
+  resolved "https://registry.yarnpkg.com/@types/underscore/-/underscore-1.11.8.tgz#278b49c13f8f35fd6215c4896393636e5aaf31ec"
+  integrity sha512-p6xsoGDciPWrMc5EgyYwPdluONx1dXiXAZ+CqfGMJfsGcm+VkSLS8fP7I1DWGa3uRo9o2E6mAgBAXpWQAhk8jg==
 
 "@types/uuid@^9.0.0":
   version "9.0.2"
