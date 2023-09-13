@@ -5,6 +5,7 @@ export function isSimpleType(type: string) {
         type === 'uInt64' ||
         type === 'sInt64' ||
         type === 'float' ||
+        type === 'bool' ||
         type === 'double');
 }
 

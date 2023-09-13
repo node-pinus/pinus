@@ -12,7 +12,8 @@ describe('msgEncoderTest', function () {
     let protobufCache = new Protobuf({
         encoderProtos: protos,
         decoderProtos: protos,
-        encoderCacheSize: 5 * 1024 * 1024
+        encoderCacheSize: 5 * 1024 * 1024,
+        decodeCheckMsg: true
     });
 
     it('encodeTest', function () {
@@ -88,6 +89,26 @@ describe('msgEncoderTest', function () {
         console.log('ProtobufCache length total:', len);
         // test ProtobufCache time: 416.399ms
         // ProtobufCache length total: 1780000
+    });
+
+    it('map test', () => {
+        console.time('map test')
+        const route = 'onTest';
+        let msg = tc[route];
+        const map1 = new Map();
+        map1.set('maptest', 'map');
+        msg['pathMap'][1222] = {'map1': map1};
+        let buffer = protobufCache.encode(route, msg);
+
+        console.log(JSON.stringify(msg));
+        console.log(buffer.length);
+        console.log(buffer);
+
+
+        let decodeMsg = protobufCache.decode(route, buffer);
+
+        console.log(JSON.stringify(decodeMsg));
+
     });
 });
 

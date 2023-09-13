@@ -771,7 +771,8 @@ require.register("pomelonode-pomelo-protobuf/lib/client/protobuf.js", function(e
     double : 1,
     string : 2,
     message : 2,
-    float : 5
+    float : 5,
+    bool : 0
   };
 
 })('undefined' !== typeof protobuf ? protobuf : module.exports, this);
@@ -1072,27 +1073,81 @@ require.register("pomelonode-pomelo-protobuf/lib/client/protobuf.js", function(e
 
     return true;
   }
-
-  function encodeMsg(buffer, offset, protos, msg){
-    for(var name in msg){
-      if(!!protos[name]){
-        var proto = protos[name];
-
-        switch(proto.option){
-          case 'required' :
-          case 'optional' :
-            offset = writeBytes(buffer, offset, encodeTag(proto.type, proto.tag));
-            offset = encodeProp(msg[name], proto.type, offset, buffer, protos);
-          break;
-          case 'repeated' :
-            if(msg[name].length > 0){
-              offset = encodeArray(msg[name], proto, offset, buffer, protos);
-            }
-          break;
+  
+  function encodeMsg(buffer, offset, protos, msg) {
+    if (msg instanceof Map) {
+      for (const [key, value] of msg) {
+        if (!!protos[key]) {
+          let proto = protos[key];
+          offset = _encodeMsg(buffer, offset, protos, proto, value);
         }
       }
     }
-
+    else {
+      for (let name in msg) {
+        if (!!protos[name]) {
+          let proto = protos[name];
+          offset = _encodeMsg(buffer, offset, protos, proto, msg[name]);
+        }
+      }
+    }
+    return offset;
+  }
+  
+  function _encodeMsg(buffer, offset, protos, proto, value) {
+    switch (proto.option) {
+      case 'required':
+      case 'optional':
+        offset = writeBytes(buffer, offset, encodeTag(proto.type, proto.tag));
+        offset = encodeProp(value, proto.type, offset, buffer, protos);
+        break;
+      case 'repeated':
+        if (!!value && value.length > 0) {
+          offset = encodeArray(value, proto, offset, buffer, protos);
+        }
+        break;
+      case 'map':
+        if (!!value) {
+          offset = encodeMap(value, proto, offset, buffer, protos);
+        }
+        ;
+        break;
+      case 'obj':
+        if (!!value) {
+          offset = encodeObject(value, proto, offset, buffer, protos);
+        }
+        ;
+        break;
+    }
+    return offset;
+  }
+  
+  function encodeMap(map, proto, offset, buffer, protos) {
+    const size = map.size;
+    offset = writeBytes(buffer, offset, encodeTag(proto.type, proto.tag));
+    offset = writeBytes(buffer, offset, codec.encodeUInt32(size));
+    for (const [key, value] of map) {
+      let message = protos.__messages[proto.type] || MsgEncoder.protos['message ' + proto.type];
+      // map key
+      offset = encodeProp(key, message.key.type, offset, buffer, protos);
+      offset = encodeProp(value, message.value.type, offset, buffer, protos);
+    }
+    return offset;
+  }
+  function encodeObject(obj, proto, offset, buffer, protos) {
+    const keys = Object.keys(obj);
+    if (keys.length === 0) {
+      return offset;
+    }
+    offset = writeBytes(buffer, offset, encodeTag(proto.type, proto.tag));
+    offset = writeBytes(buffer, offset, codec.encodeUInt32(keys.length));
+    for (let key in obj) {
+      let message = protos.__messages[proto.type] || MsgEncoder.protos['message ' + proto.type];
+      // map key
+      offset = encodeProp(key, message.key.type, offset, buffer, protos);
+      const value = obj[key];
+      offset = encodeProp(value, message.value.type, offset, buffer, protos);
+    }
     return offset;
   }
 
@@ -1122,6 +1177,10 @@ require.register("pomelonode-pomelo-protobuf/lib/client/protobuf.js", function(e
         codec.encodeStr(buffer, offset, value);
         offset += length;
       break;
+      case 'bool':
+        const intValue = value ? 1 : 0;
+        offset = writeBytes(buffer, offset, codec.encodeUInt32(intValue));
+        break;
       default :
         var message = protos.__messages[type] || MsgEncoder.protos['message ' + type];
         if(!!message){
@@ -1235,10 +1294,41 @@ require.register("pomelonode-pomelo-protobuf/lib/client/protobuf.js", function(e
           }
           decodeArray(msg[name], protos[name].type, protos);
         break;
+        case 'map':
+          if (!msg[name]) {
+            msg[name] = new Map();
+          }
+          decodeMap(msg[name], protos[name].type, protos);
+          break;
+        case 'obj':
+          if (!msg[name]) {
+            msg[name] = {};
+          }
+          decodeObject(msg[name], protos[name].type, protos);
+          break;
       }
     }
 
     return msg;
+  }
+  
+  function decodeMap(map, type, protos) {
+    let length = codec.decodeUInt32(getBytes());
+    let message = protos && (protos.__messages[type] || MsgDecoder.protos['message ' + type]);
+    for (let i = 0; i < length; i++) {
+      const key = decodeProp(message.key.type, protos);
+      const value = decodeProp(message.value.type, protos);
+      map.set(key, value);
+    }
+  }
+  function decodeObject(map, type, protos) {
+    let length = codec.decodeUInt32(getBytes());
+    let message = protos && (protos.__messages[type] || MsgDecoder.protos['message ' + type]);
+    for (let i = 0; i < length; i++) {
+      const key = decodeProp(message.key.type, protos);
+      const value = decodeProp(message.value.type, protos);
+      map[key] = value;
+    }
   }
 
   /**
@@ -1293,8 +1383,13 @@ require.register("pomelonode-pomelo-protobuf/lib/client/protobuf.js", function(e
         offset += length;
 
         return str;
+      case 'bool':
+        const value = codec.decodeUInt32(getBytes());
+        const boolValue = value ? true : false;
+        return boolValue;
+        break;
       default :
-        var message = protos && (protos.__messages[type] || MsgDecoder.protos['message ' + type]);
+        let message = protos && (protos.__messages[type] || MsgDecoder.protos['message ' + type]);
         if(!!message){
           var length = codec.decodeUInt32(getBytes());
           var msg = {};

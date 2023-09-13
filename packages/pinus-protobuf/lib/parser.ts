@@ -37,6 +37,8 @@ function parseObject(obj: {[key: string]: any}) {
                 continue;
             case 'required':
             case 'optional':
+            case 'map':
+            case 'obj':
             case 'repeated': {
                 // params length should be 3 and tag can't be duplicated
                 if (params.length !== 3 || !!tags[tag]) {
