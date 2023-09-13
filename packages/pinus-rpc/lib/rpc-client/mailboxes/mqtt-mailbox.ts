@@ -40,13 +40,13 @@ export class MailBox extends EventEmitter implements IMailBox {
     host: string;
     port: number;
     requests: {[id: number]: MailBoxTimeoutCallback} = {};
-    timeout: {[id: number]: NodeJS.Timer} = {};
+    timeout: {[id: number]: NodeJS.Timeout} = {};
     queue: MailBoxMessage[] = [];
     bufferMsg: boolean;
     keepalive: number;
     interval: number;
     timeoutValue: any;
-    keepaliveTimer: NodeJS.Timer;
+    keepaliveTimer: NodeJS.Timeout;
     lastPing = -1;
     lastPong = -1;
     connected = false;
@@ -54,7 +54,7 @@ export class MailBox extends EventEmitter implements IMailBox {
     opts: any;
     serverId: string;
     socket: any;
-    _interval: NodeJS.Timer;
+    _interval: NodeJS.Timeout;
     _errored = false;
 
     connect(tracer: Tracer, cb: (err?: Error) => void) {

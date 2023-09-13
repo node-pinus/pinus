@@ -21,7 +21,7 @@ export class HeartbeatCommand {
     heartbeat: number;
     timeout: number;
     disconnectOnTimeout: boolean;
-    timeouts: { [socketId: number]: NodeJS.Timer } = {};
+    timeouts: { [socketId: number]: NodeJS.Timeout } = {};
     clients: { [socketId: number]: number } = {};
     constructor(opts?: HeartbeatCommandOptions) {
         opts = opts || {};

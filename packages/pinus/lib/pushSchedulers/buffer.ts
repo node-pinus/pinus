@@ -13,7 +13,7 @@ export class BufferPushScheduler {
     app: Application;
     flushInterval: number;
     sessions: { [sid: number]: Session[] } = {};   // sid -> msg queue
-    tid: NodeJS.Timer = null;
+    tid: NodeJS.Timeout = null;
 
     constructor(app: Application, opts?: BufferPushSchedulerOptions) {
 

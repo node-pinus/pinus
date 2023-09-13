@@ -39,7 +39,7 @@ export class TCPMailBox extends EventEmitter implements IMailBox {
     composer: Composer;
     ping: number;
     pong: number;
-    timer: {ping?: NodeJS.Timer, pong?: NodeJS.Timer};
+    timer: {ping?: NodeJS.Timeout, pong?: NodeJS.Timeout};
 
     constructor(serverInfo: {id: string, host: string, port: number}, opts: MailBoxOpts) {
         super();

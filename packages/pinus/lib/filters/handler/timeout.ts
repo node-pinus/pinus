@@ -15,7 +15,7 @@ let DEFAULT_TIMEOUT = 3000;
 let DEFAULT_SIZE = 500;
 
 export class TimeoutFilter implements IHandlerFilter {
-    timeouts: { [id: number]: NodeJS.Timer } = {};
+    timeouts: { [id: number]: NodeJS.Timeout } = {};
     curId = 0;
     private timeOutCount = 0;
 

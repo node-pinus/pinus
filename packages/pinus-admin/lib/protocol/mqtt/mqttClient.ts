@@ -31,11 +31,11 @@ export class MqttClient extends EventEmitter {
     lastPing = -1;
     lastPong = -1;
     closed = false;
-    timeoutId: NodeJS.Timer = null;
+    timeoutId: NodeJS.Timeout = null;
     connected = false;
-    reconnectId: NodeJS.Timer = null;
+    reconnectId: NodeJS.Timeout = null;
     timeoutFlag = false;
-    keepaliveTimer: NodeJS.Timer = null;
+    keepaliveTimer: NodeJS.Timeout = null;
     reconnectDelay = 0;
     constructor(opts: MqttClientOpts) {
         super();

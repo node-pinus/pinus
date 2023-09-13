@@ -81,7 +81,7 @@ export class MasterServer {
             crashLogger.info(util.format('[%s],[%s],[%s],[%s]', type, id, Date.now(), reason || 'disconnect'));
             let count = 0;
             let time = 0;
-            let pingTimer: NodeJS.Timer = null;
+            let pingTimer: NodeJS.Timeout = null;
             let server = self.app.getServerById(id);
             let stopFlags = self.app.get(Constants.RESERVED.STOP_SERVERS) || [];
             let autoRestart: any = server && server[Constants.RESERVED.AUTO_RESTART] || '';
