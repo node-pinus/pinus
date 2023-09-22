@@ -120,7 +120,7 @@ export class Actor extends EventEmitter implements IActor {
    * @param {Number} timerId
    *
    */
-  clean(timerId: NodeJS.Timer) {
+  clean(timerId: NodeJS.Timeout) {
     clearTimeout(timerId);
   }
 

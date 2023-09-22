@@ -40,7 +40,7 @@ export class TCPAcceptor extends EventEmitter implements IAcceptor {
 
     ping: number;
 
-    timer: {[key: number]: NodeJS.Timer};
+    timer: {[key: number]: NodeJS.Timeout};
 
     socketId: number;
 
