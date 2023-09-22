@@ -1274,10 +1274,10 @@
   resolved "https://registry.nlark.com/@types/normalize-package-data/download/@types/normalize-package-data-2.4.1.tgz?cache=0&sync_timestamp=1625675913982&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40types%2Fnormalize-package-data%2Fdownload%2F%40types%2Fnormalize-package-data-2.4.1.tgz"
   integrity sha1-0zV0eaD9/dWQf+Z+F+CoXJBuEwE=
 
-"@types/optimist@0.0.30":
-  version "0.0.30"
-  resolved "https://registry.nlark.com/@types/optimist/download/@types/optimist-0.0.30.tgz"
-  integrity sha1-a5GzEsQlakWo3yyqJ41hGdtT7xM=
+"@types/optimist@0.0.31":
+  version "0.0.31"
+  resolved "https://registry.yarnpkg.com/@types/optimist/-/optimist-0.0.31.tgz#37b7645c862859f13c56ce8046aad4582af8a62b"
+  integrity sha512-lYVCVdDiLfQMrvhH9eJgwZK5Av1yQRfbwPb6LjvY9R2SZ2v1vxCXngZwJy0JROFfzq42MQ/OvomOFIRmWQCAgw==
 
 "@types/parse-json@^4.0.0":
   version "4.0.0"
