@@ -38,7 +38,7 @@
 		"@types/async": "^3.0.0",
 		"@types/bluebird": "^3.5.19",
 		"@types/crc": "^3.4.0",
-		"@types/node": "^12.20.41",
+		"@types/node": "^20.8.10",
 		"@types/uuid": "^9.0.0",
 		"@types/ws": "^8.5.4",
 		"mocha": "6.2.2",
