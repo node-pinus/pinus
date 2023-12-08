@@ -23,7 +23,7 @@
 		"node": ">=12.9.0"
 	},
 	"dependencies": {
-		"reflect-metadata": "0.1.13"
+		"reflect-metadata": "0.1.14"
 	},
 	"devDependencies": {
 		"@types/node": "^12.20.41",
