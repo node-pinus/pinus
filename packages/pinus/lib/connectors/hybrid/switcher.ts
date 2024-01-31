@@ -24,7 +24,7 @@ let ST_CLOSED = 2;
 
 let DEFAULT_TIMEOUT = 90;
 
-export type SslWatcher = (cb:(opts: tls.SecureContextOptions) => void) => void;
+export type SslWatcher = (cb: (opts: tls.SecureContextOptions) => void) => void;
 export interface HybridSwitcherOptions {
     closeMethod ?: 'end';
     timeout ?: number;
