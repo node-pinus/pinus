@@ -12,7 +12,7 @@ import { MqttClient } from './mqttClient';
 let logger = getLogger('pinus-admin', path.basename(__filename));
 
 export class RobustMqttClient extends MqttClient {
-    
+
     connect(host ?: string, port ?: number, cb ?: Function) {
         super.connect(host, port, cb);
 
