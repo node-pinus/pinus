@@ -112,7 +112,7 @@ describe('connection service test', function () {
         });
     });
 
-    it('should getStatisticsInfo', function (done: MochaDone) {
+    it('should getStatisticsInfo', function (done: Mocha.Done) {
         let service = new ConnectionService(mockApp);
         let uid1 = 'uid1', uid2 = 'uid2';
         let info1 = { msg: 'msg1' }, info2 = { msg: 'msg2' };

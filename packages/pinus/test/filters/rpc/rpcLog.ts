@@ -9,7 +9,7 @@ let mockData = {
 };
 
 describe('#rpcLogFilter', function () {
-    it('should do after filter by before filter', function (done: MochaDone) {
+    it('should do after filter by before filter', function (done: Mocha.Done) {
         rpcLogFilter.before(mockData.serverId, mockData.msg, mockData.opts, function () {
             rpcLogFilter.after(mockData.serverId, mockData.msg, mockData.opts, function (serverId: number, msg: string, opts: any) {
                 should.exist((mockData.opts as any)['__start_time__']);

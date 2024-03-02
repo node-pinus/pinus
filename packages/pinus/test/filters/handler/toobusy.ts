@@ -8,7 +8,7 @@ let mockSession = {
 };
 
 describe('#toobusyFilter', function () {
-    it('should do before filter ok', function (done: MochaDone) {
+    it('should do before filter ok', function (done: Mocha.Done) {
         let service = new FilterService();
         let filter = new toobusyFilter();
         service.before(filter);
@@ -20,7 +20,7 @@ describe('#toobusyFilter', function () {
         });
     });
 
-    it('should do before filter error because of too busy', function (done: MochaDone) {
+    it('should do before filter error because of too busy', function (done: Mocha.Done) {
         let service = new FilterService();
         let filter = new toobusyFilter(3);
         service.before(filter);

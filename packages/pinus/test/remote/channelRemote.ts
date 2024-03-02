@@ -17,7 +17,7 @@ let WAIT_TIME = 200;
 
 describe('channel remote test', function () {
     describe('#pushMessage', function () {
-        it('should push message the the specified clients', function (done: MochaDone) {
+        it('should push message the the specified clients', function (done: Mocha.Done) {
             this.timeout(5555)
             let sids = [1, 2, 3, 4, 5, 6];
             let uids = [11, 12, 13];
@@ -79,7 +79,7 @@ describe('channel remote test', function () {
     });
 
     describe('#broadcast', function () {
-        it('should broadcast to all the client connected', function (done: MochaDone) {
+        it('should broadcast to all the client connected', function (done: Mocha.Done) {
             let sids = [1, 2, 3, 4, 5];
             let uids = [11, 12, 13, 14, 15];
             let frontendId = 'frontend-server-id';
@@ -123,7 +123,7 @@ describe('channel remote test', function () {
             });
         });
 
-        it('should broadcast to all the binded client connected', function (done: MochaDone) {
+        it('should broadcast to all the binded client connected', function (done: Mocha.Done) {
             let sids = [1, 2, 3, 4, 5, 6];
             let uids = [11, 12, 13];
             let frontendId = 'frontend-server-id';

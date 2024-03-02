@@ -21,7 +21,7 @@ describe('countdown latch test', function () {
     let countDownLatch2;
 
     describe('#count down', function () {
-        it('should invoke the callback after the done method was invoked the specified times', function (done: MochaDone) {
+        it('should invoke the callback after the done method was invoked the specified times', function (done: Mocha.Done) {
             let n = 3, doneCount = 0;
             let cdl = CountDownLatch.createCountDownLatch(n, function () {
                 doneCount.should.equal(n);

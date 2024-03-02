@@ -9,7 +9,7 @@ let mockSession: { key: string, __timeout__?: any } = {
 
 let WAIT_TIME = 100;
 describe('#timeoutFilter', function () {
-    it('should do before filter ok', function (done: MochaDone) {
+    it('should do before filter ok', function (done: Mocha.Done) {
         let service = new FilterService();
         let filter = new timeoutFilter();
         service.before(filter);
@@ -22,7 +22,7 @@ describe('#timeoutFilter', function () {
         });
     });
 
-    it('should do after filter by doing before filter ok', function (done: MochaDone) {
+    it('should do after filter by doing before filter ok', function (done: Mocha.Done) {
         let service = new FilterService();
         let filter = new timeoutFilter();
         let _session: { key: string, __timeout__?: any };

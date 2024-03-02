@@ -49,7 +49,7 @@ class MockSession {
 
 describe('filter service test', function () {
     describe('#filter', function () {
-        it('should register before filter by calling before method and fire filter chain by calling beforeFilter', function (done: MochaDone) {
+        it('should register before filter by calling before method and fire filter chain by calling beforeFilter', function (done: Mocha.Done) {
             let session = new MockSession();
             let service = new FilterService();
             service.before(mockFilter1);
@@ -64,7 +64,7 @@ describe('filter service test', function () {
             });
         });
 
-        it('should register after filter by calling after method and fire filter chain by calling afterFilter', function (done: MochaDone) {
+        it('should register after filter by calling after method and fire filter chain by calling afterFilter', function (done: Mocha.Done) {
             let session = new MockSession();
             let service = new FilterService();
             service.after(mockFilter1);
@@ -79,7 +79,7 @@ describe('filter service test', function () {
             });
         });
 
-        it('should be ok if filter is a function', function (done: MochaDone) {
+        it('should be ok if filter is a function', function (done: Mocha.Done) {
             let session = { beforeCount: 0, afterCount: 0 };
             let service = new FilterService();
             let beforeCount = 0, afterCount = 0;
@@ -107,7 +107,7 @@ describe('filter service test', function () {
             done();
         });
 
-        it('should not invoke the callback if filter not invoke callback', function (done: MochaDone) {
+        it('should not invoke the callback if filter not invoke callback', function (done: Mocha.Done) {
             let session = new MockSession();
             let service = new FilterService();
             let beforeCount = 0, afterCount = 0;
@@ -133,7 +133,7 @@ describe('filter service test', function () {
             }, WAIT_TIME);
         });
 
-        it('should pass the err and resp parameters to callback and ignore the filters behind if them specified in before filter', function (done: MochaDone) {
+        it('should pass the err and resp parameters to callback and ignore the filters behind if them specified in before filter', function (done: Mocha.Done) {
             let session = new MockSession();
             let service = new FilterService();
             let error = 'some error message';

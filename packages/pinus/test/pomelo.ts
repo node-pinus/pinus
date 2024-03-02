@@ -5,7 +5,7 @@ let mockBase = process.cwd() + '/test';
 
 describe('pinus', function () {
   describe('#createApp', function () {
-    it('should create and get app, be the same instance', function (done: MochaDone) {
+    it('should create and get app, be the same instance', function (done: Mocha.Done) {
       let app = pinus.createApp({ base: mockBase });
       should.exist(app);
 

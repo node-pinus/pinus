@@ -102,7 +102,7 @@ describe('channel test', function () {
   });
 
   describe('#pushMessage', function () {
-    it('should push message to the right frontend server by sid', function (done: MochaDone) {
+    it('should push message to the right frontend server by sid', function (done: Mocha.Done) {
       let sid1 = 'sid1', sid2 = 'sid2';
       let uid1 = 'uid1', uid2 = 'uid2', uid3 = 'uid3';
       let mockUids = [{ sid: sid1, uid: uid1 }, { sid: sid2, uid: uid2 }, { sid: sid2, uid: uid3 }];

@@ -33,7 +33,7 @@ let mockRouteRecord = { serverType: 'connector', handler: 'testHandler', method:
 
 describe('handler service test', function () {
     describe('handle', function () {
-        it('should dispatch the request to the handler if the route match current server type', function (done: MochaDone) {
+        it('should dispatch the request to the handler if the route match current server type', function (done: Mocha.Done) {
             let invoke1Count = 0, invoke2Count = 0;
             // mock datas
             let mockHandlers = {
@@ -62,7 +62,7 @@ describe('handler service test', function () {
             });
         });
 
-        it('should return an error if can not find the appropriate handler locally', function (done: MochaDone) {
+        it('should return an error if can not find the appropriate handler locally', function (done: Mocha.Done) {
             let mockHandlers = {};
             let mockOpts = {};
             let service = new HandlerService(mockApp, mockOpts);
