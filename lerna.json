@@ -19,6 +19,5 @@
     "examples/robot-sample"
   ],
   "version": "1.7.0",
-  "npmClient": "yarn",
-  "useWorkspaces": true
+  "npmClient": "yarn"
 }

@@ -49,14 +49,14 @@
   "main": "./dist/lib/index",
   "types": "./lib/index",
   "dependencies": {
-    "async": "^3.0.0",
+    "async": "^3.2.5",
     "colors": "^1.4.0",
-    "commander": "3.0.2",
+    "commander": "12.0.0",
     "crc": "^4.3.2",
     "eyes": "^0.1.8",
     "mkdirp": "^3.0.1",
     "mqtt-connection": "^4.1.0",
-    "node-bignumber": "^1.2.1",
+    "node-bignumber": "^1.2.2",
     "pinus-admin": "^1.7.0",
     "pinus-loader": "^1.7.0",
     "pinus-logger": "^1.7.0",
@@ -66,8 +66,8 @@
     "pinus-scheduler": "^1.7.0",
     "pretty-columns": "^1.2.1",
     "seq-queue": "^0.0.5",
-    "socket.io": "^4.1.3",
-    "ws": "^8.12.0"
+    "socket.io": "^4.7.4",
+    "ws": "^8.16.0"
   },
   "bin": {
     "pinus": "./dist/bin/pinus.js"
@@ -77,13 +77,13 @@
     "@types/crc": "3.8.3",
     "@types/eyes": "0.1.35",
     "@types/mkdirp": "2.0.0",
-    "@types/mocha": "^5.0.0",
-    "@types/node": "^12.20.41",
-    "@types/ws": "8.5.4",
+    "@types/mocha": "^10.0.6",
+    "@types/node": "^20.11.24",
+    "@types/ws": "8.5.10",
     "mocha": "10.3.0",
     "nyc": "15.1.0",
     "should": "13.2.3",
     "tslint": "6.1.3",
-    "typescript": "^4.3.5"
+    "typescript": "^5.3.3"
   }
 }
