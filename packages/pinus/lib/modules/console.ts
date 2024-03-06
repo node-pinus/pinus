@@ -228,7 +228,7 @@ let restart = function (app: Application, agent: MasterAgent, msg: any, cb: Mast
     let request = function (id: string) {
         return (function () {
             agent.request(id, ConsoleModule.moduleId, { signal: msg.signal }, function (msg) {
-                if (msg && !Object.keys(msg).length) {
+                if (!msg || !Object.keys(msg).length) {
                     latch.done();
                     return;
                 }
