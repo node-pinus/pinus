@@ -8,7 +8,7 @@ taskManager.timeout = 100;
 let WAIT_TIME = 200;
 
 describe('#taskManager', function () {
-  it('should add task and execute it', function (done: MochaDone) {
+  it('should add task and execute it', function (done: Mocha.Done) {
     let key = 'key-1';
     let fn = function (task: any) {
       taskCount++;
@@ -27,7 +27,7 @@ describe('#taskManager', function () {
     }, WAIT_TIME);
   });
 
-  it('should fire timeout callback if task timeout', function (done: MochaDone) {
+  it('should fire timeout callback if task timeout', function (done: Mocha.Done) {
     let key = 'key-1';
     let fn = function (task: any) {
       taskCount++;
@@ -47,7 +47,7 @@ describe('#taskManager', function () {
     }, WAIT_TIME);
   });
 
-  it('should not fire timeout after close the task', function (done: MochaDone) {
+  it('should not fire timeout after close the task', function (done: Mocha.Done) {
     let key = 'key-1';
     let fn = function (task: any) {
       taskCount++;

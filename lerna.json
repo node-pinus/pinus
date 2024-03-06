@@ -1,5 +1,5 @@
 {
-  "lerna": "3.19.0",
+  "lerna": "6.6.2",
   "packages": [
     "packages/pinus",
     "packages/pinus-admin",

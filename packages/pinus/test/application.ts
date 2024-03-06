@@ -57,7 +57,7 @@ describe('application test', function () {
   });
 
   describe('#compoent', function () {
-    it('should load the component and fire their lifecircle callback by app.start, app.afterStart, app.stop', function (done: MochaDone) {
+    it('should load the component and fire their lifecircle callback by app.start, app.afterStart, app.stop', function (done: Mocha.Done) {
       let startCount = 0, afterStartCount = 0, stopCount = 0;
       if(require('os').platform() === 'linux') {
           done();
@@ -86,6 +86,7 @@ describe('application test', function () {
       };
 
       app.init({ base: mockBase });
+      app.components.__monitor__ = { monitor: null, name: 'mockMonitor', start: () => {}, stop: () => {}, reconnect: () => {} };
       app.load(mockComponent);
       app.start(function (err: Error) {
         should.not.exist(err);
@@ -424,7 +425,7 @@ describe('application test', function () {
   });
 
   describe('#add and remove servers', function () {
-    it('should add servers and emit event and fetch the new server info by get methods', function (done: MochaDone) {
+    it('should add servers and emit event and fetch the new server info by get methods', function (done: Mocha.Done) {
       let newServers = [
         { id: 'connector-server-1', serverType: 'connecctor', host: '127.0.0.1', port: 1234, clientPort: 3000, frontend: true },
         { id: 'area-server-1', serverType: 'area', host: '127.0.0.1', port: 2234 }
@@ -479,7 +480,7 @@ describe('application test', function () {
       app.event.removeAllListeners()
     });
 
-    it('should remove server info and emit event', function (done: MochaDone) {
+    it('should remove server info and emit event', function (done: Mocha.Done) {
       let newServers = [
         { id: 'connector-server-1', serverType: 'connecctor', host: '127.0.0.1', port: 1234, clientPort: 3000, frontend: true },
         { id: 'area-server-1', serverType: 'area', host: '127.0.0.1', port: 2234 },
@@ -552,7 +553,7 @@ describe('application test', function () {
   });
 
   describe('#beforeStopHook', function () {
-    it('should be called before application stopped.', function (done: MochaDone) {
+    it('should be called before application stopped.', function (done: Mocha.Done) {
       if(require('os').platform() === 'linux') {
         done();
         return;
@@ -560,6 +561,7 @@ describe('application test', function () {
       let count = 0;
       this.timeout(8888)
       app.init({ base: mockBase });
+      app.components.__monitor__ = { monitor: null, name: 'mockMonitor', start: () => {}, stop: () => {}, reconnect: () => {} };
       app.beforeStopHook(function () {
         count++;
       });
@@ -580,7 +582,7 @@ describe('application test', function () {
     });
   });
   describe('#use', function () {
-    it('should exist plugin component and event', function (done: MochaDone) {
+    it('should exist plugin component and event', function (done: Mocha.Done) {
       let plugin = {
         name: 'mock-plugin',
         components: [MockPlugin],

@@ -115,7 +115,7 @@ describe('console module test', function () {
             }
         };
         let module = new consoleModule(opts);
-        it('should execute kill command', function (done: MochaDone) {
+        it('should execute kill command', function (done: Mocha.Done) {
             if (done) {
                 done()
                 return
@@ -170,7 +170,7 @@ describe('console module test', function () {
             });
         });
 
-        it('should execute stop command', function (done: MochaDone) {
+        it('should execute stop command', function (done: Mocha.Done) {
             this.timeout(5555)
             let msg1 = { signal: 'stop', ids: ['chat-server-1'] };
             let msg2 = { signal: 'stop', ids: <any>[] };

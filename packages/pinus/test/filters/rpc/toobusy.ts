@@ -10,7 +10,7 @@ let mockData = {
 
 
 describe('#toobusyFilter', function () {
-    it('should no callback for toobusy', function (done: MochaDone) {
+    it('should no callback for toobusy', function (done: Mocha.Done) {
         try {
             require('toobusy');
         } catch (e) {

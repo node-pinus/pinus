@@ -62,7 +62,7 @@ describe('channel manager test', function () {
   });
 
   describe('#pushMessageByUids', function () {
-    it('should push message to the right frontend server', function (done: MochaDone) {
+    it('should push message to the right frontend server', function (done: Mocha.Done) {
       let sid1 = 'sid1', sid2 = 'sid2';
       let uid1 = 'uid1', uid2 = 'uid2', uid3 = 'uid3';
       let orgRoute = 'test.route.string';
@@ -106,7 +106,7 @@ describe('channel manager test', function () {
       });
     });
 
-    it('should return an err if uids is empty', function (done: MochaDone) {
+    it('should return an err if uids is empty', function (done: Mocha.Done) {
       let mockMsg = { key: 'some remote message' };
       let app = pinus.createApp({ base: mockBase });
       let channelService = new ChannelService(app);
@@ -118,7 +118,7 @@ describe('channel manager test', function () {
       });
     });
 
-    it('should return err if all message fail to push', function (done: MochaDone) {
+    it('should return err if all message fail to push', function (done: Mocha.Done) {
       let sid1 = 'sid1', sid2 = 'sid2';
       let uid1 = 'uid1', uid2 = 'uid2', uid3 = 'uid3';
       let mockUids = [
@@ -151,7 +151,7 @@ describe('channel manager test', function () {
       });
     });
 
-    it('should return fail uid list if fail to push messge to some of the uids', function (done: MochaDone) {
+    it('should return fail uid list if fail to push messge to some of the uids', function (done: Mocha.Done) {
       let sid1 = 'sid1', sid2 = 'sid2';
       let uid1 = 'uid1', uid2 = 'uid2', uid3 = 'uid3';
       let mockUids = [{ sid: sid1, uid: uid1 }, { sid: sid2, uid: uid2 }, { sid: sid2, uid: uid3 }];
@@ -191,7 +191,7 @@ describe('channel manager test', function () {
   });
 
   describe('#broadcast', function () {
-    it('should push message to all specified frontend servers', function (done: MochaDone) {
+    it('should push message to all specified frontend servers', function (done: Mocha.Done) {
       let mockServers = [
         { id: 'connector-1', serverType: 'connector', other: 'xxx1' },
         { id: 'connector-2', serverType: 'connector', other: 'xxx2' },

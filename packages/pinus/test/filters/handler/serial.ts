@@ -10,7 +10,7 @@ let mockSession: { key: string, __serialTask__?: any } = {
 
 let WAIT_TIME = 100;
 describe('#serialFilter', function () {
-    it('should do before filter ok', function (done: MochaDone) {
+    it('should do before filter ok', function (done: Mocha.Done) {
         let service = new FilterService();
         let filter = new serialFilter();
         service.before(filter);
@@ -23,7 +23,7 @@ describe('#serialFilter', function () {
         });
     });
 
-    it('should do after filter by doing before filter ok', function (done: MochaDone) {
+    it('should do after filter by doing before filter ok', function (done: Mocha.Done) {
         let service = new FilterService();
         let filter = new serialFilter();
         let _session: { key: string, __serialTask__?: any };
