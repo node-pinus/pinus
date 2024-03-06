@@ -1,7 +1,7 @@
 import * as util from 'util';
 import { default as handler } from './common/handler';
 import { Package } from 'pinus-protocol';
-import * as EventEmitter from 'events';
+import { EventEmitter } from 'events';
 import { getLogger } from 'pinus-logger';
 import { ISocket } from '../interfaces/ISocket';
 import * as dgram from 'dgram';
