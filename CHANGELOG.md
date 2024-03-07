@@ -1,4 +1,21 @@
 
+### 1.7.1
+
+[pinus] context，routeContext改为如果有传递则使用传递对象 [#673](https://github.com/node-pinus/pinus/pull/673)
+
+[pinus-admin][pinus-rpc] 为了服务器健壮性，保证monitorAgent始终会进行健康及重连处理 [#677](https://github.com/node-pinus/pinus/pull/677)
+
+[pinus-rpc]rpc模块增加父类方法路由支持 [#684](https://github.com/node-pinus/pinus/pull/684)
+
+[pinus]修复typescript5.2.x版本clearTimeout,clearInterval编译错误 [#794](https://github.com/node-pinus/pinus/pull/794)
+
+[pinus]fix: lerna run lint 报错 [#880](https://github.com/node-pinus/pinus/pull/880)
+
+[pinus]fix: 修复单元测试 [#901](https://github.com/node-pinus/pinus/pull/901)
+
+[package] 更新依赖版本
+
+
 ### 1.7.0
 
 [pinus-rpc] 修复mqtt的rpc-client概率自动断开连接问题 [#650](https://github.com/node-pinus/pinus/issues/650)
