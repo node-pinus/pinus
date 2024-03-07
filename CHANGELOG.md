@@ -13,6 +13,14 @@
 
 [pinus]fix: 修复单元测试 [#901](https://github.com/node-pinus/pinus/pull/901)
 
+[package] Update yarn.lock fix yarn error.
+
+[pinus] 修复模板项目的 依赖版本号.
+
+[pinus-robot]修复 node依赖版本
+
+[ci] remove ci node 12, add node 20.
+
 [package] 更新依赖版本
 
 
