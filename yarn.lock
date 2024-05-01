@@ -3279,8 +3279,8 @@ ee-first@1.1.1:
 
 ejs@1.0.0:
   version "1.0.0"
-  resolved "https://registry.npmmirror.com/ejs/download/ejs-1.0.0.tgz"
-  integrity sha1-ycYKSKRu5FL7MqccMXuV5aofyz0=
+  resolved "https://registry.yarnpkg.com/ejs/-/ejs-1.0.0.tgz#c9c60a48a46ee452fb32a71c317b95e5aa1fcb3d"
+  integrity sha512-hK3tEqj0pP7UF5UHKNiRvm3zCaYk7UI4EBJ6wwN5O2qX1WdSovmqvUHEbNOJuglXzVkk/H0r7vgst3mVcQXrPA==
 
 ejs@3.1.10, ejs@^3.1.7:
   version "3.1.10"
