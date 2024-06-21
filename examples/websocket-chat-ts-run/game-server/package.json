@@ -13,7 +13,7 @@
         "gen-api-ref": "node ../../../node_modules/typedoc/bin/typedoc --mode file --hideGenerator --excludeExternals --ignoreCompilerErrors --out ../../../run/site/public/api-reference/pinus-loader lib/"
     },
     "dependencies": {
-        "@nestjs/common": "^9.0.11",
+        "@nestjs/common": "^10.3.9",
         "@nestjs/core": "^9.0.11",
         "@types/bluebird": "^3.5.19",
         "@types/crc": "^3.4.0",
