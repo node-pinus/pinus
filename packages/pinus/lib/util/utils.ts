@@ -3,10 +3,10 @@ import * as util from 'util';
 import {exec} from 'child_process';
 import {getLogger} from 'pinus-logger';
 import * as Constants from './constants';
-import {pinus} from '../pinus';
 import {ServerInfo} from './constants';
 import {Application} from '../application';
 import * as path from 'path';
+import { pinus } from '../pinus';
 
 let logger = getLogger('pinus', path.basename(__filename));
 
@@ -183,8 +183,8 @@ export function unicodeToUtf8(str: string) {
  * Ping server to check if network is available
  *
  */
-export function ping(host: string, cb: (ret: boolean) => void) {
-    if (!isLocal(host)) {
+export function ping(app: Application, host: string, cb: (ret: boolean) => void) {
+    if (!isLocal(host, app)) {
         let cmd = 'ping -w 15 ' + host;
         exec(cmd, function (err, stdout, stderr) {
             if (!!err) {
@@ -202,7 +202,7 @@ export function ping(host: string, cb: (ret: boolean) => void) {
  * Check if server is exsit.
  *
  */
-export function checkPort(server: ServerInfo, cb: (result: string) => void) {
+export function checkPort(app: Application, server: ServerInfo, cb: (result: string) => void) {
     if (!server.port && !server.clientPort) {
         invokeCallback(cb, 'leisure');
         return;
@@ -211,14 +211,14 @@ export function checkPort(server: ServerInfo, cb: (result: string) => void) {
     const host = server.host;
     const generateCommand = function (host: string, port: number) {
         let cmd;
-        let ssh_params = pinus.app.get(Constants.RESERVED.SSH_CONFIG_PARAMS);
+        let ssh_params = app.get(Constants.RESERVED.SSH_CONFIG_PARAMS);
         if (!!ssh_params && Array.isArray(ssh_params)) {
             ssh_params = ssh_params.join(' ');
         }
         else {
             ssh_params = '';
         }
-        if (!isLocal(host)) {
+        if (!isLocal(host, app)) {
             cmd = util.format('ssh %s %s "netstat -an|awk \'{print $4}\'|grep %s|wc -l"', host, ssh_params, port);
         } else {
             cmd = util.format('netstat -an|awk \'{print $4}\'|grep %s|wc -l', port);
@@ -249,8 +249,11 @@ export function checkPort(server: ServerInfo, cb: (result: string) => void) {
     });
 }
 
-export function isLocal(host: string) {
-    let app = pinus.app;
+export function isLocal(host: string, app?: Application) {
+    if (!app) {
+        app = pinus.app;
+    }
+
     if (!app) {
         return host === '127.0.0.1' || host === 'localhost' || host === '0.0.0.0' || inLocal(host);
     } else {
