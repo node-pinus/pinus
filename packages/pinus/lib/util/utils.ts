@@ -208,8 +208,8 @@ export function checkPort(server: ServerInfo, cb: (result: string) => void) {
         return;
     }
     let port = server.port || server.clientPort;
-    let host = server.host;
-    let generateCommand = function (host: string, port: number) {
+    const host = server.host;
+    const generateCommand = function (host: string, port: number) {
         let cmd;
         let ssh_params = pinus.app.get(Constants.RESERVED.SSH_CONFIG_PARAMS);
         if (!!ssh_params && Array.isArray(ssh_params)) {
@@ -225,8 +225,8 @@ export function checkPort(server: ServerInfo, cb: (result: string) => void) {
         }
         return cmd;
     };
-    let cmd1 = generateCommand(host, port);
-    let child = exec(cmd1, function (err, stdout, stderr) {
+    const cmd1 = generateCommand(host, port);
+    exec(cmd1, function (err, stdout, stderr) {
         if (err) {
             logger.error('command %s execute with error: %j', cmd1, err.stack);
             invokeCallback(cb, 'error');
@@ -234,7 +234,7 @@ export function checkPort(server: ServerInfo, cb: (result: string) => void) {
             invokeCallback(cb, 'busy');
         } else {
             port = server.clientPort;
-            let cmd2 = generateCommand(host, port);
+            const cmd2 = generateCommand(host, port);
             exec(cmd2, function (err, stdout, stderr) {
                 if (err) {
                     logger.error('command %s execute with error: %j', cmd2, err.stack);

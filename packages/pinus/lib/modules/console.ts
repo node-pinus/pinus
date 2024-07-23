@@ -303,39 +303,6 @@ let blacklist = function (app: Application, agent: MasterAgent, msg: any, cb: Ma
     });
 };
 
-let checkPort = function (server: ServerInfo, cb: MasterCallback) {
-    if (!server.port && !server.clientPort) {
-        utils.invokeCallback(cb, 'leisure');
-        return;
-    }
-
-    let p = server.port || server.clientPort;
-    let host = server.host;
-    //   let cmd = 'netstat -tln | grep ';
-    let cmd = os.type() === 'Windows_NT' ?
-        `netstat -ano | %windir%\\system32\\find.exe ` : `netstat -tln | grep `;
-    if (!utils.isLocal(host)) {
-        cmd = 'ssh ' + host + ' ' + cmd;
-    }
-    p = os.type() === 'Windows_NT' ? `"${p}"` as any : p
-    exec(cmd + p, function (err, stdout, stderr) {
-        if (stdout || stderr) {
-            logger.debug('checkport has error?', cmd + p, 'stdout:', stdout, 'stderr', stderr)
-            utils.invokeCallback(cb, 'busy');
-        } else {
-            p = server.clientPort;
-            p = os.type() === 'Windows_NT' ? `"${p}"` as any : p
-            exec(cmd + p, function (err, stdout, stderr) {
-                if (stdout || stderr) {
-                    utils.invokeCallback(cb, 'busy');
-                } else {
-                    utils.invokeCallback(cb, 'leisure');
-                }
-            });
-        }
-    });
-};
-
 let parseArgs = function (msg: any, info: any, cb: (err?: string | Error, data?: any) => void) {
     let rs: { [key: string]: string } = {};
     let args = msg.args;
@@ -380,7 +347,7 @@ let startServer = function (app: Application, msg: any, cb: (err?: Error | strin
 };
 
 let runServer = function (app: Application, server: ServerInfo, cb: (err?: Error, result?: any) => void) {
-    checkPort(server, function (status) {
+    utils.checkPort(server, function (status) {
         if (status === 'busy') {
             utils.invokeCallback(cb, new Error('Port occupied already, check your server to add.'));
         } else {
@@ -419,7 +386,7 @@ let startCluster = function (app: Application, msg: any, cb: MasterCallback) {
 
     let start = function (server: ServerInfo) {
         return (function () {
-            checkPort(server, function (status) {
+            utils.checkPort(server, function (status) {
                 if (status === 'busy') {
                     fails.push(server);
                     latch.done();
