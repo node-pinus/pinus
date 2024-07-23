@@ -347,7 +347,7 @@ let startServer = function (app: Application, msg: any, cb: (err?: Error | strin
 };
 
 let runServer = function (app: Application, server: ServerInfo, cb: (err?: Error, result?: any) => void) {
-    utils.checkPort(server, function (status) {
+    utils.checkPort(app, server, function (status) {
         if (status === 'busy') {
             utils.invokeCallback(cb, new Error('Port occupied already, check your server to add.'));
         } else {
@@ -386,7 +386,7 @@ let startCluster = function (app: Application, msg: any, cb: MasterCallback) {
 
     let start = function (server: ServerInfo) {
         return (function () {
-            utils.checkPort(server, function (status) {
+            utils.checkPort(app, server, function (status) {
                 if (status === 'busy') {
                     fails.push(server);
                     latch.done();
