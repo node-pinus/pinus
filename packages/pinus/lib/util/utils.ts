@@ -183,8 +183,8 @@ export function unicodeToUtf8(str: string) {
  * Ping server to check if network is available
  *
  */
-export function ping(app: Application, host: string, cb: (ret: boolean) => void) {
-    if (!isLocal(host, app)) {
+export function ping(host: string, cb: (ret: boolean) => void) {
+    if (!isLocal(host)) {
         let cmd = 'ping -w 15 ' + host;
         exec(cmd, function (err, stdout, stderr) {
             if (!!err) {
@@ -218,7 +218,7 @@ export function checkPort(app: Application, server: ServerInfo, cb: (result: str
         else {
             ssh_params = '';
         }
-        if (!isLocal(host, app)) {
+        if (!isLocal(host)) {
             cmd = util.format('ssh %s %s "netstat -an|awk \'{print $4}\'|grep %s|wc -l"', host, ssh_params, port);
         } else {
             cmd = util.format('netstat -an|awk \'{print $4}\'|grep %s|wc -l', port);
@@ -249,11 +249,8 @@ export function checkPort(app: Application, server: ServerInfo, cb: (result: str
     });
 }
 
-export function isLocal(host: string, app?: Application) {
-    if (!app) {
-        app = pinus.app;
-    }
-
+export function isLocal(host: string) {
+    const app = pinus.app;
     if (!app) {
         return host === '127.0.0.1' || host === 'localhost' || host === '0.0.0.0' || inLocal(host);
     } else {

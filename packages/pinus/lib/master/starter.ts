@@ -56,7 +56,7 @@ export function runServers(app: Application) {
 export function run(app: Application, server: ServerInfo, cb ?: (err?: string | number) => void) {
     env = app.get(Constants.RESERVED.ENV);
     let cmd, key;
-    if (utils.isLocal(server.host, app)) {
+    if (utils.isLocal(server.host)) {
         let options: string[] = [];
         if (!!server.args) {
             if (typeof server.args === 'string') {
@@ -108,7 +108,7 @@ export function run(app: Application, server: ServerInfo, cb ?: (err?: string | 
  */
 export function bindCpu(app: Application, sid: string, pid: string, host: string) {
     if (os.platform() === Constants.PLATFORM.LINUX && cpus[sid] !== undefined) {
-        if (utils.isLocal(host, app)) {
+        if (utils.isLocal(host)) {
             let options: string[] = [];
             options.push('-pc');
             options.push(String(cpus[sid]));
@@ -131,7 +131,7 @@ export function kill(app: Application, pids: string[], servers: ServerInfo[]) {
     let cmd;
     for (let i = 0; i < servers.length; i++) {
         let server = servers[i];
-        if (utils.isLocal(server.host, app)) {
+        if (utils.isLocal(server.host)) {
             let options: string[] = [];
             if (os.platform() === Constants.PLATFORM.WIN) {
                 cmd = Constants.COMMAND.TASKKILL;

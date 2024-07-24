@@ -108,7 +108,7 @@ export class MasterServer {
                 };
                 let setTimer = function (time: number) {
                     pingTimer = setTimeout(function () {
-                        utils.ping(self.app, server.host, function (flag) {
+                        utils.ping(server.host, function (flag) {
                             if (flag) {
                                 handle();
                             } else {
