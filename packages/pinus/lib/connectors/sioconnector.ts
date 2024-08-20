@@ -1,7 +1,7 @@
 import * as util from 'util';
 import { EventEmitter } from 'events';
-import { createServer } from 'http';
-let httpServer = createServer();
+import { createServer as createHttpServer } from 'http';
+import { createServer as createHttpsServer } from 'https';
 import { SioSocket } from './siosocket';
 import { IConnector } from '../interfaces/IConnector';
 import { Server, ServerOptions } from 'socket.io';
@@ -22,6 +22,8 @@ export class SIOConnector extends EventEmitter implements IConnector {
     host: string;
     opts: SIOConnectorOptions;
     private server: Server;
+    sshKey?: string;
+    sshCert?: string;
 
 
     constructor(port: number, host: string, opts: SIOConnectorOptions) {
@@ -31,6 +33,8 @@ export class SIOConnector extends EventEmitter implements IConnector {
         this.opts = opts;
         opts.pingTimeout = opts.pingTimeout || 60;
         opts.pingInterval = opts.pingInterval || 25;
+        this.sshKey = opts.sshKey;
+        this.sshCert = opts.sshCert;
     }
 
 
@@ -54,12 +58,24 @@ export class SIOConnector extends EventEmitter implements IConnector {
         }
 
         opts.path = '/socket.io';
-        let sio = new Server(httpServer, opts);
-
         let port = this.port;
-        httpServer.listen(port, function () {
-            console.log('sio Server listening at port %d', port);
-        });
+        
+        let sio : Server;
+        if (!!this.sshKey) {
+            let httpsServer = createHttpsServer({ key: self.sshKey, cert: self.sshCert }, function (req, res) {
+                // 要是单纯的https连接的话就会返回这个东西
+                console.log('sio https Server listening at port %d', port);
+                res.writeHead(200);
+                res.end('HTTPS Server is up');
+            }).listen(port);
+            sio = new Server(httpsServer, opts);
+        } else {
+            let httpServer = createHttpServer();
+            sio = new Server(httpServer, opts);
+            httpServer.listen(port, function () {
+                console.log('sio http Server listening at port %d', port);
+            });
+        }
 
         sio.on('connection', (socket) => {
             // this.wsocket.sockets.on('connection', function (socket) {
