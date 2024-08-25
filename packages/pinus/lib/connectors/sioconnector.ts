@@ -59,8 +59,8 @@ export class SIOConnector extends EventEmitter implements IConnector {
 
         opts.path = '/socket.io';
         let port = this.port;
-        
-        let sio : Server;
+
+        let sio: Server;
         if (!!this.sshKey) {
             let httpsServer = createHttpsServer({ key: self.sshKey, cert: self.sshCert }, function (req, res) {
                 // 要是单纯的https连接的话就会返回这个东西
