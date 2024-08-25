@@ -1,6 +1,6 @@
 {
     "name": "pinus-example-ssl-connector",
-    "version": "1.7.1",
+    "version": "1.7.2",
     "private": true,
     "bin": {
         "$": "./dist/bin/app.js"
@@ -21,8 +21,8 @@
         "@types/bluebird": "^3.5.19",
         "@types/node": "^14",
         "bluebird": "^3.5.1",
-        "pinus": "^1.7.1",
-        "pinus-base-plugin": "^1.7.1",
+        "pinus": "^1.7.2",
+        "pinus-base-plugin": "^1.7.2",
         "reflect-metadata": "^0.2.2",
         "source-map-support": "^0.5.0"
     },
