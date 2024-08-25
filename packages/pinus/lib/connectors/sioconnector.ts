@@ -33,8 +33,8 @@ export class SIOConnector extends EventEmitter implements IConnector {
         this.opts = opts;
         opts.pingTimeout = opts.pingTimeout || 60;
         opts.pingInterval = opts.pingInterval || 25;
-        this.sshKey = opts.sshKey;
-        this.sshCert = opts.sshCert;
+        this.sshKey = (opts as any).sshKey;
+        this.sshCert = (opts as any).sshCert;
     }
 
 
