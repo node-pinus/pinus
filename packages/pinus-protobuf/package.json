@@ -1,6 +1,6 @@
 {
   "name": "pinus-protobuf",
-  "version": "1.7.1",
+  "version": "1.0.0-old-socket.io",
   "main": "./dist/protobuf",
   "types": "./lib/protobuf",
   "files": [

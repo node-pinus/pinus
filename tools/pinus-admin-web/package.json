@@ -1,6 +1,6 @@
 {
   "name": "pinus-admin-web",
-  "version": "1.7.1",
+  "version": "1.0.0-old-socket.io",
   "private": false,
   "dependencies": {
     "body-parser": "1.20.2",

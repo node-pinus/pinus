@@ -1,6 +1,6 @@
 {
   "name": "pinus-cli",
-  "version": "1.7.1",
+  "version": "1.0.0-old-socket.io",
   "description": "pinus command line client for managing pinus",
   "scripts": {
     "build": "tsc",
@@ -33,8 +33,8 @@
     "async": "^3.0.0",
     "colors": "^1.4.0",
     "optimist": "^0.6.1",
-    "pinus-admin": "^1.7.1",
-    "pinus-logger": "^1.7.1",
+    "pinus-admin": "^1.0.0-old-socket.io",
+    "pinus-logger": "^1.0.0-old-socket.io",
     "pretty-columns": "^1.2.1"
   },
   "devDependencies": {

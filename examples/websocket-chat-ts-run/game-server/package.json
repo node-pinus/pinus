@@ -1,6 +1,6 @@
 {
     "name": "pinus-sample-websocket-chat-game-server-ts-run",
-    "version": "1.7.1",
+    "version": "1.0.0-old-socket.io",
     "private": false,
     "main": "./dist/app",
     "scripts": {
@@ -20,9 +20,9 @@
         "@types/node": "^16.3.3",
         "bluebird": "^3.5.1",
         "crc": "^4.3.2",
-        "pinus": "^1.7.1",
-        "pinus-robot": "^1.7.1",
-        "pinus-robot-plugin": "^1.7.1",
+        "pinus": "^1.0.0-old-socket.io",
+        "pinus-robot": "^1.0.0-old-socket.io",
+        "pinus-robot-plugin": "^1.0.0-old-socket.io",
         "reflect-metadata": "^0.2.2",
         "rxjs": "^7.5.6",
         "source-map-support": "^0.5.0"
