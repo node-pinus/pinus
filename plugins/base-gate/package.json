@@ -1,6 +1,6 @@
 {
   "name": "pinus-base-gate",
-  "version": "1.0.0-old-socket.io",
+  "version": "1.7.1-old-socket.io",
   "description": "pinus base gate plugin",
   "files": [
     "dist",
@@ -28,8 +28,8 @@
   "dependencies": {
     "bluebird": "^3.5.1",
     "crc": "^4.3.2",
-    "pinus": "^1.0.0-old-socket.io",
-    "pinus-robot-plugin": "^1.0.0-old-socket.io",
+    "pinus": "^1.7.1-old-socket.io",
+    "pinus-robot-plugin": "^1.7.1-old-socket.io",
     "reflect-metadata": "^0.2.2",
     "source-map-support": "^0.5.0"
   },

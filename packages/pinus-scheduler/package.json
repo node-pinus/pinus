@@ -1,6 +1,6 @@
 {
 	"name": "pinus-scheduler",
-	"version": "1.0.0-old-socket.io",
+	"version": "1.7.1-old-socket.io",
 	"author": "mybios <mybios@qq.com>",
 	"main": "./dist/schedule",
 	"types": "./lib/schedule",
@@ -23,7 +23,7 @@
 		"node": ">=12.9.0"
 	},
 	"dependencies": {
-		"pinus-logger": "^1.0.0-old-socket.io"
+		"pinus-logger": "^1.7.1-old-socket.io"
 	},
 	"devDependencies": {
 		"@types/node": "^12.20.41",

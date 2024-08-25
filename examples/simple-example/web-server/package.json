@@ -1,6 +1,6 @@
 {
   "name": "pinus-simple-example-web-server",
-  "version": "1.0.0-old-socket.io",
+  "version": "1.7.1-old-socket.io",
   "private": false,
   "dependencies": {
     "express": "4.19.2"

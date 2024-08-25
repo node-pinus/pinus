@@ -1,6 +1,6 @@
 {
  "name": "pinus-protocol",
- "version": "1.0.0-old-socket.io",
+ "version": "1.7.1-old-socket.io",
  "private": false,
  "main": "./dist",
  "types": "./lib/index",

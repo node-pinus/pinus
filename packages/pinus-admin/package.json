@@ -1,6 +1,6 @@
 {
     "name": "pinus-admin",
-    "version": "1.0.0-old-socket.io",
+    "version": "1.7.1-old-socket.io",
     "main": "./dist/index",
     "types": "./lib/index",
     "files": [
@@ -25,9 +25,9 @@
     },
     "dependencies": {
         "mqtt-connection": "^4.1.0",
-        "pinus-logger": "^1.0.0-old-socket.io",
-        "pinus-monitor": "^1.0.0-old-socket.io",
-        "pinus-scheduler": "^1.0.0-old-socket.io",
+        "pinus-logger": "^1.7.1-old-socket.io",
+        "pinus-monitor": "^1.7.1-old-socket.io",
+        "pinus-scheduler": "^1.7.1-old-socket.io",
         "read-last-lines": "^1.3.0"
     },
     "devDependencies": {

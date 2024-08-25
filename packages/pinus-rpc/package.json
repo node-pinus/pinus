@@ -1,6 +1,6 @@
 {
 	"name": "pinus-rpc",
-	"version": "1.0.0-old-socket.io",
+	"version": "1.7.1-old-socket.io",
 	"main": "./dist/index",
 	"types": "./lib/index",
 	"files": [
@@ -26,8 +26,8 @@
 		"bluebird": "^3.5.1",
 		"crc": "^4.3.2",
 		"mqtt-connection": "^4.1.0",
-		"pinus-loader": "^1.0.0-old-socket.io",
-		"pinus-logger": "^1.0.0-old-socket.io",
+		"pinus-loader": "^1.7.1-old-socket.io",
+		"pinus-logger": "^1.7.1-old-socket.io",
 		"socket.io": "1.7.2",
 		"source-map-support": "^0.5.0",
 		"stream-pkg": "0.0.5",
