@@ -18,7 +18,7 @@
     "examples/websocket-chat-ts-run/*",
     "examples/robot-sample"
   ],
-  "version": "1.0.0-old-socket.io",
+  "version": "1.7.1-old-socket.io",
   "npmClient": "yarn",
   "useWorkspaces": true
 }
