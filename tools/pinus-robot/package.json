@@ -1,6 +1,6 @@
 {
   "name": "pinus-robot",
-  "version": "1.7.2",
+  "version": "1.7.3",
   "private": false,
   "dependencies": {
     "colors": "^1.4.0",

@@ -2,7 +2,7 @@
 	"name": "pinus-workspaces",
 	"version": "0.0.1",
 	"devDependencies": {
-		"lerna": "6.6.2",
+		"lerna": "8.1.8",
 		"nyc": "15.1.0",
 		"pinus-site-tools": "1.0.6",
 		"ts-node": "9.1.1",

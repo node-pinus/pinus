@@ -1,6 +1,6 @@
 {
   "name": "pinus-protobuf",
-  "version": "1.7.2",
+  "version": "1.7.3",
   "main": "./dist/protobuf",
   "types": "./lib/protobuf",
   "files": [
