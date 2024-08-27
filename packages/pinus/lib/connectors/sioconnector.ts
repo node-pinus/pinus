@@ -4,7 +4,8 @@ import { createServer as createHttpServer } from 'http';
 import { createServer as createHttpsServer } from 'https';
 import { SioSocket } from './siosocket';
 import { IConnector } from '../interfaces/IConnector';
-import { Server, ServerOptions } from 'socket.io';
+import * as CreateServer from 'socket.io';
+import {Server, ServerOptions } from 'socket.io';
 
 let PKG_ID_BYTES = 4;
 let PKG_ROUTE_LENGTH_BYTES = 1;
@@ -68,10 +69,10 @@ export class SIOConnector extends EventEmitter implements IConnector {
                 res.writeHead(200);
                 res.end('HTTPS Server is up');
             }).listen(port);
-            sio = new Server(httpsServer, opts);
+            sio = CreateServer(httpsServer, opts);
         } else {
             let httpServer = createHttpServer();
-            sio = new Server(httpServer, opts);
+            sio = CreateServer(httpServer, opts);
             httpServer.listen(port, function () {
                 console.log('sio http Server listening at port %d', port);
             });

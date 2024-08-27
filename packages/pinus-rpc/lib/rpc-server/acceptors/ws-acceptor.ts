@@ -3,9 +3,10 @@ let logger = getLogger('pinus-rpc', 'ws-acceptor');
 import { EventEmitter } from 'events';
 import { Tracer } from '../../util/tracer';
 import * as utils from '../../util/utils';
-import { Server } from 'socket.io';
+import * as CreateServer from 'socket.io';
 import * as util from 'util';
 import * as Coder from '../../util/coder';
+import { Server } from 'socket.io';
 
 
 export interface AcceptorPkg {
@@ -61,10 +62,11 @@ export class WSAcceptor extends EventEmitter {
 
     let self = this;
 
-    this.server = new Server(port);
+    this.server = CreateServer(port);
 
-    this.server.set('log level', 0);
+    // this.server.set('log level', 0);
 
+    
     this.server.server.on('error', function (err: Error) {
       logger.error('rpc server is error: %j', err.stack);
       self.emit('error', err);
