@@ -19,7 +19,6 @@ import * as appManager from './common/manager/appManager';
 import { TransactionCondictionFunction, TransactionHandlerFunction } from './common/manager/appManager';
 import * as fs from 'fs';
 import * as path from 'path';
-import { isFunction } from 'util';
 import { IComponent } from './interfaces/IComponent';
 import { DictionaryComponent } from './components/dictionary';
 import { PushSchedulerComponent } from './components/pushScheduler';
@@ -354,7 +353,7 @@ export class Application {
             name = null;
         }
 
-        if (isFunction(component)) {
+        if (typeof(component) === "function") {
             component = new component(this, opts);
         }
 

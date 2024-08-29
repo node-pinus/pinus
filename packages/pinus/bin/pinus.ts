@@ -8,7 +8,6 @@ import * as os from 'os';
 import * as path from 'path';
 import { COMMAND_ERROR } from './utils/constants';
 import { version } from './utils/utils';
-import { isFunction } from 'util';
 import * as program from 'commander';
 
 program.version(version);
@@ -22,7 +21,7 @@ fs.readdirSync(__dirname + '/commands').forEach(function (filename) {
     if (/\.js$/.test(filename)) {
         let name = filename.substr(0, filename.lastIndexOf('.'));
         let _command = require('./commands/' + name).default;
-        if (isFunction(_command)) {
+        if (typeof(_command) === "function") {
             _command(program);
         }
     }

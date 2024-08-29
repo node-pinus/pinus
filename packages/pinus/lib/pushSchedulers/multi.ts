@@ -1,6 +1,5 @@
 import { IPushScheduler, ScheduleOptions, IPushSchedulerOrCtor, MultiPushSchedulerOptions, IPushSelector } from '../interfaces/IPushScheduler';
 import { Application } from '../application';
-import { isFunction } from 'util';
 import { getLogger } from 'pinus-logger';
 import { SID } from '../util/constants';
 import * as path from 'path';
@@ -28,7 +27,7 @@ export class MultiPushScheduler implements IPushScheduler {
                 }
             }
 
-            if(!isFunction(opts.selector)) {
+            if(typeof(opts.selector) != "function") {
                 throw new Error('MultiPushScheduler必须提供selector参数');
             }
 

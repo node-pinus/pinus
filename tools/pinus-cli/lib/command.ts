@@ -1,7 +1,6 @@
 import { consts } from './consts';
 import * as util from './util';
 import * as fs from 'fs';
-import { isFunction } from 'util';
 import { AdminClient } from 'pinus-admin';
 import { ReadLine } from 'readline';
 
@@ -22,7 +21,7 @@ export class AgentCommand {
             if (/\.js$/.test(filename)) {
                 let name = filename.substr(0, filename.lastIndexOf('.'));
                 let _command = require('./commands/' + name).default;
-                if (isFunction(_command)) {
+                if (typeof(_command) === "function") {
                     self.commands[name] = _command;
                 }
             }

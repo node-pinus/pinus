@@ -10,7 +10,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import { Application, ApplicationOptions } from './application';
-import { isFunction } from 'util';
 import { BackendSession } from './common/service/backendSessionService';
 import { HybridConnector } from './connectors/hybridconnector';
 import { UDPConnector } from './connectors/udpconnector';

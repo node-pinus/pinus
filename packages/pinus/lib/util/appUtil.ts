@@ -10,7 +10,6 @@ import { getLogger } from 'pinus-logger'; import { Application } from '../applic
 import { pinus } from '../pinus';
 import { ServerInfo } from './constants';
 import { IComponent, ILifeCycle } from '../index';
-import { isFunction } from 'util';
 let logger = getLogger('pinus', path.basename(__filename));
 
 
@@ -304,7 +303,7 @@ let loadLifecycle = function (app: Application) {
         logger.error('lifecycle.js in %s is error format.', filePath);
         return;
     }
-    if (isFunction(lifecycle.default)) {
+    if (typeof lifecycle.default === "function") {
         lifecycle = lifecycle.default(app);
     } else {
         logger.error('lifecycle.js in %s is error format.', filePath);
