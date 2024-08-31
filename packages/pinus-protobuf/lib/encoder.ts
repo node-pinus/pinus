@@ -187,6 +187,7 @@ export class Encoder {
     encodeArray(array: Array < number > , proto: { [key: string]: any }, offset: number, buffer: Buffer, protos: { [key: string]: any }) {
         let i = 0;
         if (util.isSimpleType(proto.type)) {
+            // @ts-ignore
             offset = this.writeBytes(buffer, offset, this.encodeTag(proto.type, proto.tag));
             offset = this.writeBytes(buffer, offset, codec.encodeUInt32(array.length));
             for (i = 0; i < array.length; i++) {
