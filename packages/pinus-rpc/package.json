@@ -23,7 +23,6 @@
 	"dependencies": {
 		"async": "^3.0.0",
 		"bearcat-buffer": "^0.1.x",
-		"bluebird": "^3.5.1",
 		"crc": "^4.3.2",
 		"mqtt-connection": "^4.1.0",
 		"pinus-loader": "^1.7.1-old-socket.io",
@@ -36,7 +35,6 @@
 	},
 	"devDependencies": {
 		"@types/async": "^3.0.0",
-		"@types/bluebird": "^3.5.19",
 		"@types/crc": "^3.4.0",
 		"@types/node": "^12.20.41",
 		"@types/socket.io": "1.4.40",

@@ -258,7 +258,7 @@ export class ConnectorComponent implements IComponent {
     bindEvents(socket: ISocket) {
         let curServer = this.app.getCurServer();
         let maxConnections = curServer['max-connections'];
-        if (this.connection && maxConnections) {
+        if (this.connection && typeof(maxConnections) == 'number') {
             this.connection.increaseConnectionCount();
             let statisticInfo = this.connection.getStatisticsInfo();
             if (statisticInfo.totalConnCount > maxConnections) {

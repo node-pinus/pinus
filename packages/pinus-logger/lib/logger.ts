@@ -11,14 +11,6 @@ let funcs: { [key: string]: (name: string, opts: any) => string } = {
     'opts': doOpts
 };
 
-// 0 log  1 debug, 2 info, 3 warn, 4 error
-let logLevel = 0;
-
-// 支持动态更改日志级别
-function setPinusLogLevel(newLevel: 0 | 1 | 2 | 3 | 4 | 5) {
-    console.warn('change pinus log level:', newLevel, 'oldLevel:', logLevel);
-    logLevel = newLevel;
-}
 
 let log4jspause = false;
 
@@ -48,10 +40,6 @@ function getLogger(...args: string[]) {
 
     ['log', 'debug', 'info', 'warn', 'error', 'trace', 'fatal'].forEach((item, idx) => {
         pLogger[item] = function () {
-            // 从根源过滤日志级别
-            if (idx < logLevel || log4jspause) {
-                return;
-            }
             let p = '';
             if (!process.env.RAW_MESSAGE) {
                 if (process.env.LOGGER_PREFIX) {
@@ -317,5 +305,4 @@ export
 {
     getLogger,
     configure,
-    setPinusLogLevel,
 };
