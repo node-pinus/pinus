@@ -165,7 +165,7 @@ function refresh(){
 		    });
     	}
     }*/
-    var _msg = msg.body.dataArray;
+    var _msg = msg.dataArray;
     for(var i=0;i<_msg.length;i++){
     	data.push({
     		time : _msg[i].time,
