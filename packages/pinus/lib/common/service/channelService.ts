@@ -357,12 +357,23 @@ export class Channel {
     /**
      * Push message to all the members in the channel
      *
-     * @param {String} route message route
-     * @param {Object} msg message that would be sent to client
-     * @param {Object} opts user-defined push options, optional
-     * @param {Function} cb callback function
+     * @param {string} route - message route
+     * @param {any} msg - message that would be sent to client
+     * @param {object} [opts] - user-defined push options, optional
+     * @param {(err: Error | null, result?: void) => void} [cb] - callback function
      */
-    pushMessage(route: string, msg: any, opts ?: any, cb ?: (err: Error | null, result ?: void) => void) {
+    pushMessage(route: string, msg: any, opts?: Record<string, any>, cb?: (err: Error | null, result?: void) => void): void;
+
+    /**
+     * Push message to all the members in the channel
+     *
+     * @param {{ route: string }} route - an object containing the message route
+     * @param {object} [opts] - user-defined push options, optional
+     * @param {(err: Error | null, result?: void) => void} [cb] - callback function
+     */
+    pushMessage(route: { route: string }, opts?: Record<string, any>, cb?: (err: Error | null, result?: void) => void): void;
+
+    pushMessage(route: string | { route: string }, msg: any, opts ?: any, cb ?: (err: Error | null, result ?: void) => void) {
         if (this.state !== ST_INITED) {
             utils.invokeCallback(cb, new Error('channel is not running now'));
             return;
@@ -380,10 +391,10 @@ export class Channel {
             opts = {};
         }
 
-        sendMessageByGroup(this.__channelService__, route, msg, this.groups, opts, cb);
+        sendMessageByGroup(this.__channelService__, route as string, msg, this.groups, opts, cb);
     }
-
-    apushMessage: (route: string, msg: any, opts ?: any) => Promise<void> = utils.promisify(this.pushMessage);
+    
+    apushMessage: (route: string | { route: string }, msg?: any, opts ?: any) => Promise<void> = utils.promisify(this.pushMessage);
 }
 
 /**
