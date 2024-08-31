@@ -176,7 +176,7 @@ export class MailBox extends EventEmitter implements IMailBox {
 
         let id = this.curId++;
         this.requests[id] = cb;
-        this.setCbTimeout( id, tracer, cb);
+        this.setCbTimeout( id, msg, tracer, cb);
 
         let pkg: any;
         if (tracer && tracer.isEnabled) {
@@ -270,14 +270,14 @@ export class MailBox extends EventEmitter implements IMailBox {
         cb(tracer, sendErr, pkgResp);
     }
 
-    setCbTimeout(id: number, tracer: any, cb: Function) {
+    setCbTimeout(id: number, msg: MailBoxMessage, tracer: any, cb: Function) {
         let timer = setTimeout( () => {
             // logger.warn('rpc request is timeout, id: %s, host: %s, port: %s', id, this.host, this.port);
             this.clearCbTimeout(id);
             if (this.requests[id]) {
                 delete this.requests[id];
             }
-            let eMsg = util.format('rpc %s callback timeout %d, remote server %s host: %s, port: %s', this.serverId, this.timeoutValue, id, this.host, this.port);
+            let eMsg = util.format('rpc %s callback timeout %d, remote server %s host: %s, port: %s, msg: %s', this.serverId, this.timeoutValue, id, this.host, this.port, JSON.stringify(msg));
             logger.error(eMsg);
             cb(tracer, new Error(eMsg));
         }, this.timeoutValue);
