@@ -1,22 +1,7 @@
-// import * as bluebird from "bluebird"
 
 import {preload} from './preload';
 preload();
 
-
-// // 使用bluebird输出完整的promise调用链
-// global.Promise = bluebird.Promise;
-// // 开启长堆栈
-// bluebird.config({
-//     // Enable warnings
-//     warnings: false,
-//     // Enable long stack traces
-//     longStackTraces: false,
-//     // Enable cancellation
-//     cancellation: false,
-//     // Enable monitoring
-//     monitoring: false
-// });
 
 
 import { RpcClient, RpcMsg, RouteContext, RouteServers } from '../index';
