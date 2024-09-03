@@ -55,6 +55,7 @@ export type AConfigureFunc2 = (env: string) => Promise<void> ;
 export type AConfigureFunc3 = (env: string, type: string) => Promise<void>;
 
 export interface ApplicationOptions {
+    beforeApplicationInit ?: (app: Application, cb: ()=>void)=>void;
     base?: string;
 }
 
@@ -179,10 +180,19 @@ export class Application {
         this.set(Constants.RESERVED.BASE, base);
         this.base = base;
 
-        appUtil.defaultConfiguration(this);
+        
+        let init = ()=>{
+            appUtil.defaultConfiguration(this);
 
-        this.state = STATE_INITED;
-        logger.info('application inited: %j', this.getServerId());
+            this.state = STATE_INITED;
+            logger.info('application inited: %j', this.getServerId());
+        }
+        let beforeApplicationInit = opts.beforeApplicationInit;
+        if(!!beforeApplicationInit){
+            beforeApplicationInit(this, init);
+        }else{
+            init();
+        }
     }
 
     /**
