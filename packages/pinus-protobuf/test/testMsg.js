@@ -1,7 +1,10 @@
 var tc = module.exports;
 
 tc.onTest = {
-    'pathMap':{234:{'x': [{"a":123, "b":456,"nums":[1,2,3,4]}],'y': {"d": "d11", "e":"123"}},567:{'x':[{"a":123111}],'y':{"d": "d1333"}}}
+    'pathMap': {
+        234: {'x': [{"a": 123, "b": 456, "nums": [1, 2, 3, 4]}], 'y': {"d": "d11中文", "e": "1中文23"}},
+        567: {'x': [{"a": 123111}], 'y': {"d": "d13中文33"}}
+    }
 };
 
 tc['area.playerHandler.enterScene'] = {
@@ -35,10 +38,10 @@ tc.onMove = {
 tc.onUpgrade = {
     id:32726,
     entityId:48,
-    name:'super1',
+    name:'supe中文r中文1',
     kindId:210,
-    kindName:'Angle',
-    type:'player',
+    kindName:'An中文gle',
+    type:'pla中文yer',
     x:755,
     y:608,
     hp:352,
