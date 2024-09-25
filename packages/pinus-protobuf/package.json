@@ -22,7 +22,7 @@
     "node": ">=12.9.0"
   },
   "devDependencies": {
-    "@types/node": "^12.20.41",
+    "@types/node": "^22.7.1",
     "mocha": "10.3.0",
     "should": "13.2.3",
     "tslint": "6.1.3",
