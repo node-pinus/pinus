@@ -190,6 +190,8 @@ export interface ServerStartArgs extends ServerInfo {
     type ?: Constants.RESERVED.ALL;
     startId ?: string;
     main ?: string;
+    masterHost ?: string;
+    masterPort ?: number;
 }
 
 /**
@@ -220,6 +222,9 @@ let processArgs = function (app: Application, args: ServerStartArgs) {
     } else {
         app.set(Constants.RESERVED.CURRENT_SERVER, app.getMaster(), true);
     }
+    // 允许从命令行覆盖master host和端口
+    app.master.host = args.masterHost || app.master.host;
+    app.master.port = args.masterPort || app.master.port;
 };
 
 /**
