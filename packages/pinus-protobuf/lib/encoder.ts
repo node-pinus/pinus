@@ -112,10 +112,12 @@ export class Encoder {
 
         switch (type) {
             case 'uInt32':
+            case 'uInt64':
                 offset = this.writeBytes(buffer, offset, codec.encodeUInt32(value));
                 break;
             case 'int32':
             case 'sInt32':
+            case 'sInt64':
                 offset = this.writeBytes(buffer, offset, codec.encodeSInt32(value));
                 break;
             case 'float':
