@@ -56,7 +56,9 @@ export class SioSocket extends EventEmitter implements ISocket {
         }
 
         this.state = ST_CLOSED;
-        this.socket.disconnect();
+        this.socket.disconnect(true);
+        this.socket.removeAllListeners();
+        this.socket = undefined;
     }
 
     sendBatch(msgs: any[]) {
