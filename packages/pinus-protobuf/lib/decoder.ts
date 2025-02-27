@@ -48,7 +48,7 @@ export class Decoder {
             let tag = head.tag;
             let name = protos.__tags[tag];
 
-            switch (protos[name].option) {
+            switch (protos[name]?.option) {
                 case 'optional':
                 case 'required':
                     msg[name] = this.decodeProp(protos[name].type, protos);
