@@ -1,9 +1,11 @@
 var express = require('express');
+var methodOverride = require('method-override');
+var bodyParser = require('body-parser');
 var app = express();
 
-  app.use(express.methodOverride());
-  app.use(express.bodyParser());
-  app.use(app.router);
+  app.use(methodOverride());
+  app.use(bodyParser.json());
+  app.use(bodyParser.urlencoded({ extended: true }));
   app.set('view engine', 'jade');
   app.set('views', __dirname + '/public');
   app.set('view options', {layout: false});

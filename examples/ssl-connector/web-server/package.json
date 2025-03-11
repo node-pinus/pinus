@@ -3,6 +3,8 @@
   "version": "1.7.3",
   "private": true,
   "dependencies": {
-    "express": "4.19.2"
+    "body-parser": "^1.20.3",
+    "express": "4.19.2",
+    "method-override": "^3.0.0"
   }
 }
