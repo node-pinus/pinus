@@ -72,6 +72,8 @@ let failover = function (this: any, code: number, tracer: {servers: object}, ser
     self.dispatch.call(self, tracer, servers[0], msg, opts, cb);
 };
 
+let __tmpTracer = {}
+
 /**
  * Failsafe rpc failure process.
  *
@@ -88,7 +90,9 @@ let failsafe = function (this: any, code: number, tracer: {[key: string]: any}, 
     let self = this;
     let retryTimes = opts.retryTimes || constants.DEFAULT_PARAM.FAILSAFE_RETRIES;
     let retryConnectTime = opts.retryConnectTime || constants.DEFAULT_PARAM.FAILSAFE_CONNECT_TIME;
-
+    if (!tracer) {
+        tracer = __tmpTracer;
+    }
     if (!tracer.retryTimes) {
         tracer.retryTimes = 1;
     } else {
