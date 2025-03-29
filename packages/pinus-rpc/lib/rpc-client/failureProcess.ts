@@ -72,7 +72,6 @@ let failover = function (this: any, code: number, tracer: {servers: object}, ser
     self.dispatch.call(self, tracer, servers[0], msg, opts, cb);
 };
 
-let __tmpTracer = {}
 
 /**
  * Failsafe rpc failure process.
@@ -90,12 +89,9 @@ let failsafe = function (this: any, code: number, tracer: {[key: string]: any}, 
     let self = this;
     let retryTimes = opts.retryTimes || constants.DEFAULT_PARAM.FAILSAFE_RETRIES;
     let retryConnectTime = opts.retryConnectTime || constants.DEFAULT_PARAM.FAILSAFE_CONNECT_TIME;
-    if (!tracer) {
-        tracer = __tmpTracer;
-    }
-    if (!tracer.retryTimes) {
+    if (tracer && !tracer.retryTimes) {
         tracer.retryTimes = 1;
-    } else {
+    } else if (tracer) {
         tracer.retryTimes += 1;
     }
     switch (code) {
@@ -104,7 +100,7 @@ let failsafe = function (this: any, code: number, tracer: {[key: string]: any}, 
             cb(new Error('rpc client is not started or cannot find remote server.'));
             break;
         case constants.RPC_ERROR.FAIL_CONNECT_SERVER:
-            if (tracer.retryTimes <= retryTimes) {
+            if (tracer && tracer.retryTimes <= retryTimes) {
                 setTimeout(function () {
                     self.connect(tracer, serverId, cb);
                 }, retryConnectTime * tracer.retryTimes);
@@ -114,7 +110,7 @@ let failsafe = function (this: any, code: number, tracer: {[key: string]: any}, 
             break;
         case constants.RPC_ERROR.FAIL_FIND_MAILBOX:
         case constants.RPC_ERROR.FAIL_SEND_MESSAGE:
-            if (tracer.retryTimes <= retryTimes) {
+            if (tracer && tracer.retryTimes <= retryTimes) {
                 setTimeout(function () {
                     self.dispatch.call(self, tracer, serverId, msg, opts, cb);
                 }, retryConnectTime * tracer.retryTimes);
