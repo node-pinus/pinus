@@ -1,4 +1,34 @@
 
+### 1.7.4
+
+[pinus] 修复 jsclient build.js 的 msgId 变长编码字节序与服务端不一致，reqId 为 128 的倍数时该请求收不到响应 [#865](https://github.com/node-pinus/pinus/issues/865)
+
+[pinus] 修复自动重启场景下 checkPort 状态判断错误
+
+[pinus] 修复 [DEP0049] DeprecationWarning: util.isFunction API 弃用告警
+
+[pinus-rpc] 修复 failureProcess 逻辑 [#998](https://github.com/node-pinus/pinus/issues/998)
+
+[pinus-protobuf] 修复 proto options 为空时可能崩溃的问题，encoder/decoder 增加空值防护
+
+[pinus][examples] web-server 模板及示例替换弃用的 Express 中间件为 body-parser / method-override
+
+[ci] 更新 ci 配置及 node 版本
+
+### 1.7.3
+
+补记：本版本于 2024-08-25 发布到 npm，当时未更新 CHANGELOG；1.7.2 版本号已占用但未实际发布。
+
+[pinus] console 模块支持自定义 ssh 参数
+
+[pinus] socket.io 连接器支持 HTTPS 部署
+
+[pinus] 修复单元测试
+
+[pinus] 删除 tsconfig 无用参数 watch
+
+[package] 更新依赖版本（express 4.19.2 / ejs 3.1.10 / webpack 5.91.0 / uuid / reflect-metadata 等）
+
 ### 1.7.1
 
 [pinus] context，routeContext改为如果有传递则使用传递对象 [#673](https://github.com/node-pinus/pinus/pull/673)

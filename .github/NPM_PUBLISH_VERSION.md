@@ -1,4 +1,4 @@
-patch
+1.7.4
 
 ```
 lerna version [bump]
@@ -8,5 +8,5 @@ lerna version [bump]
 
 ```
  
-1.7.1
+1.7.4
 
