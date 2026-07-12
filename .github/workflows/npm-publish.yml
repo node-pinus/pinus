@@ -36,3 +36,5 @@ jobs:
     env: # More info about the environment variables in the README
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Leave this as is, it's automatically generated
       NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+      # setup-node 生成的 .npmrc 引用 ${NODE_AUTH_TOKEN}，yarn install 步骤也需要该变量存在
+      NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
