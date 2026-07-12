@@ -611,13 +611,13 @@ require.register("node-pinus-pinus-protocol/lib/protocol.js", function(exports, 
 
     // parse id
     if(msgHasId(type)) {
-      var byte = bytes[offset++];
-      id = byte & 0x7f;
-      while(byte & 0x80) {
-        id <<= 7;
-        byte = bytes[offset++];
-        id |= byte & 0x7f;
-      }
+      var m = 0;
+      var i = 0;
+      do {
+        m = bytes[offset++];
+        id += (m & 0x7f) << (7 * i);
+        i++;
+      } while(m >= 128);
     }
 
     // parse route
@@ -689,13 +689,15 @@ require.register("node-pinus-pinus-protocol/lib/protocol.js", function(exports, 
   };
 
   var encodeMsgId = function(id, idBytes, buffer, offset) {
-    var index = offset + idBytes - 1;
-    buffer[index--] = id & 0x7f;
-    while(index >= offset) {
-      id >>= 7;
-      buffer[index--] = id & 0x7f | 0x80;
-    }
-    return offset + idBytes;
+    do {
+      var tmp = id & 0x7f;
+      id >>>= 7;
+      if(id !== 0) {
+        tmp |= 0x80;
+      }
+      buffer[offset++] = tmp;
+    } while(id !== 0);
+    return offset;
   };
 
   var encodeMsgRoute = function(compressRoute, route, buffer, offset) {
