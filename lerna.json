@@ -18,6 +18,6 @@
     "examples/websocket-chat-ts-run/*",
     "examples/robot-sample"
   ],
-  "version": "1.7.3",
+  "version": "1.7.4",
   "npmClient": "yarn"
 }

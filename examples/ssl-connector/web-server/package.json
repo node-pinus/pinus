@@ -1,6 +1,6 @@
 {
   "name": "pinusmod-simple-example-web-server",
-  "version": "1.7.3",
+  "version": "1.7.4",
   "private": true,
   "dependencies": {
     "body-parser": "^1.20.3",
