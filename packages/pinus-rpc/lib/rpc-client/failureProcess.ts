@@ -102,7 +102,7 @@ let failsafe = function (this: any, code: number, tracer: {[key: string]: any}, 
         case constants.RPC_ERROR.FAIL_CONNECT_SERVER:
             if (tracer && tracer.retryTimes <= retryTimes) {
                 setTimeout(function () {
-                    self.connect(tracer, serverId, cb);
+                    self.connect(tracer, serverId, msg, cb);
                 }, retryConnectTime * tracer.retryTimes);
             } else {
                 cb(new Error('rpc client failed to connect to remote server: ' + serverId));

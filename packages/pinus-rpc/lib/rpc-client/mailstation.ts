@@ -253,7 +253,7 @@ export class MailStation extends EventEmitter {
         if (!mailbox) {
             tracer && tracer.debug('client', __filename, 'dispatch', 'mailbox is not exist');
             // try to connect remote server if mailbox instance not exist yet
-            if (!lazyConnect(tracer, this, serverId, this.mailboxFactory, cb)) {
+            if (!lazyConnect(tracer, this, serverId, this.mailboxFactory, msg, cb)) {
                 tracer && tracer.error('client', __filename, 'dispatch', 'fail to find remote server:' + serverId);
                 logger.error('[pinus-rpc] fail to find remote server:' + serverId);
                 self.emit('error', constants.RPC_ERROR.NO_TRAGET_SERVER, tracer, serverId, msg, opts);
@@ -351,7 +351,7 @@ export class MailStation extends EventEmitter {
      * @return {String}   serverId remote server id
      * @param  {Function}   cb     callback function
      */
-    connect(tracer: Tracer, serverId: string, cb: Function) {
+    connect(tracer: Tracer, serverId: string, msg: any, cb: Function) {
         let self = this;
         let mailbox = self.mailboxes[serverId];
         mailbox.connect(tracer, function (err: Error) {
@@ -361,7 +361,7 @@ export class MailStation extends EventEmitter {
                 if (!!self.mailboxes[serverId]) {
                     delete self.mailboxes[serverId];
                 }
-                self.emit('error', constants.RPC_ERROR.FAIL_CONNECT_SERVER, tracer, serverId, null, self.opts);
+                self.emit('error', constants.RPC_ERROR.FAIL_CONNECT_SERVER, tracer, serverId, msg, self.opts);
                 return;
             }
             mailbox.on('close', function (id: string) {
@@ -416,7 +416,7 @@ let doFilter = function (tracer: Tracer, err: Error, serverId: string, msg: Mail
     doFilter(tracer, err, serverId, msg, opts, filters, index, operate, cb);
 };
 
-let lazyConnect = function (tracer: Tracer, station: MailStation, serverId: string, factory: IMailBoxFactory, cb: Function) {
+let lazyConnect = function (tracer: Tracer, station: MailStation, serverId: string, factory: IMailBoxFactory, msg: any, cb: Function) {
     tracer && tracer.info('client', __filename, 'lazyConnect', 'create mailbox and try to connect to remote server');
     let server = station.servers[serverId];
     let online = station.onlines[serverId];
@@ -431,7 +431,7 @@ let lazyConnect = function (tracer: Tracer, station: MailStation, serverId: stri
     let mailbox = factory(server, station.opts as MailBoxOpts);
     station.connecting[serverId] = true;
     station.mailboxes[serverId] = mailbox;
-    station.connect(tracer, serverId, cb);
+    station.connect(tracer, serverId, msg, cb);
     return true;
 };
 
