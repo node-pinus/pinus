@@ -89,7 +89,7 @@ export class MasterServer {
             if ((autoRestart.toString() === 'true' || restartForce.toString() === 'true') && stopFlags.indexOf(id) < 0) {
                 let handle = function () {
                     clearTimeout(pingTimer);
-                    utils.checkPort(self.app, server, function (status) {
+                    utils.checkPort(self.app, server, function (status, detail) {
                         if (status === 'error') {
                             utils.invokeCallback(cb, new Error('Check port command executed with error.'));
                             return;
@@ -97,7 +97,7 @@ export class MasterServer {
                             if (!!server[Constants.RESERVED.RESTART_FORCE]) {
                                 starter.kill(self.app, [info.pid], [server]);
                             } else {
-                                utils.invokeCallback(cb, new Error('Port occupied already, check your server to add.'));
+                                utils.invokeCallback(cb, new Error(utils.formatPortOccupiedMessage(detail)));
                                 return;
                             }
                         }
