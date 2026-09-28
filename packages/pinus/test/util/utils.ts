@@ -162,4 +162,50 @@ describe('utils test', function () {
     });
   });
 
+  describe('#getBusyAddresses', function () {
+    it('should not treat a longer port as a match', function () {
+      // 回归：49992 里含有 9992，旧的 grep 子串匹配会把它算成命中
+      let output = ':::39992\n0.0.0.0:9990\n127.0.0.1:49992\n';
+      utils.getBusyAddresses(output, 9992).should.eql([]);
+      utils.getBusyAddresses(output, 9990).should.eql(['0.0.0.0:9990']);
+      utils.getBusyAddresses(output, 39992).should.eql([':::39992']);
+    });
+
+    it('should match the exact port of ipv4 / ipv6 / wildcard address', function () {
+      utils.getBusyAddresses('0.0.0.0:9992', 9992).should.eql(['0.0.0.0:9992']);
+      utils.getBusyAddresses(':::9992', 9992).should.eql([':::9992']);
+      utils.getBusyAddresses('*:9992', 9992).should.eql(['*:9992']);
+    });
+
+    it('should match BSD netstat style address which separates port by dot', function () {
+      utils.getBusyAddresses('127.0.0.1.9992', 9992).should.eql(['127.0.0.1.9992']);
+    });
+
+    it('should ignore address without port and blank lines', function () {
+      utils.getBusyAddresses('0.0.0.0:*\n\n   \n*:*\n', 9992).should.eql([]);
+    });
+
+    it('should accept port as string', function () {
+      // console#parseArgs 把 key=value 都当字符串，pinus add 走的就是这条路
+      utils.getBusyAddresses('0.0.0.0:9992\n', '9992').should.eql(['0.0.0.0:9992']);
+    });
+
+    it('should tolerate empty output', function () {
+      utils.getBusyAddresses('', 9992).should.eql([]);
+      utils.getBusyAddresses(undefined, 9992).should.eql([]);
+    });
+  });
+
+  describe('#formatPortOccupiedMessage', function () {
+    it('should keep the origin message if detail is absent', function () {
+      utils.formatPortOccupiedMessage().should.equal('Port occupied already, check your server to add.');
+    });
+
+    it('should tell which address occupied the port', function () {
+      let detail = { host: '127.0.0.1', port: 9992, addresses: ['0.0.0.0:9992', '127.0.0.1.9992'] };
+      utils.formatPortOccupiedMessage(detail).should.equal(
+        'Port occupied already(0.0.0.0:9992,127.0.0.1.9992 on 127.0.0.1), check your server to add.');
+    });
+  });
+
 });
